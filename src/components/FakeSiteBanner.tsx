@@ -1,5 +1,5 @@
 import React from 'react'
-import '../styles/GlobalStyles.css'; 
+import '../styles/GlobalStyle.css';
 import {ArrowRightIcon} from '@heroicons/react/outline'
 
 
