@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/summer-project/static/css/main.1fa711fb.css",
-    "main.js": "/summer-project/static/js/main.5ab4f070.js",
+    "main.js": "/summer-project/static/js/main.64dfe639.js",
     "index.html": "/summer-project/index.html",
     "main.1fa711fb.css.map": "/summer-project/static/css/main.1fa711fb.css.map",
-    "main.5ab4f070.js.map": "/summer-project/static/js/main.5ab4f070.js.map"
+    "main.64dfe639.js.map": "/summer-project/static/js/main.64dfe639.js.map"
   },
   "entrypoints": [
     "static/css/main.1fa711fb.css",
-    "static/js/main.5ab4f070.js"
+    "static/js/main.64dfe639.js"
   ]
 }
