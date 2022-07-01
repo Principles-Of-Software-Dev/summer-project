@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/summer-project/static/css/main.1fa711fb.css",
+    "main.js": "/summer-project/static/js/main.45d2e265.js",
+    "index.html": "/summer-project/index.html",
+    "main.1fa711fb.css.map": "/summer-project/static/css/main.1fa711fb.css.map",
+    "main.45d2e265.js.map": "/summer-project/static/js/main.45d2e265.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1fa711fb.css",
+    "static/js/main.45d2e265.js"
+  ]
+}
