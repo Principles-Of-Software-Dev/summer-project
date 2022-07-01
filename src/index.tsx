@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { HashRouter } from "react-router-dom";
+import { BrowserRouter, BrowserRouter as Router } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 
 const root = ReactDOM.createRoot(
@@ -8,9 +8,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <HashRouter>
-      <LandingPage />
-    </HashRouter>
+    <Router basename={`/${process.env.PUBLIC_URL}`}> <LandingPage /> </Router>
   </React.StrictMode>
 );
 
