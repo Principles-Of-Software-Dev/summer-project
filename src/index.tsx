@@ -9,7 +9,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <BrowserRouter>
     <Routes>
-      <Route path="/" element={<LandingPage />} />
+      <Route path="/summer-project" element={<LandingPage />} />
     </Routes>
   </BrowserRouter>
 );
