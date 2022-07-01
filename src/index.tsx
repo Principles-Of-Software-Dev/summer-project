@@ -1,17 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter } from "react-router-dom";
 import LandingPage from './pages/LandingPage';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <BrowserRouter>
-    <Routes>
-      <Route path="/summer-project" element={<LandingPage />} />
-    </Routes>
-  </BrowserRouter>
+  <React.StrictMode>
+    <HashRouter>
+      <LandingPage />
+    </HashRouter>
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
