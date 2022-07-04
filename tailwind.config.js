@@ -4,17 +4,42 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
-    colors: {
-      'c_blue_pigment': '#29339B',
-      'c_rich_electric_blue': '#009DDC',
-      'c_jet_stream': '#B3DEC1',
-      'c_water': '#DBF9F0',
-      'c_cultured': '#F7F9F7',
-      'c_metallic_seaweed': '#077187',
-      'c_satin_sheen_gold': '#C8963E',
-      'c_white': '#ffffff',
+
+    extend: {
+
+      height: {
+        'navbar': '4rem',
+        'xsmall-logo':'2rem',
+        'small-logo': '3rem',
+        'xsmall-button': '1.75rem',
+        'small-button': '2.5rem',
+        'dropdown-menu-mobile': '30vh',
+        'dropdown-menu-login': '30vh',
+        'dropdown-menu-login-mobile': '50vh',
+        'dropdown-menu-register': '50vh',
+        'dropdown-menu-register-mobile': '60vh',
+      },
+      width: {
+        'xsmall-logo':'2rem',
+        'small-logo': '3rem',
+        'dropdown-menu': '30%',
+        'dropdown-menu-mobile': '100vw',
+      },
+      colors: {
+        'c-blue-pigment': '#29339B',
+        'c-rich-electric-blue': '#009DDC',
+        'c-jet-stream': '#B3DEC1',
+        'c-water': '#DBF9F0',
+        'c-cultured': '#F7F9F7',
+        'c-metallic-seaweed': '#077187',
+        'c-satin-sheen-gold': '#C8963E',
+        'c-white': '#ffffff',
+      },
+      fontFamily: {
+        'cursive' : '"brush script mt", "snell roundhand", "cursive"',
+      },
+
     },
-    extend: {},
   },
   plugins: [],
 }
