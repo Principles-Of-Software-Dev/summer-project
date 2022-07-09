@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
-import Button from './Button';
-import EmailField from './validator_fields/EmailField';
-import NameField from './validator_fields/NameField';
-import PasswordField from './validator_fields/PasswordField';
-import PhoneField from './validator_fields/PhoneField';
+import Button from '../sm_components/Button';
+import EmailField from '../validator_fields/EmailField';
+import NameField from '../validator_fields/NameField';
+import PasswordField from '../validator_fields/PasswordField';
+import PhoneField from '../validator_fields/PhoneField';
+import { Link } from 'react-router-dom';
 
 // @TODO cleanup and restructure code. Create components for long sections.
 
@@ -20,9 +21,6 @@ const MobileMenu = () => {
     const [register, setRegister] = useState(false);
     const handleClickRegister = () => setRegister(!register);
 
-    const handleForgotPassword = () => { 
-         // Implement later
-    }
 
     const handleSubmit = () => {
         // Implement later
@@ -108,7 +106,8 @@ const MobileMenu = () => {
                                             />
                                         </button>
                                             
-                                        <button onClick={handleForgotPassword}>
+                                        <button>
+                                            <Link to="/support">
                                             <Button
                                                 height="h-xsmall-button"
                                                 color='bg-zinc-400'
@@ -116,6 +115,7 @@ const MobileMenu = () => {
                                                 textColor='text-c-white'
                                                 hoverColor='hover:bg-zinc-500'
                                             />
+                                            </Link>
                                         </button>  
                                     </div>
 

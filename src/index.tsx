@@ -1,14 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter as Router } from 'react-router-dom';
-import LandingPage from './pages/LandingPage';
+import WebsiteRoutes from './WebsiteRoutes';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <Router basename={`/${process.env.PUBLIC_URL}`}> <LandingPage /> </Router>
+    <WebsiteRoutes />
   </React.StrictMode>
 );
 

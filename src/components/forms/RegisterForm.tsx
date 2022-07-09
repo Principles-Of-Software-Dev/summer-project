@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Button from '../Button';
+import Button from '../sm_components/Button';
 import EmailField from '../validator_fields/EmailField';
 import NameField from '../validator_fields/NameField';
 import PasswordField from '../validator_fields/PasswordField';
@@ -10,10 +10,6 @@ const RegisterForm = () => {
 
     const [register, setRegister] = useState(false);
     const handleClickRegister = () => setRegister(!register);
-
-    const [name, setName] = useState('');
-    const [nameErr, setNameErr] = useState(false);
-  
     
 
     const handleSubmit = () => {

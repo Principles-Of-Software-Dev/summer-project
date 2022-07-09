@@ -1,6 +1,6 @@
-import LoginForm from './forms/LoginForm';
-import RegisterForm from './forms/RegisterForm';
-import LogoName from './LogoName';
+import LoginForm from '../forms/LoginForm';
+import RegisterForm from '../forms/RegisterForm';
+import LogoName from '../sm_components/LogoName';
 import MobileMenu from './MobileMenu';
 
 

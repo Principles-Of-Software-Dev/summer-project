@@ -14,7 +14,7 @@ const PhoneField = () => {
     let phone = e.target.value;
     
     // Check for phone number format: A##-###-####. A cannot equal 0 or 1.
-    let regex = /^[2-9]\d{2}-\d{3}-\d{4}$$/;
+    let regex = /^[2-9]\d{2}\d{3}\d{4}$$/;
     
     // Credit: Steven Smith (https://regexlib.com/(X(1)A(yz5RUQ61QlGKIFsJk-Qn5Bjk_ly3umfiv1HisldIensSWhCoZjWEmytlHO5_oK0FQsICLxp7ybabpt8vINZDOosNDCwd5Q0nEOt0LR9pLGbO1hWkVbITJf5wlLhO_PwgawF1IED4af3m9rLmfOiTIC9uhVBNWgHE230rwRksZ4IDNKcdo09rb82uVOUF--je0))/REDetails.aspx?regexp_id=22)
   
@@ -48,7 +48,7 @@ const PhoneField = () => {
       {/* If phone number not valid format, display error.  */}
       {phoneErr &&
           <div className='flex items-end justify-center mx-3 text-red-500 text-sm'>
-            Invalid Phone Number! Please enter in the format: ###-###-####
+            Invalid Phone Number! Please enter in the format: ##########
           </div>  
       }
       

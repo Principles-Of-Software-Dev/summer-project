@@ -1,16 +1,13 @@
 import React, { useState } from 'react';
-import Button from '../Button';
+import Button from '../sm_components/Button';
 import EmailField from '../validator_fields/EmailField';
 import PasswordField from '../validator_fields/PasswordField';
+import { Link } from 'react-router-dom';
 
 const LoginForm = () => {
 
     const [login, setLogin] = useState(false);
     const handleClickLogin = () => setLogin(!login);
-
-    const handleForgotPassword = () => { 
-         // Implement later
-    }
 
     const handleSubmit = () => {
         // Implement later
@@ -76,7 +73,7 @@ const LoginForm = () => {
                                 />
                             </button>
                                   
-                            <button onClick={handleForgotPassword}>
+                            <Link to="/support">
                                 <Button
                                     height="h-xsmall-button"
                                     color='bg-zinc-400'
@@ -84,7 +81,7 @@ const LoginForm = () => {
                                     textColor='text-c-white'
                                     hoverColor='hover:bg-zinc-500'
                                 />
-                            </button>  
+                            </Link>  
                         </div>
                     </div>
                 }
