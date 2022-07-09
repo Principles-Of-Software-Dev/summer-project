@@ -5,15 +5,37 @@ import { Helmet } from 'react-helmet';
 
 const SupportPage = () => {
     return (
-        <div>
-            <header>
-                <Helmet>
-                    <title> Request Help</title>
-                </Helmet>
-            </header>
-            <FakeSiteBanner />
+        <div className='relative w-screen h-screen'>
+
+        {/* Page info */}
+        <header>
+          <Helmet>
+            <meta charSet='utf-8' />
+            <title> Gilderise Enterprise | Request Help</title>
+          </Helmet>
+        </header>
+  
+        {/* Page Content */}
+        <main>
+  
+          {/* Navbar section */}
+          <nav>
             <TopBar />
-    </ div>
+          </nav>
+  
+          {/* Main content */}
+          <body>
+  
+          </body>
+        </main>
+        
+        {/* Page footer*/}
+        <footer>
+  
+          {/* Link to github repo */}
+          <FakeSiteBanner />
+        </footer>
+      </div>
   )
 }
 

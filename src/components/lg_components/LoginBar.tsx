@@ -1,17 +1,28 @@
-import LoginForm from '../forms/LoginForm';
-import RegisterForm from '../forms/RegisterForm';
+import LoginForm from './forms/LoginForm';
+import RegisterForm from './forms/RegisterForm';
 import LogoName from '../sm_components/LogoName';
 import MobileMenu from './MobileMenu';
+import { useState } from 'react';
 
 
 
 const LoginBar = () => {
+  const [register, setRegister] = useState(false);
+  const handleClickRegister = () => {
 
-  // Database logic vars
-  let validLogin = false;
+    if (login) {
+      setLogin(!login);
+    }
+    setRegister(!register);
+  }
 
-
-  
+  const [login, setLogin] = useState(false);
+  const handleClickLogin = () => {
+    if (register) {
+      setRegister(!register);
+    }
+    setLogin(!login);
+  }
   
   return (
     <div>
@@ -32,10 +43,10 @@ const LoginBar = () => {
           <section className='hidden md:flex '>
 
             {/* Login Button and login logic*/}
-            <LoginForm />
+            <LoginForm handleClickLogin={handleClickLogin} login={login} />
               
             {/* Register Button and registration logic*/}
-            <RegisterForm />
+            <RegisterForm handleClickRegister={handleClickRegister} register={register} />
                   
           </section>
 

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
 import Button from '../sm_components/Button';
-import EmailField from '../validator_fields/EmailField';
-import NameField from '../validator_fields/NameField';
-import PasswordField from '../validator_fields/PasswordField';
-import PhoneField from '../validator_fields/PhoneField';
+import EmailField from '../sm_components/validator_fields/EmailField';
+import NameField from '../sm_components/validator_fields/NameField';
+import PasswordField from '../sm_components/validator_fields/PasswordField';
+import PhoneField from '../sm_components/validator_fields/PhoneField';
 import { Link } from 'react-router-dom';
 
 // @TODO cleanup and restructure code. Create components for long sections.
