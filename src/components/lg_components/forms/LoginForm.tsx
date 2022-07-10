@@ -41,13 +41,13 @@ const LoginForm = ({handleClickLogin, login }) => {
                     <div className=' absolute right-0 top-[4.5rem] h-dropdown-menu-login w-dropdown-menu min-w-[25rem] bg-zinc-100 grid grid-rows-5'>
                     
                         {/* Email field */}
-                        <div className='row-span-2 my-4'>
-                        < EmailField />
+                        <div className='row-span-2 my-4 flex items-center justify-center'>
+                        < EmailField size={25}/>
                         </div>
 
                         {/* Password field */}
                         <div className='row-span-2 flex items-center justify-center'>
-                        < PasswordField />
+                        < PasswordField size={25}/>
                         </div>
 
                         {/* "Submit" and "Cancel Button" */}

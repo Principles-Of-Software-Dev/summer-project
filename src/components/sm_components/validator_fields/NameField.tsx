@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 
-const NameField = () => {
+const NameField = ({size}) => {
 
     const [name, setName] = useState('');
     const [nameErr, setNameErr] = useState(false);
@@ -29,15 +29,16 @@ const NameField = () => {
   return (
 
     // Start actual code.
-    <span className='grid grid-rows-7'>
-      <label className='row-span-3 mb-2 flex items-center justify-center'>
-        Name :
+    <span className='grid grid-rows-7 mx-6'>
+      <label className='row-span-3 mb-2 flex items-center justify-start'>
+        Name* :
       </label>
-      <div className='rows-span-3 mb-2 flex items-center justify-center mx-3'>
+      <div className='rows-span-3 mb-2 flex items-center justify-start mx-3'>
         <input
           type="name"
           onBlur={handleNameChange}
           required
+          size={size}
           />
       </div>
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 
-const PhoneField = () => {
+const PhoneField = ({ size }) => {
 
   const [phone, setPhone] = useState('');
   const [phoneErr, setPhoneErr] = useState(false);
@@ -34,14 +34,15 @@ const PhoneField = () => {
 
   return (
     // Start actual code.
-    <span className='grid grid-rows-7'>
-      <label className='row-span-3 mb-2 flex items-center justify-center'>
+    <span className='grid grid-rows-7 mx-6'>
+      <label className='row-span-3 mb-2 flex items-center justify-start'>
        Phone Number :
       </label>
       <div className='rows-span-3 mb-2 flex items-center justify-center mx-3'>
         <input
           type="tel"
           onBlur={handlePhoneChange}
+          size={size}
           />
       </div>
 

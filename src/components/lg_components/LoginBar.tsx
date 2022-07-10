@@ -28,7 +28,7 @@ const LoginBar = () => {
     <div>
 
       {/* start actual code */}
-      <nav className='h-navbar w-screen bg-zinc-200 grid grid-cols-2 grid-rows-1 fixed top-0 drop-shadow-lg '>
+      <nav className='h-navbar w-screen bg-zinc-200 grid grid-cols-2 grid-rows-1 sticky top-0 drop-shadow-lg '>
           
         {/* Logo and project name. */}
         < LogoName/>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 
-const EmailField = () => {
+const EmailField = ({size}) => {
 
     const [email, setEmail] = useState('');
     const [emailErr, setEmailErr] = useState(false);
@@ -31,15 +31,16 @@ const EmailField = () => {
   return (
 
     // Start actual code.
-    <span className='grid grid-rows-7'>
-      <label className='row-span-3 mb-2 flex items-center justify-center'>
-        Email :
+    <span className='grid grid-rows-7 mx-6'>
+      <label className='row-span-3 mb-2 flex items-center justify-start'>
+        Email* :
       </label>
-      <div className='rows-span-3 mb-2 flex items-center justify-center mx-3'>
+      <div className='rows-span-3 mb-2 flex items-center justify-start mx-3'>
         <input
           type="email"
           onBlur={handleEmailChange}
           required
+          size={size}
           />
       </div>
 

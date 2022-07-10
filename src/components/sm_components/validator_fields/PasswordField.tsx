@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 
-const PasswordField = () => {
+const PasswordField = ({ size}) => {
 
     const [password, setPassword] = useState('');
     const [passwordErr, setPasswordErr] = useState(false);
@@ -33,16 +33,16 @@ const PasswordField = () => {
 
   return (
     // Start actual code.
-    <span className='grid grid-rows-7'>
-      <label className='row-span-3 mb-2 flex items-center justify-center'>
-        Password :
+    <span className='grid grid-rows-7 mx-6'>
+      <label className='row-span-3 mb-2 flex items-center justify-start'>
+        Password* :
       </label>
-      {/*  */}
-      <div className='rows-span-3 mb-2 flex items-center justify-center mx-3'>
+      <div className='rows-span-3 mb-2 flex items-center justify-start mx-3'>
         <input
           type="password"
           onBlur={handlePasswordChange}
           required
+          size={size}
           />
       </div>
 

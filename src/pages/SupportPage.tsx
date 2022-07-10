@@ -2,10 +2,11 @@ import React from 'react'
 import FakeSiteBanner from '../components/lg_components/FakeSiteBanner';
 import TopBar from '../components/lg_components/TopBar';
 import { Helmet } from 'react-helmet';
+import SupportForm from '../components/lg_components/forms/SupportForm';
 
 const SupportPage = () => {
     return (
-        <div className='relative w-screen h-screen'>
+      <div className='relative w-screen h-screen'>
 
         {/* Page info */}
         <header>
@@ -14,19 +15,24 @@ const SupportPage = () => {
             <title> Gilderise Enterprise | Request Help</title>
           </Helmet>
         </header>
-  
+
         {/* Page Content */}
-        <main>
+        <main className='h-main w-full'>
   
           {/* Navbar section */}
-          <nav>
             <TopBar />
-          </nav>
   
-          {/* Main content */}
-          <body>
-  
-          </body>
+        {/* Main content */}
+          <div className='sm:grid grid-cols-2 h-[40rem] w-full bg-house-banner-2 bg-cover bg-no-repeat bg-center'>
+            {/* Create Space; To do, implement Contact Us Component */}
+            <div>
+
+            </div>
+
+            <SupportForm  />
+          </div>
+          
+        
         </main>
         
         {/* Page footer*/}
@@ -35,6 +41,8 @@ const SupportPage = () => {
           {/* Link to github repo */}
           <FakeSiteBanner />
         </footer>
+      
+      
       </div>
   )
 }

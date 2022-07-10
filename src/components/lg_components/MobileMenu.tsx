@@ -76,12 +76,12 @@ const MobileMenu = () => {
                                 <div className="grid grid-rows-5">
                                     {/* Email field */}
                                     <div className='row-span-2 my-4'>
-                                        < EmailField />
+                                        < EmailField size={15} />
                                     </div>
 
                                     {/* Password field */}
                                     <div className='row-span-2 flex items-center justify-center'>
-                                        < PasswordField />
+                                        < PasswordField size={15}/>
                                     </div>
 
                                     {/* "Submit" and "Cancel Button" */} 
@@ -127,22 +127,22 @@ const MobileMenu = () => {
                             <div>
                                 {/* Email field */}
                                 <div className='row-span-1 my-4'>
-                                    < EmailField />
+                                    < EmailField size={15}/>
                                 </div>
 
                                 {/* Name field */}
                                 <div className='row-span-1 flex items-center justify-center'>
-                                    < NameField />
+                                    < NameField size={15}/>
                                 </div>
 
                                 {/* Password field */}
                                 <div className='row-span-1 flex items-center justify-center'>
-                                    < PasswordField />
+                                    < PasswordField size={15}/>
                                 </div>
                                     
                                 {/* Phone Number field */}
                                 <div className='row-span-1 flex items-center justify-center'>
-                                    < PhoneField />
+                                    < PhoneField size={15} />
                                 </div>
 
                                 {/* "Submit" and "Cancel Button" */} 

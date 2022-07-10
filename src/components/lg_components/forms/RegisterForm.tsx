@@ -8,9 +8,6 @@ import PhoneField from '../../sm_components/validator_fields/PhoneField';
 
 const RegisterForm = ({handleClickRegister, register}) => {
 
-    
-    
-
     const handleSubmit = () => {
         // Implement later
   
@@ -43,23 +40,23 @@ const RegisterForm = ({handleClickRegister, register}) => {
                 <div className=' absolute right-0 top-[4.5rem] h-dropdown-menu-register w-dropdown-menu min-w-[25rem] bg-zinc-100 grid grid-rows-4'>
                 
                     {/* Email field */}
-                    <div className='row-span-1 my-4'>
-                        < EmailField />
+                    <div className='row-span-1 my-4 flex items-center justify-center'>
+                        < EmailField size={25}/>
                     </div>
 
                     {/* Name field */}
                     <div className='row-span-1 flex items-center justify-center'>
-                        < NameField />
+                        < NameField size={25}/>
                     </div>
 
                     {/* Password field */}
                     <div className='row-span-1 flex items-center justify-center'>
-                        < PasswordField />
+                        < PasswordField size={25} />
                     </div>
                           
                     {/* Phone Number field */}
                     <div className='row-span-1 flex items-center justify-center'>
-                        < PhoneField />
+                        < PhoneField size={25} />
                     </div>
 
                     {/* "Submit" and "Cancel Button" */}
