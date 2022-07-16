@@ -6,7 +6,17 @@ import { useState } from 'react';
 
 
 
-const LoginBar = () => {
+const LoginBar = ({ user, setUser }) => {
+
+  // User setting
+  const handleSetUser = (set:boolean) => {
+    
+    if (set) {
+      setUser(true);
+    } else { setUser(false); }
+  }
+
+  // Display/hide register and login forms
   const [register, setRegister] = useState(false);
   const handleClickRegister = () => {
 
@@ -17,18 +27,21 @@ const LoginBar = () => {
   }
 
   const [login, setLogin] = useState(false);
+
   const handleClickLogin = () => {
     if (register) {
       setRegister(!register);
     }
     setLogin(!login);
   }
+
+
   
   return (
-    <div>
+    <div className='sticky top-0'>
 
       {/* start actual code */}
-      <nav className='h-navbar w-screen bg-zinc-200 grid grid-cols-2 grid-rows-1 sticky top-0 drop-shadow-lg '>
+      <nav className='h-navbar w-screen bg-zinc-200 grid grid-cols-2 grid-rows-1 drop-shadow-lg '>
           
         {/* Logo and project name. */}
         < LogoName/>
@@ -37,16 +50,16 @@ const LoginBar = () => {
         <section className='flex items-center justify-end'>
           
           {/* Hamburger menu only shows when screen size is small; otherwise display login/register buttons. */}
-          <MobileMenu />
+          <MobileMenu user={user} setUser={ setUser} />
                 
           {/* Login buttons show by themselves when screen is sufficiently big. */}
           <section className='hidden md:flex '>
 
             {/* Login Button and login logic*/}
-            <LoginForm handleClickLogin={handleClickLogin} login={login} />
+            <LoginForm handleClickLogin={handleClickLogin} login={login} setUser={handleSetUser} />
               
             {/* Register Button and registration logic*/}
-            <RegisterForm handleClickRegister={handleClickRegister} register={register} />
+            <RegisterForm handleClickRegister={handleClickRegister} register={register} setUser={handleSetUser} />
                   
           </section>
 

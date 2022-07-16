@@ -5,14 +5,38 @@ import PasswordField from '../../sm_components/validator_fields/PasswordField';
 import { Link } from 'react-router-dom';
 
 
-const LoginForm = ({handleClickLogin, login }) => {
+const LoginForm = ({handleClickLogin, login, setUser}) => {
+
+    // Login Validation.
+    const [email, setEmail] = useState('');
+    const [validEmail, setValidEmail] = useState(false);
+    const [password, setPassword] = useState('');
+    const [validPassword, setValidPassword] = useState(false);
+    const [validLogin, setValidLogin] = useState(false);
+    
+
+    const handleValidLogin = (e) => {
+        e.preventDefault();
+           
+        if (validEmail && validPassword ) {
+            setValidLogin(true);
+        } else {
+            setValidLogin(false);
+        }
+        
+    
+        if (validLogin) {
+            // @todo add database functionality
+            setUser(true);
+        }
+        else {
+            alert("Please provide valid email and password!");
+        }
+    
+    } 
+    
 
    
-
-    const handleSubmit = () => {
-        // Implement later
-  
-    }
 
     return (
         <div>
@@ -30,7 +54,7 @@ const LoginForm = ({handleClickLogin, login }) => {
             </button>
 
             {/* dropdown login menu */}
-            <form onSubmit={handleSubmit}>
+            <form>
                 {
                     !login ? <div className='hidden'>
                         
@@ -42,18 +66,18 @@ const LoginForm = ({handleClickLogin, login }) => {
                     
                         {/* Email field */}
                         <div className='row-span-2 my-4 flex items-center justify-center'>
-                        < EmailField size={25}/>
+                            < EmailField size={25} email={email} setEmail={setEmail} handleValid={setValidEmail} />
                         </div>
 
                         {/* Password field */}
                         <div className='row-span-2 flex items-center justify-center'>
-                        < PasswordField size={25}/>
+                            < PasswordField size={25} password={password} setPassword={setPassword} handleValid={setValidPassword}/>
                         </div>
 
                         {/* "Submit" and "Cancel Button" */}
                                 
                         <div className='row-span-1 flex items-center justify-between mb-2 mx-2'>
-                            < button onClick={handleSubmit}>
+                            < button onClick={handleValidLogin}>
                                 <Button
                                     height="h-xsmall-button"
                                     color='bg-zinc-400'

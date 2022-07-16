@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 
 
-const PasswordField = ({ size}) => {
+const PasswordField = ({ size , password, setPassword, handleValid}) => {
 
-    const [password, setPassword] = useState('');
+  // * copy the line below to parent component and pass "password and setPassword as parameters"
+  // const [password, setPassword] = useState('');
+  
     const [passwordErr, setPasswordErr] = useState(false);
     
     const handlePasswordChange = (e) => {
@@ -24,9 +26,11 @@ const PasswordField = ({ size}) => {
       if ( regex.test(pass) ) {
         setPasswordErr(false);
         setPassword(pass);
+        handleValid(true);
       }
       else {
         setPasswordErr(true);
+        handleValid(false);
       }
     
     }

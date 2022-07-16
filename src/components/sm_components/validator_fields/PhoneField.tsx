@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 
 
-const PhoneField = ({ size }) => {
+const PhoneField = ({ size, phone, setPhone, included, handleValid }) => {
 
-  const [phone, setPhone] = useState('');
+  // * copy the line below to parent component and pass "phone and setPhone" as parameters
+  // const [phone, setPhone] = useState('');
   const [phoneErr, setPhoneErr] = useState(false);
 
   const handlePhoneChange = (e) => {
@@ -22,13 +23,22 @@ const PhoneField = ({ size }) => {
     if ( regex.test(phone) ) {
       setPhoneErr(false);
       setPhone(phone);
+      included(true);
+      handleValid(true);
     }
     // Enables "optional" entry
     else if (phone === '') {
       setPhoneErr(false);
+      // Prevent unexpected logic when users enter phone, then erase completely.
+      if (included) {
+        handleValid(false);
+      }
+      included(false);
     }
     else {
       setPhoneErr(true);
+      included(true);
+      handleValid(false);
     }
   }
 
@@ -49,7 +59,7 @@ const PhoneField = ({ size }) => {
       {/* If phone number not valid format, display error.  */}
       {phoneErr &&
           <div className='flex items-end justify-center mx-3 text-red-500 text-sm'>
-            Invalid Phone Number! Please enter in the format: ##########
+            Invalid Phone Number! Please enter in the format: ########## or erase completely.
           </div>  
       }
       

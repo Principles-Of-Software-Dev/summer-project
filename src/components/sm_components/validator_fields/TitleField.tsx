@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 
 
 
-const TitleField = ({title_length}) => {
+const TitleField = ({title_length, title, setTitle, handleValid}) => {
 
-  const [title, setTitle] = useState('');
+  // * copy the line below to parent component and pass "title and setTitle" as parameters
+  // const [title, setTitle] = useState('');
     const [titleErr, setTitleErr] = useState(false);
     const rows = 2;
     const cols = ( title_length / 2) ;
@@ -20,10 +21,12 @@ const TitleField = ({title_length}) => {
     // Leave room for error in math.
     if ( title.length < (title_length - 2) || title.length > (title_length * 4)) {
       setTitleErr(true);
+      handleValid(false);
     }
     else {
         setTitleErr(false);
-        setTitle(title);
+      setTitle(title);
+      handleValid(true);
     }
   }
 

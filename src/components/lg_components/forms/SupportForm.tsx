@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import Button from '../../sm_components/Button'
 import DescriptionField from '../../sm_components/validator_fields/DescriptionField'
 import EmailField from '../../sm_components/validator_fields/EmailField'
@@ -6,10 +6,36 @@ import NameField from '../../sm_components/validator_fields/NameField'
 import TitleField from '../../sm_components/validator_fields/TitleField'
 
 const SupportForm = () => {
-    const handleSubmit = () => {
-        // Implement later
-  
+
+    const [description, setDescription] = useState('');
+    const [validDescription, setValidDescription] = useState(false);
+    const [email, setEmail] = useState('');
+    const [validEmail, setValidEmail] = useState(false);
+    const [name, setName] = useState('');
+    const [validName, setValidName] = useState(false);
+    const [title, setTitle] = useState('');
+    const [validTitle, setValidTitle] = useState(false);
+    const [complete, setComplete] = useState(false);
+
+    const handleCompleteForm = (e) => {
+        e.preventDefault();
+
+         if (validDescription && validEmail && validName && validTitle ) {
+            setComplete(true);
+        } else {
+            setComplete(false);
+        }
+    
+        if (complete) {
+
+            // @todo add database functionality
+            
+        }
+        else {
+            alert("Please provide a valid email and name as well as a description and title in your support request!");
+        }
     }
+  
 
   return (
       <div className='flex items-center justify-center w-full h-full'>
@@ -20,27 +46,27 @@ const SupportForm = () => {
               </p>
 
               <div className='lg:hidden flex items-center justify-center row-span-1 '>
-                  <NameField size={15}/>
+                  <NameField size={15} name={name} setName={setName} handleValid={setValidName} />
               </div>
               <div className='lg:flex hidden items-center justify-center row-span-1 '>
-                  <NameField size={22}/>
+                  <NameField size={22} name={name} setName={setName} handleValid={setValidName}/>
               </div>
 
               <div className='lg:hidden flex items-center justify-center row-span-1'>
-                  <EmailField size={15}/>
+                  <EmailField size={15} email={email} setEmail={setEmail} handleValid={setValidEmail}/>
               </div>
               <div className='lg:flex hidden items-center justify-center row-span-1'>
-                  <EmailField size={22}/>
+                  <EmailField size={22} email={email} setEmail={setEmail} handleValid={setValidEmail}/>
               </div>
 
               <div className='flex items-center justify-center row-span-2 col-span-2'>
-                  <TitleField title_length={10}/>
+                  <TitleField title_length={10} title={title} setTitle={setTitle} handleValid={setValidTitle} />
               </div>
               <div className='flex items-center justify-center row-span-2 col-span-2'>
-                  <DescriptionField description_length={50}/>
+                  <DescriptionField description_length={50} description={description} setDescription={setDescription} handleValid={setValidDescription} />
               </div>
               <div className='flex items-center justify-end row-span-1 col-span-2 mx-4 my-2'>
-                < button onClick={handleSubmit}>
+                < button onClick={handleCompleteForm}>
                     <Button
                         height="h-xsmall-button"
                         color='bg-zinc-400'

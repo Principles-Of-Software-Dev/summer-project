@@ -3,6 +3,7 @@ import FakeSiteBanner from '../components/lg_components/FakeSiteBanner';
 import TopBar from '../components/lg_components/TopBar';
 import { Helmet } from 'react-helmet';
 import SupportForm from '../components/lg_components/forms/SupportForm';
+import ContactUs from '../components/sm_components/ContactUs';
 
 const SupportPage = () => {
     return (
@@ -25,9 +26,7 @@ const SupportPage = () => {
         {/* Main content */}
           <div className='sm:grid grid-cols-2 h-[40rem] w-full bg-house-banner-2 bg-cover bg-no-repeat bg-center'>
             {/* Create Space; To do, implement Contact Us Component */}
-            <div>
-
-            </div>
+            <ContactUs />
 
             <SupportForm  />
           </div>

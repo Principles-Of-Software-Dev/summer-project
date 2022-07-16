@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 
 
-const DescriptionField = ({description_length}) => {
+const DescriptionField = ({description_length, description, setDescription, handleValid}) => {
 
-  const [description, setDescription] = useState('');
+  // * copy the line below to parent component and pass "description and setDescription" as parameters
+  // const [description, setDescription] = useState('');
   const [descriptionErr, setDescriptionErr] = useState(false);
   const rows = 4;
   const cols = (description_length / 4);
@@ -20,10 +21,12 @@ const DescriptionField = ({description_length}) => {
     // Leave room for error in math.
     if ( description.length < (description_length - 4) || description.length > (description_length*3) ) {
       setDescriptionErr(true);
+      handleValid(false);
     }
     else {
       setDescriptionErr(false);
       setDescription(description);
+      handleValid(true);
     }
   }
 

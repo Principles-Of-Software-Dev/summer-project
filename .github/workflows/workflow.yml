@@ -3,7 +3,7 @@ name: Github Pages Deploy
 on:
   push:
     branches:
-      - "PSD-10"
+      - "master"
 
 jobs: 
   build:

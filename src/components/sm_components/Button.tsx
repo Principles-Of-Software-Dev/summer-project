@@ -13,7 +13,7 @@ function Button({ height, color, buttonText, textColor, hoverColor }: ButtonProp
 
   // Button styling. Applied exactly as shown w/ props added as string literals.
   const classStr = classnames(
-    "flex items-center justify-center text-border rounded-lg mx-4 p-4 min-w-fit text-sm font-serif tracking-wider",
+    "flex items-center justify-center text-border rounded-lg mx-4 p-4 min-w-fit text-sm font-serif tracking-wider p-2",
     color,
     height,
     textColor,

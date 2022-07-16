@@ -6,12 +6,53 @@ import PasswordField from '../../sm_components/validator_fields/PasswordField';
 import PhoneField from '../../sm_components/validator_fields/PhoneField';
 
 
-const RegisterForm = ({handleClickRegister, register}) => {
+const RegisterForm = ({ handleClickRegister, register, setUser }) => {
 
-    const handleSubmit = () => {
-        // Implement later
-  
+    // Registration Validation.
+    const [email, setEmail] = useState('');
+    const [validEmail, setValidEmail] = useState(false);
+    const [name, setName] = useState('');
+    const [validName, setValidName] = useState(false);
+    const [password, setPassword] = useState('');
+    const [validPassword, setValidPassword] = useState(false);
+    const [phone, setPhone] = useState('');
+    const [validPhone, setValidPhone] = useState(false);
+    const [validRegistration, setValidRegistration] = useState(false);
+    
+    const [phoneIncluded, setPhoneIncluded] = useState(false);
+    
+
+    const handleValidRegistration = (e) => {
+        e.preventDefault();
+        
+        // Require phone to be valid if added.
+        if (phoneIncluded) {
+            if (validEmail && validName && validPassword && validPhone) {
+                // @todo add database functionality
+                setValidRegistration(true);
+            } else {
+                setValidRegistration(false);
+            }
+        } else {
+            if (validEmail && validName && validPassword) {
+                // @todo add database functionality
+                setValidRegistration(true);
+            }
+            else {
+                setValidRegistration(false);
+            }
+            
+        } 
+
+        if (validRegistration) {
+            setUser(true);
+        }
+        else {
+            alert("Please provide valid email, name, and password! If you wish to provide your phone number, please enter it in the valid format.");
+        }
+
     }
+        
 
   return (
     <div>
@@ -29,7 +70,7 @@ const RegisterForm = ({handleClickRegister, register}) => {
         </button>
 
         {/* dropdown login menu */}
-        <form onSubmit={handleSubmit}>
+        <form >
             {
                 !register ? <div className='hidden'>
                     
@@ -41,28 +82,28 @@ const RegisterForm = ({handleClickRegister, register}) => {
                 
                     {/* Email field */}
                     <div className='row-span-1 my-4 flex items-center justify-center'>
-                        < EmailField size={25}/>
+                        < EmailField size={25} email={email} setEmail={setEmail} handleValid={setValidEmail} />
                     </div>
 
                     {/* Name field */}
                     <div className='row-span-1 flex items-center justify-center'>
-                        < NameField size={25}/>
+                        < NameField size={25} name={name} setName={setName} handleValid={setValidName} />
                     </div>
 
                     {/* Password field */}
                     <div className='row-span-1 flex items-center justify-center'>
-                        < PasswordField size={25} />
+                        < PasswordField size={25} password={password} setPassword={setPassword} handleValid={setValidPassword} />
                     </div>
                           
                     {/* Phone Number field */}
                     <div className='row-span-1 flex items-center justify-center'>
-                        < PhoneField size={25} />
+                        < PhoneField size={25} phone={phone} setPhone={setPhone} included={setPhoneIncluded} handleValid={setValidPhone}  />
                     </div>
 
                     {/* "Submit" and "Cancel Button" */}
                             
                     <div className='row-span-1 flex items-center justify-between mb-2 mx-2'>
-                        < button onClick={handleSubmit}>
+                        < button onClick={handleValidRegistration}>
                             <Button
                                 height="h-xsmall-button"
                                 color='bg-zinc-400'

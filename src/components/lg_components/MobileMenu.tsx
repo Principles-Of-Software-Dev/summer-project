@@ -9,11 +9,91 @@ import { Link } from 'react-router-dom';
 
 // @TODO cleanup and restructure code. Create components for long sections.
 
-const MobileMenu = () => {
+const MobileMenu = ({ user, setUser }) => {
+    
+    // login and registration functionality
+    const [loginEmail, setLoginEmail] = useState('');
+    const [validLoginEmail, setValidLoginEmail] = useState(false);
+    const [loginPassword, setLoginPassword] = useState('');
+    const [validLoginPassword, setValidLoginPassword] = useState(false);
+    const [validLogin, setValidLogin] = useState(false);
+    
+
+    const [regEmail, setRegEmail] = useState('');
+    const [validRegEmail, setValidRegEmail] = useState(false);
+    const [regname, setRegName] = useState('');
+    const [validRegName, setValidRegName] = useState(false);
+    const [regPassword, setRegPassword] = useState('');
+    const [validRegPassword, setValidRegPassword] = useState(false);
+    const [regPhone, setRegPhone] = useState('');
+    const [validRegPhone, setValidRegPhone] = useState(false);
+    const [validRegistration, setValidRegistration] = useState(false);
+    const [phoneIncluded, setPhoneIncluded] = useState(false);
+
+
+    const handleValidLogin = (e) => {
+        e.preventDefault();
+           
+        if (validLoginEmail && validLoginPassword ) {
+            setValidLogin(true);
+        } else {
+            setValidLogin(false);
+        }
+        
+    
+        if (validLogin) {
+            // @todo add database functionality
+            setUser(true);
+        }
+        else {
+            alert("Please provide valid email and password!");
+        }
+    
+    } 
+    
+    const handleValidRegistration = (e) => {
+        e.preventDefault();
+        
+        // Require phone to be valid if added.
+        if (phoneIncluded) {
+            if (validRegEmail && validRegName && validRegPassword && validRegPhone) {
+                // @todo add database functionality
+                setValidRegistration(true);
+            } else {
+                setValidRegistration(false);
+            }
+        } else {
+            if (validRegEmail && validRegName && validRegPassword) {
+                // @todo add database functionality
+                setValidRegistration(true);
+            }
+            else {
+                setValidRegistration(false);
+            }
+            
+        } 
+
+        if (validRegistration) {
+            setUser(true);
+        }
+        else {
+            alert("Please provide valid email, name, and password! If you wish to provide your phone number, please enter it in the valid format.");
+        }
+
+    }
+   
 
     // Logic functions to control when menu and what hamburger menu displays.
     const [menu, setMenu] = useState(false);
-    const handleClickMenu = () => setMenu(!menu);
+    const handleClickMenu = () => {
+        setMenu(!menu);
+        if (login) {
+            setLogin(!login);
+        }
+        if (register) {
+            setRegister(!register);
+        }
+    }
 
     const [login, setLogin] = useState(false);
     const handleClickLogin = () => setLogin(!login);
@@ -21,11 +101,6 @@ const MobileMenu = () => {
     const [register, setRegister] = useState(false);
     const handleClickRegister = () => setRegister(!register);
 
-
-    const handleSubmit = () => {
-        // Implement later
-  
-    }
 
     return (
         <div>
@@ -43,7 +118,7 @@ const MobileMenu = () => {
                 </div>
                     
                 {menu &&
-                    <div className='absolute top-[4.5rem] left-0 w-dropdown-menu-mobile bg-zinc-100 '>
+                    <div className='absolute top-[4.5rem] left-0 w-dropdown-menu-mobile bg-zinc-200 '>
 
                         {/* Display "Login" and "Register" buttons or forms */}
                         {(!login && !register) &&
@@ -75,18 +150,18 @@ const MobileMenu = () => {
                             <div className='h-dropdown-menu-mobile-login ' >
                                 <div className="grid grid-rows-5">
                                     {/* Email field */}
-                                    <div className='row-span-2 my-4'>
-                                        < EmailField size={15} />
+                                    <div className='row-span-2 my-4 flex items-center justify-center'>
+                                        < EmailField size={15} email={loginEmail} setEmail={setLoginEmail } handleValid={setValidLoginEmail} />
                                     </div>
 
                                     {/* Password field */}
                                     <div className='row-span-2 flex items-center justify-center'>
-                                        < PasswordField size={15}/>
+                                        < PasswordField size={15} password={loginPassword} setPassword={setLoginPassword} handleValid={setValidLoginPassword} />
                                     </div>
 
                                     {/* "Submit" and "Cancel Button" */} 
                                     <div className='row-span-1 flex items-center justify-center mb-2 mx-2'>
-                                        < button onClick={handleSubmit}>
+                                        < button onClick={handleValidLogin}>
                                             <Button
                                                 height="h-xsmall-button"
                                                 color='bg-zinc-400'
@@ -126,28 +201,28 @@ const MobileMenu = () => {
                         {(!login && register) &&
                             <div>
                                 {/* Email field */}
-                                <div className='row-span-1 my-4'>
-                                    < EmailField size={15}/>
+                                <div className='row-span-1 my-4 flex items-center justify-center'>
+                                    < EmailField size={15} email={regEmail} setEmail={setRegEmail} handleValid={setValidRegEmail} />
                                 </div>
 
                                 {/* Name field */}
                                 <div className='row-span-1 flex items-center justify-center'>
-                                    < NameField size={15}/>
+                                    < NameField size={15} name={regEmail} setName={setRegName} handleValid={setValidRegName} />
                                 </div>
 
                                 {/* Password field */}
                                 <div className='row-span-1 flex items-center justify-center'>
-                                    < PasswordField size={15}/>
+                                    < PasswordField size={15} password={regPassword} setPassword={ setRegPassword} handleValid={setValidRegPassword}/>
                                 </div>
                                     
                                 {/* Phone Number field */}
                                 <div className='row-span-1 flex items-center justify-center'>
-                                    < PhoneField size={15} />
+                                    < PhoneField size={15} phone={regPhone} setPhone={setRegPhone} included={setPhoneIncluded} handleValid={setValidRegPhone}/>
                                 </div>
 
                                 {/* "Submit" and "Cancel Button" */} 
                                 <div className='row-span-1 flex items-center justify-between mb-2 mx-2'>
-                                    < button onClick={handleSubmit}>
+                                    < button onClick={handleValidRegistration}>
                                         <Button
                                             height="h-xsmall-button"
                                             color='bg-zinc-400'

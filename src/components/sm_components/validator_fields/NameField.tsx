@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 
 
-const NameField = ({size}) => {
+const NameField = ({size, name, setName, handleValid}) => {
 
-    const [name, setName] = useState('');
+  // * copy the line below to parent component and pass "name and setName" as parameters
+  //  const [name, setName] = useState('');
     const [nameErr, setNameErr] = useState(false);
     
     const handleNameChange = (e) => {
@@ -18,10 +19,12 @@ const NameField = ({size}) => {
       // If field is filled, set name; else, return error.
       if ( name === '') {
         setNameErr(true);
+        handleValid(false);
       }
       else {
         setNameErr(false);
         setName(name);
+        handleValid(true);
       }
     
     }
