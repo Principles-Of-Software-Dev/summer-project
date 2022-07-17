@@ -1,17 +1,13 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
-// Sends users to 'Redirect' if authenticated.
-// ex. authenticated users get pushed to Dashboard Page instead of Landing Page if they've already logged in.
-const PublicRoute = ({TargetPage, RedirectPage, authenticated, path}) => {
-  return (
-    <div>
-            {authenticated ? 
-                (<Route path={path} element={RedirectPage} />):
-                (<Route path={path} element={TargetPage} />)
-            }
-        </div>
-  )
+// Sends users to homepage if already logged in.
+const PublicRoute = ({user, redirectPath = '/home', children}) => {
+    if (user) {
+        return <Navigate to={redirectPath} replace />;
+    }
+          
+    return children;
 }
 
 export default PublicRoute
