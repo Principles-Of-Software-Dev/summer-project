@@ -1,8 +1,8 @@
 import LoginForm from './forms/LoginForm';
 import RegisterForm from './forms/RegisterForm';
-import LogoName from '../sm_components/LogoName';
 import MobileMenu from './MobileMenu';
 import { useState } from 'react';
+import TopBar from './TopBar';
 
 
 
@@ -29,14 +29,9 @@ const LoginBar = () => {
 
   
   return (
-    <div className='sticky top-0'>
+    <div>
 
-      {/* start actual code */}
-      <nav className='h-navbar w-screen bg-zinc-200 grid grid-cols-2 grid-rows-1 drop-shadow-lg '>
-          
-        {/* Logo and project name. */}
-        < LogoName/>
-
+      <TopBar >
         {/* Responsive hamburger menu and login buttons or login buttons by themselves. */}
         <section className='flex items-center justify-end'>
           
@@ -55,8 +50,7 @@ const LoginBar = () => {
           </section>
 
         </section>
-
-      </nav>
+      </TopBar>
       {/* end code */}
 
     </div>

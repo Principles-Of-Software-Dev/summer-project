@@ -21,7 +21,9 @@ const SupportPage = () => {
         <main className='h-main w-full'>
   
           {/* Navbar section */}
-            <TopBar />
+          <TopBar >
+            
+            </TopBar>
   
         {/* Main content */}
           <div className='sm:grid grid-cols-2 h-[40rem] w-full bg-house-banner-2 bg-cover bg-no-repeat bg-center'>
