@@ -48,17 +48,17 @@ const PhoneField = ({ size, phone, setPhone, included, handleValid }) => {
       <label className='row-span-3 mb-2 flex items-center justify-start'>
        Phone Number :
       </label>
-      <div className='rows-span-3 mb-2 flex items-center justify-center mx-3'>
+      <div className='rows-span-3 mb-2 flex items-center justify-center mx-2'>
         <input
           type="tel"
-          onBlur={handlePhoneChange}
+          onChange={handlePhoneChange}
           size={size}
           />
       </div>
 
       {/* If phone number not valid format, display error.  */}
       {phoneErr &&
-          <div className='flex items-end justify-center mx-3 text-red-500 text-sm'>
+          <div className='flex items-end justify-center mx-3 text-red-500 text-sm p-4'>
             Invalid Phone Number! Please enter in the format: ########## or erase completely.
           </div>  
       }

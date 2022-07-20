@@ -36,9 +36,9 @@ const TitleField = ({title_length, title, setTitle, handleValid}) => {
       <label className='row-span-3 mb-2 flex items-center justify-start'>
        Title* :
       </label>
-      <div className='rows-span-3 mb-2 flex items-center justify-start mx-3'>
+      <div className='rows-span-3 mb-2 flex items-center justify-start mx-2'>
         <textarea
-            onBlur={handleTitleChange} 
+            onChange={handleTitleChange} 
             rows={rows}
             cols={cols}  
             className="w-full h-full"      
@@ -47,7 +47,7 @@ const TitleField = ({title_length, title, setTitle, handleValid}) => {
 
       {/* If Title number not valid format, display error.  */}
       {titleErr &&
-          <div className='relative bottom-0 flex items-end justify-center mx-3 text-red-500 text-sm'>
+          <div className='relative bottom-0 flex items-end justify-center mx-3 text-red-500 text-sm p-4'>
           Title must be at least {title_length - 2} characters. Cannot be more than { title_length * 4} characters.
           </div>  
       }

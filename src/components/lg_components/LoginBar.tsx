@@ -6,16 +6,7 @@ import { useState } from 'react';
 
 
 
-const LoginBar = ({ user, setUser }) => {
-
-  // User setting
-  const handleSetUser = (set:boolean) => {
-    
-    if (set) {
-      setUser(true);
-    } else { setUser(false); }
-  }
-
+const LoginBar = () => {
   // Display/hide register and login forms
   const [register, setRegister] = useState(false);
   const handleClickRegister = () => {
@@ -50,16 +41,16 @@ const LoginBar = ({ user, setUser }) => {
         <section className='flex items-center justify-end'>
           
           {/* Hamburger menu only shows when screen size is small; otherwise display login/register buttons. */}
-          <MobileMenu user={user} setUser={ setUser} />
+          <MobileMenu/>
                 
           {/* Login buttons show by themselves when screen is sufficiently big. */}
           <section className='hidden md:flex '>
 
             {/* Login Button and login logic*/}
-            <LoginForm handleClickLogin={handleClickLogin} login={login} setUser={handleSetUser} />
+            <LoginForm handleClickLogin={handleClickLogin} login={login}/>
               
             {/* Register Button and registration logic*/}
-            <RegisterForm handleClickRegister={handleClickRegister} register={register} setUser={handleSetUser} />
+            <RegisterForm handleClickRegister={handleClickRegister} register={register}/>
                   
           </section>
 

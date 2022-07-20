@@ -36,18 +36,18 @@ const DescriptionField = ({description_length, description, setDescription, hand
       <label className='row-span-3 mb-2 flex items-center justify-start'>
        Description* :
       </label>
-      <div className='rows-span-3 mb-2 flex items-center justify-start mx-3'>
+      <div className='rows-span-3 mb-2 flex items-center justify-start mx-2'>
         <textarea
           rows={rows}
           cols={cols}
-          onBlur={handleDescriptionChange}
+          onChange={handleDescriptionChange}
           className="w-full h-full"
           />
       </div>
 
       {/* If Description number not valid format, display error.  */}
       {descriptionErr &&
-          <div className='flex items-end justify-center mx-3 text-red-500 text-sm'>
+          <div className='flex items-end justify-center mx-3 text-red-500 text-sm p-4'>
           Description must be at least {description_length - 4} characters. Cannot be more than { description_length * 3} characters.
           </div>  
       }

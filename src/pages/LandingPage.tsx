@@ -4,7 +4,7 @@ import LoginBar from '../components/lg_components/LoginBar';
 import "../styles/GlobalStyle.css";
 import { Helmet } from 'react-helmet';
 
-const LandingPage = ({user, setUser}) => {
+const LandingPage = () => {
   return (
     <div className='relative w-screen h-screen'>
 
@@ -21,13 +21,10 @@ const LandingPage = ({user, setUser}) => {
 
         {/* Navbar section */}
         <nav>
-          <LoginBar user={user} setUser={setUser } />
+          <LoginBar />
         </nav>
 
         {/* Main content */}
-        <body>
-
-        </body>
       </main>
       
       {/* Page footer*/}

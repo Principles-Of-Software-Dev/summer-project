@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useUser } from '../../../global/authorization/UserContext';
 import Button from '../../sm_components/Button';
 import EmailField from '../../sm_components/validator_fields/EmailField';
 import NameField from '../../sm_components/validator_fields/NameField';
@@ -6,7 +7,7 @@ import PasswordField from '../../sm_components/validator_fields/PasswordField';
 import PhoneField from '../../sm_components/validator_fields/PhoneField';
 
 
-const RegisterForm = ({ handleClickRegister, register, setUser }) => {
+const RegisterForm = ({ handleClickRegister, register}) => {
 
     // Registration Validation.
     const [email, setEmail] = useState('');
@@ -17,38 +18,27 @@ const RegisterForm = ({ handleClickRegister, register, setUser }) => {
     const [validPassword, setValidPassword] = useState(false);
     const [phone, setPhone] = useState('');
     const [validPhone, setValidPhone] = useState(false);
-    const [validRegistration, setValidRegistration] = useState(false);
-    
     const [phoneIncluded, setPhoneIncluded] = useState(false);
+
+    const { userRegistration } = useUser();
     
 
-    const handleValidRegistration = (e) => {
-        e.preventDefault();
+    const handleValidRegistration = () => {
         
         // Require phone to be valid if added.
         if (phoneIncluded) {
             if (validEmail && validName && validPassword && validPhone) {
-                // @todo add database functionality
-                setValidRegistration(true);
+                return false;
             } else {
-                setValidRegistration(false);
+                return true;
             }
         } else {
             if (validEmail && validName && validPassword) {
-                // @todo add database functionality
-                setValidRegistration(true);
+                return false;
             }
             else {
-                setValidRegistration(false);
+                return true;
             }
-            
-        } 
-
-        if (validRegistration) {
-            setUser(true);
-        }
-        else {
-            alert("Please provide valid email, name, and password! If you wish to provide your phone number, please enter it in the valid format.");
         }
 
     }
@@ -58,16 +48,15 @@ const RegisterForm = ({ handleClickRegister, register, setUser }) => {
     <div>
 
         {/* Start actual code. */}
-        <button onClick={handleClickRegister}>
-
-            <Button
-                height="h-small-button"
-                color='bg-zinc-400'
-                buttonText='Register'
-                textColor='text-c-white'
-                hoverColor='hover:bg-zinc-500'
-            />
-        </button>
+        <Button
+            height="h-small-button"
+            color='bg-zinc-400'
+            buttonText='Register'
+            textColor='text-c-white'
+            hoverColor='hover:bg-zinc-500'
+            disable={false}
+            onClick={handleClickRegister}
+        />
 
         {/* dropdown login menu */}
         <form >
@@ -78,7 +67,7 @@ const RegisterForm = ({ handleClickRegister, register, setUser }) => {
                 </div> :
                     
                 // display menu
-                <div className=' absolute right-0 top-[4.5rem] h-dropdown-menu-register w-dropdown-menu min-w-[25rem] bg-zinc-100 grid grid-rows-4'>
+                <div className=' absolute right-0 top-[4.5rem] min-h-dropdown-menu-register h-auto w-dropdown-menu min-w-[25rem] bg-zinc-100 grid grid-rows-4'>
                 
                     {/* Email field */}
                     <div className='row-span-1 my-4 flex items-center justify-center'>
@@ -103,26 +92,26 @@ const RegisterForm = ({ handleClickRegister, register, setUser }) => {
                     {/* "Submit" and "Cancel Button" */}
                             
                     <div className='row-span-1 flex items-center justify-between mb-2 mx-2'>
-                        < button onClick={handleValidRegistration}>
-                            <Button
-                                height="h-xsmall-button"
+                        < Button 
+                                height="h-small-button"
                                 color='bg-zinc-400'
                                 buttonText='Submit'
                                 textColor='text-c-white'
                                 hoverColor='hover:bg-zinc-500'
+                                disable={handleValidRegistration()}
+                                //set later
+                                  onClick={userRegistration}
                             />
-                        </ button>
 
-                        <button onClick={handleClickRegister}>
-                            <Button
-                                height="h-xsmall-button"
+                            < Button
+                                height="h-small-button"
                                 color='bg-zinc-400'
                                 buttonText='Cancel'
                                 textColor='text-c-white'
                                 hoverColor='hover:bg-zinc-500'
+                                disable={false}
+                                onClick={handleClickRegister}
                             />
-                        </button>
-                             
                     </div>
                 </div>
             }

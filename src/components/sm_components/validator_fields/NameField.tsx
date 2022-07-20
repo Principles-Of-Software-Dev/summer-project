@@ -36,10 +36,10 @@ const NameField = ({size, name, setName, handleValid}) => {
       <label className='row-span-3 mb-2 flex items-center justify-start'>
         Name* :
       </label>
-      <div className='rows-span-3 mb-2 flex items-center justify-start mx-3'>
+      <div className='rows-span-3 mb-2 flex items-center justify-start mx-2'>
         <input
           type="name"
-          onBlur={handleNameChange}
+          onChange={handleNameChange}
           required
           size={size}
           />
@@ -47,7 +47,7 @@ const NameField = ({size, name, setName, handleValid}) => {
 
       {/* If name not valid format, display error.  */}
       {nameErr &&
-          <div className='flex items-end justify-center mx-3 text-red-500 text-sm'>
+          <div className='flex items-end justify-center mx-3 text-red-500 text-sm p-4'>
             Please enter in a name!
           </div>  
       }

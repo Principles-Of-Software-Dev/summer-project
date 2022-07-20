@@ -1,35 +1,38 @@
 import classnames from "classnames";
+import {ButtonProps} from '../../global/TypeDefs'
 
-// Prop types
-type ButtonProps = {
-  height: string;
-  color: string;
-  buttonText: string;
-  textColor: string;
-  hoverColor: string;
- }
-
-function Button({ height, color, buttonText, textColor, hoverColor }: ButtonProps) {
+function Button({ height, color, buttonText, textColor, hoverColor, disable, onClick }: ButtonProps) {
 
   // Button styling. Applied exactly as shown w/ props added as string literals.
-  const classStr = classnames(
-    "flex items-center justify-center text-border rounded-lg mx-4 p-4 min-w-fit text-sm font-serif tracking-wider p-2",
-    color,
-    height,
-    textColor,
-    hoverColor,
-  );
+  let classStr;
+  if (!disable) {
+    classStr = classnames(
+      "flex items-center justify-center text-border rounded-lg mx-4 p-4 min-w-fit text-sm font-serif tracking-wider p-2",
+      color,
+      height,
+      textColor,
+      hoverColor,
+    );
+  } else {
+    classStr = classnames(
+      "flex items-center justify-center text-border rounded-lg mx-4 p-4 min-w-fit text-sm font-serif tracking-wider p-2 opacity-50 cursor-not-allowed",
+      color,
+      height,
+      textColor,
+      hoverColor,
+    );
+    
+  }
 
   return (
-    <div>
+    <button className={classStr}
+      onClick={onClick}>
 
       {/* Start actual code  */}
-      <button className={classStr}>  
             {buttonText}   
-      </button>
       {/* End code */}
 
-    </div>
+    </button>
   )
 }
 

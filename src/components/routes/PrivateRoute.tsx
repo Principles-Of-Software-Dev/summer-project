@@ -1,14 +1,19 @@
 import React from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation, Outlet } from 'react-router-dom';
+import { useUser } from '../../global/authorization/UserContext';
 
 
 // Sends users to Landing/Login or Register page if not logged in.
-const PrivateRoute = ({user, redirectPath = '/', children}) => {
-    if (!user) {
-        return <Navigate to={redirectPath} replace />;
-    }
-          
-    return children;
+const PrivateRoute = () => {
+    const { user } = useUser();
+    const location = useLocation();
+
+    return (
+        user.authenticated ?
+            <Outlet /> :
+            <Navigate to="/" state={{ from: location }} replace />
+    );
+    
 }
 
-export default PrivateRoute
+export default PrivateRoute;

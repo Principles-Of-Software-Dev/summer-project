@@ -38,10 +38,10 @@ const EmailField = ({ size, email, setEmail, handleValid }) => {
       <label className='row-span-3 mb-2 flex items-center justify-start'>
         Email* :
       </label>
-      <div className='rows-span-3 mb-2 flex items-center justify-start mx-3'>
+      <div className='rows-span-3 mb-2 flex items-center justify-start mx-2'>
         <input
           type="email"
-          onBlur={handleEmailChange}
+          onChange={handleEmailChange}
           required
           size={size}
           />
@@ -49,7 +49,7 @@ const EmailField = ({ size, email, setEmail, handleValid }) => {
 
       {/* If email not valid format, display error.  */}
       {emailErr &&
-          <div className='flex items-end justify-center mx-3 text-red-500 text-sm'>
+          <div className='flex items-end justify-center mx-3 text-red-500 text-sm p-4'>
             Invalid email!
           </div>  
       }
