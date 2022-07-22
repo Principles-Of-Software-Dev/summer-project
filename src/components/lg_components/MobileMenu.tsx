@@ -133,7 +133,7 @@ const MobileMenu = () => {
                         }
                         
                         {(login && !register) &&
-                            <div className='min-h-dropdown-menu-mobile h-auto ' >
+                            <div className='min-h-dropdown-menu-mobile max-h-dropdown-menu-mobile h-auto ' >
                                 <div className="grid grid-rows-5">
                                     {/* Email field */}
                                     <div className='row-span-2 my-4 flex items-center justify-center'>
@@ -184,7 +184,7 @@ const MobileMenu = () => {
                         }
 
                         {(!login && register) &&
-                            <div className='min-h-dropdown-menu-mobile h-auto '>
+                            <div className='min-h-dropdown-menu-mobile max-h-dropdown-menu-mobile-register h-auto '>
                                 {/* Email field */}
                                 <div className='row-span-1 my-2 flex items-center justify-center'>
                                     < EmailField size={15} email={regEmail} setEmail={setRegEmail} handleValid={setValidRegEmail} />

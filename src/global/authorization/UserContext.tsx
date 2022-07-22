@@ -1,7 +1,7 @@
-import { createContext, useState, useContext, useEffect, useMemo} from "react";
+import { createContext, useState, useContext, useEffect} from "react";
 import { Role, User } from "../TypeDefs";
-import Button from "../../components/sm_components/Button";
-import LogoutConfirmation from "../../components/lg_components/LogoutConfirmation";
+import { useNavigate } from "react-router-dom";
+
 
 
 
@@ -24,6 +24,7 @@ export const UserContext = createContext<any>(initializeUser);
 
 export const UserProvider = ({ children }) => {
 
+  const navigate = useNavigate();
   const stored = window.localStorage.getItem('GilderiseUser');
   const [user, setUser] = useState<User>( stored == null ?
     {
@@ -54,7 +55,8 @@ export const UserProvider = ({ children }) => {
       authenticated: true,
       id: 1,
       role: Role.Admin,
-    })
+    });
+    navigate("dashboard");
   }
 
   const userRegistration = (email: string, name: string, password: string, phone: string) => {
@@ -64,7 +66,8 @@ export const UserProvider = ({ children }) => {
       authenticated: true,
       id: 1,
       role: Role.Admin,
-    })
+    });
+    navigate("dashboard");
   }
 
   const userLogout = () => {
@@ -74,6 +77,7 @@ export const UserProvider = ({ children }) => {
           id: undefined,
           role: Role.Unassigned,
         });
+    navigate("/");
   }
 
   

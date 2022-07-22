@@ -6,7 +6,7 @@ const MissingPage = () => {
             <h1>Oops!</h1>
             <p>Page Not Found</p>
             <div className="flex flex-grow">
-                <Link to="/landing">Visit Our Homepage</Link>
+                <Link to="/">Visit Our Homepage</Link> 
             </div>
         </article>
     )
