@@ -28,6 +28,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "lint": "eslint './src/**/*.{js,jsx,ts,tsx}'",
+    "lint-fix": "eslint --fix './src/**/*.{js,jsx,ts,tsx}'",
     "start-backend": "cd src/backend && env/bin/flask run --no-debugger",
     "build": "CI=false && react-scripts build",
     "test": "react-scripts test",
@@ -38,7 +39,17 @@
       "react-app",
       "react-app/jest"
     ],
-    "ignorePatterns": ["./src/backend/env/*.*"]
+    "ignorePatterns": ["./src/backend/env/*.*"],
+    "rules": {
+     "block-spacing" : ["warn","always"],
+     "semi-spacing" : ["warn", {"before": true, "after" : true}],
+     "arrow-spacing": ["warn", {"before": true, "after" : true}],
+     "object-curly-spacing" : ["warn", "always"],
+     "keyword-spacing" : ["warn", {"before" : true, "after": true}],
+     "spaced-comment" : ["warn", "always"],
+     "indent" : ["warn", "tab"]
+
+    }
   },
   "browserslist": {
     "production": [
