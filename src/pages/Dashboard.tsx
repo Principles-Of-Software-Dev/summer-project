@@ -1,25 +1,26 @@
-import React, {useState} from 'react'
-import Button from '../components/sm_components/Button'
+import React, { useState } from 'react'
+import TopBar from '../components/lg_components/TopBar';
 import LogoutConfirmation from '../components/lg_components/LogoutConfirmation';
+import PopoutMenu from '../components/lg_components/PopoutMenu';
 
 const Dashboard = () => {
+
   const [displayLogout, setDisplayLogout] = useState(false);
 
   const handleDisplayLogout = () => setDisplayLogout(!displayLogout); 
   
   return (
     <div>
-      {displayLogout && <LogoutConfirmation setDisplay={handleDisplayLogout} /> }
-        < Button
-            height="h-small-button"
-            color='bg-zinc-400'
-            buttonText='Logout'
-            textColor='text-c-white'
-            hoverColor='hover:bg-zinc-500'
-            disable={false}
-            onClick={handleDisplayLogout}
-          />
-      </div>
+      {/* Start actual code. */}
+       <div>
+        {/* Logout Confirmation Box. */}
+        {displayLogout && <LogoutConfirmation setDisplay={handleDisplayLogout} /> }
+        </div>
+      <TopBar>
+       <PopoutMenu handleDisplayLogout={handleDisplayLogout} />
+      </TopBar>
+      {/* End code. */}
+    </div>
   )
 }
 

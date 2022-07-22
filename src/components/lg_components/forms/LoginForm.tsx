@@ -79,7 +79,6 @@ const LoginForm = ({ handleClickLogin, login }) => {
                             textColor='text-c-white'
                             hoverColor='hover:bg-zinc-500'
                             disable={handleValidLogin()}
-                            //set later
                             onClick={userLogin}
                         />
                         < Button

@@ -96,9 +96,9 @@ const MobileMenu = () => {
                 <div onClick={handleClickMenu}>
 
                     {/* Display dropdown nav when hamburger menu clicked */}
-                    {!menu ? <MenuIcon className='h-xsmall-logo w-xsmall-logo mx-6' /> :
+                    {!menu ? <MenuIcon className='h-xsmall-logo w-xsmall-logo mx-6 cursor-pointer' /> :
                         <div>
-                            <XIcon className='h-xsmall-logo w-xsmall-logo mx-4' />
+                            <XIcon className='h-xsmall-logo w-xsmall-logo mx-4 cursor-pointer' />
                         </div>
                     }
                 </div>
@@ -154,7 +154,6 @@ const MobileMenu = () => {
                                             textColor='text-c-white'
                                             hoverColor='hover:bg-zinc-500'
                                             disable={handleValidLogin()}
-                                            //set later
                                             onClick={userLogin}
                                         />
 
