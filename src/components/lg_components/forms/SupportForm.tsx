@@ -3,7 +3,6 @@ import Button from '../../sm_components/Button'
 import TextField from '../../sm_components/validator_fields/TextField'
 import EmailField from '../../sm_components/validator_fields/EmailField'
 import NameField from '../../sm_components/validator_fields/NameField'
-import TitleField from '../../sm_components/validator_fields/TitleField'
 import PhoneField from '../../sm_components/validator_fields/PhoneField'
 import { useUser } from '../../../global/authorization/UserContext'
 
@@ -52,6 +51,7 @@ const SupportForm = () => {
                   Send Help Request
 				</p>
 
+				{/* Name Fields */}
 				<div className='lg:hidden flex items-center justify-center row-span-1 col-span-2'>
 					< NameField size={15} name={firstName} setName={setFirstName} handleValid={setValidName} type={"First"} />
 					< NameField size={15} name={lastName} setName={setLastName} handleValid={setValidName } type={"Last"}/>
@@ -61,6 +61,7 @@ const SupportForm = () => {
 					< NameField size={22} name={lastName} setName={setLastName} handleValid={setValidName } type={"Last"}/>
 				</div>
 
+				{/* Email Field */}
 				<div className='lg:hidden flex items-center justify-center row-span-1 col-span-1'>
 					<EmailField size={15} email={email} setEmail={setEmail} handleValid={setValidEmail}/>
 				</div>
@@ -68,6 +69,7 @@ const SupportForm = () => {
 					<EmailField size={22} email={email} setEmail={setEmail} handleValid={setValidEmail}/>
 				</div>
 
+				{/* Phone Field */}
 				<div className='lg:hidden flex items-center justify-center row-span-1 col-span-1'>
 					< PhoneField size={15} phone={phone} setPhone={setPhone} included={setPhoneIncluded} handleValid={setValidPhone}  />
 				</div>
@@ -75,11 +77,13 @@ const SupportForm = () => {
 					< PhoneField size={22} phone={phone} setPhone={setPhone} included={setPhoneIncluded} handleValid={setValidPhone}  />
 				</div>
 
+				{/* Title */}
 				<div className='flex items-center justify-center row-span-2 col-span-2'>
-					<TitleField title_length={10} title={title} setTitle={setTitle} handleValid={setValidTitle} />
+					<TextField text_length={22} text={title} setText={setTitle} handleValid={setValidTitle} type={"Title"} largeArea={false} />
 				</div>
+				{/* Message */}
 				<div className='flex items-center justify-center row-span-2 col-span-2'>
-					<TextField text_length={50} text={text} setText={setText} handleValid={setValidText} type={"Message"} />
+					<TextField text_length={50} text={text} setText={setText} handleValid={setValidText} type={"Message"} largeArea={true} />
 				</div>
 				<div className='flex items-center justify-end row-span-1 col-span-2 mx-4 my-2'>
 					<Button

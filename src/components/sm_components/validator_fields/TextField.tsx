@@ -1,7 +1,7 @@
 import React, { useState } from 'react' ;
 
 
-const TextField = ({ text_length, text, setText, handleValid, type }) => {
+const TextField = ({ text_length, text, setText, handleValid, type, largeArea }) => {
 
 	// * copy the line below to parent component and pass "text and setText" as parameters
 	// const [text, setText] = useState('');
@@ -37,18 +37,26 @@ const TextField = ({ text_length, text, setText, handleValid, type }) => {
 				{ type } * :
 			</label>
 			<div className='rows-span-3 mb-2 flex items-center justify-start mx-2'>
-				<textarea
-					rows={rows}
-					cols={cols}
-					onChange={handleTextChange}
-					className="w-full h-full"
-				/>
+				{largeArea ?
+					<textarea
+						rows={rows}
+						cols={cols}
+						onChange={handleTextChange}
+						className="w-full h-full"
+					/> : 
+					<input
+						type="text"
+						onChange={handleTextChange}
+						required
+						size={text_length}
+						className='w-full'
+					/>}
 			</div>
 
 			{/* If Text number not valid format, display error.  */}
 			{textErr &&
           <div className='flex items-end justify-center mx-3 text-red-500 text-sm p-4'>
-			{type} must be at least {text_length - 4} characters. Cannot be more than { text_length * 3} characters.
+          	{type} must be at least {text_length - 4} characters. Cannot be more than { text_length * 3} characters.
           </div>  
 			}
       

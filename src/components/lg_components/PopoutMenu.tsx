@@ -19,7 +19,7 @@ const PopoutMenu = ({ handleDisplayLogout }) => {
 			{displayPopoutMenu && 
               <div className='absolute top-[4.5rem] right-0 min-h-popout-menu h-auto md:min-w-popout-menu min-w-popout-menu-mobile w-auto bg-zinc-200' > 
                   
-              	{/* Logout Button; Uncomment */}
+              	{/* Logout Button */}
               	<div className='w-full h-full'>
               		< Button
               		height="h-small-button"
@@ -31,6 +31,7 @@ const PopoutMenu = ({ handleDisplayLogout }) => {
               		onClick={handleDisplayLogout}
               		/>
               	</div>
+				
 				
                     
               </div>
