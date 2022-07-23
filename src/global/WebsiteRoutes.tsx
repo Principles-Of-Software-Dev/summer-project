@@ -1,5 +1,5 @@
 import React from 'react' ;
-import { BrowserRouter, Routes, Route } from 'react-router-dom' ;
+import { HashRouter, Routes, Route } from 'react-router-dom' ;
 import LandingPage from '../pages/LandingPage' ;
 import MissingPage from '../pages/MissingPage' ;
 import SupportPage from '../pages/SupportPage' ;
@@ -10,7 +10,7 @@ import { UserProvider } from './authorization/UserContext' ;
 const WebsiteRoutes = () => {
   
 	return (
-		<BrowserRouter basename={`/${process.env.PUBLIC_URL}`} >
+		<HashRouter basename={`/${process.env.PUBLIC_URL}`} >
 			<UserProvider>
 				<Routes>
 					{/* Public Routes */}
@@ -26,7 +26,7 @@ const WebsiteRoutes = () => {
 					<Route path="*" element={<MissingPage />} />
 				</Routes>
 			</UserProvider>
-		</BrowserRouter>
+		</HashRouter>
 	)
 }
 

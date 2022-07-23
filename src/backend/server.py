@@ -1,16 +1,12 @@
-import json
 import os
-from flask import Flask, jsonify
+from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from sqlalchemy import ForeignKey
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_cors import CORS, cross_origin
-
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__)
-CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + \
     os.path.join(basedir, 'data.sqlite')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -25,24 +21,23 @@ class users(db.Model):
     id_user = db.Column(db.Integer, primary_key=True)
     firstName = db.Column(db.Text, nullable=False)
     lastName = db.Column(db.Text, nullable=False)
-    dob = db.Column(db.Text, nullable=False)
+    dob = db.Column(db.Text)
     email = db.Column(db.Text, nullable=False, unique=True)
     password = db.Column(db.Text, nullable=False)
-    gender = db.Column(db.Text, nullable=False)
-    age = db.Column(db.Text, nullable=False)
     properties = db.Column(db.Text)
-    autherized_to = db.Column(db.Integer)
+    autherized_to = db.Column(db.Text)
 
-    def __init__(self, firstName, lastName, dob, email, password, gender, age, properties, autherized_to):
+    def __init__(self, firstName, lastName, dob, email, password, properties, autherized_to):
         self.firstName = firstName
         self.lastName = lastName
         self.dob = dob
         self.email = email
         self.password = password
-        self.gender = gender
-        self.age = age
         self.properties = properties
         self.autherized_to = autherized_to
+
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
     def get_id(self):
         return self.id_user
@@ -57,8 +52,8 @@ class properties(db.Model):
     zipcode = db.Column(db.Integer, nullable=False)
     description = db.Column(db.Text, nullable=False)
     estimate = db.Column(db.Integer, nullable=False)
-    photos = db.Column(db.Text, nullable=False)
-    videos = db.Column(db.Text, nullable=False)
+    photos = db.Column(db.Text)
+    videos = db.Column(db.Text)
     belongs_to = db.Column(db.Integer, db.ForeignKey(
         'users.id_user'), nullable=False)
 
@@ -75,6 +70,9 @@ class properties(db.Model):
         self.videos = videos
         self.belongs_to = belongs_to
 
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
 
 class photos(db.Model):
 
@@ -89,6 +87,9 @@ class photos(db.Model):
     def __init__(self, path, belongs_to):
         self.path = path
         self.belongs_to = belongs_to
+
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
 
 class videos(db.Model):
@@ -105,83 +106,162 @@ class videos(db.Model):
         self.path = path
         self.belongs_to = belongs_to
 
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
+
+db.create_all()
+
 
 @app.route("/hello")
 def hello():
     return jsonify({'string': 'Hello World'})
 
 
-@app.route("/add_user")
+@app.route("/add_user", methods=['POST'])  # TESTED AND WORKING W/ POSTMAN
 # this is for the sign in page, youll pass the following params and it will add the entry to the database
-def add_user(firstname, lastname, dob, email, password, gender, age):
-    user = users(firstname, lastname, dob, email,
-                 generate_password_hash(password), gender, age, None, None)
+def add_user():
+    request_json = request.get_json()  # get json data
+
+    # set json data into vars
+    firstname = request_json.get('firstname')
+    lastname = request_json.get('lastname')
+    email = request_json.get('email')
+    password = request_json.get('password')
+
+    # add user to database
+    user = users(firstname, lastname, None, email,
+                 generate_password_hash(password), None, None)
     db.session.add(user)
     db.session.commit()
+
+    # return a successful msg
     return "User has been added"
 
 
-@app.route("/delete_user")
-def delete_user(user_id):  # on your end if a user wants to delete their account we store the id in the browser session so that is what you will pass to this function
-    user = users.query.filter_by(id=user_id).first()
-    user.delete()
+@app.route("/delete_user", methods=['POST'])  # TESTED AND WORKING W/ POSTMAN
+def delete_user():  # on your end if a user wants to delete their account we store the id in the browser session so that is what you will pass to this function
+    request_json = request.get_json()  # get json data
+
+    # set json data into vars
+    user_id = request_json.get('user_id')
+
+    users.query.filter_by(id_user=user_id).delete()
     db.session.commit()
+
     return "User has been deleted"
 
 
-@app.route("/edit_user")
-def edit_user(user, firstname=None, lastname=None, dob=None, email=None, password=None, gender=None, age=None):
-    # This goes down the list of params and if not specified it will not change the attribute
-    if firstname != None:
+@app.route("/edit_user", methods=['POST'])  # TESTED AND WORKING W/ POSTMAN
+def edit_user():
+    request_json = request.get_json()  # get json data
+
+    user_id = request_json.get('user_id')
+    user = users.query.filter_by(id_user=user_id).first()
+
+    # this chain of if's checks to see if you sent an attribute to be changed
+    # if an attribute doesnt need to be changed you dont have to send it in the json to this api call
+    if 'firstname' in request_json:
+        firstname = request_json.get('firstname')
         user.firstName = firstname
-    if lastname != None:
+    if 'lastname' in request_json:
+        lastname = request_json.get('lastname')
         user.lastName = lastname
-    if dob != None:
+    if 'dob' in request_json:
+        dob = request_json.get('dob')
         user.dob = dob
-    if email != None:
+    if 'email' in request_json:
+        email = request_json.get('email')
         user.email = email
-    if password != None:
+    if 'password' in request_json:
+        password = request_json.get('password')
         user.password = generate_password_hash(password)
-    if gender != None:
+    if 'gender' in request_json:
+        gender = request_json.get('gender')
         user.firstName = gender
-    if age != None:
+    if 'age' in request_json:
+        age = request_json.get('age')
         user.firstName = age
 
     db.session.commit()
-    return "profile has been updated"
+
+    return "user has been updated"
 
 
-@app.route("/login_user")
-def login_user(email, password):
-    # find user will email they entered
+@app.route("/login_user", methods=['POST'])  # TESTED AND WORKING W/ POSTMAN
+def login_user():
+    request_json = request.get_json()  # get json data
+
+    email = request_json.get('email')
+    password = request_json.get('password')
+
+    # find user with email they entered
     user = users.query.filter_by(email=email).first()
     if user:  # if a user is found
         # check pass entered vs hashed pass in the database
         if check_password_hash(user.password, password):
-            return user.id  # if password hash matches we will return the user id
+            # if password hash matches we will return the user id
+            return jsonify(user.id_user)
+            # will also return a session token (adding later)
+        else:
+            return False  # if the password does not match return false here
     else:
-        return False  # if the password does not match return false here
-    return False  # if no email matches it will return false here
+        return False  # if no email matches it will return false here
 
 
-@app.route("/get_user")
+@app.route("/get_user", methods=['GET'])  # TESTED AND WORKING W/ POSTMAN
 # for when you need to display user info this will let you grab it from their user id
-def get_user(user_id):
-    user = users.query.filter_by(id=user_id).first()
-    return user
+def get_user():
+    request_json = request.get_json()  # get json data
+
+    user_id = request_json.get('user_id')
+    user = users.query.filter_by(id_user=user_id).first()
+    print(user.firstName)
+    return jsonify(user.as_dict())
 
 
-@app.route("/add_property")
+@app.route("/get_properties", methods=['GET'])
+def get_properties():
+    request_json = request.get_json()  # get json data
+
+    user_id = request_json.get('user_id')
+    user = users.query.filter_by(id_user=user_id).first()
+    property_list = user.properties().split(',')
+    owned_properties = []
+    for property_id in property_list:
+        property = properties.query.filter_by(
+            property_id=int(property_id)).first()
+        owned_properties.append(property)
+    return jsonify(owned_properties)
+
+
+@app.route("/add_property", methods=['POST'])
 # This is adding a property to the database
-def add_property(user_id, street, city, state, zipcode, description, estimate, photos, videos):
+def add_property():
+    request_json = request.get_json()  # get json data
+
+    user_id = request_json.get('user_id')
+    user = users.query.filter_by(id_user=user_id).first()
+
+    street = request_json.get('street')
+    city = request_json.get('city')
+    state = request_json.get('state')
+    zipcode = request_json.get('zipcode')
+    description = request_json.get('description')
+    estimate = request_json.get('estimate')
+
     property = properties(street, city, state, zipcode,
-                          description, estimate, photos, videos, user_id)
+                          description, estimate, None, None, user_id)
     db.session.add(property)
+    if user.properties:
+        user.properties = user.properties + ',' + str(property.id_property)
+    else:
+        user.properties = str(property.id)
     db.session.commit()
     return "property has been added"
 
 
-@app.route("/delete_property")
+@app.route("/delete_property", methods=['POST'])
 # we can change this to be like the user routes where we store only the id of the property and there will be a route to get the information (we will talk about that)
 def delete_property(property):
     property.delete()
@@ -189,27 +269,35 @@ def delete_property(property):
     return "property has been deleted"
 
 
-@app.route("/edit_property")
-def edit_property(property=None, street=None, city=None, state=None, zipcode=None, description=None, estimate=None, photos=None, videos=None):
+@app.route("/edit_property", methods=['POST'])
+def edit_property():
+    request_json = request.get_json()  # get json data
     # This goes down the list of params and if not specified it will not change the attribute
-    if street != None:
+
+    property_id = request_json.get('property_id')
+    property = properties.query.filter_by(id_property=int(property_id)).first()
+
+    if 'street' in request_json:
+        street = request_json.get('street')
         property.street = street
-    if city != None:
+    if 'city' in request_json:
+        city = request_json.get('city')
         property.city = city
-    if state != None:
+    if 'state' in request_json:
+        state = request_json.get('state')
         property.state = state
-    if zipcode != None:
+    if 'zipcode' in request_json:
+        zipcode = request_json.get('zipcode')
         property.zipcode = zipcode
-    if description != None:
+    if 'description' in request_json:
+        description = request_json.get('description')
         property.description = description
-    if estimate != None:
+    if 'estimate' in request_json:
+        estimate = request_json.get('estimate')
         property.estimate = estimate
-    if photos != None:
-        property.photos = photos
-    if videos != None:
-        property.videos = videos
 
     db.session.commit()
+
     return "property has been updated"
 
 # For all of the video and photo functions
@@ -218,31 +306,35 @@ def edit_property(property=None, street=None, city=None, state=None, zipcode=Non
 # When you request a photo or video I will return the file paths in a list
 
 
-@app.route("/add_photo")
+@app.route("/add_photo", methods=['POST'])
 def add_photo():
     pass
 
 
-@app.route("/add_video")
+@app.route("/add_video", methods=['POST'])
 def add_video():
     pass
 
 
-@app.route("/delete_photo")
+@app.route("/delete_photo", methods=['POST'])
 def delete_photo():
     pass
 
 
-@app.route("/delete_video")
+@app.route("/delete_video", methods=['POST'])
 def delete_video():
     pass
 
 
-@app.route("/get_photos")
+@app.route("/get_photos", methods=['GET'])
 def get_photos():
     pass
 
 
-@app.route("/add_videos")
+@app.route("/get_videos", methods=['GET'])
 def add_videos():
     pass
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
