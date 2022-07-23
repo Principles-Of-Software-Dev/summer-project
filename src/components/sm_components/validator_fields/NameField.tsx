@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 
-const NameField = ({ size, name, setName, handleValid }) => {
+const NameField = ({ size, name, setName, handleValid, type }) => {
 
 	// * copy the line below to parent component and pass "name and setName" as parameters
 	//  const [name, setName] = useState('');
@@ -34,7 +34,7 @@ const NameField = ({ size, name, setName, handleValid }) => {
 	// Start actual code.
 		<span className='grid grid-rows-7 mx-6'>
 			<label className='row-span-3 mb-2 flex items-center justify-start'>
-        Name* :
+				{type} Name * :
 			</label>
 			<div className='rows-span-3 mb-2 flex items-center justify-start mx-2'>
 				<input

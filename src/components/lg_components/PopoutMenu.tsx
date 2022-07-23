@@ -10,16 +10,18 @@ const PopoutMenu = ({ handleDisplayLogout }) => {
 		setDisplayPopoutMenu(!displayPopoutMenu) ;
 	}
 
+
 	return (
 	// Start actual code.
 		<div className='flex items-center justify-end'>
-			<UserCircleIcon className='h-small-logo w-small-logo mx-6 cursor-pointer' onClick={handleDisplayMenu} />
+			<UserCircleIcon className='h-xsmall-logo md:h-small-logo w-small-logo mx-6 cursor-pointer' onClick={handleDisplayMenu} />
           
 			{displayPopoutMenu && 
-              <div> 
+              <div className='absolute top-[4.5rem] right-0 min-h-popout-menu h-auto md:min-w-popout-menu min-w-popout-menu-mobile w-auto bg-zinc-200' > 
                   
               	{/* Logout Button; Uncomment */}
-              	< Button
+              	<div className='w-full h-full'>
+              		< Button
               		height="h-small-button"
               		color='bg-zinc-400'
               		buttonText='Logout'
@@ -27,7 +29,9 @@ const PopoutMenu = ({ handleDisplayLogout }) => {
               		hoverColor='hover:bg-zinc-500'
               		disable={false}
               		onClick={handleDisplayLogout}
-              	/>
+              		/>
+              	</div>
+				
                     
               </div>
 			}   

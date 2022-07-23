@@ -4,7 +4,7 @@ import Button from '../sm_components/Button' ;
 import EmailField from '../sm_components/validator_fields/EmailField' ;
 import NameField from '../sm_components/validator_fields/NameField' ;
 import PasswordField from '../sm_components/validator_fields/PasswordField' ;
-import PhoneField from '../sm_components/validator_fields/PhoneField' ;
+import AgeCheck from '../sm_components/validator_fields/AgeCheck' ;
 import { useNavigate } from 'react-router-dom' ;
 import { useUser } from '../../global/authorization/UserContext' ;
 
@@ -22,13 +22,12 @@ const MobileMenu = () => {
 
 	const [regEmail, setRegEmail] = useState('') ;
 	const [validRegEmail, setValidRegEmail] = useState(false) ;
-	const [regName, setRegName] = useState('') ;
+	const [regFirstName, setRegFirstName] = useState('') ;
+	const [regLastName, setRegLastName] = useState('') ;
 	const [validRegName, setValidRegName] = useState(false) ;
 	const [regPassword, setRegPassword] = useState('') ;
 	const [validRegPassword, setValidRegPassword] = useState(false) ;
-	const [regPhone, setRegPhone] = useState('') ;
-	const [validRegPhone, setValidRegPhone] = useState(false) ;
-	const [phoneIncluded, setPhoneIncluded] = useState(false) ;
+	const [validAgeCheck, setValidAgeCheck] = useState(false) ;
 
 	const { userLogin, userRegistration } = useUser() ;
 	const navigate = useNavigate() ;
@@ -51,21 +50,14 @@ const MobileMenu = () => {
     
 	const handleValidRegistration = () => {
 		// Require phone to be valid if added.
-		if (phoneIncluded) {
-			if (validRegEmail && validRegName && validRegPassword && validRegPhone) {
-				return false ;
-			} else {
-				return true ;
-			}
-		} else {
-			if (validRegEmail && validRegName && validRegPassword) {
-				return false ;
-			}
-			else {
-				return true ;
-			}
+		
+		if (validRegEmail && validRegName && validRegPassword && validAgeCheck) {
+			return false ;
+		}
+		else {
+			return true ;
+		}
             
-		} 
 	}
    
 
@@ -108,7 +100,7 @@ const MobileMenu = () => {
 
                     	{/* Display "Login" and "Register" buttons or forms */}
                     	{(!login && !register) &&
-                            <div className='h-dropdown-menu-mobile flex items-center justify-center '>
+                            <div className='h-dropdown-menu-login flex items-center justify-center '>
                             	<Button
                             		height="h-small-button"
                             		color='bg-zinc-400'
@@ -133,7 +125,7 @@ const MobileMenu = () => {
                     	}
                         
                     	{(login && !register) &&
-                            <div className='min-h-dropdown-menu-mobile max-h-dropdown-menu-mobile h-auto ' >
+                            <div className='min-h-dropdown-menu-login max-h-dropdown-menu-mobile h-auto ' >
                             	<div className="grid grid-rows-5">
                             		{/* Email field */}
                             		<div className='row-span-2 my-4 flex items-center justify-center'>
@@ -183,7 +175,8 @@ const MobileMenu = () => {
                     	}
 
                     	{(!login && register) &&
-                            <div className='min-h-dropdown-menu-mobile max-h-dropdown-menu-mobile-register h-auto '>
+							<div className='min-h-dropdown-menu-login max-h-dropdown-menu-mobile-register h-auto '>
+								<div className='grid grid-rows-6'>
                             	{/* Email field */}
                             	<div className='row-span-1 my-2 flex items-center justify-center'>
                             		< EmailField size={15} email={regEmail} setEmail={setRegEmail} handleValid={setValidRegEmail} />
@@ -191,17 +184,21 @@ const MobileMenu = () => {
 
                             	{/* Name field */}
                             	<div className='row-span-1 my-2 flex items-center justify-center'>
-                            		< NameField size={15} name={regName} setName={setRegName} handleValid={setValidRegName} />
-                            	</div>
+										< NameField size={15} name={regFirstName} setName={setRegFirstName} handleValid={setValidRegName} type={"First"} />
+									</div>
+									
+									<div className='row-span-1 my-2 flex items-center justify-center'>
+										< NameField size={15} name={regLastName} setName={setRegLastName} handleValid={setValidRegName} type={"Last"} />
+									</div>
 
                             	{/* Password field */}
                             	<div className='row-span-1 my-2 flex items-center justify-center'>
                             		< PasswordField size={15} password={regPassword} setPassword={ setRegPassword} handleValid={setValidRegPassword}/>
                             	</div>
                                     
-                            	{/* Phone Number field */}
+                            	{/* Age Check */}
                             	<div className='row-span-1 my-2 flex items-center justify-center'>
-                            		< PhoneField size={15} phone={regPhone} setPhone={setRegPhone} included={setPhoneIncluded} handleValid={setValidRegPhone}/>
+										<AgeCheck handleValid={setValidAgeCheck} />
                             	</div>
 
                             	{/* "Submit" and "Cancel Button" */} 
@@ -227,9 +224,10 @@ const MobileMenu = () => {
                             			onClick={handleClickRegister}
                             		/>
                                         
-                            	</div>
+									</div>
+								</div>
 
-                            </div>  
+							</div>  
                     	}
                         
                     </div>

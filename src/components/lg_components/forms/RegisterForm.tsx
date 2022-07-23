@@ -4,7 +4,7 @@ import Button from '../../sm_components/Button' ;
 import EmailField from '../../sm_components/validator_fields/EmailField' ;
 import NameField from '../../sm_components/validator_fields/NameField' ;
 import PasswordField from '../../sm_components/validator_fields/PasswordField' ;
-import PhoneField from '../../sm_components/validator_fields/PhoneField' ;
+import AgeCheck from '../../sm_components/validator_fields/AgeCheck' ;
 
 
 const RegisterForm = ({ handleClickRegister, register }) => {
@@ -12,34 +12,26 @@ const RegisterForm = ({ handleClickRegister, register }) => {
 	// Registration Validation.
 	const [email, setEmail] = useState('') ;
 	const [validEmail, setValidEmail] = useState(false) ;
-	const [name, setName] = useState('') ;
+	const [firstName, setFirstName] = useState('') ;
+	const [lastName, setLastName] = useState('') ;
 	const [validName, setValidName] = useState(false) ;
 	const [password, setPassword] = useState('') ;
 	const [validPassword, setValidPassword] = useState(false) ;
-	const [phone, setPhone] = useState('') ;
-	const [validPhone, setValidPhone] = useState(false) ;
-	const [phoneIncluded, setPhoneIncluded] = useState(false) ;
+	const [validAgeCheck, setValidAgeCheck] = useState(false) ;
+	
 
 	const { userRegistration } = useUser() ;
     
 
 	const handleValidRegistration = () => {
         
-		// Require phone to be valid if added.
-		if (phoneIncluded) {
-			if (validEmail && validName && validPassword && validPhone) {
-				return false ;
-			} else {
-				return true ;
-			}
-		} else {
-			if (validEmail && validName && validPassword) {
-				return false ;
-			}
-			else {
-				return true ;
-			}
+		if (validEmail && validName && validPassword && validAgeCheck) {
+			return false ;
 		}
+		else {
+			return true ;
+		}
+		
 
 	}
         
@@ -67,51 +59,55 @@ const RegisterForm = ({ handleClickRegister, register }) => {
 					</div> :
                     
 					// display menu
-						<div className=' absolute right-0 top-[4.5rem] min-h-dropdown-menu-register h-auto w-dropdown-menu min-w-[25rem] bg-zinc-100 grid grid-rows-4'>
-                
-							{/* Email field */}
-							<div className='row-span-1 my-4 flex items-center justify-center'>
-								< EmailField size={25} email={email} setEmail={setEmail} handleValid={setValidEmail} />
-							</div>
+						<div className=' absolute right-0 top-[4.5rem] min-h-dropdown-menu-register max-h-dropdown-menu-mobile-register h-auto w-dropdown-menu min-w-[25rem] bg-zinc-100'>
+							<div className='grid grid-rows-6 min-h-dropdown-menu-register max-h-dropdown-menu-mobile-register p-3'>
+								{/* Email field */}
+								<div className='row-span-1 my-4 flex items-center justify-center'>
+									< EmailField size={25} email={email} setEmail={setEmail} handleValid={setValidEmail} />
+								</div>
 
-							{/* Name field */}
-							<div className='row-span-1 flex items-center justify-center'>
-								< NameField size={25} name={name} setName={setName} handleValid={setValidName} />
-							</div>
+								{/* Name field */}
+								<div className='row-span-1 flex items-center justify-center'>
+									< NameField size={25} name={firstName} setName={setFirstName} handleValid={setValidName} type={"First"} />
+								</div>
+								<div className='row-span-1 flex items-center justify-center'>
+									< NameField size={25} name={lastName} setName={setLastName} handleValid={setValidName } type={"Last"}/>
+								</div>
 
-							{/* Password field */}
-							<div className='row-span-1 flex items-center justify-center'>
-								< PasswordField size={25} password={password} setPassword={setPassword} handleValid={setValidPassword} />
-							</div>
+								{/* Password field */}
+								<div className='row-span-1 flex items-center justify-center'>
+									< PasswordField size={25} password={password} setPassword={setPassword} handleValid={setValidPassword} />
+								</div>
                           
-							{/* Phone Number field */}
-							<div className='row-span-1 flex items-center justify-center'>
-								< PhoneField size={25} phone={phone} setPhone={setPhone} included={setPhoneIncluded} handleValid={setValidPhone}  />
-							</div>
+								{/* Age Check*/}
+								<div className='row-span-1 flex items-center justify-center w-full'>
+									<AgeCheck handleValid={setValidAgeCheck} />
+								</div>
 
-							{/* "Submit" and "Cancel Button" */}
+								{/* "Submit" and "Cancel Button" */}
                             
-							<div className='row-span-1 flex items-center justify-between mb-2 mx-2'>
-								< Button 
-									height="h-small-button"
-									color='bg-zinc-400'
-									buttonText='Submit'
-									textColor='text-c-white'
-									hoverColor='hover:bg-zinc-500'
-									disable={handleValidRegistration()}
-									// set later
-									onClick={userRegistration}
-								/>
+								<div className='row-span-1 flex items-center justify-between mb-2 mx-2'>
+									< Button 
+										height="h-small-button"
+										color='bg-zinc-400'
+										buttonText='Submit'
+										textColor='text-c-white'
+										hoverColor='hover:bg-zinc-500'
+										disable={handleValidRegistration()}
+										// set later
+										onClick={userRegistration}
+									/>
 
-								< Button
-									height="h-small-button"
-									color='bg-zinc-400'
-									buttonText='Cancel'
-									textColor='text-c-white'
-									hoverColor='hover:bg-zinc-500'
-									disable={false}
-									onClick={handleClickRegister}
-								/>
+									< Button
+										height="h-small-button"
+										color='bg-zinc-400'
+										buttonText='Cancel'
+										textColor='text-c-white'
+										hoverColor='hover:bg-zinc-500'
+										disable={false}
+										onClick={handleClickRegister}
+									/>
+								</div>
 							</div>
 						</div>
 				}

@@ -1,33 +1,45 @@
 import React, { useState } from 'react'
 import Button from '../../sm_components/Button'
-import DescriptionField from '../../sm_components/validator_fields/DescriptionField'
+import TextField from '../../sm_components/validator_fields/TextField'
 import EmailField from '../../sm_components/validator_fields/EmailField'
 import NameField from '../../sm_components/validator_fields/NameField'
 import TitleField from '../../sm_components/validator_fields/TitleField'
+import PhoneField from '../../sm_components/validator_fields/PhoneField'
 import { useUser } from '../../../global/authorization/UserContext'
 
 
 
 const SupportForm = () => {
 
-	const [description, setDescription] = useState('') ;
-	const [validDescription, setValidDescription] = useState(false) ;
+	const [text, setText] = useState('') ;
+	const [validText, setValidText] = useState(false) ;
 	const [email, setEmail] = useState('') ;
 	const [validEmail, setValidEmail] = useState(false) ;
-	const [name, setName] = useState('') ;
+	const [firstName, setFirstName] = useState('') ;
+	const [lastName, setLastName] = useState('') ;
 	const [validName, setValidName] = useState(false) ;
 	const [title, setTitle] = useState('') ;
-	const [validTitle, setValidTitle] = useState(false);
+	const [validTitle, setValidTitle] = useState(false) ;
+	const [phone, setPhone] = useState('') ;
+	const [validPhone, setValidPhone] = useState(false) ;
+	const [phoneIncluded, setPhoneIncluded] = useState(false) ;
 	
 	const { test } = useUser() ;
 
 
 	const handleCompleteForm = () => {
-
-		if (validDescription && validEmail && validName && validTitle ) {
-			return false ;
+		if (phoneIncluded) {
+			if (validText && validEmail && validName && validTitle && validPhone) {
+				return false ;
+			} else {
+				return true ;
+			}
 		} else {
-			return true ;
+			if (validText && validEmail && validName && validTitle) {
+				return false ;
+			} else {
+				return true ;
+			}
 		}
 	}
 
@@ -35,30 +47,39 @@ const SupportForm = () => {
 	return (
 		<div className='flex items-center justify-center w-full h-full'>
 			{/* Start actual code. */}
-			<div className='grid grid-cols-2 grid-rows-6 w-[] h-main bg-zinc-200'>
+			<div className='grid grid-cols-2 grid-rows-7 w-[] h-main bg-zinc-200'>
 				<p className='flex items-center justify-center row-span-1 col-span-2'>
                   Send Help Request
 				</p>
 
-				<div className='lg:hidden flex items-center justify-center row-span-1 '>
-					<NameField size={15} name={name} setName={setName} handleValid={setValidName} />
+				<div className='lg:hidden flex items-center justify-center row-span-1 col-span-2'>
+					< NameField size={15} name={firstName} setName={setFirstName} handleValid={setValidName} type={"First"} />
+					< NameField size={15} name={lastName} setName={setLastName} handleValid={setValidName } type={"Last"}/>
 				</div>
-				<div className='lg:flex hidden items-center justify-center row-span-1 '>
-					<NameField size={22} name={name} setName={setName} handleValid={setValidName}/>
+				<div className='lg:flex hidden items-center justify-center row-span-1 col-span-2'>
+					< NameField size={22} name={firstName} setName={setFirstName} handleValid={setValidName} type={"First"} />
+					< NameField size={22} name={lastName} setName={setLastName} handleValid={setValidName } type={"Last"}/>
 				</div>
 
-				<div className='lg:hidden flex items-center justify-center row-span-1'>
+				<div className='lg:hidden flex items-center justify-center row-span-1 col-span-1'>
 					<EmailField size={15} email={email} setEmail={setEmail} handleValid={setValidEmail}/>
 				</div>
-				<div className='lg:flex hidden items-center justify-center row-span-1'>
+				<div className='lg:flex hidden items-center justify-center row-span-1 col-span-1'>
 					<EmailField size={22} email={email} setEmail={setEmail} handleValid={setValidEmail}/>
+				</div>
+
+				<div className='lg:hidden flex items-center justify-center row-span-1 col-span-1'>
+					< PhoneField size={15} phone={phone} setPhone={setPhone} included={setPhoneIncluded} handleValid={setValidPhone}  />
+				</div>
+				<div className='lg:flex hidden items-center justify-center row-span-1 col-span-1'>
+					< PhoneField size={22} phone={phone} setPhone={setPhone} included={setPhoneIncluded} handleValid={setValidPhone}  />
 				</div>
 
 				<div className='flex items-center justify-center row-span-2 col-span-2'>
 					<TitleField title_length={10} title={title} setTitle={setTitle} handleValid={setValidTitle} />
 				</div>
 				<div className='flex items-center justify-center row-span-2 col-span-2'>
-					<DescriptionField description_length={50} description={description} setDescription={setDescription} handleValid={setValidDescription} />
+					<TextField text_length={50} text={text} setText={setText} handleValid={setValidText} type={"Message"} />
 				</div>
 				<div className='flex items-center justify-end row-span-1 col-span-2 mx-4 my-2'>
 					<Button
