@@ -7,7 +7,7 @@ import ContactUs from '../components/sm_components/ContactUs' ;
 
 const SupportPage = () => {
 	return (
-		<div className='relative w-screen h-screen'>
+		<div className='relative w-screen h-screen bg-house-banner-6 bg-cover bg-no-repeat bg-center'>
 
 			{/* Page info */}
 			<header>
@@ -26,11 +26,11 @@ const SupportPage = () => {
 				</TopBar>
   
 				{/* Main content */}
-				<div className='sm:grid grid-cols-2 h-[40rem] w-full bg-house-banner-2 bg-cover bg-no-repeat bg-center'>
+				<div className='sm:grid grid-cols-2 h-[40rem] w-full '>
 					{/* Create Space; To do, implement Contact Us Component */}
 					<ContactUs />
-
-					<SupportForm  />
+					<SupportForm />
+					
 				</div>
           
         

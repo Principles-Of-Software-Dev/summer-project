@@ -58,6 +58,12 @@ module.exports = {
         'high-res-logo': "url('/src/assets/high_res_logo.png')",
         'house-banner-1': "url('/src/assets/house_banner_1.jpg')",
         'house-banner-2': "url('/src/assets/house_banner_2.jpeg')",
+        'house-banner-3': "url('/src/assets/house_banner_3.jpeg')",
+        'house-banner-4': "url('/src/assets/house_banner_4.jpg')",
+        'house-banner-5': "url('/src/assets/house_banner_5.jpg')",
+        'house-banner-6': "url('/src/assets/house_banner_6.jpg')",
+
+
         
       },
       minHeight: {
