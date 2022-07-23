@@ -4,6 +4,9 @@ import DescriptionField from '../../sm_components/validator_fields/DescriptionFi
 import EmailField from '../../sm_components/validator_fields/EmailField'
 import NameField from '../../sm_components/validator_fields/NameField'
 import TitleField from '../../sm_components/validator_fields/TitleField'
+import { useUser } from '../../../global/authorization/UserContext'
+
+
 
 const SupportForm = () => {
 
@@ -14,7 +17,10 @@ const SupportForm = () => {
 	const [name, setName] = useState('') ;
 	const [validName, setValidName] = useState(false) ;
 	const [title, setTitle] = useState('') ;
-	const [validTitle, setValidTitle] = useState(false) ;
+	const [validTitle, setValidTitle] = useState(false);
+	
+	const { test } = useUser() ;
+
 
 	const handleCompleteForm = () => {
 
@@ -24,8 +30,8 @@ const SupportForm = () => {
 			return true ;
 		}
 	}
-  
 
+	
 	return (
 		<div className='flex items-center justify-center w-full h-full'>
 			{/* Start actual code. */}
@@ -61,9 +67,9 @@ const SupportForm = () => {
 						buttonText='Submit'
 						textColor='text-c-white'
 						hoverColor='hover:bg-zinc-500'
-						disable={handleCompleteForm()}
+						disable={false}
 						// set later
-						onClick={false}
+						onClick={test}
 					/>
                   
 				</div>

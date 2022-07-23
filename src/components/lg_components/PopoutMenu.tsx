@@ -28,6 +28,7 @@ const PopoutMenu = ({ handleDisplayLogout }) => {
               		disable={false}
               		onClick={handleDisplayLogout}
               	/>
+                    
               </div>
 			}   
 		</div >

@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom" ;
 
 
 export const initializeUser:
-  { user:User, setUser:any, userLogin:any, userRegistration:any, userLogout:any, } =
+  { user:User, setUser:any, userLogin:any, userRegistration:any, userLogout:any,} =
 {
 	user : {
 		authenticated: false,
@@ -16,8 +16,7 @@ export const initializeUser:
 	setUser: (user: User) => { },
 	userLogin: (email: string, password: string) => { },
 	userRegistration: (email: string, name: string, password: string, phone: string) => { },
-	userLogout: (op: string) => {  },
-
+	userLogout: (op: string) => { },
 }
 
 export const UserContext = createContext<any>(initializeUser) ;
@@ -79,10 +78,21 @@ export const UserProvider = ({ children }) => {
 		}) ;
 		navigate("/") ;
 	}
+	
+	const test = () => {
+
+		fetch("/hello").then(response => {
+			response.json().then(data => {
+				console.log(data.string)
+			})
+		}).catch(e => {
+			console.log(e)
+		})
+	}
 
   
 	return (
-		<UserContext.Provider value={{ user, userLogin, userRegistration, userLogout }}>
+		<UserContext.Provider value={{ user, userLogin, userRegistration, userLogout,test }}>
 			{children}
 		</UserContext.Provider>
 	)
