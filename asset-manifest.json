@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/summer-project/static/css/main.bf917f9f.css",
-    "main.js": "/summer-project/static/js/main.d2b96422.js",
+    "main.css": "/summer-project/static/css/main.5e9e0df1.css",
+    "main.js": "/summer-project/static/js/main.94debca6.js",
     "static/media/potential_logo.png": "/summer-project/static/media/potential_logo.8cfff8e336e67729e376.png",
-    "static/media/house_banner_2.jpeg": "/summer-project/static/media/house_banner_2.06a54556e5800c26eda6.jpeg",
+    "static/media/house_banner_6.jpg": "/summer-project/static/media/house_banner_6.0c8abe8bdb3eabbf601b.jpg",
     "index.html": "/summer-project/index.html",
-    "main.bf917f9f.css.map": "/summer-project/static/css/main.bf917f9f.css.map",
-    "main.d2b96422.js.map": "/summer-project/static/js/main.d2b96422.js.map"
+    "main.5e9e0df1.css.map": "/summer-project/static/css/main.5e9e0df1.css.map",
+    "main.94debca6.js.map": "/summer-project/static/js/main.94debca6.js.map"
   },
   "entrypoints": [
-    "static/css/main.bf917f9f.css",
-    "static/js/main.d2b96422.js"
+    "static/css/main.5e9e0df1.css",
+    "static/js/main.94debca6.js"
   ]
 }
