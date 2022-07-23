@@ -7,8 +7,9 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + \
-    os.path.join(basedir, 'data.sqlite')
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + \
+#    os.path.join(basedir, 'data.sqlite')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://crmchnmtyndzzn:2635fe6e4e48c1fcb0fa6edc026cc3a74c24ccb1c2d5b01eff84d5ca8999cbaa@ec2-52-205-61-230.compute-1.amazonaws.com:5432/d1m2ukq1fh31v5'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # DATABASE SETUP
@@ -110,7 +111,7 @@ class videos(db.Model):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
 
-db.create_all()
+# db.create_all()
 
 
 @app.route("/hello")
@@ -235,7 +236,7 @@ def get_properties():
     return jsonify(owned_properties)
 
 
-@app.route("/add_property", methods=['POST'])
+@app.route("/add_property", methods=['POST'])  # TESTED AND WORKING W/ POSTMAN
 # This is adding a property to the database
 def add_property():
     request_json = request.get_json()  # get json data
@@ -256,15 +257,18 @@ def add_property():
     if user.properties:
         user.properties = user.properties + ',' + str(property.id_property)
     else:
-        user.properties = str(property.id)
+        user.properties = str(property.id_property)
     db.session.commit()
     return "property has been added"
 
 
 @app.route("/delete_property", methods=['POST'])
 # we can change this to be like the user routes where we store only the id of the property and there will be a route to get the information (we will talk about that)
-def delete_property(property):
-    property.delete()
+def delete_property():
+    request_json = request.get_json()  # get json data
+
+    property_id = request_json.get('property_id')
+    properties.query.filter_by(id_property=property_id).delete()
     db.session.commit()
     return "property has been deleted"
 
