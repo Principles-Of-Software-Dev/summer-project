@@ -113,11 +113,6 @@ class videos(db.Model):
 
 # db.create_all()
 
-@app.route('/')
-def index():
-    return app.send_static_file('index.html')
-
-
 @app.route("/hello")
 def hello():
     return jsonify({'string': 'Hello World'})
