@@ -6,7 +6,7 @@ from sqlalchemy import ForeignKey
 from werkzeug.security import generate_password_hash, check_password_hash
 
 basedir = os.path.abspath(os.path.dirname(__file__))
-app = Flask(__name__, static_folder='./build', static_url_path='/')
+app = Flask(__name__, static_folder='/build', static_url_path='/')
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + \
 #    os.path.join(basedir, 'data.sqlite')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://iwxhvvyebxlfun:7f5aac273c7b30987d5f44084693f1b84c7cae532773722920380a59af6d5663@ec2-54-157-16-196.compute-1.amazonaws.com:5432/d57482nr6jppc0'
