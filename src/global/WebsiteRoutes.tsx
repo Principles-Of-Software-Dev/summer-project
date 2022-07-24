@@ -10,7 +10,7 @@ import { UserProvider } from './authorization/UserContext' ;
 const WebsiteRoutes = () => {
   
 	return (
-		<BrowserRouter basename={`/`} >
+		<BrowserRouter>
 			<UserProvider>
 				<Routes>
 					{/* Public Routes */}
