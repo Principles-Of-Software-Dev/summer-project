@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/static/css/main.dfa75f1e.css",
-    "main.js": "/static/js/main.281e369d.js",
+    "main.js": "/static/js/main.8d633822.js",
     "static/media/potential_logo.png": "/static/media/potential_logo.8cfff8e336e67729e376.png",
     "static/media/house_banner_6.jpg": "/static/media/house_banner_6.0c8abe8bdb3eabbf601b.jpg",
     "index.html": "/index.html",
     "main.dfa75f1e.css.map": "/static/css/main.dfa75f1e.css.map",
-    "main.281e369d.js.map": "/static/js/main.281e369d.js.map"
+    "main.8d633822.js.map": "/static/js/main.8d633822.js.map"
   },
   "entrypoints": [
     "static/css/main.dfa75f1e.css",
-    "static/js/main.281e369d.js"
+    "static/js/main.8d633822.js"
   ]
 }
