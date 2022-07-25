@@ -6,6 +6,7 @@ import SupportPage from '../pages/SupportPage' ;
 import Dashboard from '../pages/Dashboard' ;
 import PrivateRoute from '../components/routes/PrivateRoute' ;
 import { UserProvider } from './authorization/UserContext' ;
+import AccountPreferences from '../pages/AccountPreferences' ;
 
 const WebsiteRoutes = () => {
   
@@ -20,6 +21,7 @@ const WebsiteRoutes = () => {
 					{/* Private Routes */}
 					<Route element={<PrivateRoute />}>
 						<Route path="dashboard" element={<Dashboard />} />
+						<Route path="account-preferences" element={<AccountPreferences />} />
 					</Route>
 
 					{/* Invalid URL */}

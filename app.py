@@ -143,7 +143,7 @@ def add_user():
     db.session.commit()
 
     # return a successful msg
-    return "User has been added"
+    return jsonify({"user_id": user.id_user})
 
 
 @app.route("/delete_user", methods=['POST'])  # TESTED AND WORKING W/ POSTMAN

@@ -128,6 +128,7 @@ module.exports = {
         'half': '50%',
         'most': '75%',
         'main': '85%',
+        'screen': '100vw',
       },
 
 
