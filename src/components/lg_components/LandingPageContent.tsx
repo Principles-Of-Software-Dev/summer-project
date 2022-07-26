@@ -38,15 +38,6 @@ const LandingPageContent = () => {
 		slides[slideIndex - 1].classList.add("show") ;
 		dots[slideIndex-1].className += " active" ;
 	}
-
-	const review_slides = [{ src: "../../assets/Review1.jpg", alt: "Review 1" },
-		{ src: "../../assets/Review2.jpg", alt: "Review 2" },
-		{ src: "../../assets/Review3.jpg", alt: "Review 3" },
-		{ src: "../../assets/Review4.jpg", alt: "Review 4" },
-		{ src: "../../assets/Review5.jpg", alt: "Review 5" },
-		{ src: "../../assets/Review6.jpg", alt: "Review 6" },
-		{ src: "../../assets/Review7.jpg", alt: "Review 7" },
-		{ src: "../../assets/Review8.jpg", alt: "Review 8" }]
 	
 	return (
 		<div id="page-top" className='w-screen max-w-screen overflow-hidden body'>
