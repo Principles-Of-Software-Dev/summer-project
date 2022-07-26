@@ -3,6 +3,7 @@ import FakeSiteBanner from '../components/lg_components/FakeSiteBanner' ;
 import LoginBar from '../components/lg_components/LoginBar' ;
 import "../styles/GlobalStyle.css" ;
 import { Helmet } from 'react-helmet' ;
+import LandingPageContent from '../components/lg_components/LandingPageContent' ;
 
 const LandingPage = () => {
 	return (
@@ -25,6 +26,9 @@ const LandingPage = () => {
 				</nav>
 
 				{/* Main content */}
+				<div className='w-screen'>
+					<LandingPageContent />
+				</div>
 			</main>
       
 			{/* Page footer*/}
