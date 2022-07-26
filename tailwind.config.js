@@ -62,8 +62,6 @@ module.exports = {
         'house-banner-4': "url('/src/assets/house_banner_4.jpg')",
         'house-banner-5': "url('/src/assets/house_banner_5.jpg')",
         'house-banner-6': "url('/src/assets/house_banner_6.jpg')",
-
-
         
       },
       minHeight: {
@@ -128,6 +126,7 @@ module.exports = {
         'half': '50%',
         'most': '75%',
         'main': '85%',
+        'screen': '100vw',
       },
 
 

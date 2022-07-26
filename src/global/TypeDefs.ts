@@ -4,7 +4,6 @@
 export type User = {
     authenticated?: boolean, // true/fase
     id?: number,            // integer or undefined
-    role?: Role,        // arrray of strings
 }
 
 
@@ -19,12 +18,16 @@ export type ButtonProps = {
   onClick;
 }
  
-// Enums
-export enum Role{
-  Unassigned = 0,
-  Base = 1,
-  Support = 2,
-  Admin = 3,
+export type PropertyType = {
+  propertyId: number,
+  street: string,
+  city: string,
+  state: string,
+  zipcode: number,
+  description: string,
+  estimate: number,
+  photos: any,
+  videos: any, 
 }
 
 
