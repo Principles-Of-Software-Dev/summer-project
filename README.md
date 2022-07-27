@@ -96,7 +96,7 @@ For example, if you implemented the feature that allows users to register, after
 
 Lastly, to upload your commits, use the following command on **first** push:
 
-`git push {branch_name}`
+`git push -u origin {branch_name}`
 
 After the fist push to the new branch, you can run all subsequent pushed using the simplified command:
 
