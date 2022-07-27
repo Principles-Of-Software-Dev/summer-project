@@ -1,7 +1,7 @@
 import React, { useState } from 'react' ;
 
 
-const PhoneField = ({ size, phone, setPhone, included, handleValid }) => {
+const PhoneField = ({ size, phone, setPhone, handleValid, required }) => {
 
 	// * copy the line below to parent component and pass "phone and setPhone" as parameters
 	// const [phone, setPhone] = useState('');
@@ -19,26 +19,21 @@ const PhoneField = ({ size, phone, setPhone, included, handleValid }) => {
     
 		// Credit: Steven Smith (https://regexlib.com/(X(1)A(yz5RUQ61QlGKIFsJk-Qn5Bjk_ly3umfiv1HisldIensSWhCoZjWEmytlHO5_oK0FQsICLxp7ybabpt8vINZDOosNDCwd5Q0nEOt0LR9pLGbO1hWkVbITJf5wlLhO_PwgawF1IED4af3m9rLmfOiTIC9uhVBNWgHE230rwRksZ4IDNKcdo09rb82uVOUF--je0))/REDetails.aspx?regexp_id=22)
   
-		// If format is valid, set phone; else, return error.
-		if ( regex.test(phone) ) {
-			setPhoneErr(false) ;
-			setPhone(phone) ;
-			included(true) ;
-			handleValid(true) ;
-		}
-		// Enables "optional" entry
-		else if (phone === '') {
-			setPhoneErr(false) ;
-			// Prevent unexpected logic when users enter phone, then erase completely.
-			if (included) {
+		if (required || phone !== '') {
+			// If format is valid, set phone; else, return error.
+			if (regex.test(phone)) {
+				setPhoneErr(false) ;
+				setPhone(phone) ;
+				handleValid(true) ;
+			}
+			else {
+				setPhoneErr(true) ;
 				handleValid(false) ;
 			}
-			included(false) ;
-		}
-		else {
-			setPhoneErr(true) ;
-			included(true) ;
-			handleValid(false) ;
+		} else {
+			setPhone(phone) ;
+			setPhoneErr(false) ;
+			handleValid(true) ;
 		}
 	}
 

@@ -140,7 +140,7 @@ This means less money out of your pockets AND more return on your investment.  <
 						</table>
 							
                   
-						<table className='min-w-full'>
+						<table className='min-w-full my-10'>
 							<tbody>
 								<tr>
 									<th>Communities Helped</th>

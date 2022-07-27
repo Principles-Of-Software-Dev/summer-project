@@ -63,20 +63,20 @@ const RegisterForm = ({ handleClickRegister, register }) => {
 							<div className='grid grid-rows-6 min-h-dropdown-menu-register max-h-dropdown-menu-mobile-register p-3'>
 								{/* Email field */}
 								<div className='row-span-1 my-4 flex items-center justify-center'>
-									< EmailField size={25} email={email} setEmail={setEmail} handleValid={setValidEmail} />
+									< EmailField size={25} required={true} setEmail={setEmail} handleValid={setValidEmail} />
 								</div>
 
 								{/* Name field */}
 								<div className='row-span-1 flex items-center justify-center'>
-									< NameField size={25} name={firstName} setName={setFirstName} handleValid={setValidName} type={"First"} />
+									< NameField size={25} required={true} setName={setFirstName} handleValid={setValidName} type={"First"} />
 								</div>
 								<div className='row-span-1 flex items-center justify-center'>
-									< NameField size={25} name={lastName} setName={setLastName} handleValid={setValidName } type={"Last"}/>
+									< NameField size={25} required={true} setName={setLastName} handleValid={setValidName } type={"Last"}/>
 								</div>
 
 								{/* Password field */}
 								<div className='row-span-1 flex items-center justify-center'>
-									< PasswordField size={25} password={password} setPassword={setPassword} handleValid={setValidPassword} />
+									< PasswordField size={25} required={true} setPassword={setPassword} handleValid={setValidPassword} />
 								</div>
                           
 								{/* Age Check*/}

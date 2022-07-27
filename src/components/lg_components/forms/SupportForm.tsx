@@ -27,18 +27,11 @@ const SupportForm = () => {
 
 
 	const handleCompleteForm = () => {
-		if (phoneIncluded) {
-			if (validText && validEmail && validName && validTitle && validPhone) {
-				return false ;
-			} else {
-				return true ;
-			}
+
+		if (validText && validEmail && validName && validTitle && validPhone) {
+			return false ;
 		} else {
-			if (validText && validEmail && validName && validTitle) {
-				return false ;
-			} else {
-				return true ;
-			}
+			return true ;
 		}
 	}
 
@@ -52,38 +45,38 @@ const SupportForm = () => {
 				</p>
 
 				{/* Name Fields */}
-				<div className='lg:hidden flex items-center justify-center row-span-1 col-span-2'>
-					< NameField size={15} name={firstName} setName={setFirstName} handleValid={setValidName} type={"First"} />
-					< NameField size={15} name={lastName} setName={setLastName} handleValid={setValidName } type={"Last"}/>
+				<div className='lg:hidden flex items-center justify-center row-span-1 col-span-2' >
+					< NameField size={15} required={true} setName={setFirstName} handleValid={setValidName} type={"First"} />
+					< NameField size={15} required={true} setName={setLastName} handleValid={setValidName } type={"Last"}/>
 				</div>
 				<div className='lg:flex hidden items-center justify-center row-span-1 col-span-2'>
-					< NameField size={22} name={firstName} setName={setFirstName} handleValid={setValidName} type={"First"} />
-					< NameField size={22} name={lastName} setName={setLastName} handleValid={setValidName } type={"Last"}/>
+					< NameField size={22} required={true} setName={setFirstName} handleValid={setValidName} type={"First"} />
+					< NameField size={22} required={true} setName={setLastName} handleValid={setValidName } type={"Last"}/>
 				</div>
 
 				{/* Email Field */}
 				<div className='lg:hidden flex items-center justify-center row-span-1 col-span-1'>
-					<EmailField size={15} email={email} setEmail={setEmail} handleValid={setValidEmail}/>
+					<EmailField size={15} required={true} setEmail={setEmail} handleValid={setValidEmail}/>
 				</div>
 				<div className='lg:flex hidden items-center justify-center row-span-1 col-span-1'>
-					<EmailField size={22} email={email} setEmail={setEmail} handleValid={setValidEmail}/>
+					<EmailField size={22} required={true} setEmail={setEmail} handleValid={setValidEmail}/>
 				</div>
 
 				{/* Phone Field */}
 				<div className='lg:hidden flex items-center justify-center row-span-1 col-span-1'>
-					< PhoneField size={15} phone={phone} setPhone={setPhone} included={setPhoneIncluded} handleValid={setValidPhone}  />
+					< PhoneField size={15} phone={phone} setPhone={setPhone} required={true} handleValid={setValidPhone}  />
 				</div>
 				<div className='lg:flex hidden items-center justify-center row-span-1 col-span-1'>
-					< PhoneField size={22} phone={phone} setPhone={setPhone} included={setPhoneIncluded} handleValid={setValidPhone}  />
+					< PhoneField size={22} phone={phone} setPhone={setPhone} required={true} handleValid={setValidPhone}  />
 				</div>
 
 				{/* Title */}
 				<div className='flex items-center justify-center row-span-2 col-span-2'>
-					<TextField text_length={22} text={title} setText={setTitle} handleValid={setValidTitle} type={"Title"} largeArea={false} />
+					<TextField text_length={22} required={true} setText={setTitle} handleValid={setValidTitle} type={"Title"} largeArea={false} />
 				</div>
 				{/* Message */}
 				<div className='flex items-center justify-center row-span-2 col-span-2'>
-					<TextField text_length={50} text={text} setText={setText} handleValid={setValidText} type={"Message"} largeArea={true} />
+					<TextField text_length={50} required={true} setText={setText} handleValid={setValidText} type={"Message"} largeArea={true} />
 				</div>
 				<div className='flex items-center justify-end row-span-1 col-span-2 mx-4 my-2'>
 					<Button

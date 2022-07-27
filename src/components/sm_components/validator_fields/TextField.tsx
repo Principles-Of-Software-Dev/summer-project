@@ -1,7 +1,7 @@
 import React, { useState } from 'react' ;
 
 
-const TextField = ({ text_length, text, setText, handleValid, type, largeArea }) => {
+const TextField = ({ text_length, setText, handleValid, type, largeArea , required }) => {
 
 	// * copy the line below to parent component and pass "text and setText" as parameters
 	// const [text, setText] = useState('');
@@ -19,11 +19,17 @@ const TextField = ({ text_length, text, setText, handleValid, type, largeArea })
   
 		// If text isn't as long as expected, return error.
 		// Leave room for error in math.
-		if ( text.length < (text_length - 4) || text.length > (text_length*3) ) {
-			setTextErr(true) ;
-			handleValid(false) ;
-		}
-		else {
+		if (required || (text !=='')) {
+			if (text.length < (text_length - 4) || text.length > (text_length * 3)) {
+				setTextErr(true) ;
+				handleValid(false) ;
+			}
+			else {
+				setTextErr(false) ;
+				setText(text) ;
+				handleValid(true) ;
+			}
+		} else { 
 			setTextErr(false) ;
 			setText(text) ;
 			handleValid(true) ;

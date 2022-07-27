@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 
-const EmailField = ({ size, email, setEmail, handleValid }) => {
+const EmailField = ({ size, required, setEmail, handleValid }) => {
 
 	// * copy the line below to parent component and pass "email and setEmail as parameters"
 	// const [email, setEmail] = useState('');
@@ -19,14 +19,20 @@ const EmailField = ({ size, email, setEmail, handleValid }) => {
 		// Credit: Eric Lebetsamer (https://regexlib.com/(X(1)A(yz5RUQ61QlGKIFsJk-Qn5Bjk_ly3umfiv1HisldIensSWhCoZjWEmytlHO5_oK0FQsICLxp7ybabpt8vINZDOosNDCwd5Q0nEOt0LR9pLGbO1hWkVbITJf5wlLhO_PwgawF1IED4af3m9rLmfOiTIC9uhVBNWgHE230rwRksZ4IDNKcdo09rb82uVOUF--je0))/REDetails.aspx?regexp_id=35)
     
 		// If format is valid, set email; else, return error.
-		if (regex.test(email)) {
+		if (required || email !== '') {
+			if (regex.test(email)) {
+				setEmailErr(false) ;
+				setEmail(email) ;
+				handleValid(true) ;
+			}
+			else {
+				setEmailErr(true) ;
+				handleValid(false) ;
+			}
+		} else {
 			setEmailErr(false) ;
 			setEmail(email) ;
 			handleValid(true) ;
-		}
-		else {
-			setEmailErr(true) ;
-			handleValid(false) ;
 		}
     
 	}
