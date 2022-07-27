@@ -128,6 +128,9 @@ module.exports = {
         'main': '85%',
         'screen': '100vw',
       },
+      backdropBlur: {
+        'real': '1px'
+      },
 
 
     },

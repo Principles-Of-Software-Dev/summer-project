@@ -61,12 +61,12 @@ const LoginForm = ({ handleClickLogin, login }) => {
                     
 							{/* Email field */}
 							<div className='row-span-2 my-4 flex items-center justify-center'>
-								< EmailField size={25} email={email} setEmail={setEmail} handleValid={setValidEmail} />
+								< EmailField size={25} required={true} setEmail={setEmail} handleValid={setValidEmail} />
 							</div>
 
 							{/* Password field */}
 							<div className='row-span-2 flex items-center justify-center'>
-								< PasswordField size={25} password={password} setPassword={setPassword} handleValid={setValidPassword}/>
+								< PasswordField size={25} required={true} setPassword={setPassword} handleValid={setValidPassword}/>
 							</div>
 
 							{/* "Submit" and "Cancel Button" */}

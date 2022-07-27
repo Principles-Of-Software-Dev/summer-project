@@ -129,12 +129,12 @@ const MobileMenu = () => {
                             	<div className="grid grid-rows-5">
                             		{/* Email field */}
                             		<div className='row-span-2 my-4 flex items-center justify-center'>
-                            			< EmailField size={15} email={loginEmail} setEmail={setLoginEmail } handleValid={setValidLoginEmail} />
+                            			< EmailField size={15} required={true} setEmail={setLoginEmail } handleValid={setValidLoginEmail} />
                             		</div>
 
                             		{/* Password field */}
                             		<div className='row-span-2 flex items-center justify-center'>
-                            			< PasswordField size={15} password={loginPassword} setPassword={setLoginPassword} handleValid={setValidLoginPassword} />
+                            			< PasswordField size={15} required={true} setPassword={setLoginPassword} handleValid={setValidLoginPassword} />
                             		</div>
 
                             		{/* "Submit" and "Cancel Button" */} 
@@ -179,21 +179,21 @@ const MobileMenu = () => {
 								<div className='grid grid-rows-6'>
                             	{/* Email field */}
                             	<div className='row-span-1 my-2 flex items-center justify-center'>
-                            		< EmailField size={15} email={regEmail} setEmail={setRegEmail} handleValid={setValidRegEmail} />
+                            		< EmailField size={15} required={true} setEmail={setRegEmail} handleValid={setValidRegEmail} />
                             	</div>
 
                             	{/* Name field */}
                             	<div className='row-span-1 my-2 flex items-center justify-center'>
-										< NameField size={15} name={regFirstName} setName={setRegFirstName} handleValid={setValidRegName} type={"First"} />
+										< NameField size={15} required={true} setName={setRegFirstName} handleValid={setValidRegName} type={"First"} />
 									</div>
 									
 									<div className='row-span-1 my-2 flex items-center justify-center'>
-										< NameField size={15} name={regLastName} setName={setRegLastName} handleValid={setValidRegName} type={"Last"} />
+										< NameField size={15} required={true} setName={setRegLastName} handleValid={setValidRegName} type={"Last"} />
 									</div>
 
                             	{/* Password field */}
                             	<div className='row-span-1 my-2 flex items-center justify-center'>
-                            		< PasswordField size={15} password={regPassword} setPassword={ setRegPassword} handleValid={setValidRegPassword}/>
+                            		< PasswordField size={15} required={true} setPassword={ setRegPassword} handleValid={setValidRegPassword}/>
                             	</div>
                                     
                             	{/* Age Check */}
