@@ -57,7 +57,7 @@ const LoginForm = ({ handleClickLogin, login }) => {
 					</div> :
                         
 					// display menu
-						<div className=' absolute right-0 top-[4.5rem] min-h-dropdown-menu-login h-auto w-dropdown-menu min-w-[25rem] bg-zinc-100 grid grid-rows-5'>
+						<div className=' absolute right-0 top-[4.5rem] min-h-dropdown-menu-login h-auto w-dropdown-menu min-w-[25rem] bg-sky-200 bg-opacity-95 grid grid-rows-5'>
                     
 							{/* Email field */}
 							<div className='row-span-2 my-4 flex items-center justify-center'>
@@ -74,29 +74,29 @@ const LoginForm = ({ handleClickLogin, login }) => {
 							<div className='row-span-1 flex items-center justify-between mb-2 mx-2'>
 								< Button 
 									height="h-xsmall-button"
-									color='bg-zinc-400'
+									color='bg-sky-400'
 									buttonText='Submit'
 									textColor='text-c-white'
-									hoverColor='hover:bg-zinc-500'
+									hoverColor='hover:bg-sky-500'
 									disable={handleValidLogin()}
 									onClick={userLogin}
 								/>
 								< Button
 									height="h-xsmall-button"
-									color='bg-zinc-400'
+									color='bg-sky-400'
 									buttonText='Cancel'
 									textColor='text-c-white'
-									hoverColor='hover:bg-zinc-500'
+									hoverColor='hover:bg-sky-500'
 									disable={false}
 									onClick={handleClickLogin}
 								/>
                                   
 								<Button
 									height="h-xsmall-button"
-									color='bg-zinc-400'
+									color='bg-sky-400'
 									buttonText='Forgot Password'
 									textColor='text-c-white'
-									hoverColor='hover:bg-zinc-500'
+									hoverColor='hover:bg-sky-500'
 									disable={false}
 									onClick = {() => handleNavigate("/support" , login)}
 								/>  
