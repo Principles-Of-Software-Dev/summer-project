@@ -40,10 +40,10 @@ const LoginForm = ({ handleClickLogin, login }) => {
 			{/* Start actual code. */}
 			<Button
 				height="h-small-button"
-				color='bg-zinc-400'
+				color='bg-sky-400'
 				buttonText='Login'
 				textColor='text-c-white'
-				hoverColor='hover:bg-zinc-500'
+				hoverColor='hover:bg-sky-500'
 				disable={false}
 				onClick={handleClickLogin}
 			/>

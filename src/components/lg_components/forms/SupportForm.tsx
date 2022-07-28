@@ -42,7 +42,7 @@ function SupportForm() {
 			{/* Start actual code. */}
 			<div className='grid grid-cols-2 grid-rows-7 w-auto h-main bg-sky-200 bg-opacity-95'>
 				<p className='flex items-center justify-center row-span-1 col-span-2'>
-					Send Help Request
+				<h2><strong>Send Help Request</strong></h2>
 				</p>
 
 				{/* Name Fields */}
@@ -82,10 +82,10 @@ function SupportForm() {
 				<div className='flex items-center justify-end row-span-1 col-span-2 mx-4 my-2'>
 					<Button
 						height="h-xsmall-button"
-						color='bg-zinc-400'
+						color='bg-sky-400'
 						buttonText='Submit'
 						textColor='text-c-white'
-						hoverColor='hover:bg-zinc-500'
+						hoverColor='hover:bg-sky-500'
 						disable={false}
 						// set later
 						onClick={test} />
