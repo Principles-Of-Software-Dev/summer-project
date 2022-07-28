@@ -8,66 +8,67 @@ import { useUser } from '../../../global/authorization/UserContext'
 
 
 
-const SupportForm = () => {
 
-	const [text, setText] = useState('') ;
-	const [validText, setValidText] = useState(false) ;
-	const [email, setEmail] = useState('') ;
-	const [validEmail, setValidEmail] = useState(false) ;
-	const [firstName, setFirstName] = useState('') ;
-	const [lastName, setLastName] = useState('') ;
-	const [validName, setValidName] = useState(false) ;
-	const [title, setTitle] = useState('') ;
-	const [validTitle, setValidTitle] = useState(false) ;
-	const [phone, setPhone] = useState('') ;
-	const [validPhone, setValidPhone] = useState(false) ;
-	const [phoneIncluded, setPhoneIncluded] = useState(false) ;
-	
-	const { test } = useUser() ;
+function SupportForm() {
+
+	const [text, setText] = useState('')
+	const [validText, setValidText] = useState(false)
+	const [email, setEmail] = useState('')
+	const [validEmail, setValidEmail] = useState(false)
+	const [firstName, setFirstName] = useState('')
+	const [lastName, setLastName] = useState('')
+	const [validName, setValidName] = useState(false)
+	const [title, setTitle] = useState('')
+	const [validTitle, setValidTitle] = useState(false)
+	const [phone, setPhone] = useState('')
+	const [validPhone, setValidPhone] = useState(false)
+	const [phoneIncluded, setPhoneIncluded] = useState(false)
+
+	const { test } = useUser()
 
 
 	const handleCompleteForm = () => {
 
 		if (validText && validEmail && validName && validTitle && validPhone) {
-			return false ;
+			return false
 		} else {
-			return true ;
+			return true
 		}
 	}
 
-	
+
 	return (
 		<div className='flex items-center justify-center w-full h-full'>
 			{/* Start actual code. */}
 			<div className='grid grid-cols-2 grid-rows-7 w-auto h-main bg-zinc-200'>
 				<p className='flex items-center justify-center row-span-1 col-span-2'>
-                  Send Help Request
+					Send Help Request
 				</p>
 
 				{/* Name Fields */}
-				<div className='lg:hidden flex items-center justify-center row-span-1 col-span-2' >
-					< NameField size={15} required={true} setName={setFirstName} handleValid={setValidName} type={"First"} />
-					< NameField size={15} required={true} setName={setLastName} handleValid={setValidName } type={"Last"}/>
+				<div className='lg:hidden flex items-center justify-center row-span-1 col-span-2'>
+					<NameField size={15} required={true} setName={setFirstName} handleValid={setValidName} type={"First"} />
+					<NameField size={15} required={true} setName={setLastName} handleValid={setValidName} type={"Last"} />
 				</div>
 				<div className='lg:flex hidden items-center justify-center row-span-1 col-span-2'>
-					< NameField size={22} required={true} setName={setFirstName} handleValid={setValidName} type={"First"} />
-					< NameField size={22} required={true} setName={setLastName} handleValid={setValidName } type={"Last"}/>
+					<NameField size={22} required={true} setName={setFirstName} handleValid={setValidName} type={"First"} />
+					<NameField size={22} required={true} setName={setLastName} handleValid={setValidName} type={"Last"} />
 				</div>
 
 				{/* Email Field */}
 				<div className='lg:hidden flex items-center justify-center row-span-1 col-span-1'>
-					<EmailField size={15} required={true} setEmail={setEmail} handleValid={setValidEmail}/>
+					<EmailField size={15} required={true} setEmail={setEmail} handleValid={setValidEmail} />
 				</div>
 				<div className='lg:flex hidden items-center justify-center row-span-1 col-span-1'>
-					<EmailField size={22} required={true} setEmail={setEmail} handleValid={setValidEmail}/>
+					<EmailField size={22} required={true} setEmail={setEmail} handleValid={setValidEmail} />
 				</div>
 
 				{/* Phone Field */}
 				<div className='lg:hidden flex items-center justify-center row-span-1 col-span-1'>
-					< PhoneField size={15} phone={phone} setPhone={setPhone} required={true} handleValid={setValidPhone}  />
+					<PhoneField size={15} phone={phone} setPhone={setPhone} required={true} handleValid={setValidPhone} />
 				</div>
 				<div className='lg:flex hidden items-center justify-center row-span-1 col-span-1'>
-					< PhoneField size={22} phone={phone} setPhone={setPhone} required={true} handleValid={setValidPhone}  />
+					<PhoneField size={22} phone={phone} setPhone={setPhone} required={true} handleValid={setValidPhone} />
 				</div>
 
 				{/* Title */}
@@ -87,18 +88,17 @@ const SupportForm = () => {
 						hoverColor='hover:bg-zinc-500'
 						disable={false}
 						// set later
-						onClick={test}
-					/>
-                  
+						onClick={test} />
+
 				</div>
 
 
-          
-          
+
+
 			</div>
 			{/* End code. */}
 		</div>
-      
+
 	)
 }
 
