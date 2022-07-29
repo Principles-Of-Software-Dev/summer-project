@@ -120,8 +120,8 @@ export const UserProvider = ({ children }) => {
 		let success = false ;
 
 		const params = {
-			'first_name': firstName,
-			'last_name': lastName,
+			'firstname': firstName,
+			'lastname': lastName,
 			'email': email,
 			'password': password,
 		}
@@ -244,9 +244,9 @@ export const UserProvider = ({ children }) => {
 		let success = false ;
 
 		let params = {
-			'user_id': userId,
-			'first_name': firstName,
-			'last_name': lastName,
+			'userid': userId,
+			'firstname': firstName,
+			'lastname': lastName,
 			'dob': dob,
 			'email': email,
 			'password': password,
