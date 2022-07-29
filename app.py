@@ -35,7 +35,7 @@ class users(db.Model):
     session_token = db.Column(db.Text)
     session_token_expr = db.Column(db.Integer)
 
-    def __init__(self, firstName, lastName, dob, email, password, properties, authorized_to, access_token, access_token_expr, session_token, session_token_expr):
+    def __init__(self, firstName, lastName, dob, email, password, properties, authorized_to, authorized_to_me, access_token, access_token_expr, session_token, session_token_expr):
         self.firstName = firstName
         self.lastName = lastName
         self.dob = dob
@@ -43,6 +43,7 @@ class users(db.Model):
         self.password = password
         self.properties = properties
         self.authorized_to = authorized_to
+        self.authorized_to_me = authorized_to_me
         self.access_token = access_token
         self.access_token_expr = access_token_expr
         self.session_token = session_token
