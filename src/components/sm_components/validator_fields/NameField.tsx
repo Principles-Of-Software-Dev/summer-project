@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 
-const NameField = ({ size, required, setName, handleValid, type }) => {
+const NameField = ({ size, required, setName, handleValid, type, ...rest }) => {
 
 	// * copy the line below to parent component and pass "name and setName" as parameters
 	//  const [name, setName] = useState('');
@@ -24,12 +24,19 @@ const NameField = ({ size, required, setName, handleValid, type }) => {
 			}
 			else {
 				setNameErr(false) ;
-				setName(name) ;
+				setName(name);
+				if (rest.storedVal != null) {
+					rest.storedVal = name;
+				}
 				handleValid(true) ;
 			}
 		} else {
 			setNameErr(false) ;
-			setName(name) ;
+			setName(name);
+			if (rest.storedVal != null) {
+				rest.storedVal = name;
+			}
+			
 			handleValid(true) ;
 		}
 	}
@@ -45,8 +52,9 @@ const NameField = ({ size, required, setName, handleValid, type }) => {
 				<input
 					type="name"
 					onChange={handleNameChange}
-					required
+					required={required}
 					size={size}
+					defaultValue={ rest.storedVal != null && rest.storedVal}
 				/>
 			</div>
 

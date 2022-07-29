@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { ChevronRightIcon, ChevronLeftIcon } from '@heroicons/react/outline' ;
 import Button from './Button' ;
 
-const Property = ({ property, displayProperty }) => {
+const Property = ({ property, displayProperty, displayPropertyForm }) => {
     
 	const [currIndex, setCurrIndex] = useState(0) ;
 	const maxLength = property.photos.length ;
@@ -14,14 +14,14 @@ const Property = ({ property, displayProperty }) => {
 	const nextPic = () => {
 		setCurrIndex(currIndex === (maxLength - 1) ? 0 : (currIndex + 1)) ;
 		console.log(currIndex) ;
-	};
+	} ;
 
 
 	return (
-		<div className='md:max-w-[30vw] w-full h-full p-4 flex items-center justify-center '>
+		<div className='md:max-w-[30vw] w-full max-h-full p-4 flex items-center justify-center'>
 			<div className='h-full w-full p-6 border border-solid rounded-md grid grid-row-2 '>
 				{/* Image */}
-				<div className='row-span-1'>
+				<div className='row-span-1 '>
 					{property.photos.map((img, index) => {
 						return (
 							<div
@@ -45,7 +45,7 @@ const Property = ({ property, displayProperty }) => {
 					})}
 				</div> 
 				{/* Everything Else */}
-				<div className='my-2 p-2 grid grid-rows-2'>
+				<div className='myt-2 py-2 grid'>
 					<div className='row-span-1'>
 						<div className='w-full flex items-center justify-center overflow-scroll'>
 							{ property.description}
@@ -57,16 +57,30 @@ const Property = ({ property, displayProperty }) => {
 								{ property.city}, {property.state }
 							</div>
 
-							<div className='flex items-center justify-end col-span-1'>
-								<Button
-									height="h-xsmall-button"
-									color='bg-zinc-400'
-									buttonText='View Property'
-									textColor='text-c-white'
-									hoverColor='hover:bg-zinc-500'
-									disable={false}
-									onClick={() => displayProperty( property )}
-								/>
+							<div className=' col-span-1 grid grid-rows-2 pt-3'>
+								<div className='flex items-center justify-end row-span-1 my-1'>
+									<Button
+										height="h-small-button"
+										color='bg-zinc-400'
+										buttonText='View Property'
+										textColor='text-c-white'
+										hoverColor='hover:bg-zinc-500'
+										disable={false}
+										onClick={() => displayProperty( property )}
+									/>
+								</div>
+								<div className='flex items-center justify-end row-span-1 my-1'>
+									<Button
+										height="h-small-button"
+										color='bg-zinc-400'
+										buttonText='Edit Property'
+										textColor='text-c-white'
+										hoverColor='hover:bg-zinc-500'
+										disable={false}
+										onClick={() => displayPropertyForm( property, "Edit" )}
+									/>
+								</div>
+								
 							</div>
 						</div>
 					</div>

@@ -24,10 +24,9 @@ const Dashboard = () => {
 			<TopBar>
 				<PopoutMenu handleDisplayLogout={handleDisplayLogout} userId />
 			</TopBar>
-
-			<PropertiesControl />
-
-
+			<div className='my-12'>
+				<PropertiesControl />
+			</div>
 
 
 			<FakeSiteBanner />

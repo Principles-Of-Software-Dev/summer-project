@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 
-const EmailField = ({ size, required, setEmail, handleValid }) => {
+const EmailField = ({ size, required, setEmail, handleValid, ...rest }) => {
 
 	// * copy the line below to parent component and pass "email and setEmail as parameters"
 	// const [email, setEmail] = useState('');
@@ -48,8 +48,9 @@ const EmailField = ({ size, required, setEmail, handleValid }) => {
 				<input
 					type="email"
 					onChange={handleEmailChange}
-					required
+					required={ required}
 					size={size}
+					defaultValue={ rest.storedVal != null && rest.storedVal}
 				/>
 			</div>
 

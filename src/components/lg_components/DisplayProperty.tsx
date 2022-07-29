@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react' ;
 import Button from '../sm_components/Button' ;
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/outline' ;
 
-const DisplayProperty = ({ property, displayProperty }) => {
+const DisplayProperty = ({ property, displayProperty, editProperty }) => {
 
-  const [currIndex, setCurrIndex] = useState(0);
+	const [currIndex, setCurrIndex] = useState(0) ;
   
-  let maxLength = property.photos.length
+	let maxLength = property.photos.length
 
 	const prevPic = () => {
 		setCurrIndex(currIndex === 0 ? (maxLength - 1) : (currIndex - 1)) ;
@@ -15,7 +15,7 @@ const DisplayProperty = ({ property, displayProperty }) => {
 	const nextPic = () => {
 		setCurrIndex(currIndex === (maxLength - 1) ? 0 : (currIndex + 1)) ;
 		console.log(currIndex) ;
-  };
+	} ;
   
     
 	return (
@@ -56,18 +56,28 @@ const DisplayProperty = ({ property, displayProperty }) => {
 							<div className='row-span-1 mt-2 grid grid-cols-2'>
 
 								<div className='flex items-center justify-start col-span-1'>
-									{ property.city}, {property.state }
+									{property.street}
+									{property.city}, {property.state}
 								</div>
 
-								<div className='flex items-center justify-end col-span-1'>
+								<div className='flex items-center justify-end row-span-1 col-span-2 mx-4 my-2'>
 									<Button
-                    height="h-xsmall-button"
-                    color='bg-zinc-400'
-                    buttonText='View Property'
-                    textColor='text-c-white'
-                    hoverColor='hover:bg-zinc-500'
-                    disable={false}
-                    onClick={() => displayProperty(null)}
+										height="h-xsmall-button"
+										color='bg-zinc-400'
+										buttonText='Edit Property'
+										textColor='text-c-white'
+										hoverColor='hover:bg-zinc-500'
+										disable={false}
+										onClick={() => editProperty(property , "edit")}
+									/>
+									<Button
+										height="h-xsmall-button"
+										color='bg-zinc-400'
+										buttonText='Close'
+										textColor='text-c-white'
+										hoverColor='hover:bg-zinc-500'
+										disable={false}
+										onClick={() => displayProperty(null)}
 									/>
 								</div>
 							</div>

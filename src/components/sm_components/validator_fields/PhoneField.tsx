@@ -1,7 +1,7 @@
 import React, { useState } from 'react' ;
 
 
-const PhoneField = ({ size, phone, setPhone, handleValid, required }) => {
+const PhoneField = ({ size, setPhone, handleValid, required, ...rest }) => {
 
 	// * copy the line below to parent component and pass "phone and setPhone" as parameters
 	// const [phone, setPhone] = useState('');
@@ -28,12 +28,18 @@ const PhoneField = ({ size, phone, setPhone, handleValid, required }) => {
 			}
 			else {
 				setPhoneErr(true) ;
-				handleValid(false) ;
+				handleValid(false);
+				if (rest.storedVal != null) {
+					rest.storedVal = phone;
+				}
 			}
 		} else {
 			setPhone(phone) ;
 			setPhoneErr(false) ;
-			handleValid(true) ;
+			handleValid(true);
+			if (rest.storedVal != null) {
+				rest.storedVal = phone;
+			}
 		}
 	}
 
@@ -48,7 +54,8 @@ const PhoneField = ({ size, phone, setPhone, handleValid, required }) => {
 					type="tel"
 					onChange={handlePhoneChange}
 					size={size}
-				/>
+					defaultValue={ rest.storedVal != null && rest.storedVal}
+					/>
 			</div>
 
 			{/* If phone number not valid format, display error.  */}

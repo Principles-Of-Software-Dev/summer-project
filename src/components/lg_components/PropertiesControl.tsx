@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import PropertiesList from './PropertiesList'
 import { PropertyType } from '../../global/TypeDefs'
-import DisplayProperty from './DisplayProperty' ;
+import DisplayProperty from './DisplayProperty';
+import PropertyForm from './forms/PropertyForm';
 
 const PropertiesControl = () => {
 	const properties: PropertyType[] = [{
@@ -55,29 +56,50 @@ const PropertiesControl = () => {
 			"https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?cs=srgb&dl=pexels-expect-best-323780.jpg&fm=jpg"],
 		videos: 'null'
 	}] ;
-	const [displayProperty, setDisplayProperty] = useState(null) ;
+	const [displayProperty, setDisplayProperty] = useState(null);
+	const [displayPropertyForm, setDisplayPropertyForm] = useState< {} |null>(null) ;
 
 	useEffect(() => {
-		if (displayProperty != null) {
+		if (displayProperty != null || displayPropertyForm != null) {
 			document.body.style.overflow = "hidden" ;
 		} else {
 			document.body.style.overflow = "visible" ;
 		}
-	  }, [displayProperty]) ;
+	  }, [displayProperty , displayPropertyForm]) ;
 
-	const handleViewProperty = propertyId => { 
-		setDisplayProperty(propertyId) ; 
+	
+	const handleViewProperty = property => { 
+		setDisplayProperty(property) ; 
+	}
+
+	const handleDisplayPropertyForm = (property, operation) => {
+		if (displayProperty != null) {
+			setDisplayProperty(null); 
+		}
+		if (operation == null) {
+			setDisplayPropertyForm(null);
+		}
+		else {
+			setDisplayPropertyForm({
+				'property': property,
+				'operation': operation
+			});
+		}
 	}
 
 
 	return (
 		<div className='w-full mb-2'>
 			{displayProperty != null &&
-				<DisplayProperty property={displayProperty} displayProperty={setDisplayProperty} />
+				<DisplayProperty property={displayProperty} displayProperty={setDisplayProperty} editProperty={handleDisplayPropertyForm} />
 			}
-			<PropertiesList properties={properties} displayProperty={handleViewProperty} />
+			{displayPropertyForm != null &&
+				<PropertyForm options={displayPropertyForm} displayPropertyForm={handleDisplayPropertyForm} />
+			}
+				<PropertiesList properties={properties} displayProperty={handleViewProperty} displayPropertyForm={handleDisplayPropertyForm} />
+
 			<div className='pb-2'>
-				Test 
+				
 			</div>
 		</div>
 	)

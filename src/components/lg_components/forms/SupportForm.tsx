@@ -5,6 +5,7 @@ import EmailField from '../../sm_components/validator_fields/EmailField'
 import NameField from '../../sm_components/validator_fields/NameField'
 import PhoneField from '../../sm_components/validator_fields/PhoneField'
 import { useUser } from '../../../global/authorization/UserContext'
+import { useNavigate } from 'react-router-dom' ;
 
 
 
@@ -21,7 +22,7 @@ const SupportForm = () => {
 	const [validTitle, setValidTitle] = useState(false) ;
 	const [phone, setPhone] = useState('') ;
 	const [validPhone, setValidPhone] = useState(false) ;
-	const [phoneIncluded, setPhoneIncluded] = useState(false) ;
+	const navigate = useNavigate() ;
 	
 	const { test } = useUser() ;
 
@@ -64,10 +65,10 @@ const SupportForm = () => {
 
 				{/* Phone Field */}
 				<div className='lg:hidden flex items-center justify-center row-span-1 col-span-1'>
-					< PhoneField size={15} phone={phone} setPhone={setPhone} required={true} handleValid={setValidPhone}  />
+					< PhoneField size={15} setPhone={setPhone} required={true} handleValid={setValidPhone}  />
 				</div>
 				<div className='lg:flex hidden items-center justify-center row-span-1 col-span-1'>
-					< PhoneField size={22} phone={phone} setPhone={setPhone} required={true} handleValid={setValidPhone}  />
+					< PhoneField size={22} setPhone={setPhone} required={true} handleValid={setValidPhone}  />
 				</div>
 
 				{/* Title */}
@@ -88,6 +89,16 @@ const SupportForm = () => {
 						disable={false}
 						// set later
 						onClick={test}
+					/>
+					<Button
+						height="h-xsmall-button"
+						color='bg-zinc-400'
+						buttonText='Cancel'
+						textColor='text-c-white'
+						hoverColor='hover:bg-zinc-500'
+						disable={false}
+						// set later
+						onClick={() => navigate(-1)}
 					/>
                   
 				</div>
