@@ -96,7 +96,7 @@ export const UserProvider = ({ children }) => {
 							'authenticated': true,
 							'id': data.user_id
 						})
-						setToken(data.acess_token) ;
+						setToken(data.access_token) ;
 					}
 				})
 			}).catch(e => {
@@ -144,7 +144,7 @@ export const UserProvider = ({ children }) => {
 							'authenticated': true,
 							'id': data.user_id,
 						})
-						setToken(data.token)
+						setToken(data.access_token)
 					}
 				})
 			}).catch(e => {
