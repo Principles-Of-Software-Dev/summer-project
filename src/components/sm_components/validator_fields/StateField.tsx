@@ -19,7 +19,7 @@ const StateField = ({ handleValid, required }) => {
 	}
     
 	return (
-		<div>
+		<div className='max-h-full'>
 			<label htmlFor="state" > Select State: </label>
 			<select id='state'
 				required={required}

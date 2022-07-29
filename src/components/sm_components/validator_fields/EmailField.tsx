@@ -21,36 +21,43 @@ const EmailField = ({ size, required, setEmail, handleValid, ...rest }) => {
 		// If format is valid, set email; else, return error.
 		if (required || email !== '') {
 			if (regex.test(email)) {
-				setEmailErr(false) ;
 				setEmail(email) ;
-				handleValid(true) ;
+				handleValid(true);
+				if (emailErr) { setEmailErr(false) }
+				return false;
 			}
 			else {
-				setEmailErr(true) ;
-				handleValid(false) ;
+				handleValid(false);
+				return true;
 			}
 		} else {
-			setEmailErr(false) ;
-			setEmail(email) ;
-			handleValid(true) ;
+			setEmail(email);
+			if (emailErr) { setEmailErr(false) }
+			handleValid(true);
+			return false;
 		}
     
+	}
+
+	const handleSetErrMsg = (e) => {
+		setEmailErr(handleEmailChange(e));
 	}
 
 	return (
 
 	// Start actual code.
-		<span className='grid grid-rows-7 mx-6'>
+		<span className='grid grid-rows-7 mx-6 max-h-full '>
 			<label className='row-span-3 mb-2 flex items-center justify-start'>
         Email* :
 			</label>
-			<div className='rows-span-3 mb-2 flex items-center justify-start mx-2'>
+			<div className='rows-span-3 mb-2 flex items-center justify-start mx-2 max-w-half'>
 				<input
 					type="email"
 					onChange={handleEmailChange}
-					required={ required}
+					onBlur={handleSetErrMsg}
+					required={required}
 					size={size}
-					defaultValue={ rest.storedVal != null && rest.storedVal}
+					defaultValue={ rest.storedVal != null ? rest.storedVal : null}
 				/>
 			</div>
 

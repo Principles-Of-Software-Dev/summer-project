@@ -16,24 +16,30 @@ const NumberField = ({ min_numb_length, max_numb_length, setNumb, handleValid, t
 		// Leave room for error in math.
 		if (required || (numb !=='')) {
 			if (numb.length < min_numb_length || numb.length > max_numb_length) {
-				setNumbErr(true) ;
-				handleValid(false) ;
+				if (numbErr) { setNumbErr(false) };
+				handleValid(false);
+				return true;
 			}
 			else {
-				setNumbErr(false) ;
 				setNumb(numb) ;
-				handleValid(true) ;
+				handleValid(true);
+				return false;
 			}
 		} else { 
-			setNumbErr(false) ;
+			if (numbErr) { setNumbErr(false) };
 			setNumb(numb) ;
-			handleValid(true) ;
+			handleValid(true);
+			return false;
 		}
+	}
+
+	const handleSetErrMsg = (e) => {
+		setNumbErr(handleNumbChange(e));
 	}
 
 	return (
 	// Start actual code.
-		<span className='grid grid-rows-7 w-full mx-6'>
+		<span className='grid grid-rows-7 w-full mx-6 max-h-full'>
 			<label className='row-span-3 mb-2 flex items-center justify-start'>
 				{ type } :
 			</label>
@@ -42,10 +48,11 @@ const NumberField = ({ min_numb_length, max_numb_length, setNumb, handleValid, t
 				<input
 					type="number"
 					onChange={handleNumbChange}
+					onBlur={handleSetErrMsg}
 					required
 					size={max_numb_length}
 					className='w-full'
-					defaultValue={ rest.storedVal != null && rest.storedVal}
+					defaultValue={ rest.storedVal != null ? rest.storedVal : null}
 					/>
 			</div>
 

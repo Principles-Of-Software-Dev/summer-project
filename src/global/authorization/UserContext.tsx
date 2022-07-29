@@ -17,7 +17,8 @@ export const initializeUser:
 	{
 		user: User, accessToken: any, setUser: any, userLogin: any, userRegistration: any,
 		userLogout: any, deleteUser: any, editUser: any, getUserInfo: any, addProperty: any,
-		deleteProperty: any, editProperty: any, fetchProperties:any, refreshAccessToken:any, test:any, testToken: any,
+		deleteProperty: any, editProperty: any, fetchProperties: any, refreshAccessToken: any,
+		authorizeUser: any, deauthorizeUser: any, test: any, testToken: any,
 	} =
 {
 	user: {
@@ -29,14 +30,16 @@ export const initializeUser:
 	userLogin: (email: string, password: string) => { },
 	userRegistration: (firstName: string, lastName: string, dob: string, email: string, password: string) => { },
 	userLogout: () => { },
-	deleteUser: (userId: number) => { },
-	editUser: (userId: number, firstName: string, lastName: string, dob: string, email: string, password: string) => { },
-	getUserInfo: (userId: number) => { },
-	addProperty: (userId: number, street: string, city: string, state: string, zipcode: number, description: string, estimate: number, photos: any, videos: any) => { },
+	deleteUser: () => { },
+	editUser: (firstName: string, lastName: string, dob: string, email: string, password: string) => { },
+	getUserInfo: () => { },
+	addProperty: (street: string, city: string, state: string, zipcode: number, description: string, estimate: number, photos: any, videos: any) => { },
 	deleteProperty: (propertyId: number) => { },
 	editProperty: (propertyId: number, street: string, city: string, state: string, zipcode: string, description: string, estimate: string, photos: any, videos: any) => { },
-	fetchProperties: (userId: number) => { },
+	fetchProperties: () => { },
 	refreshAccessToken: () => { },
+	authorizeUser: () => { },
+	deauthorizeUser: () => { },
 	test: () => { },
 	testToken: (t: any) => { },
 }
@@ -540,7 +543,7 @@ export const UserProvider = ({ children }) => {
 		}
 
 
-		const refreshAccessToken = async () => {
+		const refreshAToken = async () => {
 			await fetch("/refresh_access_token", requestOptions).then(response => {
 				response.json().then(data => {
 					console.log(data)
@@ -553,11 +556,96 @@ export const UserProvider = ({ children }) => {
 			})
 		}
 
+		refreshAToken();
 
 		if (!success) {
 			console.log("Access Token refresh failed") ;
 		}
-	} ;
+	};
+	
+	const authorizeUser = (email: string) => {
+		let success = false;
+
+		let stored = sessionStorage.getItem('GilderiseUser');
+
+		let user = stored == null ? console.log("Failed") : JSON.parse(stored);
+		
+		let params = {
+			'user_id': user.id,
+			'email_of_authorized' : email
+		}
+
+		let requestOptions = {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify(params)
+		}
+
+
+		const authorize = async () => {
+			await fetch("/authorize_user", requestOptions).then(response => {
+				response.json().then(data => {
+					console.log(data)
+					if (data !== false) {
+						success = true ; 
+					}
+				})
+			}).catch(e => {
+				console.log(e)
+			})
+		}
+
+		authorize();
+
+		if (!success) {
+			console.log("Authorize User Failed") ;
+		}
+		
+	}
+	
+	const deauthorizeUser = (email: string) => {
+		let success = false;
+
+		let stored = sessionStorage.getItem('GilderiseUser');
+
+		let user = stored == null ? console.log("Failed") : JSON.parse(stored);
+		
+		let params = {
+			'user_id': user.id,
+			'email_of_authorized' : email
+		}
+
+		let requestOptions = {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify(params)
+		}
+
+
+		const remove = async () => {
+			await fetch("/deauthorize_user", requestOptions).then(response => {
+				response.json().then(data => {
+					console.log(data)
+					if (data !== false) {
+						success = true ; 
+					}
+				})
+			}).catch(e => {
+				console.log(e)
+			})
+		}
+
+		remove();
+
+		if (!success) {
+			console.log("Deauthorize user Failed") ;
+		}
+
+	}
 	
 	const test = () => {
 
@@ -582,7 +670,8 @@ export const UserProvider = ({ children }) => {
 			user, userLogin, userRegistration, userLogout,
 			deleteUser, editUser, getUserInfo, addProperty,
 			deleteProperty, editProperty, fetchProperties,
-			refreshAccessToken, test, testToken
+			refreshAccessToken, authorizeUser, deauthorizeUser,
+			test, testToken
 		}}>
 			{children}
 		</UserContext.Provider>

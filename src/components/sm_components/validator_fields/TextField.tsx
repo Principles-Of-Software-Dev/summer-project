@@ -21,33 +21,40 @@ const TextField = ({ text_length, setText, handleValid, type, largeArea, require
 		// Leave room for error in math.
 		if (required || (text !=='')) {
 			if (text.length < (text_length / 2) || text.length > (text_length * 3)) {
-				setTextErr(true);
+
 				if (rest.storedVal != null) {
 					rest.storedVal = text;
 				}
-				handleValid(false) ;
+				handleValid(false);
+				return true;
 			}
 			else {
-				setTextErr(false) ;
+				if (textErr) { setTextErr(false)}
 				setText(text);
 				if (rest.storedVal != null) {
 					rest.storedVal = text;
 				}
-				handleValid(true) ;
+				handleValid(true);
+				return false;
 			}
 		} else { 
-			setTextErr(false) ;
+			if (textErr) { setTextErr(false)}
 			setText(text);
 			if (rest.storedVal != null) {
 				rest.storedVal = text;
 			}
-			handleValid(true) ;
+			handleValid(true);
+			return false;
 		}
+	}
+
+	const handleSetErrMsg = (e) => {
+		setTextErr(handleTextChange(e));
 	}
 
 	return (
 	// Start actual code.
-		<span className='grid grid-rows-7 w-full mx-6'>
+		<span className='grid grid-rows-7 w-full mx-6 max-h-full'>
 			<label className='row-span-3 mb-2 flex items-center justify-start'>
 				{ type } * :
 			</label>
@@ -57,16 +64,18 @@ const TextField = ({ text_length, setText, handleValid, type, largeArea, require
 						rows={rows}
 						cols={cols}
 						onChange={handleTextChange}
+						onBlur={handleSetErrMsg}
 						className="w-full h-full"
-						defaultValue={rest.storedVal != null && rest.storedVal}
+						defaultValue={rest.storedVal != null ? rest.storedVal : null}
 					/> : 
 					< input
 						type="text"
 						onChange={handleTextChange}
+						onBlur={handleSetErrMsg}
 						required
 						size={text_length}
 						className='w-full'
-						defaultValue={rest.storedVal != null && rest.storedVal}
+						defaultValue={rest.storedVal != null ? rest.storedVal : null}
 					/>}
 			</div>
 

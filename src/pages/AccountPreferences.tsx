@@ -1,9 +1,15 @@
-import React from 'react' ;
+import React, { useEffect } from 'react' ;
 import { useUser } from '../global/authorization/UserContext' ;
 
 
 const AccountPreferences = () => {
-	const { } = useUser() ;
+
+	let userInfo;
+	const { getUserInfo } = useUser();
+	
+	useEffect(() => { 
+		userInfo = getUserInfo();
+	},[])
     
 	return (
 		<div>AccountPreferences</div>

@@ -1,12 +1,19 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import TopBar from '../components/lg_components/TopBar' ;
 import LogoutConfirmation from '../components/lg_components/LogoutConfirmation' ;
 import PopoutMenu from '../components/lg_components/PopoutMenu' ;
 import FakeSiteBanner from '../components/lg_components/FakeSiteBanner' ;
 import PropertiesControl from '../components/lg_components/PropertiesControl' ;
+import { useUser } from '../global/authorization/UserContext';
 
 const Dashboard = () => {
 
+	let userInfo;
+	const { getUserInfo } = useUser();
+	
+	useEffect(() => { 
+		userInfo = getUserInfo();
+	},[])
 
 	const [displayLogout, setDisplayLogout] = useState(false) ;
 

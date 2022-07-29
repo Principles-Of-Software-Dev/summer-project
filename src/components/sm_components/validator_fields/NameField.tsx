@@ -19,32 +19,38 @@ const NameField = ({ size, required, setName, handleValid, type, ...rest }) => {
 		// If field is filled, set name; else, return error.
 		if (required || name !== '') {
 			if (name === '') {
-				setNameErr(true) ;
-				handleValid(false) ;
+				handleValid(false);
+				return true;
 			}
 			else {
-				setNameErr(false) ;
 				setName(name);
 				if (rest.storedVal != null) {
 					rest.storedVal = name;
 				}
-				handleValid(true) ;
+				handleValid(true);
+				if (nameErr) { setNameErr(false)}
+				return false;
 			}
 		} else {
-			setNameErr(false) ;
 			setName(name);
 			if (rest.storedVal != null) {
 				rest.storedVal = name;
 			}
 			
-			handleValid(true) ;
+			handleValid(true);
+			if (nameErr) { setNameErr(false)}
+			return false;
 		}
+	}
+
+	const handleSetErrMsg = (e) => {
+		
 	}
 
 	return (
 
 	// Start actual code.
-		<span className='grid grid-rows-7 mx-6'>
+		<span className='grid grid-rows-7 mx-6 max-h-full'>
 			<label className='row-span-3 mb-2 flex items-center justify-start'>
 				{type} Name * :
 			</label>
@@ -52,9 +58,10 @@ const NameField = ({ size, required, setName, handleValid, type, ...rest }) => {
 				<input
 					type="name"
 					onChange={handleNameChange}
+					onBlur={handleSetErrMsg}
 					required={required}
 					size={size}
-					defaultValue={ rest.storedVal != null && rest.storedVal}
+					defaultValue={ rest.storedVal != null ? rest.storedVal : null}
 				/>
 			</div>
 

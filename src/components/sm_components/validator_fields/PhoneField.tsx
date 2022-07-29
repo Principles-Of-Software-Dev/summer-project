@@ -22,9 +22,10 @@ const PhoneField = ({ size, setPhone, handleValid, required, ...rest }) => {
 		if (required || phone !== '') {
 			// If format is valid, set phone; else, return error.
 			if (regex.test(phone)) {
-				setPhoneErr(false) ;
+				if (phoneErr) { setPhoneErr(false)}
 				setPhone(phone) ;
-				handleValid(true) ;
+				handleValid(true);
+				return false;
 			}
 			else {
 				setPhoneErr(true) ;
@@ -32,20 +33,27 @@ const PhoneField = ({ size, setPhone, handleValid, required, ...rest }) => {
 				if (rest.storedVal != null) {
 					rest.storedVal = phone;
 				}
+				return true;
 			}
 		} else {
+			if (phoneErr) { setPhoneErr(false)}
 			setPhone(phone) ;
 			setPhoneErr(false) ;
 			handleValid(true);
 			if (rest.storedVal != null) {
 				rest.storedVal = phone;
 			}
+			return false;
 		}
+	}
+
+	const handleSetErrMsg = (e) => {
+		setPhoneErr(handlePhoneChange(e));
 	}
 
 	return (
 	// Start actual code.
-		<span className='grid grid-rows-7 mx-6'>
+		<span className='grid grid-rows-7 mx-6 max-h-full'>
 			<label className='row-span-3 mb-2 flex items-center justify-start'>
        Phone Number :
 			</label>
@@ -53,8 +61,9 @@ const PhoneField = ({ size, setPhone, handleValid, required, ...rest }) => {
 				<input
 					type="tel"
 					onChange={handlePhoneChange}
+					onBlur={handleSetErrMsg}
 					size={size}
-					defaultValue={ rest.storedVal != null && rest.storedVal}
+					defaultValue={ rest.storedVal != null ? rest.storedVal : null}
 					/>
 			</div>
 

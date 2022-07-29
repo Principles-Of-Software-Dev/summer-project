@@ -25,20 +25,26 @@ const PasswordField = ({ size , required, setPassword, handleValid }) => {
 		// If format is valid, set password; else, return error.
 		if (required || pass !== '') {
 			if (regex.test(pass)) {
-				setPasswordErr(false) ;
 				setPassword(pass) ;
-				handleValid(true) ;
+				handleValid(true);
+				if(passwordErr){ setPasswordErr(false)}
+				return false;
 			}
 			else {
-				setPasswordErr(true) ;
-				handleValid(false) ;
+				handleValid(false);
+				return true;
 			}
 		} else {
-			setPasswordErr(false) ;
+			if(passwordErr){ setPasswordErr(false)}
 			setPassword(pass) ;
-			handleValid(true) ;
+			handleValid(true);
+			return false;
 		 }
     
+	}
+
+	const handleSetErrMsg = (e) => {
+		setPasswordErr(handlePasswordChange(e));
 	}
 
 	return (
@@ -51,6 +57,7 @@ const PasswordField = ({ size , required, setPassword, handleValid }) => {
 				<input
 					type="password"
 					onChange={handlePasswordChange}
+					onBlur={handleSetErrMsg}
 					required
 					size={size}
 				/>
