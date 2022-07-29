@@ -153,7 +153,7 @@ def add_user():
 
     # add user to database
     user = users(firstname, lastname, None, email, generate_password_hash(
-        password), None, None, None, None, None, None)
+        password), None, None, None, None, None, None, None)
     db.session.add(user)
     db.session.commit()
 
