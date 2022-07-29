@@ -6,7 +6,8 @@ import SupportPage from '../pages/SupportPage' ;
 import Dashboard from '../pages/Dashboard' ;
 import PrivateRoute from '../components/routes/PrivateRoute' ;
 import { UserProvider } from './authorization/UserContext' ;
-import AccountPreferences from '../pages/AccountPreferences' ;
+import AccountPreferences from '../pages/AccountPreferences';
+import RedirectRoute from '../components/routes/RedirectRoute';
 
 const WebsiteRoutes = () => {
   
@@ -15,8 +16,11 @@ const WebsiteRoutes = () => {
 			<UserProvider>
 				<Routes>
 					{/* Public Routes */}
-					<Route path="/" element={<LandingPage />} />
+					<Route element={<RedirectRoute />}>
+						<Route path="/" element={<LandingPage />} />
+					</Route>
 					<Route path="support" element={<SupportPage />} />
+					
 
 					{/* Private Routes */}
 					<Route element={<PrivateRoute />}>

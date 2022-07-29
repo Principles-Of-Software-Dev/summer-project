@@ -4,7 +4,7 @@ import NumberField from '../../sm_components/validator_fields/NumberField' ;
 import StateField from '../../sm_components/validator_fields/StateField' ;
 import { useUser } from '../../../global/authorization/UserContext' ;
 import Button from '../../sm_components/Button' ;
-import FileUpload from '../../sm_components/validator_fields/FileUpload' ;
+import FileUpload from '../../sm_components/validator_fields/FileUpload';
 
 
 
@@ -15,41 +15,41 @@ const PropertyForm = ({ options, displayPropertyForm }) => {
 	const [validZip, setValidZip] = useState(false) ;
 	const [validCity, setValidCity] = useState(false) ;
 	const [validState, setValidState] = useState(false) ;
-	const [validEstimate, setValidEstimate] = useState(false) ;
-	const [validPhotos, setValidPhotos] = useState(false) ;
-	const [validVideos, setValidVideos] = useState(false) ;
+	const [validEstimate, setValidEstimate] = useState(false);
+	const [validPhotos, setValidPhotos] = useState(false);
+	const [validVideos, setValidVideos] = useState(false);
 	
 	const handleValidDescription = (set: boolean) => {
 		console.log("Description" + set)
-		setValidDescription(set) ;
+		setValidDescription(set);
 	}
 	const handleValidStreet = (set: boolean) => {
 		console.log("Street" + set)
-		setValidStreet(set) ;
+		setValidStreet(set);
 	}
 	const handleValidZip = (set: boolean) => {
 		console.log("Zip" + set)
-		setValidZip(set) ;
+		setValidZip(set);
 	}
 	const handleValidCity = (set: boolean) => {
 		console.log("City" + set)
-		setValidCity(set) ;
+		setValidCity(set);
 	}
 	const handleValidState = (set: boolean) => {
 		console.log("State" + set)
-		setValidState(set) ;
+		setValidState(set);
 	}
 	const handleValidEstimate = (set: boolean) => {
 		console.log("Estimate " + set)
-		setValidEstimate(set) ;
+		setValidEstimate(set);
 	}
 	const handleValidPhotos = (set: boolean) => {
 		console.log("Photos " + set)
-		setValidPhotos(set) ;
+		setValidPhotos(set);
 	}
 	const handleValidVideos = (set: boolean) => {
 		console.log("Videos " + set)
-		setValidVideos(set) ;
+		setValidVideos(set);
 	}
 	
 	const { test } = useUser() ;

@@ -280,6 +280,10 @@ export const UserProvider = ({ children }) => {
 			await fetch("/get_user", requestOptions).then(response => {
 				response.json().then(data => {
 					if (data !== false) {
+						if (data === 409) {
+							window.alert("Please Log In or Register");
+							navigate("/");
+						}
 						userInfo = data ;
 						return userInfo ;
 					}
@@ -291,6 +295,8 @@ export const UserProvider = ({ children }) => {
 
 		gUser() ;
 
+
+		
 	} ;
 
 	const addProperty = (street: string, city: string, state: string, zipcode: number, description: string, estimate: number, photos: any, videos: any) => { 
