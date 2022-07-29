@@ -22,33 +22,33 @@ const PhoneField = ({ size, setPhone, handleValid, required, ...rest }) => {
 		if (required || phone !== '') {
 			// If format is valid, set phone; else, return error.
 			if (regex.test(phone)) {
-				if (phoneErr) { setPhoneErr(false)}
+				if (phoneErr) { setPhoneErr(false) }
 				setPhone(phone) ;
-				handleValid(true);
-				return false;
+				handleValid(true) ;
+				return false ;
 			}
 			else {
 				setPhoneErr(true) ;
-				handleValid(false);
+				handleValid(false) ;
 				if (rest.storedVal != null) {
-					rest.storedVal = phone;
+					rest.storedVal = phone ;
 				}
-				return true;
+				return true ;
 			}
 		} else {
-			if (phoneErr) { setPhoneErr(false)}
+			if (phoneErr) { setPhoneErr(false) }
 			setPhone(phone) ;
 			setPhoneErr(false) ;
-			handleValid(true);
+			handleValid(true) ;
 			if (rest.storedVal != null) {
-				rest.storedVal = phone;
+				rest.storedVal = phone ;
 			}
-			return false;
+			return false ;
 		}
 	}
 
 	const handleSetErrMsg = (e) => {
-		setPhoneErr(handlePhoneChange(e));
+		setPhoneErr(handlePhoneChange(e)) ;
 	}
 
 	return (
@@ -64,7 +64,7 @@ const PhoneField = ({ size, setPhone, handleValid, required, ...rest }) => {
 					onBlur={handleSetErrMsg}
 					size={size}
 					defaultValue={ rest.storedVal != null ? rest.storedVal : null}
-					/>
+				/>
 			</div>
 
 			{/* If phone number not valid format, display error.  */}

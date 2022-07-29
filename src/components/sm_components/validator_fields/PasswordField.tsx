@@ -26,25 +26,25 @@ const PasswordField = ({ size , required, setPassword, handleValid }) => {
 		if (required || pass !== '') {
 			if (regex.test(pass)) {
 				setPassword(pass) ;
-				handleValid(true);
-				if(passwordErr){ setPasswordErr(false)}
-				return false;
+				handleValid(true) ;
+				if (passwordErr){ setPasswordErr(false) }
+				return false ;
 			}
 			else {
-				handleValid(false);
-				return true;
+				handleValid(false) ;
+				return true ;
 			}
 		} else {
-			if(passwordErr){ setPasswordErr(false)}
+			if (passwordErr){ setPasswordErr(false) }
 			setPassword(pass) ;
-			handleValid(true);
-			return false;
+			handleValid(true) ;
+			return false ;
 		 }
     
 	}
 
 	const handleSetErrMsg = (e) => {
-		setPasswordErr(handlePasswordChange(e));
+		setPasswordErr(handlePasswordChange(e)) ;
 	}
 
 	return (

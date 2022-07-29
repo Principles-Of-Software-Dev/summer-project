@@ -22,25 +22,25 @@ const EmailField = ({ size, required, setEmail, handleValid, ...rest }) => {
 		if (required || email !== '') {
 			if (regex.test(email)) {
 				setEmail(email) ;
-				handleValid(true);
+				handleValid(true) ;
 				if (emailErr) { setEmailErr(false) }
-				return false;
+				return false ;
 			}
 			else {
-				handleValid(false);
-				return true;
+				handleValid(false) ;
+				return true ;
 			}
 		} else {
-			setEmail(email);
+			setEmail(email) ;
 			if (emailErr) { setEmailErr(false) }
-			handleValid(true);
-			return false;
+			handleValid(true) ;
+			return false ;
 		}
     
 	}
 
 	const handleSetErrMsg = (e) => {
-		setEmailErr(handleEmailChange(e));
+		setEmailErr(handleEmailChange(e)) ;
 	}
 
 	return (

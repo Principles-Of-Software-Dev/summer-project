@@ -4,15 +4,15 @@ import LogoutConfirmation from '../components/lg_components/LogoutConfirmation' 
 import PopoutMenu from '../components/lg_components/PopoutMenu' ;
 import FakeSiteBanner from '../components/lg_components/FakeSiteBanner' ;
 import PropertiesControl from '../components/lg_components/PropertiesControl' ;
-import { useUser } from '../global/authorization/UserContext';
+import { useUser } from '../global/authorization/UserContext' ;
 
 const Dashboard = () => {
 
-	let userInfo;
-	const { getUserInfo } = useUser();
+	let userInfo ;
+	const { getUserInfo } = useUser() ;
 	
 	useEffect(() => { 
-		userInfo = getUserInfo();
+		userInfo = getUserInfo() ;
 	},[])
 
 	const [displayLogout, setDisplayLogout] = useState(false) ;

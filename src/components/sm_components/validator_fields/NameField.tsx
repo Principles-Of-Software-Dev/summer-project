@@ -19,27 +19,27 @@ const NameField = ({ size, required, setName, handleValid, type, ...rest }) => {
 		// If field is filled, set name; else, return error.
 		if (required || name !== '') {
 			if (name === '') {
-				handleValid(false);
-				return true;
+				handleValid(false) ;
+				return true ;
 			}
 			else {
-				setName(name);
+				setName(name) ;
 				if (rest.storedVal != null) {
-					rest.storedVal = name;
+					rest.storedVal = name ;
 				}
-				handleValid(true);
-				if (nameErr) { setNameErr(false)}
-				return false;
+				handleValid(true) ;
+				if (nameErr) { setNameErr(false) }
+				return false ;
 			}
 		} else {
-			setName(name);
+			setName(name) ;
 			if (rest.storedVal != null) {
-				rest.storedVal = name;
+				rest.storedVal = name ;
 			}
 			
-			handleValid(true);
-			if (nameErr) { setNameErr(false)}
-			return false;
+			handleValid(true) ;
+			if (nameErr) { setNameErr(false) }
+			return false ;
 		}
 	}
 

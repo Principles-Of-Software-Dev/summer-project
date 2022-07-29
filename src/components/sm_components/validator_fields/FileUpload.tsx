@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
 
-const FileUpload = ({ size, required, setName, handleValid, type }) => {
+const FileUpload = ({ required, handleValid, type }) => {
 
-    let up;
-    useEffect(() => { 
+	let up ;
+	useEffect(() => { 
 		up = document.getElementById(type) ;
 	},[])
     
@@ -24,25 +24,26 @@ const FileUpload = ({ size, required, setName, handleValid, type }) => {
 		} else {
 			handleValid(true) ;
 		}
-    }
+	}
     
-  return (
-    // Start actual code.
+	return (
+	// Start actual code.
 		<span className='grid grid-rows-7 mx-6 max-h-full'>
-        <label className='row-span-3 mb-2 flex items-center justify-start'>
-            {type} * :
-        </label>
-          <div className='rows-span-3 mb-2 flex items-center justify-start mx-2' id={type}>
-            <input
+			<label className='row-span-3 mb-2 flex items-center justify-start'>
+				{type} * :
+			</label>
+			<div className='rows-span-3 mb-2 flex items-center justify-start mx-2' id={type}>
+				<input
 				  type="file"
 				  multiple={true}
-                onChange={handleFileUpload}
-            />
-        </div>
+				  onChange={handleFileUpload}
+				  required={required}
+				/>
+			</div>
   
-        {/* End code. */}
-    </span>
-  )
+			{/* End code. */}
+		</span>
+	)
 }
 
 export default FileUpload

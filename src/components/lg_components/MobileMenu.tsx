@@ -211,7 +211,7 @@ const MobileMenu = () => {
                             			hoverColor='hover:bg-zinc-500'
                             			disable={handleValidRegistration()}
                             			// set later
-                            			onClick={ ()=> userRegistration(regFirstName, regLastName, regEmail, regPassword) }
+                            			onClick={ () => userRegistration(regFirstName, regLastName, regEmail, regPassword) }
                             		/>
 
                             		< Button

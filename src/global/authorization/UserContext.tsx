@@ -71,9 +71,6 @@ export const UserProvider = ({ children }) => {
 
 	const userLogin = (email: string, password: string) => {
 
-		console.log("Handling User Login") ;
-		let success = false ;
-
 		const params = {
 			'email': email,
 			'password': password,
@@ -91,12 +88,12 @@ export const UserProvider = ({ children }) => {
 			await fetch("/login_user", requestOptions).then(response => {
 				response.json().then(data => {
 					if (data !== false) {
-						success = true ;
 						setUser({
 							'authenticated': true,
 							'id': data.user_id
 						})
 						setToken(data.access_token) ;
+						navigate("/dashboard") ;
 					}
 				})
 			}).catch(e => {
@@ -106,18 +103,13 @@ export const UserProvider = ({ children }) => {
 
 		login() ;
 		
-		if (success) {
-			navigate("/dashboard") ;
-		} else {
-			// warn user of unsuccessful registration attempt
-			window.alert("Invalid Login")
-		}
+		// warn user of unsuccessful registration attempt
+		window.alert("Invalid Login")
 		
 	} ;
 
 	const userRegistration = (firstName: string, lastName: string, email: string, password: string) => {
 		
-		let success = false ;
 
 		const params = {
 			'firstname': firstName,
@@ -138,13 +130,12 @@ export const UserProvider = ({ children }) => {
 			await fetch("/add_user", requestOptions).then(response => {
 				response.json().then(data => {
 					if (data !== false) {
-						success = true ;
 						setUser({
 							'authenticated': true,
 							'id': data.user_id,
 						})
 						setToken(data.access_token)
-						console.log("In Statement " + success)
+						navigate("/dashboard") ;
 					}
 				})
 			}).catch(e => {
@@ -152,19 +143,14 @@ export const UserProvider = ({ children }) => {
 			})
 		}
 
-		console.log("Out Statement " + success)
 		register() ;
-		if (success) {
-			navigate("/dashboard") ;
-		} else {
-			// warn user of unsuccessful registration attempt
-		}
+		
+		// warn user of unsuccessful registration attempt
 		
 	} ;
 
 	const userLogout = () => {
 		// Remove user info.
-		let success = false ;
 
 		const requestOptions = {
 			method: "POST",
@@ -177,11 +163,11 @@ export const UserProvider = ({ children }) => {
 			await fetch("/logout_user", requestOptions).then(response => {
 				response.json().then(data => {
 					if (data !== false) {
-						success = true ;
 						setUser({
 							'authenticated': false,
 							'id': undefined
 						})
+						
 					}
 				})
 			}).catch(e => {
@@ -190,17 +176,13 @@ export const UserProvider = ({ children }) => {
 		}
 
 		logout() ;
-		
-		if (success) { navigate("/") ; }
-		else { console.log("Logout Op Failed") };
 	} ;
 
 	const deleteUser = () => {
-		let success = false;
 		
-		let stored = sessionStorage.getItem('GilderiseUser');
+		let stored = sessionStorage.getItem('GilderiseUser') ;
 
-		let user = stored == null ? console.log("Failed") : JSON.parse(stored);
+		let user = stored == null ? console.log("Failed") : JSON.parse(stored) ;
 
 		let params = {
 			'user_id': user.id,
@@ -219,7 +201,7 @@ export const UserProvider = ({ children }) => {
 			await fetch("/delete_user", requestOptions).then(response => {
 				response.json().then(data => {
 					if (data !== false) {
-						success = true ;
+						userLogout() ;
 					}
 				})
 			}).catch(e => {
@@ -229,20 +211,13 @@ export const UserProvider = ({ children }) => {
 
 		dUser() ;
 
-		if (!success) {
-			console.log("Delete User Op Failed") ;
-		}
-
-		userLogout() ;
 	} ;
 
 	const editUser = (firstName: string, lastName: string, dob: string, email: string, password: string) => {
 
-		let success = false;
-		
-		let stored = sessionStorage.getItem('GilderiseUser');
+		let stored = sessionStorage.getItem('GilderiseUser') ;
 
-		let user = stored == null ? console.log("Failed") : JSON.parse(stored);
+		let user = stored == null ? console.log("Failed") : JSON.parse(stored) ;
 
 		let params = {
 			'userid': user.id,
@@ -267,7 +242,7 @@ export const UserProvider = ({ children }) => {
 			await fetch("/edit_user", requestOptions).then(response => {
 				response.json().then(data => {
 					if (data !== false) {
-						success = true ;
+
 					}
 				})
 			}).catch(e => {
@@ -277,21 +252,15 @@ export const UserProvider = ({ children }) => {
 
 		eUser() ;
 
-		if (!success) {
-			console.log("Edit User Op Failed") ;
-		}
-
 	} ;
 	
 	const getUserInfo = () => {
 
-		let success = false;
+		let userInfo = {} ;
 
-		let userInfo = {};
+		let stored = sessionStorage.getItem('GilderiseUser') ;
 
-		let stored = sessionStorage.getItem('GilderiseUser');
-
-		let user = stored == null ? console.log("Failed") : JSON.parse(stored);
+		let user = stored == null ? console.log("Failed") : JSON.parse(stored) ;
 
 		let params = {
 			'user_id': user.id,
@@ -311,8 +280,8 @@ export const UserProvider = ({ children }) => {
 			await fetch("/get_user", requestOptions).then(response => {
 				response.json().then(data => {
 					if (data !== false) {
-						success = true ;
 						userInfo = data ;
+						return userInfo ;
 					}
 				})
 			}).catch(e => {
@@ -322,20 +291,13 @@ export const UserProvider = ({ children }) => {
 
 		gUser() ;
 
-		if (!success) {
-			console.log("Get User Info Op Failed") ;
-		} else {
-			return userInfo ;
-		}
-
 	} ;
 
 	const addProperty = (street: string, city: string, state: string, zipcode: number, description: string, estimate: number, photos: any, videos: any) => { 
 
-		let success = false;
-		let stored = sessionStorage.getItem('GilderiseUser');
+		let stored = sessionStorage.getItem('GilderiseUser') ;
 
-		let user = stored == null ? console.log("Failed") : JSON.parse(stored);
+		let user = stored == null ? console.log("Failed") : JSON.parse(stored) ;
 
 		let params = {
 			'user_id': user.id,
@@ -363,7 +325,6 @@ export const UserProvider = ({ children }) => {
 			await fetch("/add_property", requestOptions).then(response => {
 				response.json().then(data => {
 					if (data !== false) {
-						success = true ;
 					}
 				})
 			}).catch(e => {
@@ -373,16 +334,10 @@ export const UserProvider = ({ children }) => {
 
 		aProp() ;
 
-		if (!success) {
-			console.log("Add Property Op Failed") ;
-		}
 
 	} ;
 
 	const deleteProperty = (propertyId: number) => { 
-
-
-		let success = false ;
 
 		let params = {
 			'property_id': propertyId,
@@ -401,7 +356,7 @@ export const UserProvider = ({ children }) => {
 			await fetch("/delete_property", requestOptions).then(response => {
 				response.json().then(data => {
 					if (data !== false) {
-						success = true ;
+
 					}
 				})
 			}).catch(e => {
@@ -411,15 +366,11 @@ export const UserProvider = ({ children }) => {
 
 		dProp() ;
 
-		if (!success) {
-			console.log("Delete Property Op Failed") ;
-		}
 
 	} ;
 
 	const editProperty = (propertyId: number, street: string, city: string, state: string, zipcode: string, description: string, estimate: string, photos: any, videos: any) => { 
 
-		let success = false ;
 
 		let params = {
 			'property_id': propertyId,
@@ -446,9 +397,7 @@ export const UserProvider = ({ children }) => {
 		const eProp = async () => {
 			await fetch("/edit_property", requestOptions).then(response => {
 				response.json().then(data => {
-					console.log(data)
 					if (data !== false) {
-						success = true ;
 					}
 				})
 			}).catch(e => {
@@ -458,19 +407,15 @@ export const UserProvider = ({ children }) => {
 
 		eProp() ;
 
-		if (!success) {
-			console.log("Edit Property Op Failed") ;
-		}
 	} ;
 
 	const fetchProperties = () => { 
 		
-		let stored = sessionStorage.getItem('GilderiseUser');
+		let stored = sessionStorage.getItem('GilderiseUser') ;
 
-		let user = stored == null ? console.log("Failed") : JSON.parse(stored);
+		let user = stored == null ? console.log("Failed") : JSON.parse(stored) ;
 
 		let properties = {} ;
-		let success = false ;
 		
 		let params = {
 			'user_id': user.id,
@@ -491,8 +436,8 @@ export const UserProvider = ({ children }) => {
 				response.json().then(data => {
 					console.log(data)
 					if (data !== false) {
-						success = true ;
 						properties = data ;
+						return properties
 					}
 				})
 			}).catch(e => {
@@ -502,18 +447,13 @@ export const UserProvider = ({ children }) => {
 
 		getProps() ;
 
-		if (!success) {
-			console.log("Add Property Op Failed") ;
-		} else { return properties };
 	} ;
 	
 	const refreshAccessToken = () => { 
 
-		let success = false;
+		let stored = sessionStorage.getItem('GilderiseUser') ;
 
-		let stored = sessionStorage.getItem('GilderiseUser');
-
-		let user = stored == null ? console.log("Failed") : JSON.parse(stored);
+		let user = stored == null ? console.log("Failed") : JSON.parse(stored) ;
 		
 		let params = {
 			'user_id' : user.id
@@ -532,7 +472,6 @@ export const UserProvider = ({ children }) => {
 			await fetch("/refresh_access_token", requestOptions).then(response => {
 				response.json().then(data => {
 					if (data !== false) {
-						success = true ; 
 					}
 				})
 			}).catch(e => {
@@ -540,19 +479,16 @@ export const UserProvider = ({ children }) => {
 			})
 		}
 
-		refreshAToken();
+		refreshAToken() ;
 
-		if (!success) {
-			console.log("Access Token refresh failed") ;
-		}
-	};
+
+	} ;
 	
 	const authorizeUser = (email: string) => {
-		let success = false;
 
-		let stored = sessionStorage.getItem('GilderiseUser');
+		let stored = sessionStorage.getItem('GilderiseUser') ;
 
-		let user = stored == null ? console.log("Failed") : JSON.parse(stored);
+		let user = stored == null ? console.log("Failed") : JSON.parse(stored) ;
 		
 		let params = {
 			'user_id': user.id,
@@ -572,7 +508,7 @@ export const UserProvider = ({ children }) => {
 			await fetch("/authorize_user", requestOptions).then(response => {
 				response.json().then(data => {
 					if (data !== false) {
-						success = true ; 
+
 					}
 				})
 			}).catch(e => {
@@ -580,20 +516,16 @@ export const UserProvider = ({ children }) => {
 			})
 		}
 
-		authorize();
+		authorize() ;
 
-		if (!success) {
-			console.log("Authorize User Failed") ;
-		}
-		
+
 	}
 	
 	const deauthorizeUser = (email: string) => {
-		let success = false;
 
-		let stored = sessionStorage.getItem('GilderiseUser');
+		let stored = sessionStorage.getItem('GilderiseUser') ;
 
-		let user = stored == null ? console.log("Failed") : JSON.parse(stored);
+		let user = stored == null ? console.log("Failed") : JSON.parse(stored) ;
 		
 		let params = {
 			'user_id': user.id,
@@ -613,7 +545,6 @@ export const UserProvider = ({ children }) => {
 			await fetch("/deauthorize_user", requestOptions).then(response => {
 				response.json().then(data => {
 					if (data !== false) {
-						success = true ; 
 					}
 				})
 			}).catch(e => {
@@ -621,11 +552,8 @@ export const UserProvider = ({ children }) => {
 			})
 		}
 
-		remove();
+		remove() ;
 
-		if (!success) {
-			console.log("Deauthorize user Failed") ;
-		}
 
 	}
 	

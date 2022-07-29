@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import PropertiesList from './PropertiesList'
 import { PropertyType } from '../../global/TypeDefs'
-import DisplayProperty from './DisplayProperty';
-import PropertyForm from './forms/PropertyForm';
+import DisplayProperty from './DisplayProperty' ;
+import PropertyForm from './forms/PropertyForm' ;
 
 const PropertiesControl = () => {
 	const properties: PropertyType[] = [{
@@ -56,7 +56,7 @@ const PropertiesControl = () => {
 			"https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?cs=srgb&dl=pexels-expect-best-323780.jpg&fm=jpg"],
 		videos: 'null'
 	}] ;
-	const [displayProperty, setDisplayProperty] = useState(null);
+	const [displayProperty, setDisplayProperty] = useState(null) ;
 	const [displayPropertyForm, setDisplayPropertyForm] = useState< {} |null>(null) ;
 
 	useEffect(() => {
@@ -74,16 +74,16 @@ const PropertiesControl = () => {
 
 	const handleDisplayPropertyForm = (property, operation) => {
 		if (displayProperty != null) {
-			setDisplayProperty(null); 
+			setDisplayProperty(null) ; 
 		}
 		if (operation == null) {
-			setDisplayPropertyForm(null);
+			setDisplayPropertyForm(null) ;
 		}
 		else {
 			setDisplayPropertyForm({
 				'property': property,
 				'operation': operation
-			});
+			}) ;
 		}
 	}
 
@@ -96,7 +96,7 @@ const PropertiesControl = () => {
 			{displayPropertyForm != null &&
 				<PropertyForm options={displayPropertyForm} displayPropertyForm={handleDisplayPropertyForm} />
 			}
-				<PropertiesList properties={properties} displayProperty={handleViewProperty} displayPropertyForm={handleDisplayPropertyForm} />
+			<PropertiesList properties={properties} displayProperty={handleViewProperty} displayPropertyForm={handleDisplayPropertyForm} />
 
 			<div className='pb-2'>
 				

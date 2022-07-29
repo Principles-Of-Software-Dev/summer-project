@@ -17,24 +17,24 @@ const NumberField = ({ min_numb_length, max_numb_length, setNumb, handleValid, t
 		if (required || (numb !=='')) {
 			if (numb.length < min_numb_length || numb.length > max_numb_length) {
 				if (numbErr) { setNumbErr(false) };
-				handleValid(false);
-				return true;
+				handleValid(false) ;
+				return true ;
 			}
 			else {
 				setNumb(numb) ;
-				handleValid(true);
-				return false;
+				handleValid(true) ;
+				return false ;
 			}
 		} else { 
 			if (numbErr) { setNumbErr(false) };
 			setNumb(numb) ;
-			handleValid(true);
-			return false;
+			handleValid(true) ;
+			return false ;
 		}
 	}
 
 	const handleSetErrMsg = (e) => {
-		setNumbErr(handleNumbChange(e));
+		setNumbErr(handleNumbChange(e)) ;
 	}
 
 	return (
@@ -53,13 +53,13 @@ const NumberField = ({ min_numb_length, max_numb_length, setNumb, handleValid, t
 					size={max_numb_length}
 					className='w-full'
 					defaultValue={ rest.storedVal != null ? rest.storedVal : null}
-					/>
+				/>
 			</div>
 
 			{/* If Text number not valid format, display error.  */}
 			{numbErr &&
           <div className='flex items-end justify-center mx-3 text-red-500 text-sm p-4'>
-					{type} must be at least {min_numb_length} characters and no longer than {max_numb_length}.
+          	{type} must be at least {min_numb_length} characters and no longer than {max_numb_length}.
           </div>  
 			}
       

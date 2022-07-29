@@ -8,7 +8,7 @@ const TextField = ({ text_length, setText, handleValid, type, largeArea, require
 	// const [text, setText] = useState('');
 	const [textErr, setTextErr] = useState(false) ;
 	const rows = 4 ;
-	const cols = (text_length / 4);
+	const cols = (text_length / 4) ;
 
 	const handleTextChange = (e) => {
 
@@ -23,33 +23,33 @@ const TextField = ({ text_length, setText, handleValid, type, largeArea, require
 			if (text.length < (text_length / 2) || text.length > (text_length * 3)) {
 
 				if (rest.storedVal != null) {
-					rest.storedVal = text;
+					rest.storedVal = text ;
 				}
-				handleValid(false);
-				return true;
+				handleValid(false) ;
+				return true ;
 			}
 			else {
-				if (textErr) { setTextErr(false)}
-				setText(text);
+				if (textErr) { setTextErr(false) }
+				setText(text) ;
 				if (rest.storedVal != null) {
-					rest.storedVal = text;
+					rest.storedVal = text ;
 				}
-				handleValid(true);
-				return false;
+				handleValid(true) ;
+				return false ;
 			}
 		} else { 
-			if (textErr) { setTextErr(false)}
-			setText(text);
+			if (textErr) { setTextErr(false) }
+			setText(text) ;
 			if (rest.storedVal != null) {
-				rest.storedVal = text;
+				rest.storedVal = text ;
 			}
-			handleValid(true);
-			return false;
+			handleValid(true) ;
+			return false ;
 		}
 	}
 
 	const handleSetErrMsg = (e) => {
-		setTextErr(handleTextChange(e));
+		setTextErr(handleTextChange(e)) ;
 	}
 
 	return (

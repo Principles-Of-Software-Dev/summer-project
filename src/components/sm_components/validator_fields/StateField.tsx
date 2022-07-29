@@ -6,7 +6,7 @@ const StateField = ({ handleValid, required }) => {
 	let select ;
 
 	useEffect(() => { 
-		select = document.getElementById('state');
+		select = document.getElementById('state') ;
 	},[])
 
 	const handleStateSelect = () => {
