@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 
 const FileUpload = ({ size, required, setName, handleValid, type }) => {
+
     let up;
     useEffect(() => { 
 		up = document.getElementById(type) ;
 	},[])
     
-	const handleNameChange = (e) => {
+	const handleFileUpload = (e) => {
       
 		// Prevents page refresh.
 		e.preventDefault() ;
@@ -14,7 +15,7 @@ const FileUpload = ({ size, required, setName, handleValid, type }) => {
 
 		// If field is filled, set name; else, return error.
 		if (required || up) {
-			if (up == null) {
+			if (up.files.length === 0) {
 				handleValid(false) ;
 			}
 			else {
@@ -27,14 +28,15 @@ const FileUpload = ({ size, required, setName, handleValid, type }) => {
     
   return (
     // Start actual code.
-		<span className='grid grid-rows-7 mx-6'>
+		<span className='grid grid-rows-7 mx-6 max-h-full'>
         <label className='row-span-3 mb-2 flex items-center justify-start'>
-            {type} Name * :
+            {type} * :
         </label>
           <div className='rows-span-3 mb-2 flex items-center justify-start mx-2' id={type}>
             <input
-                type="file"
-                onChange={handleNameChange}
+				  type="file"
+				  multiple={true}
+                onChange={handleFileUpload}
             />
         </div>
   

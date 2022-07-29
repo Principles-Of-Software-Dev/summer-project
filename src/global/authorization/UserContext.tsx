@@ -90,7 +90,6 @@ export const UserProvider = ({ children }) => {
 		const login = async () => {
 			await fetch("/login_user", requestOptions).then(response => {
 				response.json().then(data => {
-					console.log(data)
 					if (data !== false) {
 						success = true ;
 						setUser({
@@ -117,7 +116,6 @@ export const UserProvider = ({ children }) => {
 	} ;
 
 	const userRegistration = (firstName: string, lastName: string, email: string, password: string) => {
-		console.log("Handling User Registration") ;
 		
 		let success = false ;
 
@@ -139,7 +137,6 @@ export const UserProvider = ({ children }) => {
 		const register = async () => {
 			await fetch("/add_user", requestOptions).then(response => {
 				response.json().then(data => {
-					console.log(data) ;
 					if (data !== false) {
 						success = true ;
 						setUser({
@@ -147,6 +144,7 @@ export const UserProvider = ({ children }) => {
 							'id': data.user_id,
 						})
 						setToken(data.access_token)
+						console.log("In Statement " + success)
 					}
 				})
 			}).catch(e => {
@@ -154,6 +152,7 @@ export const UserProvider = ({ children }) => {
 			})
 		}
 
+		console.log("Out Statement " + success)
 		register() ;
 		if (success) {
 			navigate("/dashboard") ;
@@ -164,7 +163,6 @@ export const UserProvider = ({ children }) => {
 	} ;
 
 	const userLogout = () => {
-		console.log("Handling User Logout") ;
 		// Remove user info.
 		let success = false ;
 
@@ -198,8 +196,6 @@ export const UserProvider = ({ children }) => {
 	} ;
 
 	const deleteUser = () => {
-		console.log("Handling Delete User") ;
-
 		let success = false;
 		
 		let stored = sessionStorage.getItem('GilderiseUser');
@@ -222,7 +218,6 @@ export const UserProvider = ({ children }) => {
 		const dUser = async () => {
 			await fetch("/delete_user", requestOptions).then(response => {
 				response.json().then(data => {
-					console.log(data)
 					if (data !== false) {
 						success = true ;
 					}
@@ -242,8 +237,6 @@ export const UserProvider = ({ children }) => {
 	} ;
 
 	const editUser = (firstName: string, lastName: string, dob: string, email: string, password: string) => {
-
-		console.log("Handling Edit User") ;
 
 		let success = false;
 		
@@ -273,7 +266,6 @@ export const UserProvider = ({ children }) => {
 		const eUser = async () => {
 			await fetch("/edit_user", requestOptions).then(response => {
 				response.json().then(data => {
-					console.log(data)
 					if (data !== false) {
 						success = true ;
 					}
@@ -292,7 +284,6 @@ export const UserProvider = ({ children }) => {
 	} ;
 	
 	const getUserInfo = () => {
-		console.log("Handling Get User Info");
 
 		let success = false;
 
@@ -319,7 +310,6 @@ export const UserProvider = ({ children }) => {
 		const gUser = async () => {
 			await fetch("/get_user", requestOptions).then(response => {
 				response.json().then(data => {
-					console.log(data)
 					if (data !== false) {
 						success = true ;
 						userInfo = data ;
@@ -341,7 +331,6 @@ export const UserProvider = ({ children }) => {
 	} ;
 
 	const addProperty = (street: string, city: string, state: string, zipcode: number, description: string, estimate: number, photos: any, videos: any) => { 
-		console.log("Handling Add Property") ;
 
 		let success = false;
 		let stored = sessionStorage.getItem('GilderiseUser');
@@ -373,7 +362,6 @@ export const UserProvider = ({ children }) => {
 		const aProp = async () => {
 			await fetch("/add_property", requestOptions).then(response => {
 				response.json().then(data => {
-					console.log(data)
 					if (data !== false) {
 						success = true ;
 					}
@@ -392,7 +380,7 @@ export const UserProvider = ({ children }) => {
 	} ;
 
 	const deleteProperty = (propertyId: number) => { 
-		console.log("Handling Delete Property") ;
+
 
 		let success = false ;
 
@@ -412,7 +400,6 @@ export const UserProvider = ({ children }) => {
 		const dProp = async () => {
 			await fetch("/delete_property", requestOptions).then(response => {
 				response.json().then(data => {
-					console.log(data)
 					if (data !== false) {
 						success = true ;
 					}
@@ -431,7 +418,6 @@ export const UserProvider = ({ children }) => {
 	} ;
 
 	const editProperty = (propertyId: number, street: string, city: string, state: string, zipcode: string, description: string, estimate: string, photos: any, videos: any) => { 
-		console.log("Handling Edit Property") ;
 
 		let success = false ;
 
@@ -478,7 +464,6 @@ export const UserProvider = ({ children }) => {
 	} ;
 
 	const fetchProperties = () => { 
-		console.log("Handling Add Property");
 		
 		let stored = sessionStorage.getItem('GilderiseUser');
 
@@ -546,7 +531,6 @@ export const UserProvider = ({ children }) => {
 		const refreshAToken = async () => {
 			await fetch("/refresh_access_token", requestOptions).then(response => {
 				response.json().then(data => {
-					console.log(data)
 					if (data !== false) {
 						success = true ; 
 					}
@@ -587,7 +571,6 @@ export const UserProvider = ({ children }) => {
 		const authorize = async () => {
 			await fetch("/authorize_user", requestOptions).then(response => {
 				response.json().then(data => {
-					console.log(data)
 					if (data !== false) {
 						success = true ; 
 					}
@@ -629,7 +612,6 @@ export const UserProvider = ({ children }) => {
 		const remove = async () => {
 			await fetch("/deauthorize_user", requestOptions).then(response => {
 				response.json().then(data => {
-					console.log(data)
 					if (data !== false) {
 						success = true ; 
 					}

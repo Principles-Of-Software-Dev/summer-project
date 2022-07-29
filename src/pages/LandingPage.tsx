@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import FakeSiteBanner from '../components/lg_components/FakeSiteBanner' ;
 import LoginBar from '../components/lg_components/LoginBar' ;
 import "../styles/GlobalStyle.css" ;
@@ -7,14 +7,6 @@ import LandingPageContent from '../components/lg_components/LandingPageContent' 
 import { useUser } from '../global/authorization/UserContext';
 
 const LandingPage = () => {
-
-	let userInfo;
-	const { getUserInfo } = useUser();
-	
-	useEffect(() => { 
-		userInfo = getUserInfo();
-	}, [])
-
 	return (
 		<div className='relative w-screen h-screen'>
 
