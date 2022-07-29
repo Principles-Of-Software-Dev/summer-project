@@ -136,17 +136,18 @@ export const UserProvider = ({ children }) => {
 	
 		const register = async () => {
 			await fetch("/add_user", requestOptions).then(response => {
-				response.json().then(data => {
-					console.log(data) ;
-					if (data !== false) {
-						success = true ;
-						setUser({
-							'authenticated': true,
-							'id': data.user_id,
-						})
-						setToken(data.access_token)
-					}
-				})
+				console.log(response)
+				// response.json().then(data => {
+				// 	console.log(data) ;
+				// 	if (data !== false) {
+				// 		success = true ;
+				// 		setUser({
+				// 			'authenticated': true,
+				// 			'id': data.user_id,
+				// 		})
+				// 		setToken(data.access_token)
+				// 	}
+				// })
 			}).catch(e => {
 				console.log(e)
 			})
