@@ -2,19 +2,34 @@ import React, { useEffect } from 'react'
 
 
 
-const StateField = ({ handleValid, required }) => {
+const StateField = ({ handleValid, required , ...rest }) => {
 	let select ;
+	let initial = null ;
 
 	useEffect(() => { 
 		select = document.getElementById('state') ;
-	},[])
+		console.log(select)
+	}, [])
+	
+	if (rest != null) {
+		handleValid(true) ;
+		initial = rest.storedVal ;
+	}
 
 	const handleStateSelect = () => {
-		console.log(select.value) ;
-		if (select.value != "") {
+		console.log(select.options[select.selectedIndex].value) ;
+		if (select.options[select.selectedIndex].value !== "") {
 			handleValid(true) ;
 		} else {
 			handleValid(false) ;
+		}
+		
+		if (initial != null) {
+			if (initial !== select.options[select.selectedIndex].value) {
+				rest.changed(true) ;
+			} else {
+				rest.changed(false) ;
+			}
 		}
 	}
     
@@ -23,10 +38,10 @@ const StateField = ({ handleValid, required }) => {
 			<label htmlFor="state" > Select State: </label>
 			<select id='state'
 				required={required}
-				size={5}
 				form='PropertyForm'
 				name='State List'
 				onChange={handleStateSelect}>
+				<option value="">--State--</option>
 				<option value="AL">AL</option>
 				<option value="AK">AK</option>
 				<option value="AR">AR</option>

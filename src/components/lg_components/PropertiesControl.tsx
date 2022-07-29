@@ -2,70 +2,26 @@ import React, { useState, useEffect } from 'react'
 import PropertiesList from './PropertiesList'
 import { PropertyType } from '../../global/TypeDefs'
 import DisplayProperty from './DisplayProperty' ;
-import PropertyForm from './forms/PropertyForm' ;
+import { useNavigate } from 'react-router-dom';
+import { useUser } from '../../global/authorization/UserContext';
 
 const PropertiesControl = () => {
-	const properties: PropertyType[] = [{
-		propertyId: 1,
-		street: '3455 Spring Cross Rd',
-		city: 'Boca Raton',
-		state: 'FL',
-		zipcode: 39542,
-		description: 'A beautiful house on the hill 1',
-		estimate: 30000,
-		photos: ["https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?cs=srgb&dl=pexels-binyamin-mellish-106399.jpg&fm=jpg",
-			"https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?cs=srgb&dl=pexels-binyamin-mellish-186077.jpg&fm=jpg",
-			"https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?cs=srgb&dl=pexels-expect-best-323780.jpg&fm=jpg"],
-		videos: 'null'
-	},
-	{
-		propertyId: 2,
-		street: '3455 Spring Cross Rd',
-		city: 'Boca Raton',
-		state: 'FL',
-		zipcode: 39542,
-		description: 'A beautiful house on the hill 2',
-		estimate: 30000,
-		photos: ["https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?cs=srgb&dl=pexels-binyamin-mellish-106399.jpg&fm=jpg",
-			"https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?cs=srgb&dl=pexels-binyamin-mellish-186077.jpg&fm=jpg",
-			"https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?cs=srgb&dl=pexels-expect-best-323780.jpg&fm=jpg"],
-		videos: 'null'
-	},
-	{
-		propertyId: 3,
-		street: '3455 Spring Cross Rd',
-		city: 'Boca Raton',
-		state: 'FL',
-		zipcode: 39542,
-		description: 'A beautiful house on the hill 3',
-		estimate: 30000,
-		photos: ["https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?cs=srgb&dl=pexels-binyamin-mellish-106399.jpg&fm=jpg",
-			"https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?cs=srgb&dl=pexels-binyamin-mellish-186077.jpg&fm=jpg",
-			"https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?cs=srgb&dl=pexels-expect-best-323780.jpg&fm=jpg"],
-		videos: 'null'
-	},{
-		propertyId: 4,
-		street: '3455 Spring Cross Rd',
-		city: 'Boca Raton',
-		state: 'FL',
-		zipcode: 39542,
-		description: 'A beautiful house on the hill 4',
-		estimate: 30000,
-		photos: ["https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?cs=srgb&dl=pexels-binyamin-mellish-106399.jpg&fm=jpg",
-			"https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?cs=srgb&dl=pexels-binyamin-mellish-186077.jpg&fm=jpg",
-			"https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?cs=srgb&dl=pexels-expect-best-323780.jpg&fm=jpg"],
-		videos: 'null'
-	}] ;
+	const navigate = useNavigate();
+	const { fetchProperties } = useUser();
+	let properties: ({'owned_properties':PropertyType[], 'authorized_properties':PropertyType[]} | undefined);
 	const [displayProperty, setDisplayProperty] = useState(null) ;
-	const [displayPropertyForm, setDisplayPropertyForm] = useState< {} |null>(null) ;
 
 	useEffect(() => {
-		if (displayProperty != null || displayPropertyForm != null) {
+		if (displayProperty != null ) {
 			document.body.style.overflow = "hidden" ;
 		} else {
 			document.body.style.overflow = "visible" ;
 		}
-	  }, [displayProperty , displayPropertyForm]) ;
+	}, [displayProperty]);
+	
+	useEffect(() => { 
+		properties = fetchProperties();
+	},[ ])
 
 	
 	const handleViewProperty = property => { 
@@ -73,18 +29,14 @@ const PropertiesControl = () => {
 	}
 
 	const handleDisplayPropertyForm = (property, operation) => {
-		if (displayProperty != null) {
-			setDisplayProperty(null) ; 
+		
+		let options =  {
+			'operation': operation,
+			'property': property
 		}
-		if (operation == null) {
-			setDisplayPropertyForm(null) ;
-		}
-		else {
-			setDisplayPropertyForm({
-				'property': property,
-				'operation': operation
-			}) ;
-		}
+
+		navigate('edit-property', { state: { options } })
+
 	}
 
 
@@ -93,13 +45,20 @@ const PropertiesControl = () => {
 			{displayProperty != null &&
 				<DisplayProperty property={displayProperty} displayProperty={setDisplayProperty} editProperty={handleDisplayPropertyForm} />
 			}
-			{displayPropertyForm != null &&
-				<PropertyForm options={displayPropertyForm} displayPropertyForm={handleDisplayPropertyForm} />
+			{properties?.owned_properties && 
+				<div>
+				<div className='my-3'> Your Owned Properties </div>
+				<PropertiesList properties={properties != undefined ? properties.owned_properties : null} displayProperty={handleViewProperty} displayPropertyForm={handleDisplayPropertyForm} />
+				</div>
 			}
-			<PropertiesList properties={properties} displayProperty={handleViewProperty} displayPropertyForm={handleDisplayPropertyForm} />
 
-			<div className='pb-2'>
-				
+			{properties?.authorized_properties && 
+						<div>
+						<div className='my-3'> Your Authorized Properties </div>
+						<PropertiesList properties={properties != undefined ? properties.owned_properties : null} displayProperty={handleViewProperty} displayPropertyForm={handleDisplayPropertyForm} />
+						</div>
+					}
+			<div className='pb-2'>	
 			</div>
 		</div>
 	)

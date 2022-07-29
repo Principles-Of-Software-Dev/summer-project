@@ -18,6 +18,7 @@ export const initializeUser:
 		user: User, accessToken: any, setUser: any, userLogin: any, userRegistration: any,
 		userLogout: any, deleteUser: any, editUser: any, getUserInfo: any, addProperty: any,
 		deleteProperty: any, editProperty: any, fetchProperties: any, refreshAccessToken: any,
+		addPhotos:any,
 		authorizeUser: any, deauthorizeUser: any, test: any, testToken: any,
 	} =
 {
@@ -33,10 +34,11 @@ export const initializeUser:
 	deleteUser: () => { },
 	editUser: (firstName: string, lastName: string, dob: string, email: string, password: string) => { },
 	getUserInfo: () => { },
-	addProperty: (street: string, city: string, state: string, zipcode: number, description: string, estimate: number, photos: any, videos: any) => { },
+	addProperty: (street: string, city: string, state: string, zipcode: number, description: string, estimate: number, formData:any) => { },
 	deleteProperty: (propertyId: number) => { },
-	editProperty: (propertyId: number, street: string, city: string, state: string, zipcode: string, description: string, estimate: string, photos: any, videos: any) => { },
+	editProperty: (propertyId: number, street: string, city: string, state: string, zipcode: string, description: string, estimate: string, formData:any) => { },
 	fetchProperties: () => { },
+	addPhotos: (formData:any) => { },
 	refreshAccessToken: () => { },
 	authorizeUser: () => { },
 	deauthorizeUser: () => { },
@@ -69,6 +71,9 @@ export const UserProvider = ({ children }) => {
 		return () => clearInterval(interval) ;
 	  }, []) ;
 
+	const accessToken = () => {
+		return getAccessToken();
+	}
 	const userLogin = (email: string, password: string) => {
 
 		const params = {
@@ -88,12 +93,20 @@ export const UserProvider = ({ children }) => {
 			await fetch("/login_user", requestOptions).then(response => {
 				response.json().then(data => {
 					if (data !== false) {
-						setUser({
-							'authenticated': true,
-							'id': data.user_id
-						})
-						setToken(data.access_token) ;
-						navigate("/dashboard") ;
+						if (data === 402) {
+							// warn user of unsuccessful registration attempt
+							window.alert("Invalid email, please try again")
+						} else if (data === 403) {
+							// warn user of unsuccessful registration attempt
+							window.alert("Invalid password, please try again")
+						} else {
+							setUser({
+								'authenticated': true,
+								'id': data.user_id
+							})
+							setToken(data.access_token) ;
+							navigate("/dashboard") ;
+						}
 					}
 				})
 			}).catch(e => {
@@ -102,9 +115,6 @@ export const UserProvider = ({ children }) => {
 		}
 
 		login() ;
-		
-		// warn user of unsuccessful registration attempt
-		window.alert("Invalid Login")
 		
 	} ;
 
@@ -130,13 +140,18 @@ export const UserProvider = ({ children }) => {
 			await fetch("/add_user", requestOptions).then(response => {
 				response.json().then(data => {
 					if (data !== false) {
-						setUser({
-							'authenticated': true,
-							'id': data.user_id,
-						})
-						setToken(data.access_token)
-						navigate("/dashboard") ;
-					}
+						if (data === 401) {
+							window.alert("Email is already on file. Please try again or use Forgot Password")
+						 }
+						else {
+							setUser({
+								'authenticated': true,
+								'id': data.user_id,
+							})
+					
+							setToken(data.access_token)
+							navigate("/dashboard") ;
+						} }
 				})
 			}).catch(e => {
 				console.log(e)
@@ -242,7 +257,12 @@ export const UserProvider = ({ children }) => {
 			await fetch("/edit_user", requestOptions).then(response => {
 				response.json().then(data => {
 					if (data !== false) {
-
+						if (data === 409) {
+							userLogout() ;
+						}
+						else if (data === 401) {
+							window.alert("Email is already in use!") ;
+						}
 					}
 				})
 			}).catch(e => {
@@ -281,8 +301,8 @@ export const UserProvider = ({ children }) => {
 				response.json().then(data => {
 					if (data !== false) {
 						if (data === 409) {
-							window.alert("Please Log In or Register");
-							navigate("/");
+							window.alert("Please Log In or Register") ;
+							userLogout() ;
 						}
 						userInfo = data ;
 						return userInfo ;
@@ -299,7 +319,7 @@ export const UserProvider = ({ children }) => {
 		
 	} ;
 
-	const addProperty = (street: string, city: string, state: string, zipcode: number, description: string, estimate: number, photos: any, videos: any) => { 
+	const addProperty = (street: string, city: string, state: string, zipcode: number, description: string, estimate: number, formData:any) => { 
 
 		let stored = sessionStorage.getItem('GilderiseUser') ;
 
@@ -313,8 +333,6 @@ export const UserProvider = ({ children }) => {
 			'zipcode': zipcode,
 			'description': description,
 			'estimate': estimate,
-			'photos': photos,
-			'videos': videos,
 			'access_token': accessToken,
 
 		}
@@ -331,6 +349,9 @@ export const UserProvider = ({ children }) => {
 			await fetch("/add_property", requestOptions).then(response => {
 				response.json().then(data => {
 					if (data !== false) {
+						if (data === 409) {
+							userLogout() ;
+						}
 					}
 				})
 			}).catch(e => {
@@ -338,8 +359,13 @@ export const UserProvider = ({ children }) => {
 			})
 		}
 
-		aProp() ;
-
+		aProp();
+		
+		if (formData.photos != null) {
+			addPhotos(formData);
+		} if (formData.videos != null) {
+			addVideos(formData);
+		}
 
 	} ;
 
@@ -362,7 +388,9 @@ export const UserProvider = ({ children }) => {
 			await fetch("/delete_property", requestOptions).then(response => {
 				response.json().then(data => {
 					if (data !== false) {
-
+						if (data === 409) {
+							userLogout() ;
+						}
 					}
 				})
 			}).catch(e => {
@@ -375,7 +403,7 @@ export const UserProvider = ({ children }) => {
 
 	} ;
 
-	const editProperty = (propertyId: number, street: string, city: string, state: string, zipcode: string, description: string, estimate: string, photos: any, videos: any) => { 
+	const editProperty = (propertyId: number, street: string, city: string, state: string, zipcode: string, description: string, estimate: string, formData:any) => { 
 
 
 		let params = {
@@ -386,8 +414,6 @@ export const UserProvider = ({ children }) => {
 			'zipcode': zipcode,
 			'description': description,
 			'estimate': estimate,
-			'photos': photos,
-			'videos': videos,
 			'access_token': accessToken,
 
 		}
@@ -404,6 +430,9 @@ export const UserProvider = ({ children }) => {
 			await fetch("/edit_property", requestOptions).then(response => {
 				response.json().then(data => {
 					if (data !== false) {
+						if (data === 409) {
+							userLogout() ;
+						}
 					}
 				})
 			}).catch(e => {
@@ -411,9 +440,69 @@ export const UserProvider = ({ children }) => {
 			})
 		}
 
-		eProp() ;
+		eProp();
+		
+		if (formData != null) {
+			addPhotos(formData);
+		}
 
-	} ;
+	};
+	
+	const addPhotos = (formData) => {
+
+		let requestOptions = {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: formData,
+		}
+
+		const addPhotos = async () => {
+			await fetch("/add_photos", requestOptions).then(response => {
+				response.json().then(data => {
+					if (data !== false) {
+						if (data === 409) {
+							userLogout() ;
+						}
+					}
+				})
+			}).catch(e => {
+				console.log(e)
+			})
+		}
+
+		addPhotos() ;
+
+	}
+
+	const addVideos = (formData) => {
+		let requestOptions = {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: formData,
+		}
+
+		const addVideos = async () => {
+			await fetch("/add_videos", requestOptions).then(response => {
+				response.json().then(data => {
+					if (data !== false) {
+						if (data === 409) {
+							userLogout() ;
+						}
+					}
+				})
+			}).catch(e => {
+				console.log(e)
+			})
+		}
+
+		addVideos() ;
+
+
+	}
 
 	const fetchProperties = () => { 
 		
@@ -442,8 +531,12 @@ export const UserProvider = ({ children }) => {
 				response.json().then(data => {
 					console.log(data)
 					if (data !== false) {
-						properties = data ;
-						return properties
+						if (data === 409) {
+							userLogout() ;
+						} else {
+							properties = data ;
+							return properties ;
+						}
 					}
 				})
 			}).catch(e => {
@@ -478,6 +571,9 @@ export const UserProvider = ({ children }) => {
 			await fetch("/refresh_access_token", requestOptions).then(response => {
 				response.json().then(data => {
 					if (data !== false) {
+						if (data === 408) {
+							userLogout() ;
+						}
 					}
 				})
 			}).catch(e => {
@@ -514,6 +610,9 @@ export const UserProvider = ({ children }) => {
 			await fetch("/authorize_user", requestOptions).then(response => {
 				response.json().then(data => {
 					if (data !== false) {
+						if (data === 409) {
+							userLogout() ;
+						}
 
 					}
 				})
@@ -551,6 +650,9 @@ export const UserProvider = ({ children }) => {
 			await fetch("/deauthorize_user", requestOptions).then(response => {
 				response.json().then(data => {
 					if (data !== false) {
+						if (data === 409) {
+							userLogout() ;
+						}
 					}
 				})
 			}).catch(e => {
@@ -583,7 +685,7 @@ export const UserProvider = ({ children }) => {
 
 	return (
 		<UserContext.Provider value={{
-			user, userLogin, userRegistration, userLogout,
+			user, accessToken, userLogin, userRegistration, userLogout,
 			deleteUser, editUser, getUserInfo, addProperty,
 			deleteProperty, editProperty, fetchProperties,
 			refreshAccessToken, authorizeUser, deauthorizeUser,

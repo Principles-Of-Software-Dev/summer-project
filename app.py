@@ -20,6 +20,9 @@ CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://smzcgkpsvsiscy:fd1612df686a25ec3c875115adbac25133506f7f4d9286f2eb3e077e0349b83d@ec2-44-206-214-233.compute-1.amazonaws.com:5432/d6s79ttvaturdv'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+admin_emails = ['admin@email.com']
+
+
 # DATABASE SETUP
 db = SQLAlchemy(app)
 Migrate(app, db)
@@ -124,6 +127,28 @@ class videos(db.Model):
     def __init__(self, path, belongs_to):
         self.path = path
         self.belongs_to = belongs_to
+
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
+
+class tickets(db.Model):
+
+    id_ticket = db.Column(db.Integer, primary_key=True)
+    firstname = db.Column(db.Text, nullable=False)
+    lastname = db.Column(db.Text, nullable=False)
+    email = db.Column(db.Text, nullable=False)
+    number = db.Column(db.Text, nullable=False)
+    title = db.Column(db.Text, nullable=False)
+    message = db.Column(db.Text, nullable=False)
+
+    def __init__(self, firstname, lastname, email, number, title, message):
+        self.firstname = firstname
+        self.lastname = lastname
+        self.email = email
+        self.number = number
+        self.title = title
+        self.message = message
 
     def as_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
@@ -274,6 +299,8 @@ def edit_user():
 def logout_user():
     request_json = request.get_json()  # get json data
     user_id = request_json.get('user_id')
+
+    user = users.query.filter_by(id_user=user_id).first()  # get user object
 
     token = generate_access_token(user)  # generate new tokens but don't return
     ses_token = generate_session_token(user)
@@ -924,6 +951,45 @@ def delete_video():
     else:
         # token was missing
         return jsonify(409)
+
+
+@app.route("/add_ticket", methods=['POST'])
+def add_ticket():
+    request_json = request.get_json()  # get json data
+
+    firstname = request_json.get('firstname')
+    lastname = request_json.get('lastname')
+    email = request_json.get('email')
+    number = request_json.get('number')
+    title = request_json.get('title')
+    message = request_json.get('message')
+
+    ticket = tickets(firstname, lastname, email, number, title, message)
+    db.session.add(ticket)
+    db.session.commit()
+
+    return jsonify({"rsp_msg": "Ticket was uploaded"})
+
+
+@app.route("/delete_ticket", methods=['POST'])
+def delete_ticket():
+    request_json = request.get_json()  # get json data
+
+    ticket_id = request_json.get('ticket_id')
+    ticket = tickets.query.filter_by(id_ticket=ticket_id)
+    if ticket:
+        tickets.query.filter_by(id_ticket=ticket_id).delete()
+        return jsonify({"rsp_msg": "Ticket was uploaded"})
+    else:
+        return jsonify(410)
+
+
+@app.route("/get_tickets", methods=['POST'])
+def get_tickets():
+    ticket_list = []
+    for ticket in tickets.query.all():
+        ticket_list.append(ticket.as_dict())
+    return jsonify(ticket_list)
 
 
 def generate_access_token(user):

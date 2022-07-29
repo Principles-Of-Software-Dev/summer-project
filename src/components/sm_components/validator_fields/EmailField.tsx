@@ -6,6 +6,13 @@ const EmailField = ({ size, required, setEmail, handleValid, ...rest }) => {
 	// * copy the line below to parent component and pass "email and setEmail as parameters"
 	// const [email, setEmail] = useState('');
 	const [emailErr, setEmailErr] = useState(false) ;
+	let initial = null ;
+
+	if (rest  != null) {
+		handleValid(true) ;
+		initial = rest.storedVal ;
+	}
+
     
 	const handleEmailChange = (e) => {
     
@@ -24,16 +31,37 @@ const EmailField = ({ size, required, setEmail, handleValid, ...rest }) => {
 				setEmail(email) ;
 				handleValid(true) ;
 				if (emailErr) { setEmailErr(false) }
+				if (initial != null) {
+					if (initial !== e.target.value) {
+						rest.changed(true) ;
+					} else {
+						rest.changed(false) ;
+					}
+				}
 				return false ;
 			}
 			else {
 				handleValid(false) ;
+				if (initial != null) {
+					if (initial !== e.target.value) {
+						rest.changed(true) ;
+					} else {
+						rest.changed(false) ;
+					}
+				}
 				return true ;
 			}
 		} else {
 			setEmail(email) ;
 			if (emailErr) { setEmailErr(false) }
 			handleValid(true) ;
+			if (initial != null) {
+				if (initial !== e.target.value) {
+					rest.changed(true) ;
+				} else {
+					rest.changed(false) ;
+				}
+			}
 			return false ;
 		}
     

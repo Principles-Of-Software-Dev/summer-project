@@ -6,6 +6,13 @@ const NameField = ({ size, required, setName, handleValid, type, ...rest }) => {
 	// * copy the line below to parent component and pass "name and setName" as parameters
 	//  const [name, setName] = useState('');
 	const [nameErr, setNameErr] = useState(false) ;
+	let initial = null ;
+
+	if (rest != null) {
+		handleValid(true) ;
+		initial = rest.storedVal ;
+	}
+
     
 	const handleNameChange = (e) => {
       
@@ -20,30 +27,46 @@ const NameField = ({ size, required, setName, handleValid, type, ...rest }) => {
 		if (required || name !== '') {
 			if (name === '') {
 				handleValid(false) ;
+				if (initial != null) {
+					if (initial !== e.target.value) {
+						rest.changed(true) ;
+					} else {
+						rest.changed(false) ;
+					}
+				}
 				return true ;
 			}
 			else {
 				setName(name) ;
-				if (rest.storedVal != null) {
-					rest.storedVal = name ;
-				}
 				handleValid(true) ;
 				if (nameErr) { setNameErr(false) }
+				if (initial != null) {
+					if (initial !== e.target.value) {
+						rest.changed(true) ;
+					} else {
+						rest.changed(false) ;
+					}
+				}
 				return false ;
 			}
 		} else {
 			setName(name) ;
-			if (rest.storedVal != null) {
-				rest.storedVal = name ;
-			}
-			
 			handleValid(true) ;
 			if (nameErr) { setNameErr(false) }
+			if (initial != null) {
+				if (initial !== e.target.value) {
+					rest.changed(true) ;
+				} else {
+					rest.changed(false) ;
+				}
+			}
 			return false ;
 		}
 	}
 
 	const handleSetErrMsg = (e) => {
+
+		setNameErr(handleNameChange(e)) ;
 		
 	}
 

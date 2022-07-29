@@ -6,8 +6,9 @@ import SupportPage from '../pages/SupportPage' ;
 import Dashboard from '../pages/Dashboard' ;
 import PrivateRoute from '../components/routes/PrivateRoute' ;
 import { UserProvider } from './authorization/UserContext' ;
-import AccountPreferences from '../pages/AccountPreferences';
-import RedirectRoute from '../components/routes/RedirectRoute';
+import AccountPreferences from '../pages/AccountPreferences' ;
+import RedirectRoute from '../components/routes/RedirectRoute' ;
+import ModifyAddProperty from '../pages/ModifyAddProperty.jsx' ;
 
 const WebsiteRoutes = () => {
   
@@ -26,6 +27,7 @@ const WebsiteRoutes = () => {
 					<Route element={<PrivateRoute />}>
 						<Route path="dashboard" element={<Dashboard />} />
 						<Route path="account-preferences" element={<AccountPreferences />} />
+						<Route path="/dashboard/edit-property" element={<ModifyAddProperty />} />
 					</Route>
 
 					{/* Invalid URL */}
