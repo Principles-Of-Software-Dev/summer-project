@@ -114,7 +114,7 @@ export const UserProvider = ({ children }) => {
 		
 	} ;
 
-	const userRegistration = (firstName: string, lastName: string, dob: string, email: string, password: string) => {
+	const userRegistration = (firstName: string, lastName: string, email: string, password: string) => {
 		console.log("Handling User Registration") ;
 		
 		let success = false ;

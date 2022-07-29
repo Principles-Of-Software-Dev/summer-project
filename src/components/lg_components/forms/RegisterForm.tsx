@@ -95,7 +95,7 @@ const RegisterForm = ({ handleClickRegister, register }) => {
 										hoverColor='hover:bg-zinc-500'
 										disable={handleValidRegistration()}
 										// set later
-										onClick={userRegistration}
+										onClick={ ()=> userRegistration(firstName, lastName, email, password)}
 									/>
 
 									< Button
