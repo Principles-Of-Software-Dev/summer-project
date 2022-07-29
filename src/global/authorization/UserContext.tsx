@@ -69,7 +69,7 @@ export const UserProvider = ({ children }) => {
 	useEffect(() => {
 		const interval = setInterval(() => refreshAccessToken(), (60000 *14)) ;
 		return () => clearInterval(interval) ;
-	  }, []) ;
+	  }, [ ]) ;
 
 	const accessToken = () => {
 		return getAccessToken();
@@ -165,6 +165,8 @@ export const UserProvider = ({ children }) => {
 	} ;
 
 	const userLogout = () => {
+
+		
 		// Remove user info.
 
 		const requestOptions = {
@@ -276,7 +278,9 @@ export const UserProvider = ({ children }) => {
 	
 	const getUserInfo = () => {
 
-		let userInfo = {} ;
+		let userInfo = {};
+		
+		refreshAccessToken();
 
 		let stored = sessionStorage.getItem('GilderiseUser') ;
 
@@ -285,7 +289,6 @@ export const UserProvider = ({ children }) => {
 		let params = {
 			'user_id': user.id,
 			'access_token': accessToken,
-
 		}
 
 		let requestOptions = {
@@ -320,7 +323,7 @@ export const UserProvider = ({ children }) => {
 	} ;
 
 	const addProperty = (street: string, city: string, state: string, zipcode: number, description: string, estimate: number, formData:any) => { 
-
+		refreshAccessToken();
 		let stored = sessionStorage.getItem('GilderiseUser') ;
 
 		let user = stored == null ? console.log("Failed") : JSON.parse(stored) ;
@@ -370,7 +373,6 @@ export const UserProvider = ({ children }) => {
 	} ;
 
 	const deleteProperty = (propertyId: number) => { 
-
 		let params = {
 			'property_id': propertyId,
 			'access_token': accessToken,
@@ -405,7 +407,7 @@ export const UserProvider = ({ children }) => {
 
 	const editProperty = (propertyId: number, street: string, city: string, state: string, zipcode: string, description: string, estimate: string, formData:any) => { 
 
-
+		refreshAccessToken();
 		let params = {
 			'property_id': propertyId,
 			'street': street,
@@ -505,6 +507,8 @@ export const UserProvider = ({ children }) => {
 	}
 
 	const fetchProperties = () => { 
+
+		refreshAccessToken();
 		
 		let stored = sessionStorage.getItem('GilderiseUser') ;
 
@@ -549,6 +553,7 @@ export const UserProvider = ({ children }) => {
 	} ;
 	
 	const refreshAccessToken = () => { 
+		console.log("running");
 
 		let stored = sessionStorage.getItem('GilderiseUser') ;
 
