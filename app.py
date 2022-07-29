@@ -125,6 +125,16 @@ class videos(db.Model):
 db.create_all()
 
 
+@app.route("/")
+def index():
+    return send_from_directory(app.static_folder, 'index.html')
+
+
+@app.route("/hello")
+def hello():
+    return jsonify({'string': 'Hello World'})
+
+
 @app.route("/add_user", methods=['POST'])  # FINISHED
 def add_user():
     request_json = request.get_json()  # get json data
