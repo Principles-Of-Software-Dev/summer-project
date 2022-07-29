@@ -292,7 +292,7 @@ export const UserProvider = ({ children }) => {
 		}
 
 		let requestOptions = {
-			method: "GET",
+			method: "POST",
 			headers: {
 				"Content-Type": "application/json"
 			},
@@ -522,7 +522,7 @@ export const UserProvider = ({ children }) => {
 		}
 
 		let requestOptions = {
-			method: "GET",
+			method: "POST",
 			headers: {
 				"Content-Type": "application/json"
 			},

@@ -385,7 +385,7 @@ def login_user():
         return jsonify(402)
 
 
-@app.route("/get_user", methods=['GET'])
+@app.route("/get_user", methods=['POST'])
 def get_user():
     request_json = request.get_json()  # get json data
 
@@ -584,7 +584,7 @@ def add_property():
         return jsonify(409)
 
 
-@app.route("/get_properties", methods=['GET'])  # FINISHED
+@app.route("/get_properties", methods=['POST'])  # FINISHED
 def get_properties():
     request_json = request.get_json()  # get json data
 
