@@ -10,9 +10,7 @@ const getAccessToken = () => {
 }
 
 const setToken = (t:any) => {
-	console.log('Before:', accessToken)
 	accessToken = t ;
-	console.log('After:', accessToken)
 }
 
 export const initializeUser:
@@ -64,7 +62,7 @@ export const UserProvider = ({ children }) => {
 	
 	// refresh the access token every minute if applicable. time is in milliseconds.
 	useEffect(() => {
-		const interval = setInterval(() => refreshAccessToken(), 60000) ;
+		const interval = setInterval(() => refreshAccessToken(), (60000 *14)) ;
 		return () => clearInterval(interval) ;
 	  }, []) ;
 
@@ -110,6 +108,7 @@ export const UserProvider = ({ children }) => {
 			navigate("/dashboard") ;
 		} else {
 			// warn user of unsuccessful registration attempt
+			window.alert("Invalid Login")
 		}
 		
 	} ;
@@ -136,18 +135,17 @@ export const UserProvider = ({ children }) => {
 	
 		const register = async () => {
 			await fetch("/add_user", requestOptions).then(response => {
-				console.log(response)
-				// response.json().then(data => {
-				// 	console.log(data) ;
-				// 	if (data !== false) {
-				// 		success = true ;
-				// 		setUser({
-				// 			'authenticated': true,
-				// 			'id': data.user_id,
-				// 		})
-				// 		setToken(data.access_token)
-				// 	}
-				// })
+				response.json().then(data => {
+					console.log(data) ;
+					if (data !== false) {
+						success = true ;
+						setUser({
+							'authenticated': true,
+							'id': data.user_id,
+						})
+						setToken(data.access_token)
+					}
+				})
 			}).catch(e => {
 				console.log(e)
 			})
@@ -175,9 +173,8 @@ export const UserProvider = ({ children }) => {
 		}
 
 		const logout = async () => {
-			await fetch("/logout", requestOptions).then(response => {
+			await fetch("/logout_user", requestOptions).then(response => {
 				response.json().then(data => {
-					console.log(data)
 					if (data !== false) {
 						success = true ;
 						setUser({
@@ -197,13 +194,17 @@ export const UserProvider = ({ children }) => {
 		else { console.log("Logout Op Failed") };
 	} ;
 
-	const deleteUser = (userId: number) => {
+	const deleteUser = () => {
 		console.log("Handling Delete User") ;
 
-		let success = false ;
+		let success = false;
+		
+		let stored = sessionStorage.getItem('GilderiseUser');
+
+		let user = stored == null ? console.log("Failed") : JSON.parse(stored);
 
 		let params = {
-			'user_id': userId,
+			'user_id': user.id,
 			'access_token': accessToken,
 		}
 
@@ -237,14 +238,18 @@ export const UserProvider = ({ children }) => {
 		userLogout() ;
 	} ;
 
-	const editUser = (userId: number, firstName: string, lastName: string, dob: string, email: string, password: string) => {
+	const editUser = (firstName: string, lastName: string, dob: string, email: string, password: string) => {
 
 		console.log("Handling Edit User") ;
 
-		let success = false ;
+		let success = false;
+		
+		let stored = sessionStorage.getItem('GilderiseUser');
+
+		let user = stored == null ? console.log("Failed") : JSON.parse(stored);
 
 		let params = {
-			'userid': userId,
+			'userid': user.id,
 			'firstname': firstName,
 			'lastname': lastName,
 			'dob': dob,
@@ -283,15 +288,19 @@ export const UserProvider = ({ children }) => {
 
 	} ;
 	
-	const getUserInfo = (userId: number) => { 
-		console.log("Handling Get User Info") ;
+	const getUserInfo = () => {
+		console.log("Handling Get User Info");
 
-		let success = false ;
+		let success = false;
 
-		let userInfo = {} ;
+		let userInfo = {};
+
+		let stored = sessionStorage.getItem('GilderiseUser');
+
+		let user = stored == null ? console.log("Failed") : JSON.parse(stored);
 
 		let params = {
-			'user_id': userId,
+			'user_id': user.id,
 			'access_token': accessToken,
 
 		}
@@ -328,13 +337,16 @@ export const UserProvider = ({ children }) => {
 
 	} ;
 
-	const addProperty = (userId: number, street: string, city: string, state: string, zipcode: number, description: string, estimate: number, photos: any, videos: any) => { 
+	const addProperty = (street: string, city: string, state: string, zipcode: number, description: string, estimate: number, photos: any, videos: any) => { 
 		console.log("Handling Add Property") ;
 
-		let success = false ;
+		let success = false;
+		let stored = sessionStorage.getItem('GilderiseUser');
+
+		let user = stored == null ? console.log("Failed") : JSON.parse(stored);
 
 		let params = {
-			'user_id': userId,
+			'user_id': user.id,
 			'street': street,
 			'city': city,
 			'state': state,
@@ -462,14 +474,18 @@ export const UserProvider = ({ children }) => {
 		}
 	} ;
 
-	const fetchProperties = (userId: number) => { 
-		console.log("Handling Add Property") ;
+	const fetchProperties = () => { 
+		console.log("Handling Add Property");
+		
+		let stored = sessionStorage.getItem('GilderiseUser');
+
+		let user = stored == null ? console.log("Failed") : JSON.parse(stored);
 
 		let properties = {} ;
 		let success = false ;
 		
 		let params = {
-			'user_id': userId,
+			'user_id': user.id,
 			'access_token': accessToken,
 		}
 
@@ -505,34 +521,42 @@ export const UserProvider = ({ children }) => {
 	
 	const refreshAccessToken = () => { 
 
-		console.log("Refreshed") ;
+		let success = false;
 
-		// let success = false ;
+		let stored = sessionStorage.getItem('GilderiseUser');
 
-		// let requestOptions = {
-		// 	method: "POST",
-		// 	headers: {
-		// 		"Content-Type": "application/json"
-		// 	},
-		// }
+		let user = stored == null ? console.log("Failed") : JSON.parse(stored);
+		
+		let params = {
+			'user_id' : user.id
+		}
 
-		// const refreshAccessToken = async () => {
-		// 	await fetch("/refresh_access_token", requestOptions).then(response => {
-		// 		response.json().then(data => {
-		// 			console.log(data)
-		// 			if (data !== false) {
-		// 				success = true ; 
-		// 			}
-		// 		})
-		// 	}).catch(e => {
-		// 		console.log(e)
-		// 	})
-		// }
+		let requestOptions = {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify(params)
+		}
 
 
-		// if (!success) {
-		// 	console.log("Access Token refresh failed") ;
-		// }
+		const refreshAccessToken = async () => {
+			await fetch("/refresh_access_token", requestOptions).then(response => {
+				response.json().then(data => {
+					console.log(data)
+					if (data !== false) {
+						success = true ; 
+					}
+				})
+			}).catch(e => {
+				console.log(e)
+			})
+		}
+
+
+		if (!success) {
+			console.log("Access Token refresh failed") ;
+		}
 	} ;
 	
 	const test = () => {

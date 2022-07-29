@@ -1,5 +1,6 @@
 import secrets
 import os
+from urllib import response
 import uuid
 from os.path import dirname, abspath, exists
 from datetime import datetime, timedelta
@@ -267,6 +268,19 @@ def edit_user():
     else:
         # token was missing
         return jsonify(409)
+
+
+@app.route("/logout_user", methods=['POST'])  # FINISHED
+def logout_user():
+    request_json = request.get_json()  # get json data
+    user_id = request_json.get('user_id')
+
+    token = generate_access_token(user)  # generate new tokens but don't return
+    ses_token = generate_session_token(user)
+
+    response.set_cookie('session_token', None)
+
+    return jsonify({'status': 'successful'})
 
 
 @app.route("/session_active", methods=['POST'])  # FINISHED
