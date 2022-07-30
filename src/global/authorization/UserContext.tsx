@@ -49,8 +49,8 @@ export const UserContext = createContext<any>(null) ;
 
 export const UserProvider = ({ children }) => {
 
-	const navigate = useNavigate() ;
-	const stored = sessionStorage.getItem('GilderiseUser') ;
+	const navigate = useNavigate();
+	let calls = 1;
 
 	
 	const [user, setUser] = useState<User>({}) ;
@@ -67,7 +67,7 @@ export const UserProvider = ({ children }) => {
 				id: -100,
 			} :
 			JSON.parse(stored)) ;
-	}, []) ;
+	}, [calls]) ;
 
 	useEffect(() => {
 		console.log("Running Set Session")
@@ -79,12 +79,15 @@ export const UserProvider = ({ children }) => {
 	useEffect(() => {
 		const interval = setInterval(() => refreshAccessToken(), (60000 *14)) ;
 		return () => clearInterval(interval) ;
-	  }, []) ;
+	}, []);
+	
 	const accessToken = () => {
+		calls++;
 		return getAccessToken() ;
 	}
 	const userLogin = (email: string, password: string) => {
 
+		calls++;
 		const params = {
 			'email': email,
 			'password': password,
@@ -128,7 +131,7 @@ export const UserProvider = ({ children }) => {
 	} ;
 
 	const userRegistration = (firstName: string, lastName: string, email: string, password: string) => {
-		
+		calls++;
 
 		const params = {
 			'firstname': firstName,
@@ -175,7 +178,7 @@ export const UserProvider = ({ children }) => {
 
 	const userLogout = () => {
 		// Remove user info.
-
+		calls++;
 		const requestOptions = {
 			method: "POST",
 			headers: {
@@ -204,6 +207,7 @@ export const UserProvider = ({ children }) => {
 
 	const deleteUser = () => {
 		
+		calls++;
 		let stored = sessionStorage.getItem('GilderiseUser') ;
 
 		let user = stored == null ? console.log("Failed") : JSON.parse(stored) ;
@@ -239,6 +243,7 @@ export const UserProvider = ({ children }) => {
 
 	const editUser = (firstName: string, lastName: string, dob: string, email: string, password: string) => {
 
+		calls++;
 		let stored = sessionStorage.getItem('GilderiseUser') ;
 
 		let user = stored == null ? console.log("Failed") : JSON.parse(stored) ;
@@ -284,6 +289,7 @@ export const UserProvider = ({ children }) => {
 	} ;
 	
 	const getUserInfo = () => {
+		calls++;
 
 		let userInfo = {} ;
 
@@ -330,6 +336,7 @@ export const UserProvider = ({ children }) => {
 
 	const addProperty = (street: string, city: string, state: string, zipcode: number, description: string, estimate: number, formData:any) => { 
 
+		calls++;
 		let stored = sessionStorage.getItem('GilderiseUser') ;
 
 		let user = stored == null ? console.log("Failed") : JSON.parse(stored) ;
@@ -379,6 +386,7 @@ export const UserProvider = ({ children }) => {
 	} ;
 
 	const deleteProperty = (propertyId: number) => { 
+		calls++;
 
 		let params = {
 			'property_id': propertyId,
@@ -413,7 +421,7 @@ export const UserProvider = ({ children }) => {
 	} ;
 
 	const editProperty = (propertyId: number, street: string, city: string, state: string, zipcode: string, description: string, estimate: string, formData:any) => { 
-
+		calls++;
 
 		let params = {
 			'property_id': propertyId,
@@ -458,6 +466,7 @@ export const UserProvider = ({ children }) => {
 	} ;
 	
 	const addPhotos = (formData) => {
+		calls++;
 
 		let requestOptions = {
 			method: "POST",
@@ -486,6 +495,8 @@ export const UserProvider = ({ children }) => {
 	}
 
 	const addVideos = (formData) => {
+		calls++;
+
 		let requestOptions = {
 			method: "POST",
 			headers: {
@@ -514,6 +525,7 @@ export const UserProvider = ({ children }) => {
 	}
 
 	const fetchProperties = () => { 
+		calls++;
 
 		let properties = {} ;
 		
@@ -554,6 +566,7 @@ export const UserProvider = ({ children }) => {
 	} ;
 	
 	const refreshAccessToken = () => { 
+		calls++;
 
 		let stored = sessionStorage.getItem('GilderiseUser') ;
 
@@ -592,6 +605,7 @@ export const UserProvider = ({ children }) => {
 	} ;
 	
 	const authorizeUser = (email: string) => {
+		calls++;
 
 		let stored = sessionStorage.getItem('GilderiseUser') ;
 
@@ -632,6 +646,7 @@ export const UserProvider = ({ children }) => {
 	}
 	
 	const deauthorizeUser = (email: string) => {
+		calls++;
 
 		let stored = sessionStorage.getItem('GilderiseUser') ;
 
