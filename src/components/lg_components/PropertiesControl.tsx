@@ -3,8 +3,10 @@ import PropertiesList from './PropertiesList'
 import { PropertyType } from '../../global/TypeDefs'
 import DisplayProperty from './DisplayProperty' ;
 import { useNavigate } from 'react-router-dom';
+import { useUser } from '../../global/authorization/UserContext';
 
 const PropertiesControl = () => {
+	const { fetchProperties } = useUser();
 	const navigate = useNavigate();
 	const properties: PropertyType[] = [{
 		propertyId: 1,
@@ -56,7 +58,8 @@ const PropertiesControl = () => {
 			"https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?cs=srgb&dl=pexels-binyamin-mellish-186077.jpg&fm=jpg",
 			"https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?cs=srgb&dl=pexels-expect-best-323780.jpg&fm=jpg"],
 		videos: 'null'
-	}] ;
+		}];
+	let test: {};
 	const [displayProperty, setDisplayProperty] = useState(null) ;
 
 	useEffect(() => {
@@ -65,6 +68,8 @@ const PropertiesControl = () => {
 		} else {
 			document.body.style.overflow = "visible" ;
 		}
+		test = fetchProperties();
+		console.log(test);
 	}, [displayProperty]);
 	
 
