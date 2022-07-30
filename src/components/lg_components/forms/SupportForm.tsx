@@ -42,7 +42,7 @@ const SupportForm = () => {
 			{/* Start actual code. */}
 			<div className='grid grid-cols-2 grid-rows-7 w-auto h-main bg-sky-200 bg-opacity-95'>
 				<p className='flex items-center justify-center row-span-1 col-span-2'>
-				<h2><strong>Send Help Request</strong></h2>
+					<h2><strong>Send Help Request</strong></h2>
 				</p>
 
 				{/* Name Fields */}

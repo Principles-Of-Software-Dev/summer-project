@@ -1,18 +1,18 @@
 import React, { useEffect, useRef, useState } from "react" ;
 import { useNavigate } from "react-router-dom" ;
-import { useUser } from "../../../global/authorization/UserContext";
+import { useUser } from "../../../global/authorization/UserContext" ;
 import Button from "../../sm_components/Button" ;
 
 
 const PropertyForm = ({ options }) => {
 
 	useEffect(() => { 
-		console.log(options);
+		console.log(options) ;
 	}, [])
 
-	const { accessToken, user, editProperty, addProperty} = useUser();
-	const estimation = useRef();
-	const description = useRef();
+	const { accessToken, user, editProperty, addProperty } = useUser() ;
+	const estimation = useRef() ;
+	const description = useRef() ;
 	const street = useRef() ;
 	const city = useRef() ;
 	const zip = useRef() ;
@@ -21,11 +21,11 @@ const PropertyForm = ({ options }) => {
 	const videos = useRef() ;
 
 	const required = options.operation === 'Add' ? true : false ;
-	const navigate = useNavigate();
-	const [disableSubmit, setDisableSubmit] = useState(true);
-	let form;
+	const navigate = useNavigate() ;
+	const [disableSubmit, setDisableSubmit] = useState(true) ;
+	let form ;
 
-	let formData;
+	let formData ;
 
 	let initalVals = options.property == null ? {
 		'description': null,
@@ -44,11 +44,11 @@ const PropertyForm = ({ options }) => {
 		'city': options.property.city,
 		'zip': options.property.zipcode,
 		'state': options.property.state,
-		}
+	}
 	
 	const valChanged = (e) => {
-		e.preventDefault();
-		setDisableSubmit(handleValidSubmit());
+		e.preventDefault() ;
+		setDisableSubmit(handleValidSubmit()) ;
 	}
 
 	const handleValidSubmit = () => {
@@ -61,7 +61,7 @@ const PropertyForm = ({ options }) => {
 			&& photos.current.value !== ("")
 			&& videos.current.value !== ("")
 			&& description.current.value !== (""))) {
-			console.log('ran');
+			console.log('ran') ;
 			return false ;
 		} else if (!required && (
 			estimation.current.value != initalVals.estimation
@@ -81,7 +81,7 @@ const PropertyForm = ({ options }) => {
 	const handleSubmit = (e) => {
 		form = document.getElementById('propertyForm')
 		console.log(form)
-		formData = new FormData(form);
+		formData = new FormData(form) ;
 
 		e.preventDefault()
 		// add property all fields should contain something.
@@ -91,20 +91,20 @@ const PropertyForm = ({ options }) => {
 			if (photos.current.value !== ("" || null || undefined) || videos.current.value !== ("" || null || undefined)) {
 
 				if (photos.current.value !== ("" || null || undefined)) {
-					for (let i = 0; i < document.forms["propertyForm"]["photos"].files.length; i++) {
-						formData.append('files', document.forms["propertyForm"]["photos"].files[i]);
+					for (let i = 0 ; i < document.forms["propertyForm"]["photos"].files.length ; i++) {
+						formData.append('files', document.forms["propertyForm"]["photos"].files[i]) ;
 					}
 				}
 				if (videos.current.value !== ("" || null || undefined)) {
-					for (let i = 0; i < document.forms["propertyForm"]["videos"].files.length; i++) {
-						formData.append('files', document.forms["propertyForm"]["videos"].files[i]);
+					for (let i = 0 ; i < document.forms["propertyForm"]["videos"].files.length ; i++) {
+						formData.append('files', document.forms["propertyForm"]["videos"].files[i]) ;
 					}
 				}
-				formData.append('access_token', accessToken());
-				formData.append('property_id', null);
+				formData.append('access_token', accessToken()) ;
+				formData.append('property_id', null) ;
 				formData.append('user_id', user.id)
 			} else { 
-				formData = null;
+				formData = null ;
 			}
 
 			addProperty(street.current.value, city.current.value, state.current.value, zip.current.value, description.current.value, estimation.current.value, formData)
@@ -122,41 +122,41 @@ const PropertyForm = ({ options }) => {
 			}
 
 			if (estimation.current.value != initalVals.estimation) {
-				params.estimation = estimation.current.value;
+				params.estimation = estimation.current.value ;
 			}
 			if (description.current.value != initalVals.description) {
-				params.description = description.current.value;
+				params.description = description.current.value ;
 			} if (street.current.value != initalVals.street) {
-				params.street = street.current.value; 
+				params.street = street.current.value ; 
 			} if (city.current.value != initalVals.city) {
-				params.city = city.current.value;
+				params.city = city.current.value ;
 			} if (zip.current.value != initalVals.zip) { 
-				params.zip = zip.current.value;
+				params.zip = zip.current.value ;
 			} if (state.current.value != initalVals.state) { 
-				params.state = state.current.value;
+				params.state = state.current.value ;
 			}
 
 
 			if (photos.current.value !== ("" || null || undefined) || videos.current.value !== ("" || null || undefined)) {
 
 				if (photos.current.value !== ("" || null || undefined)) {
-					for (let i = 0; i < document.forms["propertyForm"]["photos"].files.length; i++) {
-						formData.append('files', document.forms["propertyForm"]["photos"].files[i]);
+					for (let i = 0 ; i < document.forms["propertyForm"]["photos"].files.length ; i++) {
+						formData.append('files', document.forms["propertyForm"]["photos"].files[i]) ;
 					}
 				}
 				if (videos.current.value !== ("" || null || undefined)) {
-					for (let i = 0; i < document.forms["propertyForm"]["videos"].files.length; i++) {
-						formData.append('files', document.forms["propertyForm"]["videos"].files[i]);
+					for (let i = 0 ; i < document.forms["propertyForm"]["videos"].files.length ; i++) {
+						formData.append('files', document.forms["propertyForm"]["videos"].files[i]) ;
 					}
 				}
-				formData.append('access_token', 10);
-				formData.append('property_id', options.property.propertyId);
+				formData.append('access_token', 10) ;
+				formData.append('property_id', options.property.propertyId) ;
 				formData.append('user_id', user.id)
 			} else { 
-				formData = null;
+				formData = null ;
 			}
 			// console.log("PropertyID: " + options.property.propertyId + "\nStreet" + params.street + "\nCity: " + params.city + "\nState : " + params.state + "\nZip: " + params.zip+ "\nDescription: "+ params.description+ "\nEstimation: "+ params.estimation+ "\nForm Data Photos: " +formData.getAll("photos")+ "\nForm Data Videos: " +formData.getAll("videos"))
-			editProperty(options.property.propertyId, params.street, params.city, params.state, params.zip, params.description, params.estimation, formData);
+			editProperty(options.property.propertyId, params.street, params.city, params.state, params.zip, params.description, params.estimation, formData) ;
 		}
 
 	}

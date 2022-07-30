@@ -7,7 +7,7 @@ const ContactUs = () => {
 			{/* Start actual code. */}
 			<div className='grid grid-rows-7 w-auto h-main p-4'>
 				<p className='flex items-center justify-center row-span-1 col-span-2 text-xl text-red-300'>
-                  <h3><strong>Contact Us</strong></h3>
+					<h3><strong>Contact Us</strong></h3>
 				</p>
 				<div className='flex items-center justify-center row-span-1 col-span-2 text-gray-200'>
 					<LocationMarkerIcon className='h-xsmall-logo'/>

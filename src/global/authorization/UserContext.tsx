@@ -50,18 +50,20 @@ export const UserContext = createContext<any>(null) ;
 export const UserProvider = ({ children }) => {
 
 	const navigate = useNavigate() ;
-	const stored = sessionStorage.getItem('GilderiseUser');
+	const stored = sessionStorage.getItem('GilderiseUser') ;
 
 	
-	const [user, setUser] = useState<User>( stored == null ?
-		{
-			authenticated: false,
-			id: -100,
-		} :
-		JSON.parse(stored)) ;
+	const [user, setUser] = useState<User>({}) ;
 
 	// Store user data on local memory on every update of user or user.authenticated.
 	useEffect(() => {
+		const stored = sessionStorage.getItem('GilderiseUser') ;
+		setUser(stored == null ?
+			{
+				authenticated: false,
+				id: -100,
+			} :
+			JSON.parse(stored)) ;
 		sessionStorage.setItem('GilderiseUser', JSON.stringify(user)) ;
 
 	}, [user, user.authenticated]) ;
@@ -72,7 +74,7 @@ export const UserProvider = ({ children }) => {
 		return () => clearInterval(interval) ;
 	  }, []) ;
 	const accessToken = () => {
-		return getAccessToken();
+		return getAccessToken() ;
 	}
 	const userLogin = (email: string, password: string) => {
 
@@ -359,12 +361,12 @@ export const UserProvider = ({ children }) => {
 			})
 		}
 
-		aProp();
+		aProp() ;
 		
 		if (formData.photos != null) {
-			addPhotos(formData);
+			addPhotos(formData) ;
 		} if (formData.videos != null) {
-			addVideos(formData);
+			addVideos(formData) ;
 		}
 
 	} ;
@@ -440,13 +442,13 @@ export const UserProvider = ({ children }) => {
 			})
 		}
 
-		eProp();
+		eProp() ;
 		
 		if (formData != null) {
-			addPhotos(formData);
+			addPhotos(formData) ;
 		}
 
-	};
+	} ;
 	
 	const addPhotos = (formData) => {
 
@@ -508,7 +510,7 @@ export const UserProvider = ({ children }) => {
 		
 		let stored = sessionStorage.getItem('GilderiseUser') ;
 
-		let user:User = stored == null ? console.log("Failed") : JSON.parse(stored);
+		let user:User = stored == null ? console.log("Failed") : JSON.parse(stored) ;
 		console.log(user)
 
 		let properties = {} ;

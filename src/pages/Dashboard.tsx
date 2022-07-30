@@ -4,25 +4,25 @@ import LogoutConfirmation from '../components/lg_components/LogoutConfirmation' 
 import PopoutMenu from '../components/lg_components/PopoutMenu' ;
 import FakeSiteBanner from '../components/lg_components/FakeSiteBanner' ;
 import PropertiesControl from '../components/lg_components/PropertiesControl' ;
-import { useUser } from '../global/authorization/UserContext';
-import { useNavigate } from 'react-router-dom';
-import Button from '../components/sm_components/Button';
+import { useUser } from '../global/authorization/UserContext' ;
+import { useNavigate } from 'react-router-dom' ;
+import Button from '../components/sm_components/Button' ;
 
 const Dashboard = () => {
 
-	let userId;
+	let userId ;
 	const { user } = useUser() ;
 	
 	useEffect(() => { 
-		userId = user.id;
-		console.log(userId);
+		userId = user.id ;
+		console.log(userId) ;
 		
 	}, [])
-	const navigate = useNavigate();
+	const navigate = useNavigate() ;
 
 	const [displayLogout, setDisplayLogout] = useState(false) ;
 
-	const handleDisplayLogout = () => setDisplayLogout(!displayLogout); 
+	const handleDisplayLogout = () => setDisplayLogout(!displayLogout) ; 
 	
 	const handleAddProperty = () => {
 		let options =  {
@@ -44,15 +44,15 @@ const Dashboard = () => {
 			{/* Top Banner and Side Menu */}
 			<TopBar>
 				<div className='max-h-full max-w-full flex items-center justify-end'>
-				<Button
-							height="h-xsmall-button"
-							color='bg-zinc-400'
-							buttonText='Add Property'
-							textColor='text-c-white'
-							hoverColor='hover:bg-zinc-500'
-							disable={false}
-							onClick={() => handleAddProperty()}
-						/>
+					<Button
+						height="h-xsmall-button"
+						color='bg-zinc-400'
+						buttonText='Add Property'
+						textColor='text-c-white'
+						hoverColor='hover:bg-zinc-500'
+						disable={false}
+						onClick={() => handleAddProperty()}
+					/>
 					<PopoutMenu handleDisplayLogout={handleDisplayLogout} userId />
 				
 				</div>
