@@ -113,7 +113,9 @@ export const UserProvider = ({ children }) => {
 								'authenticated': true,
 								'id': data.user_id
 							})
-							setToken(data.access_token) ;
+							setToken(data.access_token);
+							
+
 							navigate("/dashboard") ;
 						}
 					}
@@ -227,7 +229,7 @@ export const UserProvider = ({ children }) => {
 			await fetch("/delete_user", requestOptions).then(response => {
 				response.json().then(data => {
 					if (data !== false) {
-						userLogout() ;
+						
 					}
 				})
 			}).catch(e => {
