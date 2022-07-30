@@ -11,7 +11,8 @@ const ModifyAddProperty = () => {
 	const location = useLocation() ;
 	const { refreshAccessToken } = useUser() ;
 	useEffect(() => { 
-		refreshAccessToken() ;
+		refreshAccessToken();
+		
 	}, [])
 
     

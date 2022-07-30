@@ -43,17 +43,19 @@ const Dashboard = () => {
 			</div>
 			{/* Top Banner and Side Menu */}
 			<TopBar>
-				<div className='max-h-full max-w-full flex items-center justify-end'>
-					<Button
-						height="h-xsmall-button"
-						color='bg-zinc-400'
-						buttonText='Add Property'
-						textColor='text-c-white'
-						hoverColor='hover:bg-zinc-500'
-						disable={false}
-						onClick={() => handleAddProperty()}
-					/>
-					<PopoutMenu handleDisplayLogout={handleDisplayLogout} userId={userId} />
+				<div className='max-h-full max-w-main flex items-center justify-end'>
+					<div className='md:block hidden'>
+						<Button
+							height="h-xsmall-button"
+							color='bg-zinc-400'
+							buttonText='Add Property'
+							textColor='text-c-white'
+							hoverColor='hover:bg-zinc-500'
+							disable={false}
+							onClick={handleAddProperty}
+						/>
+						</div>
+					<PopoutMenu handleDisplayLogout={handleDisplayLogout} userId={userId} handleAddProperty={handleAddProperty} />
 				
 				</div>
 				

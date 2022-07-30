@@ -5,7 +5,7 @@ import { UserCircleIcon } from '@heroicons/react/outline' ;
 import UserLinks from '../sm_components/UserLinks' ;
 
 
-const PopoutMenu = ({ handleDisplayLogout, userId }) => {
+const PopoutMenu = ({ handleDisplayLogout, userId, handleAddProperty }) => {
     
 	const navigate = useNavigate() ;
 	const [displayPopoutMenu, setDisplayPopoutMenu] = useState(false) ; 
@@ -31,7 +31,7 @@ const PopoutMenu = ({ handleDisplayLogout, userId }) => {
           
 			{displayPopoutMenu && 
               <div className=' fixed z-[-4] top-[4.25rem] right-0 min-h-popout-menu h-auto md:min-w-popout-menu min-w-popout-menu-mobile mid:max-w-third max-w-half w-auto bg-zinc-200' > 
-              	<div className='grid grid-rows-4 grid-cols-1 p-6 h-full max-w-full'> 
+              	<div className='grid grid-rows-5 grid-cols-1 p-6 h-full max-w-full'> 
               	{/* Logout Button */}
               	<div className='w-full h-full flex items-center justify-end row-span-1 my-2'>
               		< Button
@@ -52,7 +52,18 @@ const PopoutMenu = ({ handleDisplayLogout, userId }) => {
               		</div>
               		<div className='flex items-center justify-end row-span-1 my-2'>
               			<UserLinks text={"Download All Properties"} handleClick={true} />
-              		</div>
+						</div>
+						<div className='md:hidden flex items-center justify-end row-span-1 my-2'>
+						<Button
+						height="h-xsmall-button"
+						color='bg-zinc-400'
+						buttonText='Add Property'
+						textColor='text-c-white'
+						hoverColor='hover:bg-zinc-500'
+						disable={false}
+						onClick={handleAddProperty}
+					/>
+						</div>
               	</div>
 					
 
