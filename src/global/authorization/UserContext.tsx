@@ -359,8 +359,10 @@ export const UserProvider = ({ children }) => {
 							userLogout() ;
 						} else {
 							console.log(formData)
+							formData.append('property_id',data.property_id)
 							addPhotos(formData)
 							addVideos(formData)
+							navigate("/dashboard")
 						}
 					}
 				})
@@ -442,7 +444,12 @@ export const UserProvider = ({ children }) => {
 				response.json().then(data => {
 					if (data !== false) {
 						if (data === 409) {
-							userLogout() ;
+							userLogout();
+						} else { 
+
+							addPhotos(formData)
+							addVideos(formData)
+							navigate("/dashboard")
 						}
 					}
 				})
@@ -464,6 +471,9 @@ export const UserProvider = ({ children }) => {
 	const addPhotos = (formData) => {
 		setRefreshUser(true) ;
 
+		const request = new XMLHttpRequest();
+		request.open("POST", "/add_photos");
+		request.send(formData);
 		let requestOptions = {
 			method: "POST",
 			headers: {
