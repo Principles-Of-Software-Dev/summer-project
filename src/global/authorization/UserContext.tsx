@@ -49,16 +49,16 @@ export const UserContext = createContext<any>(null) ;
 
 export const UserProvider = ({ children }) => {
 
-	const navigate = useNavigate();
-	const [user, setUser] = useState<User>({});
-	const [refreshUser, setRefreshUser] = useState(false);
+	const navigate = useNavigate() ;
+	const [user, setUser] = useState<User>({}) ;
+	const [refreshUser, setRefreshUser] = useState(false) ;
 
 	// Store user data on local memory on every update of user or user.authenticated.
 
 	useEffect(() => {
 		console.log("Running Get Session")
-		const stored = sessionStorage.getItem('GilderiseUser');
-		console.log("Stored User Object: " + stored);
+		const stored = sessionStorage.getItem('GilderiseUser') ;
+		console.log("Stored User Object: " + stored) ;
 		setUser(stored == null ?
 			{
 				authenticated: false,
@@ -77,11 +77,11 @@ export const UserProvider = ({ children }) => {
 	useEffect(() => {
 		const interval = setInterval(() => refreshAccessToken(), (60000 *14)) ;
 		return () => clearInterval(interval) ;
-	}, []);
+	}, []) ;
 	
 
 	const userLogin = (email: string, password: string) => {
-		setRefreshUser(true);
+		setRefreshUser(true) ;
 		const params = {
 			'email': email,
 			'password': password,
@@ -120,13 +120,13 @@ export const UserProvider = ({ children }) => {
 			})
 		}
 
-		login();
-		setRefreshUser(false);
+		login() ;
+		setRefreshUser(false) ;
 		
 	} ;
 
 	const userRegistration = (firstName: string, lastName: string, email: string, password: string) => {
-		setRefreshUser(true);
+		setRefreshUser(true) ;
 
 		const params = {
 			'firstname': firstName,
@@ -168,12 +168,12 @@ export const UserProvider = ({ children }) => {
 		register() ;
 		
 		// warn user of unsuccessful registration attempt
-		setRefreshUser(false);
+		setRefreshUser(false) ;
 	} ;
 
 	const userLogout = () => {
 		// Remove user info.
-		setRefreshUser(true);
+		setRefreshUser(true) ;
 		const requestOptions = {
 			method: "POST",
 			headers: {
@@ -197,16 +197,16 @@ export const UserProvider = ({ children }) => {
 			})
 		}
 
-		logout();
-		setRefreshUser(false);
+		logout() ;
+		setRefreshUser(false) ;
 	} ;
 
 	const deleteUser = () => {
 		
-		setRefreshUser(true);
+		setRefreshUser(true) ;
 		
 
-		let atoken = getAccessToken();
+		let atoken = getAccessToken() ;
 
 		let params = {
 			'user_id': user.id,
@@ -233,16 +233,16 @@ export const UserProvider = ({ children }) => {
 			})
 		}
 
-		dUser();
-		setRefreshUser(false);
+		dUser() ;
+		setRefreshUser(false) ;
 
 	} ;
 
 	const editUser = (firstName: string, lastName: string, dob: string, email: string, password: string) => {
 
-		setRefreshUser(true);
+		setRefreshUser(true) ;
 		
-		let atoken = getAccessToken();
+		let atoken = getAccessToken() ;
 
 		let params = {
 			'userid': user.id,
@@ -280,16 +280,16 @@ export const UserProvider = ({ children }) => {
 			})
 		}
 
-		setRefreshUser(true);
+		setRefreshUser(true) ;
 
 	} ;
 	
 	const getUserInfo = () => {
-		setRefreshUser(true);
+		setRefreshUser(true) ;
 
 		let userInfo = {} ;
 
-		let atoken = getAccessToken();
+		let atoken = getAccessToken() ;
 
 		let params = {
 			'user_id': user.id,
@@ -324,14 +324,14 @@ export const UserProvider = ({ children }) => {
 
 		gUser() ;
 
-		setRefreshUser(false);
+		setRefreshUser(false) ;
 		
 	} ;
 
 	const addProperty = (street: string, city: string, state: string, zipcode: number, description: string, estimate: number, formData:any) => { 
 
-		setRefreshUser(true);
-		let atoken = getAccessToken();
+		setRefreshUser(true) ;
+		let atoken = getAccessToken() ;
 
 		let params = {
 			'user_id': user.id,
@@ -375,13 +375,13 @@ export const UserProvider = ({ children }) => {
 			addVideos(formData) ;
 		}
 
-		setRefreshUser(false);
+		setRefreshUser(false) ;
 	} ;
 
 	const deleteProperty = (propertyId: number) => { 
-		setRefreshUser(true);
+		setRefreshUser(true) ;
 
-		let atoken = getAccessToken();
+		let atoken = getAccessToken() ;
 
 		let params = {
 			'property_id': propertyId,
@@ -412,13 +412,13 @@ export const UserProvider = ({ children }) => {
 
 		dProp() ;
 
-		setRefreshUser(false);
+		setRefreshUser(false) ;
 	} ;
 
 	const editProperty = (propertyId: number, street: string, city: string, state: string, zipcode: string, description: string, estimate: string, formData:any) => { 
-		setRefreshUser(true);
+		setRefreshUser(true) ;
 
-		let atoken = getAccessToken();
+		let atoken = getAccessToken() ;
 
 		let params = {
 			'property_id': propertyId,
@@ -460,12 +460,12 @@ export const UserProvider = ({ children }) => {
 			addPhotos(formData) ;
 		}
 
-		setRefreshUser(false);
+		setRefreshUser(false) ;
 
 	} ;
 	
 	const addPhotos = (formData) => {
-		setRefreshUser(true);
+		setRefreshUser(true) ;
 
 		let requestOptions = {
 			method: "POST",
@@ -490,11 +490,11 @@ export const UserProvider = ({ children }) => {
 		}
 
 		addPhotos() ;
-		setRefreshUser(false);
+		setRefreshUser(false) ;
 	}
 
 	const addVideos = (formData) => {
-		setRefreshUser(true);
+		setRefreshUser(true) ;
 
 		let requestOptions = {
 			method: "POST",
@@ -519,16 +519,16 @@ export const UserProvider = ({ children }) => {
 		}
 
 		addVideos() ;
-		setRefreshUser(false);
+		setRefreshUser(false) ;
 
 	}
 
 	const fetchProperties = () => { 
-		setRefreshUser(true);
+		setRefreshUser(true) ;
 
-		let properties = {};
+		let properties = {} ;
 		
-		let atoken = getAccessToken();
+		let atoken = getAccessToken() ;
 		
 		let params = {
 			'user_id': user.id,
@@ -553,7 +553,9 @@ export const UserProvider = ({ children }) => {
 					if (data !== false) {
 						if (data === 409) {
 							userLogout() ;
-						} else {
+						} else if (data === 411)
+						{ return { status :"No Properties" } ; }
+						 else {
 							properties = data ;
 							return properties ;
 						}
@@ -564,13 +566,13 @@ export const UserProvider = ({ children }) => {
 			})
 		}
 
-		getProps();
-		setRefreshUser(false);
+		getProps() ;
+		setRefreshUser(false) ;
 
 	} ;
 	
 	const refreshAccessToken = () => { 
-		setRefreshUser(true);
+		setRefreshUser(true) ;
 		
 		let params = {
 			'user_id' : user.id
@@ -592,7 +594,7 @@ export const UserProvider = ({ children }) => {
 						if (data === 408) {
 							userLogout() ;
 						}
-						setToken(data.access_token);
+						setToken(data.access_token) ;
 					}
 				})
 			}).catch(e => {
@@ -601,12 +603,12 @@ export const UserProvider = ({ children }) => {
 		}
 
 		refreshAToken() ;
-		setRefreshUser(false);
+		setRefreshUser(false) ;
 
 	} ;
 	
 	const authorizeUser = (email: string) => {
-		setRefreshUser(true);
+		setRefreshUser(true) ;
 
 		let stored = sessionStorage.getItem('GilderiseUser') ;
 
@@ -643,11 +645,11 @@ export const UserProvider = ({ children }) => {
 
 		authorize() ;
 
-		setRefreshUser(false);
+		setRefreshUser(false) ;
 	}
 	
 	const deauthorizeUser = (email: string) => {
-		setRefreshUser(true);
+		setRefreshUser(true) ;
 
 		let stored = sessionStorage.getItem('GilderiseUser') ;
 
@@ -682,12 +684,12 @@ export const UserProvider = ({ children }) => {
 		}
 
 		remove() ;
-		setRefreshUser(false);
+		setRefreshUser(false) ;
 
 	}
 	
 	const test = () => {
-		setRefreshUser(true);
+		setRefreshUser(true) ;
 		const test = async () => await fetch("/hello").then(response => {
 			response.json().then(data => {
 				console.log(data.string)
@@ -696,13 +698,13 @@ export const UserProvider = ({ children }) => {
 			console.log(e)
 		})
 
-		test();
-		setRefreshUser(false);
+		test() ;
+		setRefreshUser(false) ;
 	} ;
 
 	const testToken = (t: any) => {
 		setToken(t) ;
-	};
+	} ;
 
 	
 

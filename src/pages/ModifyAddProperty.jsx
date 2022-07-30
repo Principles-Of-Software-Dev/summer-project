@@ -8,10 +8,10 @@ import { useUser } from '../global/authorization/UserContext'
 
 const ModifyAddProperty = () => {
 
-	const location = useLocation();
-	const { refreshAccessToken } = useUser();
+	const location = useLocation() ;
+	const { refreshAccessToken } = useUser() ;
 	useEffect(() => { 
-		refreshAccessToken();
+		refreshAccessToken() ;
 	}, [])
 
     

@@ -14,8 +14,8 @@ const Dashboard = () => {
 	const { user, refreshAccessToken } = useUser() ;
 	
 	useEffect(() => { 
-		refreshAccessToken();
-		userId = user.id;
+		refreshAccessToken() ;
+		userId = user.id ;
 		
 	}, [])
 	const navigate = useNavigate() ;

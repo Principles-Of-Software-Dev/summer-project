@@ -599,76 +599,80 @@ def get_properties():
             # query for authorized user in db
             user = users.query.filter_by(id_user=user_id).first()
             # split string of property ids
-            property_list = user.properties.split(',')
-            owned_properties = []
-            if user.properties:
-                # append a list of properties as a dict
-                for property_id in property_list:
-                    # query for property
-                    property = properties.query.filter_by(
-                        id_property=int(property_id)).first()
-                    # add to list
-                    property_dict = property.as_dict()
-                    photo_ids = property_dict.get('photos')
-                    if photo_ids:
-                        photo_ids = photo_ids.split(',')
-                        path_list = []
-                        for photo_id in photo_ids:
-                            photo = photos.query.filter_by(
-                                id_photo=int(photo_id)).first()
-                            path_list.append(photo.path)
-                        property_dict['photos'] = path_list
+            if (user.properties != None):
+                property_list = user.properties.split(',')
+                owned_properties = []
+                if user.properties:
+                    # append a list of properties as a dict
+                    for property_id in property_list:
+                        # query for property
+                        property = properties.query.filter_by(
+                            id_property=int(property_id)).first()
+                        # add to list
+                        property_dict = property.as_dict()
+                        photo_ids = property_dict.get('photos')
+                        if photo_ids:
+                            photo_ids = photo_ids.split(',')
+                            path_list = []
+                            for photo_id in photo_ids:
+                                photo = photos.query.filter_by(
+                                    id_photo=int(photo_id)).first()
+                                path_list.append(photo.path)
+                            property_dict['photos'] = path_list
 
-                    video_ids = property_dict.get('videos')
-                    if video_ids:
-                        video_ids = video_ids.split(',')
-                        path_list = []
-                        for video_id in video_ids:
-                            video = videos.query.filter_by(
-                                id_video=int(video_id)).first()
-                            path_list.append(video.path)
-                        property_dict['videos'] = path_list
-                    owned_properties.append(property_dict)
+                        video_ids = property_dict.get('videos')
+                        if video_ids:
+                            video_ids = video_ids.split(',')
+                            path_list = []
+                            for video_id in video_ids:
+                                video = videos.query.filter_by(
+                                    id_video=int(video_id)).first()
+                                path_list.append(video.path)
+                            property_dict['videos'] = path_list
+                        owned_properties.append(property_dict)
 
-            authorized_properties = []
-            # if user is authorized to another user
-            if user.authorized_to:
-                # split string of user ids that you're authorized to
-                authorized_to = user.authorized_to.split(',')
-                for auth_user_id in authorized_to:
-                    auth_user = users.query.filter_by(
-                        id_user=auth_user_id).first()
-                    property_list = auth_user.properties.split(',')
-                    if property_list:
-                        # append list of properties as a dict
-                        for property_id in property_list:
-                            # query for property
-                            property = properties.query.filter_by(
-                                id_property=int(property_id)).first()
-                            # add to list
-                            property_dict = property.as_dict()
-                            photo_ids = property_dict.get('photos')
-                            if photo_ids:
-                                photo_ids = photo_ids.split(',')
-                                path_list = []
-                                for photo_id in photo_ids:
-                                    photo = photos.query.filter_by(
-                                        id_photo=int(photo_id)).first()
-                                    path_list.append(photo.path)
-                                property_dict['photos'] = path_list
+                authorized_properties = []
+                # if user is authorized to another user
+                if user.authorized_to:
+                    # split string of user ids that you're authorized to
+                    authorized_to = user.authorized_to.split(',')
+                    for auth_user_id in authorized_to:
+                        auth_user = users.query.filter_by(
+                            id_user=auth_user_id).first()
+                        property_list = auth_user.properties.split(',')
+                        if property_list:
+                            # append list of properties as a dict
+                            for property_id in property_list:
+                                # query for property
+                                property = properties.query.filter_by(
+                                    id_property=int(property_id)).first()
+                                # add to list
+                                property_dict = property.as_dict()
+                                photo_ids = property_dict.get('photos')
+                                if photo_ids:
+                                    photo_ids = photo_ids.split(',')
+                                    path_list = []
+                                    for photo_id in photo_ids:
+                                        photo = photos.query.filter_by(
+                                            id_photo=int(photo_id)).first()
+                                        path_list.append(photo.path)
+                                    property_dict['photos'] = path_list
 
-                            video_ids = property_dict.get('videos')
-                            if video_ids:
-                                video_ids = video_ids.split(',')
-                                path_list = []
-                                for video_id in video_ids:
-                                    video = videos.query.filter_by(
-                                        id_video=int(video_id)).first()
-                                    path_list.append(video.path)
-                                property_dict['videos'] = path_list
+                                video_ids = property_dict.get('videos')
+                                if video_ids:
+                                    video_ids = video_ids.split(',')
+                                    path_list = []
+                                    for video_id in video_ids:
+                                        video = videos.query.filter_by(
+                                            id_video=int(video_id)).first()
+                                        path_list.append(video.path)
+                                    property_dict['videos'] = path_list
 
-                            authorized_properties.append(property_dict)
-            return jsonify({"owned_properties": owned_properties, "authorized_properties": authorized_properties})
+                                authorized_properties.append(property_dict)
+                return jsonify({"owned_properties": owned_properties, "authorized_properties": authorized_properties})
+            else:
+                # no properties under user
+                return jsonify(411)
         else:
             # token not valid
             return jsonify(409)

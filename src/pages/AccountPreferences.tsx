@@ -8,8 +8,8 @@ const AccountPreferences = () => {
 	const { getUserInfo, refreshAccessToken } = useUser() ;
 	
 	useEffect(() => { 
-		refreshAccessToken();
-		userInfo = getUserInfo();
+		refreshAccessToken() ;
+		userInfo = getUserInfo() ;
 	},[])
     
 	return (
