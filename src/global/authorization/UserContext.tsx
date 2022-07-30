@@ -508,7 +508,8 @@ export const UserProvider = ({ children }) => {
 		
 		let stored = sessionStorage.getItem('GilderiseUser') ;
 
-		let user = stored == null ? console.log("Failed") : JSON.parse(stored) ;
+		let user:User = stored == null ? console.log("Failed") : JSON.parse(stored);
+		console.log(user)
 
 		let properties = {} ;
 		
