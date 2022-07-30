@@ -13,39 +13,39 @@ const setToken = (t:any) => {
 	accessToken = t ;
 }
 
-export const initializeUser:
-	{
-		user: User, accessToken: any, setUser: any, userLogin: any, userRegistration: any,
-		userLogout: any, deleteUser: any, editUser: any, getUserInfo: any, addProperty: any,
-		deleteProperty: any, editProperty: any, fetchProperties: any, refreshAccessToken: any,
-		addPhotos:any,
-		authorizeUser: any, deauthorizeUser: any, test: any, testToken: any,
-	} = {
-	user: {
-		authenticated: false,
-		id: -100
-	},
-	accessToken: getAccessToken(),
-	setUser: (user: User) => { },
-	userLogin: (email: string, password: string) => { },
-	userRegistration: (firstName: string, lastName: string, dob: string, email: string, password: string) => { },
-	userLogout: () => { },
-	deleteUser: () => { },
-	editUser: (firstName: string, lastName: string, dob: string, email: string, password: string) => { },
-	getUserInfo: () => { },
-	addProperty: (street: string, city: string, state: string, zipcode: number, description: string, estimate: number, formData:any) => { },
-	deleteProperty: (propertyId: number) => { },
-	editProperty: (propertyId: number, street: string, city: string, state: string, zipcode: string, description: string, estimate: string, formData:any) => { },
-	fetchProperties: () => { },
-	addPhotos: (formData:any) => { },
-	refreshAccessToken: () => { },
-	authorizeUser: () => { },
-	deauthorizeUser: () => { },
-	test: () => { },
-	testToken: (t: any) => { },
-}
+// export const initializeUser:
+// 	{
+// 		user: User, accessToken: any, setUser: any, userLogin: any, userRegistration: any,
+// 		userLogout: any, deleteUser: any, editUser: any, getUserInfo: any, addProperty: any,
+// 		deleteProperty: any, editProperty: any, fetchProperties: any, refreshAccessToken: any,
+// 		addPhotos:any,
+// 		authorizeUser: any, deauthorizeUser: any, test: any, testToken: any,
+// 	} = {
+// 	user: {
+// 		authenticated: false,
+// 		id: -100
+// 	},
+// 	accessToken: getAccessToken(),
+// 	setUser: (user: User) => { },
+// 	userLogin: (email: string, password: string) => { },
+// 	userRegistration: (firstName: string, lastName: string, dob: string, email: string, password: string) => { },
+// 	userLogout: () => { },
+// 	deleteUser: () => { },
+// 	editUser: (firstName: string, lastName: string, dob: string, email: string, password: string) => { },
+// 	getUserInfo: () => { },
+// 	addProperty: (street: string, city: string, state: string, zipcode: number, description: string, estimate: number, formData:any) => { },
+// 	deleteProperty: (propertyId: number) => { },
+// 	editProperty: (propertyId: number, street: string, city: string, state: string, zipcode: string, description: string, estimate: string, formData:any) => { },
+// 	fetchProperties: () => { },
+// 	addPhotos: (formData:any) => { },
+// 	refreshAccessToken: () => { },
+// 	authorizeUser: () => { },
+// 	deauthorizeUser: () => { },
+// 	test: () => { },
+// 	testToken: (t: any) => { },
+// }
 
-export const UserContext = createContext<any>(initializeUser) ;
+export const UserContext = createContext<any>(null) ;
 
 export const UserProvider = ({ children }) => {
 
