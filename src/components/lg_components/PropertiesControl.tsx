@@ -21,7 +21,6 @@ const PropertiesControl = ({ handleAddProperty }) => {
 		}
 
 		properties = fetchProperties() ;
-		console.log(test) ;
 	}, [displayProperty]) ;
 	
 
