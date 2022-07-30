@@ -23,12 +23,6 @@ const PropertyForm = ({ options }) => {
 
 	let formData;
 
-	useEffect(() => { 
-		form = document.getElementById('propertyForm')
-		formData = new FormData(form);
-		
-	},[])
-
 	let initalVals = options.property == null ? {
 		'description': null,
 		'estimation': null,
@@ -80,6 +74,9 @@ const PropertyForm = ({ options }) => {
 	}
 
 	const handleSubmit = (e) => {
+		form = document.getElementById('propertyForm')
+		formData = new FormData(form);
+		
 		e.preventDefault()
 		// add property all fields should contain something.
 		if (options.operation === 'Add') {
