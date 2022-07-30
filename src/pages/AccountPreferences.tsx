@@ -5,10 +5,11 @@ import { useUser } from '../global/authorization/UserContext' ;
 const AccountPreferences = () => {
 
 	let userInfo ;
-	const { getUserInfo } = useUser() ;
+	const { getUserInfo, refreshAccessToken } = useUser() ;
 	
 	useEffect(() => { 
-		// userInfo = getUserInfo() ;
+		refreshAccessToken();
+		userInfo = getUserInfo();
 	},[])
     
 	return (

@@ -80,10 +80,9 @@ export const UserProvider = ({ children }) => {
 	}, []);
 	
 	const accessToken = () => {
-		setRefreshUser(true);
 		return getAccessToken();
-		setRefreshUser(false);
 	}
+
 	const userLogin = (email: string, password: string) => {
 		setRefreshUser(true);
 		const params = {
@@ -572,10 +571,6 @@ export const UserProvider = ({ children }) => {
 	
 	const refreshAccessToken = () => { 
 		setRefreshUser(true);
-
-		let stored = sessionStorage.getItem('GilderiseUser') ;
-
-		let user = stored == null ? console.log("Failed") : JSON.parse(stored) ;
 		
 		let params = {
 			'user_id' : user.id
@@ -597,6 +592,7 @@ export const UserProvider = ({ children }) => {
 						if (data === 408) {
 							userLogout() ;
 						}
+						setToken(data.access_token);
 					}
 				})
 			}).catch(e => {
