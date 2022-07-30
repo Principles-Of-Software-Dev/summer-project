@@ -575,7 +575,7 @@ def add_property():
             else:
                 user.properties = str(property.id_property)
             db.session.commit()
-            return jsonify({"rsp_msg": "property has been added"})
+            return jsonify({"rsp_msg": "property has been added", "property_id": property.id})
         else:
             # token not valid
             return jsonify(409)

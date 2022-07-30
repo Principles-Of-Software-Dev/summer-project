@@ -327,8 +327,10 @@ export const UserProvider = ({ children }) => {
 
 	const addProperty = (street: string, city: string, state: string, zipcode: number, description: string, estimate: number, formData:any) => { 
 
-		setRefreshUser(true) ;
-		let atoken = getAccessToken() ;
+		setRefreshUser(true);
+		let atoken = getAccessToken();
+		
+		console.log(formData)
 
 		let params = {
 			'user_id': user.id,
@@ -338,8 +340,7 @@ export const UserProvider = ({ children }) => {
 			'zipcode': zipcode,
 			'description': description,
 			'estimate': estimate,
-			'access_token': accessToken,
-
+			'access_token': atoken,
 		}
 
 		let requestOptions = {
@@ -356,6 +357,10 @@ export const UserProvider = ({ children }) => {
 					if (data !== false) {
 						if (data === 409) {
 							userLogout() ;
+						} else {
+							console.log(formData)
+							addPhotos(formData)
+							addVideos(formData)
 						}
 					}
 				})
@@ -365,12 +370,7 @@ export const UserProvider = ({ children }) => {
 		}
 
 		aProp() ;
-		
-		if (formData.photos != null) {
-			addPhotos(formData) ;
-		} if (formData.videos != null) {
-			addVideos(formData) ;
-		}
+
 
 		setRefreshUser(false) ;
 	} ;
@@ -472,7 +472,7 @@ export const UserProvider = ({ children }) => {
 			body: formData,
 		}
 
-		const addPhotos = async () => {
+		const addPhots = async () => {
 			await fetch("/add_photos", requestOptions).then(response => {
 				response.json().then(data => {
 					if (data !== false) {
@@ -486,7 +486,7 @@ export const UserProvider = ({ children }) => {
 			})
 		}
 
-		addPhotos() ;
+		addPhots() ;
 		setRefreshUser(false) ;
 	}
 
@@ -501,7 +501,7 @@ export const UserProvider = ({ children }) => {
 			body: formData,
 		}
 
-		const addVideos = async () => {
+		const addVids = async () => {
 			await fetch("/add_videos", requestOptions).then(response => {
 				response.json().then(data => {
 					if (data !== false) {
@@ -515,7 +515,7 @@ export const UserProvider = ({ children }) => {
 			})
 		}
 
-		addVideos() ;
+		addVids() ;
 		setRefreshUser(false) ;
 
 	}
