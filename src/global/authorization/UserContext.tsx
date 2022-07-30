@@ -67,7 +67,7 @@ export const UserProvider = ({ children }) => {
 	
 	// refresh the access token every minute if applicable. time is in milliseconds.
 	useEffect(() => {
-		const interval = setInterval(() => refreshAccessToken(), (60000 *14)) ;
+		const interval = setInterval(() => { console.log(user.id); refreshAccessToken() }, (60000 *14)) ;
 		return () => clearInterval(interval) ;
 	  }, [ ]) ;
 
