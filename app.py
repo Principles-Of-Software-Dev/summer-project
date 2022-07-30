@@ -195,7 +195,7 @@ def add_user():
     # create response object
     response = jsonify({"user_id": user.id_user, "access_token": token})
     # add cookie
-    response.set_cookie('session_token', ses_token)
+    response.set_cookie('session_token', ses_token, httponly=True)
     # return the new user's id along with tokens
     return response
 
@@ -374,7 +374,7 @@ def login_user():
             response = jsonify(
                 {"user_id": user.id_user, "access_token": token})
             # add cookie
-            response.set_cookie('session_token', ses_token)
+            response.set_cookie('session_token', ses_token, httponly=True)
             # return the new user's id along with tokens
             return response
         else:

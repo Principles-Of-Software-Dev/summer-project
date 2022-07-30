@@ -557,23 +557,25 @@ export const UserProvider = ({ children }) => {
 
 		let stored = sessionStorage.getItem('GilderiseUser') ;
 
-		let user = stored == null ? console.log("Failed") : JSON.parse(stored) ;
+		let user = stored == null ? console.log("Failed") : JSON.parse(stored);
+
+		console.log(user.id)
+		
 		
 		let params = {
-			'user_id' : user.id
+			'user_id': user.id,
 		}
-
-		let requestOptions = {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify(params)
-		}
-
+		
 
 		const refreshAToken = async () => {
-			await fetch("/refresh_access_token", requestOptions).then(response => {
+			await fetch("/refresh_access_token", {credentials: 'same-origin',
+			method: "POST",
+			headers: {
+				Accept: 'application/json',
+    			'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(params)}
+					).then(response => {
 				response.json().then(data => {
 					if (data !== false) {
 						if (data === 408) {
