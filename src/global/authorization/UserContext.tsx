@@ -204,13 +204,13 @@ export const UserProvider = ({ children }) => {
 	const deleteUser = () => {
 		
 		setRefreshUser(true);
-		let stored = sessionStorage.getItem('GilderiseUser') ;
+		
 
-		let user = stored == null ? console.log("Failed") : JSON.parse(stored) ;
+		let atoken = getAccessToken();
 
 		let params = {
 			'user_id': user.id,
-			'access_token': getAccessToken(),
+			'access_token': atoken,
 		}
 
 		let requestOptions = {
@@ -241,9 +241,8 @@ export const UserProvider = ({ children }) => {
 	const editUser = (firstName: string, lastName: string, dob: string, email: string, password: string) => {
 
 		setRefreshUser(true);
-		let stored = sessionStorage.getItem('GilderiseUser') ;
-
-		let user = stored == null ? console.log("Failed") : JSON.parse(stored) ;
+		
+		let atoken = getAccessToken();
 
 		let params = {
 			'userid': user.id,
@@ -252,7 +251,7 @@ export const UserProvider = ({ children }) => {
 			'dob': dob,
 			'email': email,
 			'password': password,
-			'access_token': getAccessToken(),
+			'access_token': atoken,
 
 		}
 
@@ -290,13 +289,11 @@ export const UserProvider = ({ children }) => {
 
 		let userInfo = {} ;
 
-		let stored = sessionStorage.getItem('GilderiseUser') ;
-
-		let user = stored == null ? console.log("Failed") : JSON.parse(stored) ;
+		let atoken = getAccessToken();
 
 		let params = {
 			'user_id': user.id,
-			'access_token': getAccessToken(),
+			'access_token': atoken,
 
 		}
 
@@ -334,9 +331,7 @@ export const UserProvider = ({ children }) => {
 	const addProperty = (street: string, city: string, state: string, zipcode: number, description: string, estimate: number, formData:any) => { 
 
 		setRefreshUser(true);
-		let stored = sessionStorage.getItem('GilderiseUser') ;
-
-		let user = stored == null ? console.log("Failed") : JSON.parse(stored) ;
+		let atoken = getAccessToken();
 
 		let params = {
 			'user_id': user.id,
@@ -346,7 +341,7 @@ export const UserProvider = ({ children }) => {
 			'zipcode': zipcode,
 			'description': description,
 			'estimate': estimate,
-			'access_token': getAccessToken(),
+			'access_token': accessToken,
 
 		}
 
@@ -386,9 +381,11 @@ export const UserProvider = ({ children }) => {
 	const deleteProperty = (propertyId: number) => { 
 		setRefreshUser(true);
 
+		let atoken = getAccessToken();
+
 		let params = {
 			'property_id': propertyId,
-			'access_token': getAccessToken(),
+			'access_token': atoken,
 		}
 
 		let requestOptions = {
@@ -421,6 +418,8 @@ export const UserProvider = ({ children }) => {
 	const editProperty = (propertyId: number, street: string, city: string, state: string, zipcode: string, description: string, estimate: string, formData:any) => { 
 		setRefreshUser(true);
 
+		let atoken = getAccessToken();
+
 		let params = {
 			'property_id': propertyId,
 			'street': street,
@@ -429,7 +428,7 @@ export const UserProvider = ({ children }) => {
 			'zipcode': zipcode,
 			'description': description,
 			'estimate': estimate,
-			'access_token': getAccessToken(),
+			'access_token': atoken,
 
 		}
 
@@ -527,14 +526,16 @@ export const UserProvider = ({ children }) => {
 	const fetchProperties = () => { 
 		setRefreshUser(true);
 
-		let properties = {} ;
+		let properties = {};
+		
+		let atoken = getAccessToken();
 		
 		let params = {
 			'user_id': user.id,
-			'access_token': getAccessToken(),
+			'access_token': atoken,
 		}
 
-		console.log("Send Params for fetch Props" +params)
+		console.log("Send Params for fetch Props" + "\nUserId: " +params.user_id + "\nAccess_Token: " + params.access_token)
 
 		let requestOptions = {
 			method: "POST",
