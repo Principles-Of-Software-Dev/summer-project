@@ -11,11 +11,10 @@ import Button from '../components/sm_components/Button';
 const Dashboard = () => {
 
 	let userInfo ;
-	const { getUserInfo, refresh_access_token ,user } = useUser() ;
+	const { getUserInfo ,user } = useUser() ;
 	
 	useEffect(() => { 
-		refresh_access_token();
-		userInfo = getUserInfo();
+		// userInfo = getUserInfo();
 		
 	}, [])
 	const navigate = useNavigate();
@@ -53,7 +52,7 @@ const Dashboard = () => {
 							disable={false}
 							onClick={() => handleAddProperty()}
 						/>
-					<PopoutMenu handleDisplayLogout={handleDisplayLogout} userId={user.id} />
+					<PopoutMenu handleDisplayLogout={handleDisplayLogout} userId />
 				
 				</div>
 				

@@ -20,8 +20,7 @@ export const initializeUser:
 		deleteProperty: any, editProperty: any, fetchProperties: any, refreshAccessToken: any,
 		addPhotos:any,
 		authorizeUser: any, deauthorizeUser: any, test: any, testToken: any,
-	} =
-{
+	} = {
 	user: {
 		authenticated: false,
 		id: undefined
@@ -52,22 +51,14 @@ export const UserProvider = ({ children }) => {
 
 	const navigate = useNavigate() ;
 	const stored = sessionStorage.getItem('GilderiseUser') ;
-	let [user, setUser] = useState<User>(stored == null ?
+	
+	const [user, setUser] = useState<User>( stored == null ?
 		{
 			authenticated: false,
 			id: undefined,
 		} :
 		JSON.parse(stored)) ;
 
-	useEffect(() => { 
-		let stored = sessionStorage.getItem('GilderiseUser') ;
-		setUser(stored == null ?
-		{
-			authenticated: false,
-			id: undefined,
-		} :
-		JSON.parse(stored))
-	}, [])
 	// Store user data on local memory on every update of user or user.authenticated.
 	useEffect(() => {
 		sessionStorage.setItem('GilderiseUser', JSON.stringify(user)) ;
@@ -76,10 +67,9 @@ export const UserProvider = ({ children }) => {
 	
 	// refresh the access token every minute if applicable. time is in milliseconds.
 	useEffect(() => {
-		const interval = setInterval(() => { console.log(user.id); refreshAccessToken() }, (60000 *14)) ;
+		const interval = setInterval(() => refreshAccessToken(), (60000 *14)) ;
 		return () => clearInterval(interval) ;
-	  }, [ ]) ;
-
+	  }, []) ;
 	const accessToken = () => {
 		return getAccessToken();
 	}
@@ -113,9 +103,7 @@ export const UserProvider = ({ children }) => {
 								'authenticated': true,
 								'id': data.user_id
 							})
-							setToken(data.access_token);
-							
-
+							setToken(data.access_token) ;
 							navigate("/dashboard") ;
 						}
 					}
@@ -176,8 +164,6 @@ export const UserProvider = ({ children }) => {
 	} ;
 
 	const userLogout = () => {
-
-		
 		// Remove user info.
 
 		const requestOptions = {
@@ -229,7 +215,7 @@ export const UserProvider = ({ children }) => {
 			await fetch("/delete_user", requestOptions).then(response => {
 				response.json().then(data => {
 					if (data !== false) {
-
+						userLogout() ;
 					}
 				})
 			}).catch(e => {
@@ -271,7 +257,7 @@ export const UserProvider = ({ children }) => {
 				response.json().then(data => {
 					if (data !== false) {
 						if (data === 409) {
-							console.log("edit user")
+							userLogout() ;
 						}
 						else if (data === 401) {
 							window.alert("Email is already in use!") ;
@@ -289,9 +275,7 @@ export const UserProvider = ({ children }) => {
 	
 	const getUserInfo = () => {
 
-		let userInfo = {};
-		
-		refreshAccessToken();
+		let userInfo = {} ;
 
 		let stored = sessionStorage.getItem('GilderiseUser') ;
 
@@ -300,6 +284,7 @@ export const UserProvider = ({ children }) => {
 		let params = {
 			'user_id': user.id,
 			'access_token': accessToken,
+
 		}
 
 		let requestOptions = {
@@ -315,6 +300,8 @@ export const UserProvider = ({ children }) => {
 				response.json().then(data => {
 					if (data !== false) {
 						if (data === 409) {
+							window.alert("Please Log In or Register") ;
+							userLogout() ;
 						}
 						userInfo = data ;
 						return userInfo ;
@@ -332,7 +319,7 @@ export const UserProvider = ({ children }) => {
 	} ;
 
 	const addProperty = (street: string, city: string, state: string, zipcode: number, description: string, estimate: number, formData:any) => { 
-		refreshAccessToken();
+
 		let stored = sessionStorage.getItem('GilderiseUser') ;
 
 		let user = stored == null ? console.log("Failed") : JSON.parse(stored) ;
@@ -362,6 +349,7 @@ export const UserProvider = ({ children }) => {
 				response.json().then(data => {
 					if (data !== false) {
 						if (data === 409) {
+							userLogout() ;
 						}
 					}
 				})
@@ -381,6 +369,7 @@ export const UserProvider = ({ children }) => {
 	} ;
 
 	const deleteProperty = (propertyId: number) => { 
+
 		let params = {
 			'property_id': propertyId,
 			'access_token': accessToken,
@@ -399,7 +388,7 @@ export const UserProvider = ({ children }) => {
 				response.json().then(data => {
 					if (data !== false) {
 						if (data === 409) {
-
+							userLogout() ;
 						}
 					}
 				})
@@ -415,7 +404,7 @@ export const UserProvider = ({ children }) => {
 
 	const editProperty = (propertyId: number, street: string, city: string, state: string, zipcode: string, description: string, estimate: string, formData:any) => { 
 
-		refreshAccessToken();
+
 		let params = {
 			'property_id': propertyId,
 			'street': street,
@@ -441,7 +430,7 @@ export const UserProvider = ({ children }) => {
 				response.json().then(data => {
 					if (data !== false) {
 						if (data === 409) {
-
+							userLogout() ;
 						}
 					}
 				})
@@ -473,7 +462,7 @@ export const UserProvider = ({ children }) => {
 				response.json().then(data => {
 					if (data !== false) {
 						if (data === 409) {
-
+							userLogout() ;
 						}
 					}
 				})
@@ -500,7 +489,7 @@ export const UserProvider = ({ children }) => {
 				response.json().then(data => {
 					if (data !== false) {
 						if (data === 409) {
-
+							userLogout() ;
 						}
 					}
 				})
@@ -515,8 +504,6 @@ export const UserProvider = ({ children }) => {
 	}
 
 	const fetchProperties = () => { 
-
-		refreshAccessToken();
 		
 		let stored = sessionStorage.getItem('GilderiseUser') ;
 
@@ -544,7 +531,7 @@ export const UserProvider = ({ children }) => {
 					console.log(data)
 					if (data !== false) {
 						if (data === 409) {
-
+							userLogout() ;
 						} else {
 							properties = data ;
 							return properties ;
@@ -561,37 +548,30 @@ export const UserProvider = ({ children }) => {
 	} ;
 	
 	const refreshAccessToken = () => { 
-		console.log("running");
-		const bearerToken = accessToken();
 
-		let stored = sessionStorage.getItem('GilderiseUser');
-		
-		console.log(stored)
+		let stored = sessionStorage.getItem('GilderiseUser') ;
 
-		let user = stored == null ? console.log("Failed") : JSON.parse(stored);
-		console.log(user)
+		let user = stored == null ? console.log("Failed") : JSON.parse(stored) ;
+		
+		let params = {
+			'user_id' : user.id
+		}
 
-		console.log(user.id)
-		
-		
+		let requestOptions = {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify(params)
+		}
+
 
 		const refreshAToken = async () => {
-			await fetch("/refresh_access_token", {
-				credentials: 'include',
-				method: 'POST',
-				mode: 'same-origin',
-				cache: 'default',
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-				'Authorization': `Bearer ${bearerToken}`
-			},
-			body: JSON.stringify({'user_id': 4})}
-					).then(response => {
+			await fetch("/refresh_access_token", requestOptions).then(response => {
 				response.json().then(data => {
 					if (data !== false) {
 						if (data === 408) {
-
+							userLogout() ;
 						}
 					}
 				})
@@ -630,7 +610,7 @@ export const UserProvider = ({ children }) => {
 				response.json().then(data => {
 					if (data !== false) {
 						if (data === 409) {
-
+							userLogout() ;
 						}
 
 					}
@@ -670,7 +650,7 @@ export const UserProvider = ({ children }) => {
 				response.json().then(data => {
 					if (data !== false) {
 						if (data === 409) {
-
+							userLogout() ;
 						}
 					}
 				})
