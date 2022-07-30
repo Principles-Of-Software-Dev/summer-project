@@ -56,6 +56,7 @@ export const UserProvider = ({ children }) => {
 	const [user, setUser] = useState<User>({}) ;
 
 	// Store user data on local memory on every update of user or user.authenticated.
+
 	useEffect(() => {
 		const stored = sessionStorage.getItem('GilderiseUser') ;
 		setUser(stored == null ?
@@ -64,6 +65,9 @@ export const UserProvider = ({ children }) => {
 				id: -100,
 			} :
 			JSON.parse(stored)) ;
+	}, []) ;
+
+	useEffect(() => {
 		sessionStorage.setItem('GilderiseUser', JSON.stringify(user)) ;
 
 	}, [user, user.authenticated]) ;
