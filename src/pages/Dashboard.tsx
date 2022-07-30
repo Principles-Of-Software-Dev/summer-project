@@ -11,9 +11,10 @@ import Button from '../components/sm_components/Button';
 const Dashboard = () => {
 
 	let userInfo ;
-	const { getUserInfo, user } = useUser() ;
+	const { getUserInfo, refresh_access_token ,user } = useUser() ;
 	
 	useEffect(() => { 
+		refresh_access_token();
 		userInfo = getUserInfo();
 		
 	}, [])
