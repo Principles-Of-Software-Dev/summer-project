@@ -269,7 +269,7 @@ export const UserProvider = ({ children }) => {
 				response.json().then(data => {
 					if (data !== false) {
 						if (data === 409) {
-							userLogout() ;
+							console.log("edit user")
 						}
 						else if (data === 401) {
 							window.alert("Email is already in use!") ;
@@ -314,7 +314,7 @@ export const UserProvider = ({ children }) => {
 					if (data !== false) {
 						if (data === 409) {
 							window.alert("Please Log In or Register") ;
-							userLogout() ;
+							console.log('getUser')
 						}
 						userInfo = data ;
 						return userInfo ;
@@ -362,7 +362,6 @@ export const UserProvider = ({ children }) => {
 				response.json().then(data => {
 					if (data !== false) {
 						if (data === 409) {
-							userLogout() ;
 						}
 					}
 				})
@@ -400,7 +399,7 @@ export const UserProvider = ({ children }) => {
 				response.json().then(data => {
 					if (data !== false) {
 						if (data === 409) {
-							userLogout() ;
+
 						}
 					}
 				})
@@ -442,7 +441,7 @@ export const UserProvider = ({ children }) => {
 				response.json().then(data => {
 					if (data !== false) {
 						if (data === 409) {
-							userLogout() ;
+
 						}
 					}
 				})
@@ -474,7 +473,7 @@ export const UserProvider = ({ children }) => {
 				response.json().then(data => {
 					if (data !== false) {
 						if (data === 409) {
-							userLogout() ;
+
 						}
 					}
 				})
@@ -501,7 +500,7 @@ export const UserProvider = ({ children }) => {
 				response.json().then(data => {
 					if (data !== false) {
 						if (data === 409) {
-							userLogout() ;
+
 						}
 					}
 				})
@@ -545,7 +544,7 @@ export const UserProvider = ({ children }) => {
 					console.log(data)
 					if (data !== false) {
 						if (data === 409) {
-							userLogout() ;
+
 						} else {
 							properties = data ;
 							return properties ;
@@ -590,7 +589,7 @@ export const UserProvider = ({ children }) => {
 				response.json().then(data => {
 					if (data !== false) {
 						if (data === 408) {
-							userLogout() ;
+
 						}
 					}
 				})
@@ -629,7 +628,7 @@ export const UserProvider = ({ children }) => {
 				response.json().then(data => {
 					if (data !== false) {
 						if (data === 409) {
-							userLogout() ;
+
 						}
 
 					}
@@ -669,7 +668,7 @@ export const UserProvider = ({ children }) => {
 				response.json().then(data => {
 					if (data !== false) {
 						if (data === 409) {
-							userLogout() ;
+
 						}
 					}
 				})
