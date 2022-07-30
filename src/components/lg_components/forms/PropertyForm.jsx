@@ -6,6 +6,10 @@ import Button from "../../sm_components/Button" ;
 
 const PropertyForm = ({ options }) => {
 
+	useEffect(() => { 
+		console.log(options);
+	}, [])
+
 	const { accessToken, user, editProperty, addProperty} = useUser();
 	const estimation = useRef();
 	const description = useRef();
@@ -16,7 +20,7 @@ const PropertyForm = ({ options }) => {
 	const photos = useRef() ;
 	const videos = useRef() ;
 
-	const required = options.operation === 'add' ? true : false ;
+	const required = options.operation === 'Add' ? true : false ;
 	const navigate = useNavigate();
 	const [disableSubmit, setDisableSubmit] = useState(true);
 	let form;
@@ -49,14 +53,15 @@ const PropertyForm = ({ options }) => {
 
 	const handleValidSubmit = () => {
 		if (required && (
-			estimation.current.value != null
-			&& street.current.value != null
-			&& city.current.value != null
-			&& zip.current.value != null
-			&& state.current.value != null
-			&& photos.current.value != null
-			&& videos.current.value != null
-			&& description.current.value != null)) {
+			estimation.current.value !== ("")
+			&& street.current.value !== ("")
+			&& city.current.value !==("")
+			&& zip.current.value !== ("")
+			&& state.current.value !== ("")
+			&& photos.current.value !== ("")
+			&& videos.current.value !== ("")
+			&& description.current.value !== (""))) {
+			console.log('ran');
 			return false ;
 		} else if (!required && (
 			estimation.current.value != initalVals.estimation
@@ -96,7 +101,7 @@ const PropertyForm = ({ options }) => {
 					}
 				}
 				formData.append('access_token', accessToken());
-				formData.append('property_id', options.property.propertyId);
+				formData.append('property_id', null);
 				formData.append('user_id', user.id)
 			} else { 
 				formData = null;

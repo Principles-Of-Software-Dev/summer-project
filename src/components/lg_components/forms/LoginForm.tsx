@@ -1,4 +1,4 @@
-import React, { useState } from 'react' ;
+import React, { useEffect, useState } from 'react' ;
 import Button from '../../sm_components/Button' ;
 import EmailField from '../../sm_components/validator_fields/EmailField' ;
 import PasswordField from '../../sm_components/validator_fields/PasswordField' ;
@@ -8,14 +8,19 @@ import { useUser } from '../../../global/authorization/UserContext' ;
 
 const LoginForm = ({ handleClickLogin, login }) => {
 
-	// Login Validation.
-	const [email, setEmail] = useState('') ;
-	const [validEmail, setValidEmail] = useState(false) ;
-	const [password, setPassword] = useState('') ;
-	const [validPassword, setValidPassword] = useState(false) ;
+		// Login Validation.
+		const [email, setEmail] = useState('') ;
+		const [validEmail, setValidEmail] = useState(false) ;
+		const [password, setPassword] = useState('') ;
+		const [validPassword, setValidPassword] = useState(false) ;
+	
+		const { userLogin } = useUser() ;
+		const navigate = useNavigate() ;
 
-	const { userLogin } = useUser() ;
-	const navigate = useNavigate() ;
+	
+	useEffect(() => { 
+		
+	})
 
 	const handleNavigate = (page:string, check:boolean) => {
 
