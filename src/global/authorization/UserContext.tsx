@@ -329,13 +329,6 @@ export const UserProvider = ({ children }) => {
 
 		setRefreshUser(true);
 		let atoken = getAccessToken();
-
-		const sendPhotos = async () => {
-			await addPhotos(formData)
-		}
-		const sendVideos = async () => {
-			await addVideos(formData);
-		}
 		
 		console.log(formData)
 
@@ -367,8 +360,8 @@ export const UserProvider = ({ children }) => {
 						} else {
 							console.log(formData)
 							formData.append('property_id', data.property_id)
-							sendPhotos();
-							sendVideos();
+							addPhotos(formData)
+							addVideos(formData)
 							navigate("/dashboard")
 						}
 					}
@@ -377,7 +370,6 @@ export const UserProvider = ({ children }) => {
 				console.log(e)
 			})
 		}
-
 		aProp() ;
 
 
@@ -422,15 +414,8 @@ export const UserProvider = ({ children }) => {
 		setRefreshUser(false) ;
 	} ;
 
-	const editProperty = (propertyId: number, street: string, city: string, state: string, zipcode: string, description: string, estimate: string, formData:any) => { 
+	const editProperty = (propertyId: number, street: string, city: string, state: string, zipcode: string, description: string, estimate: string, formData) => { 
 		setRefreshUser(true);
-		
-		const sendPhotos = async () => {
-			await addPhotos(formData)
-		}
-		const sendVideos = async () => {
-			await addVideos(formData);
-		}
 
 		let atoken = getAccessToken() ;
 
@@ -462,10 +447,8 @@ export const UserProvider = ({ children }) => {
 							userLogout();
 						} else { 
 							if (formData.get('photos') !== (null || undefined || "")) {
-								sendPhotos();
 							}
 							if (formData.get('videos') !== (null || undefined || "")) {
-								sendVideos();
 							}
 							navigate("/dashboard")
 						}
@@ -482,7 +465,7 @@ export const UserProvider = ({ children }) => {
 
 	} ;
 	
-	const addPhotos = (formData) => {
+	const addPhotos = async (formData) => {
 		setRefreshUser(true) ;
 
 		let requestOptions = {
@@ -498,7 +481,9 @@ export const UserProvider = ({ children }) => {
 				response.json().then(data => {
 					if (data !== false) {
 						if (data === 409) {
-							userLogout() ;
+							userLogout();
+						} else {
+							return true;
 						}
 					}
 				})
@@ -507,11 +492,11 @@ export const UserProvider = ({ children }) => {
 			})
 		}
 
-		addPhots() ;
 		setRefreshUser(false) ;
+		await addPhots() ;
 	}
 
-	const addVideos = (formData) => {
+	const addVideos = async (formData) => {
 		setRefreshUser(true) ;
 
 		let requestOptions = {
@@ -528,6 +513,8 @@ export const UserProvider = ({ children }) => {
 					if (data !== false) {
 						if (data === 409) {
 							userLogout() ;
+						} else {
+							return true;
 						}
 					}
 				})
@@ -536,8 +523,9 @@ export const UserProvider = ({ children }) => {
 			})
 		}
 
-		addVids() ;
 		setRefreshUser(false) ;
+
+		await addVids() ;
 
 	}
 

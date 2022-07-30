@@ -137,12 +137,12 @@ const PropertyForm = ({ options }) => {
 
 				if (photos.current.value !== ("" || null || undefined)) {
 					for (let i = 0 ; i < document.forms["propertyForm"]["photos"].files.length ; i++) {
-						formData.append('files', document.forms["propertyForm"]["photos"].files[i]) ;
+						formData.append('photos', document.forms["propertyForm"]["photos"].files[i]) ;
 					}
 				}
 				if (videos.current.value !== ("" || null || undefined)) {
 					for (let i = 0 ; i < document.forms["propertyForm"]["videos"].files.length ; i++) {
-						formData.append('files', document.forms["propertyForm"]["videos"].files[i]) ;
+						formData.append('videos', document.forms["propertyForm"]["videos"].files[i]) ;
 					}
 				}
 				formData.append('access_token', 10) ;
