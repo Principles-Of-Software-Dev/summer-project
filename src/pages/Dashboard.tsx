@@ -15,7 +15,6 @@ const Dashboard = () => {
 	
 	useEffect(() => { 
 		userId = user.id ;
-		console.log(userId) ;
 		
 	}, [])
 	const navigate = useNavigate() ;
@@ -53,7 +52,7 @@ const Dashboard = () => {
 						disable={false}
 						onClick={() => handleAddProperty()}
 					/>
-					<PopoutMenu handleDisplayLogout={handleDisplayLogout} userId />
+					<PopoutMenu handleDisplayLogout={handleDisplayLogout} userId={userId} />
 				
 				</div>
 				
