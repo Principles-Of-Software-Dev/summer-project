@@ -7,7 +7,6 @@ import Button from "../../sm_components/Button" ;
 const PropertyForm = ({ options }) => {
 
 	useEffect(() => { 
-		console.log(options) ;
 	}, [])
 
 	const { getAccessToken, user, editProperty, addProperty } = useUser() ;
@@ -23,7 +22,6 @@ const PropertyForm = ({ options }) => {
 	const required = options.operation === 'Add' ? true : false ;
 	const navigate = useNavigate() ;
 	const [disableSubmit, setDisableSubmit] = useState(true) ;
-	let form ;
 
 	let formData ;
 

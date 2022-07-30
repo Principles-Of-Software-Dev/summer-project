@@ -54,14 +54,14 @@ const Dashboard = () => {
 							disable={false}
 							onClick={handleAddProperty}
 						/>
-						</div>
+					</div>
 					<PopoutMenu handleDisplayLogout={handleDisplayLogout} userId={userId} handleAddProperty={handleAddProperty} />
 				
 				</div>
 				
 			</TopBar>
 			<div className='my-12'>
-				<PropertiesControl />
+				<PropertiesControl handleAddProperty={handleAddProperty} />
 			</div>
 
 

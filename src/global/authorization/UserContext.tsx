@@ -56,9 +56,7 @@ export const UserProvider = ({ children }) => {
 	// Store user data on local memory on every update of user or user.authenticated.
 
 	useEffect(() => {
-		console.log("Running Get Session")
 		const stored = sessionStorage.getItem('GilderiseUser') ;
-		console.log("Stored User Object: " + stored) ;
 		setUser(stored == null ?
 			{
 				authenticated: false,
@@ -68,7 +66,6 @@ export const UserProvider = ({ children }) => {
 	}, [refreshUser]) ;
 
 	useEffect(() => {
-		console.log("Running Set Session")
 		sessionStorage.setItem('GilderiseUser', JSON.stringify(user)) ;
 
 	}, [user, user.authenticated]) ;
@@ -535,7 +532,6 @@ export const UserProvider = ({ children }) => {
 			'access_token': atoken,
 		}
 
-		console.log("Send Params for fetch Props" + "\nUserId: " +params.user_id + "\nAccess_Token: " + params.access_token)
 
 		let requestOptions = {
 			method: "POST",
@@ -549,7 +545,6 @@ export const UserProvider = ({ children }) => {
 		const getProps = async () => {
 			await fetch("/get_properties", requestOptions).then(response => {
 				response.json().then(data => {
-					console.log(data)
 					if (data !== false) {
 						if (data === 409) {
 							userLogout() ;
@@ -609,14 +604,13 @@ export const UserProvider = ({ children }) => {
 	
 	const authorizeUser = (email: string) => {
 		setRefreshUser(true) ;
-
-		let stored = sessionStorage.getItem('GilderiseUser') ;
-
-		let user = stored == null ? console.log("Failed") : JSON.parse(stored) ;
 		
+		let atoken = getAccessToken() ;
+
 		let params = {
 			'user_id': user.id,
-			'email_of_authorized' : email
+			'email_of_authorized': email,
+			'access_token' : atoken
 		}
 
 		let requestOptions = {
@@ -651,13 +645,12 @@ export const UserProvider = ({ children }) => {
 	const deauthorizeUser = (email: string) => {
 		setRefreshUser(true) ;
 
-		let stored = sessionStorage.getItem('GilderiseUser') ;
-
-		let user = stored == null ? console.log("Failed") : JSON.parse(stored) ;
+		let atoken = getAccessToken() ;
 		
 		let params = {
 			'user_id': user.id,
-			'email_of_authorized' : email
+			'email_of_authorized': email,
+			'access_token': atoken
 		}
 
 		let requestOptions = {
