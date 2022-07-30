@@ -23,7 +23,7 @@ export const initializeUser:
 	} = {
 	user: {
 		authenticated: false,
-		id: undefined
+		id: -100
 	},
 	accessToken: getAccessToken(),
 	setUser: (user: User) => { },
@@ -50,12 +50,13 @@ export const UserContext = createContext<any>(initializeUser) ;
 export const UserProvider = ({ children }) => {
 
 	const navigate = useNavigate() ;
-	const stored = sessionStorage.getItem('GilderiseUser') ;
+	const stored = sessionStorage.getItem('GilderiseUser');
+
 	
 	const [user, setUser] = useState<User>( stored == null ?
 		{
 			authenticated: false,
-			id: undefined,
+			id: -100,
 		} :
 		JSON.parse(stored)) ;
 

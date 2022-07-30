@@ -10,11 +10,13 @@ import Button from '../components/sm_components/Button';
 
 const Dashboard = () => {
 
-	let userInfo ;
-	const { getUserInfo ,user } = useUser() ;
+	let userId;
+	const { user } = useUser() ;
 	
 	useEffect(() => { 
-		// userInfo = getUserInfo();
+		userId = user();
+		userId = userId.id;
+		console.log(userId);
 		
 	}, [])
 	const navigate = useNavigate();
