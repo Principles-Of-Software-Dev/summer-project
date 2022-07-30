@@ -567,7 +567,7 @@ export const UserProvider = ({ children }) => {
 			await fetch("/refresh_access_token", {
 				credentials: 'include',
 				method: "POST",
-				mode: 'cors',
+				mode: 'same-origin',
 				cache: 'default',
 			headers: {
 				Accept: 'application/json',

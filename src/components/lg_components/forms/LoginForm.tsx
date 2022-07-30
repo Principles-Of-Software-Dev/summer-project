@@ -79,7 +79,10 @@ const LoginForm = ({ handleClickLogin, login }) => {
 									textColor='text-c-white'
 									hoverColor='hover:bg-zinc-500'
 									disable={handleValidLogin()}
-									onClick={() => userLogin(email, password)}
+									onClick={(e) => {
+										e.preventDefault();
+										userLogin(email, password)
+									}}
 								/>
 								< Button
 									height="h-xsmall-button"
