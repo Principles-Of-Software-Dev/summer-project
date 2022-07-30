@@ -229,7 +229,7 @@ export const UserProvider = ({ children }) => {
 			await fetch("/delete_user", requestOptions).then(response => {
 				response.json().then(data => {
 					if (data !== false) {
-						
+
 					}
 				})
 			}).catch(e => {
@@ -315,8 +315,6 @@ export const UserProvider = ({ children }) => {
 				response.json().then(data => {
 					if (data !== false) {
 						if (data === 409) {
-							window.alert("Please Log In or Register") ;
-							console.log('getUser')
 						}
 						userInfo = data ;
 						return userInfo ;
@@ -564,6 +562,7 @@ export const UserProvider = ({ children }) => {
 	
 	const refreshAccessToken = () => { 
 		console.log("running");
+		const bearerToken = accessToken();
 
 		let stored = sessionStorage.getItem('GilderiseUser');
 		
@@ -584,7 +583,8 @@ export const UserProvider = ({ children }) => {
 				cache: 'default',
 			headers: {
 				Accept: 'application/json',
-    			'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
+				'Authorization': `Bearer ${bearerToken}`
 			},
 			body: JSON.stringify({'user_id': 4})}
 					).then(response => {
