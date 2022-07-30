@@ -562,10 +562,6 @@ export const UserProvider = ({ children }) => {
 		console.log(user.id)
 		
 		
-		let params = {
-			'user_id': user.id,
-		}
-		
 
 		const refreshAToken = async () => {
 			await fetch("/refresh_access_token", {
@@ -577,7 +573,7 @@ export const UserProvider = ({ children }) => {
 				Accept: 'application/json',
     			'Content-Type': 'application/json'
 			},
-			body: JSON.stringify(params)}
+			body: JSON.stringify({'user_id': user.id})}
 					).then(response => {
 				response.json().then(data => {
 					if (data !== false) {
