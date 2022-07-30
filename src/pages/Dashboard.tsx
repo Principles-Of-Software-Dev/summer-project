@@ -14,8 +14,7 @@ const Dashboard = () => {
 	const { user } = useUser() ;
 	
 	useEffect(() => { 
-		userId = user();
-		userId = userId.id;
+		userId = user.id;
 		console.log(userId);
 		
 	}, [])
