@@ -568,8 +568,11 @@ export const UserProvider = ({ children }) => {
 		
 
 		const refreshAToken = async () => {
-			await fetch("/refresh_access_token", {credentials: 'same-origin',
-			method: "POST",
+			await fetch("/refresh_access_token", {
+				credentials: 'include',
+				method: "POST",
+				mode: 'cors',
+				cache: 'default',
 			headers: {
 				Accept: 'application/json',
     			'Content-Type': 'application/json'
