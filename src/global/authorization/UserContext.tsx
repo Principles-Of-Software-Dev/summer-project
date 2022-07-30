@@ -58,7 +58,9 @@ export const UserProvider = ({ children }) => {
 	// Store user data on local memory on every update of user or user.authenticated.
 
 	useEffect(() => {
-		const stored = sessionStorage.getItem('GilderiseUser') ;
+		console.log("Running Get Session")
+		const stored = sessionStorage.getItem('GilderiseUser');
+		console.log("Stored User Object: " + stored);
 		setUser(stored == null ?
 			{
 				authenticated: false,
@@ -68,6 +70,7 @@ export const UserProvider = ({ children }) => {
 	}, []) ;
 
 	useEffect(() => {
+		console.log("Running Set Session")
 		sessionStorage.setItem('GilderiseUser', JSON.stringify(user)) ;
 
 	}, [user, user.authenticated]) ;
@@ -511,11 +514,6 @@ export const UserProvider = ({ children }) => {
 	}
 
 	const fetchProperties = () => { 
-		
-		let stored = sessionStorage.getItem('GilderiseUser') ;
-
-		let user:User = stored == null ? console.log("Failed") : JSON.parse(stored) ;
-		console.log(user)
 
 		let properties = {} ;
 		
