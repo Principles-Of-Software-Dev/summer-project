@@ -329,6 +329,13 @@ export const UserProvider = ({ children }) => {
 
 		setRefreshUser(true);
 		let atoken = getAccessToken();
+
+		const sendPhotos = async () => {
+			await addPhotos(formData)
+		}
+		const sendVideos = async () => {
+			await addVideos(formData);
+		}
 		
 		console.log(formData)
 
@@ -359,9 +366,9 @@ export const UserProvider = ({ children }) => {
 							userLogout() ;
 						} else {
 							console.log(formData)
-							formData.append('property_id',data.property_id)
-							addPhotos(formData)
-							addVideos(formData)
+							formData.append('property_id', data.property_id)
+							sendPhotos();
+							sendVideos();
 							navigate("/dashboard")
 						}
 					}
@@ -374,7 +381,8 @@ export const UserProvider = ({ children }) => {
 		aProp() ;
 
 
-		setRefreshUser(false) ;
+
+		setRefreshUser(false);
 	} ;
 
 	const deleteProperty = (propertyId: number) => { 
@@ -415,7 +423,14 @@ export const UserProvider = ({ children }) => {
 	} ;
 
 	const editProperty = (propertyId: number, street: string, city: string, state: string, zipcode: string, description: string, estimate: string, formData:any) => { 
-		setRefreshUser(true) ;
+		setRefreshUser(true);
+		
+		const sendPhotos = async () => {
+			await addPhotos(formData)
+		}
+		const sendVideos = async () => {
+			await addVideos(formData);
+		}
 
 		let atoken = getAccessToken() ;
 
@@ -446,9 +461,12 @@ export const UserProvider = ({ children }) => {
 						if (data === 409) {
 							userLogout();
 						} else { 
-
-							addPhotos(formData)
-							addVideos(formData)
+							if (formData.get('photos') !== (null || undefined || "")) {
+								sendPhotos();
+							}
+							if (formData.get('videos') !== (null || undefined || "")) {
+								sendVideos();
+							}
 							navigate("/dashboard")
 						}
 					}
@@ -459,10 +477,6 @@ export const UserProvider = ({ children }) => {
 		}
 
 		eProp() ;
-		
-		if (formData != null) {
-			addPhotos(formData) ;
-		}
 
 		setRefreshUser(false) ;
 
@@ -471,9 +485,6 @@ export const UserProvider = ({ children }) => {
 	const addPhotos = (formData) => {
 		setRefreshUser(true) ;
 
-		const request = new XMLHttpRequest();
-		request.open("POST", "/add_photos");
-		request.send(formData);
 		let requestOptions = {
 			method: "POST",
 			headers: {

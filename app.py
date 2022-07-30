@@ -799,7 +799,7 @@ def add_photo():
         # if access token
         if is_token_valid(access_token, "access", user_id):
             # grab files uploaded
-            files = request.files.getlist("files")
+            files = request.files.getlist("photos")
 
             # set json data into vars
             property_id = request.form.get('property_id')
@@ -843,7 +843,7 @@ def add_video():
         # if access token
         if is_token_valid(access_token, "access", user_id):
             # grab files uploaded
-            files = request.files.getlist("files")
+            files = request.files.getlist("videos")
 
             # set json data into vars
             property_id = request.form.get('property_id')
