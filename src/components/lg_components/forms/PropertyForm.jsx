@@ -10,7 +10,7 @@ const PropertyForm = ({ options }) => {
 		console.log(options) ;
 	}, [])
 
-	const { accessToken, user, editProperty, addProperty } = useUser() ;
+	const { getAccessToken, user, editProperty, addProperty } = useUser() ;
 	const estimation = useRef() ;
 	const description = useRef() ;
 	const street = useRef() ;
@@ -98,7 +98,7 @@ const PropertyForm = ({ options }) => {
 						formData.append('files', document.forms["propertyForm"]["videos"].files[i]) ;
 					}
 				}
-				formData.append('access_token', accessToken()) ;
+				formData.append('access_token', getAccessToken()) ;
 				formData.append('property_id', null) ;
 				formData.append('user_id', user.id)
 			} else { 

@@ -3,13 +3,13 @@ import { User } from "../TypeDefs" ;
 import { useNavigate } from "react-router-dom" ;
 
 
-let accessToken = null ;
+let accessToken:(number | null) = null ;
 
 const getAccessToken = () => {
 	return accessToken ;
 }
 
-const setToken = (t:any) => {
+const setToken = (t:(number| null)) => {
 	accessToken = t ;
 }
 
@@ -79,9 +79,6 @@ export const UserProvider = ({ children }) => {
 		return () => clearInterval(interval) ;
 	}, []);
 	
-	const accessToken = () => {
-		return getAccessToken();
-	}
 
 	const userLogin = (email: string, password: string) => {
 		setRefreshUser(true);
@@ -213,7 +210,7 @@ export const UserProvider = ({ children }) => {
 
 		let params = {
 			'user_id': user.id,
-			'access_token': accessToken,
+			'access_token': getAccessToken(),
 		}
 
 		let requestOptions = {
@@ -255,7 +252,7 @@ export const UserProvider = ({ children }) => {
 			'dob': dob,
 			'email': email,
 			'password': password,
-			'access_token': accessToken,
+			'access_token': getAccessToken(),
 
 		}
 
@@ -299,7 +296,7 @@ export const UserProvider = ({ children }) => {
 
 		let params = {
 			'user_id': user.id,
-			'access_token': accessToken,
+			'access_token': getAccessToken(),
 
 		}
 
@@ -349,7 +346,7 @@ export const UserProvider = ({ children }) => {
 			'zipcode': zipcode,
 			'description': description,
 			'estimate': estimate,
-			'access_token': accessToken,
+			'access_token': getAccessToken(),
 
 		}
 
@@ -391,7 +388,7 @@ export const UserProvider = ({ children }) => {
 
 		let params = {
 			'property_id': propertyId,
-			'access_token': accessToken,
+			'access_token': getAccessToken(),
 		}
 
 		let requestOptions = {
@@ -432,7 +429,7 @@ export const UserProvider = ({ children }) => {
 			'zipcode': zipcode,
 			'description': description,
 			'estimate': estimate,
-			'access_token': accessToken,
+			'access_token': getAccessToken(),
 
 		}
 
@@ -534,8 +531,10 @@ export const UserProvider = ({ children }) => {
 		
 		let params = {
 			'user_id': user.id,
-			'access_token': accessToken,
+			'access_token': getAccessToken(),
 		}
+
+		console.log("Send Params for fetch Props" +params)
 
 		let requestOptions = {
 			method: "POST",
@@ -702,12 +701,13 @@ export const UserProvider = ({ children }) => {
 
 	const testToken = (t: any) => {
 		setToken(t) ;
-	} ;
+	};
+
 	
 
 	return (
 		<UserContext.Provider value={{
-			user, accessToken, userLogin, userRegistration, userLogout,
+			user, getAccessToken, userLogin, userRegistration, userLogout,
 			deleteUser, editUser, getUserInfo, addProperty,
 			deleteProperty, editProperty, fetchProperties,
 			refreshAccessToken, authorizeUser, deauthorizeUser,
