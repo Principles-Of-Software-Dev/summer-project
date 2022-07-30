@@ -79,9 +79,7 @@ const PropertyForm = ({ options }) => {
 	}
 
 	const handleSubmit = (e) => {
-		form = document.getElementById('propertyForm')
-		console.log(form)
-		formData = new FormData(form) ;
+		formData = new FormData() ;
 
 		e.preventDefault()
 		// add property all fields should contain something.

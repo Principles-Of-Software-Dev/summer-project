@@ -50,10 +50,8 @@ export const UserContext = createContext<any>(null) ;
 export const UserProvider = ({ children }) => {
 
 	const navigate = useNavigate();
-	let calls = 1;
-
-	
-	const [user, setUser] = useState<User>({}) ;
+	const [user, setUser] = useState<User>({});
+	const [refreshUser, setRefreshUser] = useState(false);
 
 	// Store user data on local memory on every update of user or user.authenticated.
 
@@ -67,7 +65,7 @@ export const UserProvider = ({ children }) => {
 				id: -100,
 			} :
 			JSON.parse(stored)) ;
-	}, [calls]) ;
+	}, [refreshUser]) ;
 
 	useEffect(() => {
 		console.log("Running Set Session")
@@ -82,12 +80,12 @@ export const UserProvider = ({ children }) => {
 	}, []);
 	
 	const accessToken = () => {
-		calls++;
-		return getAccessToken() ;
+		setRefreshUser(true);
+		return getAccessToken();
+		setRefreshUser(false);
 	}
 	const userLogin = (email: string, password: string) => {
-
-		calls++;
+		setRefreshUser(true);
 		const params = {
 			'email': email,
 			'password': password,
@@ -126,12 +124,13 @@ export const UserProvider = ({ children }) => {
 			})
 		}
 
-		login() ;
+		login();
+		setRefreshUser(false);
 		
 	} ;
 
 	const userRegistration = (firstName: string, lastName: string, email: string, password: string) => {
-		calls++;
+		setRefreshUser(true);
 
 		const params = {
 			'firstname': firstName,
@@ -173,12 +172,12 @@ export const UserProvider = ({ children }) => {
 		register() ;
 		
 		// warn user of unsuccessful registration attempt
-		
+		setRefreshUser(false);
 	} ;
 
 	const userLogout = () => {
 		// Remove user info.
-		calls++;
+		setRefreshUser(true);
 		const requestOptions = {
 			method: "POST",
 			headers: {
@@ -202,12 +201,13 @@ export const UserProvider = ({ children }) => {
 			})
 		}
 
-		logout() ;
+		logout();
+		setRefreshUser(false);
 	} ;
 
 	const deleteUser = () => {
 		
-		calls++;
+		setRefreshUser(true);
 		let stored = sessionStorage.getItem('GilderiseUser') ;
 
 		let user = stored == null ? console.log("Failed") : JSON.parse(stored) ;
@@ -237,13 +237,14 @@ export const UserProvider = ({ children }) => {
 			})
 		}
 
-		dUser() ;
+		dUser();
+		setRefreshUser(false);
 
 	} ;
 
 	const editUser = (firstName: string, lastName: string, dob: string, email: string, password: string) => {
 
-		calls++;
+		setRefreshUser(true);
 		let stored = sessionStorage.getItem('GilderiseUser') ;
 
 		let user = stored == null ? console.log("Failed") : JSON.parse(stored) ;
@@ -284,12 +285,12 @@ export const UserProvider = ({ children }) => {
 			})
 		}
 
-		eUser() ;
+		setRefreshUser(true);
 
 	} ;
 	
 	const getUserInfo = () => {
-		calls++;
+		setRefreshUser(true);
 
 		let userInfo = {} ;
 
@@ -330,13 +331,13 @@ export const UserProvider = ({ children }) => {
 
 		gUser() ;
 
-
+		setRefreshUser(false);
 		
 	} ;
 
 	const addProperty = (street: string, city: string, state: string, zipcode: number, description: string, estimate: number, formData:any) => { 
 
-		calls++;
+		setRefreshUser(true);
 		let stored = sessionStorage.getItem('GilderiseUser') ;
 
 		let user = stored == null ? console.log("Failed") : JSON.parse(stored) ;
@@ -383,10 +384,11 @@ export const UserProvider = ({ children }) => {
 			addVideos(formData) ;
 		}
 
+		setRefreshUser(false);
 	} ;
 
 	const deleteProperty = (propertyId: number) => { 
-		calls++;
+		setRefreshUser(true);
 
 		let params = {
 			'property_id': propertyId,
@@ -417,11 +419,11 @@ export const UserProvider = ({ children }) => {
 
 		dProp() ;
 
-
+		setRefreshUser(false);
 	} ;
 
 	const editProperty = (propertyId: number, street: string, city: string, state: string, zipcode: string, description: string, estimate: string, formData:any) => { 
-		calls++;
+		setRefreshUser(true);
 
 		let params = {
 			'property_id': propertyId,
@@ -463,10 +465,12 @@ export const UserProvider = ({ children }) => {
 			addPhotos(formData) ;
 		}
 
+		setRefreshUser(false);
+
 	} ;
 	
 	const addPhotos = (formData) => {
-		calls++;
+		setRefreshUser(true);
 
 		let requestOptions = {
 			method: "POST",
@@ -491,11 +495,11 @@ export const UserProvider = ({ children }) => {
 		}
 
 		addPhotos() ;
-
+		setRefreshUser(false);
 	}
 
 	const addVideos = (formData) => {
-		calls++;
+		setRefreshUser(true);
 
 		let requestOptions = {
 			method: "POST",
@@ -520,12 +524,12 @@ export const UserProvider = ({ children }) => {
 		}
 
 		addVideos() ;
-
+		setRefreshUser(false);
 
 	}
 
 	const fetchProperties = () => { 
-		calls++;
+		setRefreshUser(true);
 
 		let properties = {} ;
 		
@@ -561,12 +565,13 @@ export const UserProvider = ({ children }) => {
 			})
 		}
 
-		getProps() ;
+		getProps();
+		setRefreshUser(false);
 
 	} ;
 	
 	const refreshAccessToken = () => { 
-		calls++;
+		setRefreshUser(true);
 
 		let stored = sessionStorage.getItem('GilderiseUser') ;
 
@@ -600,12 +605,12 @@ export const UserProvider = ({ children }) => {
 		}
 
 		refreshAToken() ;
-
+		setRefreshUser(false);
 
 	} ;
 	
 	const authorizeUser = (email: string) => {
-		calls++;
+		setRefreshUser(true);
 
 		let stored = sessionStorage.getItem('GilderiseUser') ;
 
@@ -642,11 +647,11 @@ export const UserProvider = ({ children }) => {
 
 		authorize() ;
 
-
+		setRefreshUser(false);
 	}
 	
 	const deauthorizeUser = (email: string) => {
-		calls++;
+		setRefreshUser(true);
 
 		let stored = sessionStorage.getItem('GilderiseUser') ;
 
@@ -681,12 +686,12 @@ export const UserProvider = ({ children }) => {
 		}
 
 		remove() ;
-
+		setRefreshUser(false);
 
 	}
 	
 	const test = () => {
-
+		setRefreshUser(true);
 		const test = async () => await fetch("/hello").then(response => {
 			response.json().then(data => {
 				console.log(data.string)
@@ -695,7 +700,8 @@ export const UserProvider = ({ children }) => {
 			console.log(e)
 		})
 
-		test() ;
+		test();
+		setRefreshUser(false);
 	} ;
 
 	const testToken = (t: any) => {
