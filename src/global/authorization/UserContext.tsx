@@ -585,7 +585,7 @@ export const UserProvider = ({ children }) => {
 				Accept: 'application/json',
     			'Content-Type': 'application/json'
 			},
-			body: JSON.stringify({'user_id': user.id})}
+			body: JSON.stringify({'user_id': 4})}
 					).then(response => {
 				response.json().then(data => {
 					if (data !== false) {
