@@ -30,37 +30,37 @@ const SupportForm = () => {
 	const handleCompleteForm = () => {
 
 		if (validText && validEmail && validName && validTitle && validPhone) {
-			return false ;
+			return false
 		} else {
-			return true ;
+			return true
 		}
 	}
 
-	
+
 	return (
-		<div className='flex items-center justify-center w-full h-full'>
+		<div className='flex items-center justify-center w-full h-full '>
 			{/* Start actual code. */}
-			<div className='grid grid-cols-2 grid-rows-7 w-auto h-main bg-zinc-200'>
+			<div className='grid grid-cols-2 grid-rows-7 w-auto h-main bg-sky-200 bg-opacity-95'>
 				<p className='flex items-center justify-center row-span-1 col-span-2'>
-                  Send Help Request
+				<h2><strong>Send Help Request</strong></h2>
 				</p>
 
 				{/* Name Fields */}
-				<div className='lg:hidden flex items-center justify-center row-span-1 col-span-2' >
-					< NameField size={15} required={true} setName={setFirstName} handleValid={setValidName} type={"First"} />
-					< NameField size={15} required={true} setName={setLastName} handleValid={setValidName } type={"Last"}/>
+				<div className='lg:hidden flex items-center justify-center row-span-1 col-span-2'>
+					<NameField size={15} required={true} setName={setFirstName} handleValid={setValidName} type={"First"} />
+					<NameField size={15} required={true} setName={setLastName} handleValid={setValidName} type={"Last"} />
 				</div>
 				<div className='lg:flex hidden items-center justify-center row-span-1 col-span-2'>
-					< NameField size={22} required={true} setName={setFirstName} handleValid={setValidName} type={"First"} />
-					< NameField size={22} required={true} setName={setLastName} handleValid={setValidName } type={"Last"}/>
+					<NameField size={22} required={true} setName={setFirstName} handleValid={setValidName} type={"First"} />
+					<NameField size={22} required={true} setName={setLastName} handleValid={setValidName} type={"Last"} />
 				</div>
 
 				{/* Email Field */}
 				<div className='lg:hidden flex items-center justify-center row-span-1 col-span-1'>
-					<EmailField size={15} required={true} setEmail={setEmail} handleValid={setValidEmail}/>
+					<EmailField size={15} required={true} setEmail={setEmail} handleValid={setValidEmail} />
 				</div>
 				<div className='lg:flex hidden items-center justify-center row-span-1 col-span-1'>
-					<EmailField size={22} required={true} setEmail={setEmail} handleValid={setValidEmail}/>
+					<EmailField size={22} required={true} setEmail={setEmail} handleValid={setValidEmail} />
 				</div>
 
 				{/* Phone Field */}
@@ -82,10 +82,10 @@ const SupportForm = () => {
 				<div className='flex items-center justify-end row-span-1 col-span-2 mx-4 my-2'>
 					<Button
 						height="h-xsmall-button"
-						color='bg-zinc-400'
+						color='bg-sky-400'
 						buttonText='Submit'
 						textColor='text-c-white'
-						hoverColor='hover:bg-zinc-500'
+						hoverColor='hover:bg-sky-500'
 						disable={false}
 						// set later
 						onClick={test}
@@ -100,16 +100,15 @@ const SupportForm = () => {
 						// set later
 						onClick={() => navigate(-1)}
 					/>
-                  
 				</div>
 
 
-          
-          
+
+
 			</div>
 			{/* End code. */}
 		</div>
-      
+
 	)
 }
 

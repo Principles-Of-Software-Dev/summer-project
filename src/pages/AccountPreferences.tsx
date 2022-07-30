@@ -8,7 +8,7 @@ const AccountPreferences = () => {
 	const { getUserInfo } = useUser() ;
 	
 	useEffect(() => { 
-		userInfo = getUserInfo() ;
+		//userInfo = getUserInfo() ;
 	},[])
     
 	return (

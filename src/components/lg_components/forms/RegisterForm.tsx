@@ -42,10 +42,10 @@ const RegisterForm = ({ handleClickRegister, register }) => {
 			{/* Start actual code. */}
 			<Button
 				height="h-small-button"
-				color='bg-zinc-400'
+				color='bg-sky-400'
 				buttonText='Register'
 				textColor='text-c-white'
-				hoverColor='hover:bg-zinc-500'
+				hoverColor='hover:bg-sky-500'
 				disable={false}
 				onClick={handleClickRegister}
 			/>
@@ -59,7 +59,7 @@ const RegisterForm = ({ handleClickRegister, register }) => {
 					</div> :
                     
 					// display menu
-						<div className=' absolute right-0 top-[4.5rem] min-h-dropdown-menu-register max-h-dropdown-menu-mobile-register h-auto w-dropdown-menu min-w-[25rem] bg-zinc-100'>
+						<div className=' absolute right-0 top-[4.5rem] min-h-dropdown-menu-register max-h-dropdown-menu-mobile-register h-auto w-dropdown-menu min-w-[25rem] bg-sky-200 bg-opacity-95'>
 							<div className='grid grid-rows-6 min-h-dropdown-menu-register max-h-dropdown-menu-mobile-register p-3'>
 								{/* Email field */}
 								<div className='row-span-1 my-4 flex items-center justify-center'>
@@ -89,10 +89,10 @@ const RegisterForm = ({ handleClickRegister, register }) => {
 								<div className='row-span-1 flex items-center justify-between mb-2 mx-2'>
 									< Button 
 										height="h-small-button"
-										color='bg-zinc-400'
+										color='bg-sky-400'
 										buttonText='Submit'
 										textColor='text-c-white'
-										hoverColor='hover:bg-zinc-500'
+										hoverColor='hover:bg-sky-500'
 										disable={handleValidRegistration()}
 										// set later
 										onClick={ () => userRegistration(firstName, lastName, email, password)}
@@ -100,10 +100,10 @@ const RegisterForm = ({ handleClickRegister, register }) => {
 
 									< Button
 										height="h-small-button"
-										color='bg-zinc-400'
+										color='bg-sky-400'
 										buttonText='Cancel'
 										textColor='text-c-white'
-										hoverColor='hover:bg-zinc-500'
+										hoverColor='hover:bg-sky-500'
 										disable={false}
 										onClick={handleClickRegister}
 									/>
