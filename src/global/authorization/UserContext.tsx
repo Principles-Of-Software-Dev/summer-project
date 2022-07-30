@@ -555,9 +555,12 @@ export const UserProvider = ({ children }) => {
 	const refreshAccessToken = () => { 
 		console.log("running");
 
-		let stored = sessionStorage.getItem('GilderiseUser') ;
+		let stored = sessionStorage.getItem('GilderiseUser');
+		
+		console.log(stored)
 
 		let user = stored == null ? console.log("Failed") : JSON.parse(stored);
+		console.log(user)
 
 		console.log(user.id)
 		
@@ -566,7 +569,7 @@ export const UserProvider = ({ children }) => {
 		const refreshAToken = async () => {
 			await fetch("/refresh_access_token", {
 				credentials: 'include',
-				method: "POST",
+				method: 'POST',
 				mode: 'same-origin',
 				cache: 'default',
 			headers: {
