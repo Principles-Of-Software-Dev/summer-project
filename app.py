@@ -857,7 +857,7 @@ def add_media(access_token, user_id, upld_photos, upld_videos, property_id):
                 db.session.commit()
 
                 if property.videos:
-                    property.videos = property.photos + \
+                    property.videos = property.videos + \
                         ',' + str(video.id_video)
                 else:
                     property.videos = str(video.id_video)
