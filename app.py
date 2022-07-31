@@ -680,8 +680,8 @@ def get_properties():
 
                     for file in property_dict:
                         fileData = jsonify({'file': file})
-                        authorized_properties.append(fileData)
-                    return jsonify({'authorized_properties': property_dict})
+                        owned_properties.append(fileData)
+                    return jsonify({'owned_properties': owned_properties})
                     owned_properties.append(property_dict)
 
                 authorized_properties = []
