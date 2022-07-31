@@ -551,6 +551,7 @@ export const UserProvider = ({ children }) => {
 			console.log("Running")
 			console.log(data) ;
 			setProperties(data) ;
+			console.log(properties)
 		}
 
 		const getProps = async () => {
@@ -564,7 +565,6 @@ export const UserProvider = ({ children }) => {
 						else {
 							console.log(typeof(data.owned_properties))
 							setproperties(data)
-							console.log(properties) ;
 						}
 					}
 				})
