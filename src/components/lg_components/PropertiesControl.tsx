@@ -15,7 +15,7 @@ const PropertiesControl = ({ handleAddProperty }) => {
 	const [displayProperty, setDisplayProperty] = useState(null);
 	
 	useEffect(() => {
-		setProperties(fetchProperties(properties))
+		setProperties(fetchProperties())
 		console.log(fetchProperties())
 		console.log(properties);
 	}, [])
