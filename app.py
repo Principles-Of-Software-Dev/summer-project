@@ -22,7 +22,6 @@ CORS(app)
 #    os.path.join(basedir, 'data.sqlite')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://nzjfaasbaoidiu:5d535239d977229b6d9ccaa2cb2d8092133eb883bed9a3c32723895a62025dbe@ec2-54-208-104-27.compute-1.amazonaws.com:5432/dfhsl30igcgdei'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-upload_dir = os.path.join(dirname(dirname(abspath(__file__))), 'assets')
 admin_emails = ['admin@email.com']
 
 
@@ -105,13 +104,15 @@ class photos(db.Model):
     data = db.Column(db.LargeBinary)
     belongs_to = db.Column(db.Integer, db.ForeignKey(
         'properties.id_property'), nullable=False)
+    filename = db.Column(db.String)
 
     properties = db.relationship(
         'properties', backref='photo_property', uselist=False)
 
-    def __init__(self, data, belongs_to):
+    def __init__(self, data, belongs_to, filename):
         self.data = data
         self.belongs_to = belongs_to
+        self.filename = filename
 
     def as_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
@@ -123,13 +124,15 @@ class videos(db.Model):
     data = db.Column(db.LargeBinary)
     belongs_to = db.Column(db.Integer, db.ForeignKey(
         'properties.id_property'), nullable=False)
+    filename = db.Column(db.String)
 
     properties = db.relationship(
         'properties', backref='video_property', uselist=False)
 
-    def __init__(self, data, belongs_to):
+    def __init__(self, data, belongs_to, filename):
         self.data = data
         self.belongs_to = belongs_to
+        self.filename = filename
 
     def as_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
@@ -635,7 +638,7 @@ def get_properties():
                                 photo = photos.query.filter_by(
                                     id_photo=int(photo_id)).first()
                                 photo_list.append(
-                                    send_file(BytesIO(photo.data)))
+                                    send_file(BytesIO(photo.data), attachment_filename=photo.filename, as_attachment=False))
                             property_dict['photos'] = photo_list
 
                         video_ids = property_dict.get('videos')
@@ -646,7 +649,7 @@ def get_properties():
                                 video = videos.query.filter_by(
                                     id_video=int(video_id)).first()
                                 video_list.append(
-                                    send_file(BytesIO(video.data)))
+                                    send_file(BytesIO(video.data), attachment_filename=video.filename, as_attachment=False))
                             property_dict['videos'] = video_list
                         owned_properties.append(property_dict)
 
@@ -670,22 +673,24 @@ def get_properties():
                                 photo_ids = property_dict.get('photos')
                                 if photo_ids:
                                     photo_ids = photo_ids.split(',')
-                                    path_list = []
+                                    photo_list = []
                                     for photo_id in photo_ids:
                                         photo = photos.query.filter_by(
                                             id_photo=int(photo_id)).first()
-                                        path_list.append(photo.path)
-                                    property_dict['photos'] = path_list
+                                        photo_list.append(
+                                            send_file(BytesIO(photo.data), attachment_filename=photo.filename, as_attachment=False))
+                                    property_dict['photos'] = photo_list
 
                                 video_ids = property_dict.get('videos')
                                 if video_ids:
                                     video_ids = video_ids.split(',')
-                                    path_list = []
+                                    video_list = []
                                     for video_id in video_ids:
                                         video = videos.query.filter_by(
                                             id_video=int(video_id)).first()
-                                        path_list.append(video.path)
-                                    property_dict['videos'] = path_list
+                                        video_list.append(
+                                            send_file(BytesIO(video.data), attachment_filename=video.filename, as_attachment=False))
+                                    property_dict['videos'] = video_list
 
                                 authorized_properties.append(property_dict)
 
@@ -831,7 +836,8 @@ def add_media(access_token, user_id, upld_photos, upld_videos, property_id):
 
             # save file and update path
             for file in upld_photos:
-                photo = photos(file.read(), property.id_property)
+                photo = photos(
+                    file.read(), property.id_property, file.filename)
                 db.session.add(photo)
                 db.session.commit()
 
@@ -843,7 +849,8 @@ def add_media(access_token, user_id, upld_photos, upld_videos, property_id):
                 db.session.commit()
 
             for file in upld_videos:
-                video = videos(file.read(), property.id_property)
+                video = videos(
+                    file.read(), property.id_property, file.filename)
                 db.session.add(video)
                 db.session.commit()
 
@@ -883,7 +890,8 @@ def add_photo():
             # save file and update path
             for file in files:
 
-                photo = photos(file.read(), property.id_property)
+                photo = photos(
+                    file.read(), property.id_property, file.filename)
                 db.session.add(photo)
                 db.session.commit()
 
@@ -924,7 +932,8 @@ def add_video():
 
             # save file and update path
             for file in files:
-                video = videos(file.read(), property.id_property)
+                video = videos(
+                    file.read(), property.id_property, file.filename)
                 db.session.add(video)
                 db.session.commit()
 
