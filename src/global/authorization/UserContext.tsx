@@ -563,10 +563,14 @@ export const UserProvider = ({ children }) => {
 							let owned_properties = undefined ;
 							if (data.authorized_properties[0] !== undefined) {
 								authorized_properties = data.authorized_properties ;
+								
 							}
-							if (data.authorized_properties[0] !== undefined) {
+							if (data.owned_properties[0] !== undefined) {
 								owned_properties = data.owned_properties ;
 							}
+
+							console.log(authorized_properties) ;
+							console.log(owned_properties)
 
 							setProperties({
 								"authorized_properties": authorized_properties,
