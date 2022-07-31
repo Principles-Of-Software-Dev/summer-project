@@ -376,7 +376,6 @@ export const UserProvider = ({ children }) => {
 		 await aProp() ;
 		
 		setRefreshUser(false);
-		navigate("/dashboard");
 	} ;
 
 	const deleteProperty = (propertyId: number) => { 
