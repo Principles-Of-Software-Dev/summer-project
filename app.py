@@ -13,7 +13,7 @@ from werkzeug.utils import secure_filename
 from flask_cors import CORS, cross_origin
 
 basedir = os.path.abspath(os.path.dirname(__file__))
-app = Flask(__name__, static_folder='build/static', static_url_path='')
+app = Flask(__name__, static_folder='build', static_url_path='')
 CORS(app)
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + \
 #    os.path.join(basedir, 'data.sqlite')
