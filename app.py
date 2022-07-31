@@ -815,10 +815,6 @@ def edit_property():
 def add_media(access_token, user_id, upld_photos, upld_videos, property_id):
 
     if is_token_valid(access_token, "access", user_id):
-        # grab files uploaded
-        upld_photos = request.files.getlist("photos")
-        upld_videos = request.files.getlist("videos")
-
         # query for property in db
         property = properties.query.filter_by(
             id_property=property_id).first()
