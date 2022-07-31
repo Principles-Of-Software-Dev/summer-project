@@ -624,8 +624,6 @@ def get_properties():
                 owned_properties = []
                 if user.properties:
                     # append a list of properties as a dict
-                    db.session.commit()
-                    return jsonify({'props': user.properties})
                     for property_id in property_list:
                         # query for property
                         property = properties.query.filter_by(
@@ -732,7 +730,7 @@ def delete_property():
                     id_user=property.belongs_to).first()
             # delete property
                 user_properties_list = user.properties.split(',')
-                user_properties_list.remove(str(property.id_property))
+                user_properties_list.remove(str(property_id))
                 user.properties = ','.join(user_properties_list)
                 if user.properties == '':
                     user.properties = None
@@ -817,19 +815,19 @@ def edit_property():
 def add_media(access_token, user_id, upld_photos, upld_videos, property_id):
 
     # grab access token
-    #access_token = request.form.get('access_token')
+    access_token = request.form.get('access_token')
     # if access token exist
     if access_token:
         # set form data into vars
-        #user_id = request.form.get('user_id')
+        user_id = request.form.get('user_id')
         # if access token
         if is_token_valid(access_token, "access", user_id):
             # grab files uploaded
-            #upld_photos = request.files.getlist("photos")
-            #upld_videos = request.files.getlist("videos")
+            upld_photos = request.files.getlist("photos")
+            upld_videos = request.files.getlist("videos")
 
             # set json data into vars
-            #property_id = request.form.get('property_id')
+            property_id = request.form.get('property_id')
             # query for property in db
             property = properties.query.filter_by(
                 id_property=property_id).first()
