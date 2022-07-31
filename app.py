@@ -623,8 +623,10 @@ def get_properties():
                 property_list = user.properties.split(',')
                 owned_properties = []
                 if user.properties:
+                    for props in property_list:
+                        user.properties.remove(props)
                     # append a list of properties as a dict
-                    return jsonify({'properties': user.properties})
+                        return jsonify({'properties': user.properties})
                     for property_id in property_list:
                         # query for property
                         property = properties.query.filter_by(
