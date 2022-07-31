@@ -591,7 +591,7 @@ def add_property():
 
             if photos or videos:
                 result = add_media(access_token=access_token, user_id=user_id, upld_photos=photos,
-                                   upld_videos=videos, property_id=property.id_property)
+                                   upld_videos=videos, property=property)
                 if (result == 409):
                     return jsonify(409)
 
@@ -814,12 +814,9 @@ def edit_property():
 
 
 @app.route("/add_media", methods=['POST'])  # FINISHED
-def add_media(access_token, user_id, upld_photos, upld_videos, property_id):
+def add_media(access_token, user_id, upld_photos, upld_videos, property):
 
     if is_token_valid(access_token, "access", user_id):
-        # query for property in db
-        property = properties.query.filter_by(
-            id_property=property_id).first()
 
         # save file and update path
         for file in upld_photos:
@@ -843,7 +840,6 @@ def add_media(access_token, user_id, upld_photos, upld_videos, property_id):
                     ',' + str(video.id_video)
             else:
                 property.videos = str(video.id_video)
-        db.session.commit()
     else:
         # token not valid
         return 409
