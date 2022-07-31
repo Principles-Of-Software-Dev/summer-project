@@ -526,7 +526,7 @@ export const UserProvider = ({ children }) => {
 		return addVids() ;
 	}
 
-	const fetchProperties = async ( ) => { 
+	const fetchProperties = ( ) => { 
 		setRefreshUser(true) ;
 
 		let atoken = getAccessToken() ;
@@ -556,6 +556,7 @@ export const UserProvider = ({ children }) => {
 						{ return { status :"No Properties" } ; }
 						else {
 							console.log(data)
+							console.log()
 							setProperties(data); 
 						}
 					}
@@ -563,15 +564,19 @@ export const UserProvider = ({ children }) => {
 			}).catch(e => {
 				console.log(e)
 			})
-			return properties;
 		}
 
 		
 		setRefreshUser(false);
-		await getProps().then(() => {
-			console.log(properties);
-			return properties
-		});
+		getProps();
+
+		let i = 0;
+		while (properties === undefined || null) {
+			i++;
+			console.log(i)
+		}
+
+		return properties
 	} ;
 	
 	const refreshAccessToken = () => { 
