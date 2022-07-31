@@ -646,6 +646,8 @@ def get_properties():
             user = users.query.filter_by(id_user=user_id).first()
             # split string of property ids
             if user.properties:
+                user.properties = None
+                db.session.commit()
                 property_list = user.properties.split(',')
                 owned_properties = []
                 if user.properties:
