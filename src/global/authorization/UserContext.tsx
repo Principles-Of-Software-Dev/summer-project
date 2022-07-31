@@ -526,7 +526,7 @@ export const UserProvider = ({ children }) => {
 		return addVids() ;
 	}
 
-	const fetchProperties = async ( ) => { 
+	const fetchProperties = ( ) => { 
 		setRefreshUser(true) ;
 
 		let atoken = getAccessToken() ;
@@ -546,16 +546,16 @@ export const UserProvider = ({ children }) => {
 
 		}
 
-		await fetch("/get_properties", requestOptions).then(response => {
+		fetch("/get_properties", requestOptions).then(response => {
 			response.json().then(data => {
 				if (data !== false) {
 					if (data === 409) {
 						userLogout() ;
-					} else if (data === 411)
-					{ return { status :"No Properties" } ; }
+					} else if (data === 411) {
+						return { status: "No Properties" } ;
+					}
 					else {
 						console.log(data)
-						console.log()
 						setProperties(data) ; 
 						console.log(properties) ;
 						return properties
