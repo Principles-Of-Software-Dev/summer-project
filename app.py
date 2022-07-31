@@ -624,7 +624,7 @@ def get_properties():
                 owned_properties = []
                 if user.properties:
                     # append a list of properties as a dict
-
+                    return jsonify({'properties': user.properties})
                     for property_id in property_list:
                         # query for property
                         property = properties.query.filter_by(
