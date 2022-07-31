@@ -749,7 +749,7 @@ def delete_property():
                         video = videos.query.filter_by(
                             id_video=int(video_id)).first()
                         videos.query.filter_by(id_video=int(video_id)).delete()
-                properties.query.filter_by(id_property=property_id).delete()
+                property.delete()
                 db.session.commit()
                 return jsonify({"rsp_msg": "property has been deleted"})
             else:
