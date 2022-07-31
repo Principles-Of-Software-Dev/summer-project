@@ -100,13 +100,9 @@ const PropertyForm = ({ options }) => {
 				formData = null;
 			}
 
-			await Promise.all([
-				addProperty(street.current.value, city.current.value, state.current.value, zip.current.value, description.current.value, estimation.current.value, formData),
-				addPhotos(formData),
-				addVideos(formData)
-			]
-				
-			)
+			await addProperty(street.current.value, city.current.value, state.current.value, zip.current.value, description.current.value, estimation.current.value, formData)
+			await addPhotos(formData)
+			await addVideos(formData)
 			
 		}
 		// edit property
