@@ -465,7 +465,7 @@ export const UserProvider = ({ children }) => {
 
 	} ;
 	
-	const addPhotos = async (formData) => {
+	const addPhotos = (formData) => {
 		setRefreshUser(true) ;
 
 		let requestOptions = {
@@ -482,8 +482,6 @@ export const UserProvider = ({ children }) => {
 					if (data !== false) {
 						if (data === 409) {
 							userLogout();
-						} else {
-							return true;
 						}
 					}
 				})
@@ -493,10 +491,11 @@ export const UserProvider = ({ children }) => {
 		}
 
 		setRefreshUser(false) ;
-		await addPhots() ;
+		return addPhots();
+		
 	}
 
-	const addVideos = async (formData) => {
+	const addVideos = (formData) => {
 		setRefreshUser(true) ;
 
 		let requestOptions = {
@@ -513,8 +512,6 @@ export const UserProvider = ({ children }) => {
 					if (data !== false) {
 						if (data === 409) {
 							userLogout() ;
-						} else {
-							return true;
 						}
 					}
 				})
@@ -525,8 +522,7 @@ export const UserProvider = ({ children }) => {
 
 		setRefreshUser(false) ;
 
-		await addVids() ;
-
+		return addVids() ;
 	}
 
 	const fetchProperties = () => { 
