@@ -146,7 +146,10 @@ const MobileMenu = () => {
                             				textColor='text-c-white'
                             				hoverColor='hover:bg-zinc-500'
                             				disable={handleValidLogin()}
-                            				onClick={() => userLogin(loginEmail, loginPassword)}
+                            				onClick={(e) => {
+                            					e.preventDefailt() ;
+                            					userLogin(loginEmail, loginPassword)
+                            				}}
                             			/>
 
                             			< Button
@@ -211,7 +214,10 @@ const MobileMenu = () => {
                             			hoverColor='hover:bg-zinc-500'
                             			disable={handleValidRegistration()}
                             			// set later
-                            			onClick={ () => userRegistration(regFirstName, regLastName, regEmail, regPassword) }
+											onClick={(e) => {
+												e.preventDefault() ;
+												userRegistration(regFirstName, regLastName, regEmail, regPassword)
+											}}
                             		/>
 
                             		< Button

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import PropertiesList from './PropertiesList'
-import { PropertyType } from '../../global/TypeDefs'
 import DisplayProperty from './DisplayProperty' ;
 import { useNavigate } from 'react-router-dom' ;
 import { useUser } from '../../global/authorization/UserContext' ;
@@ -65,7 +64,7 @@ const PropertiesControl = ({ handleAddProperty }) => {
 					}
 				</div>
 			}
-			{properties === { 'authorized_properties': undefined, 'owned_properties': undefined } &&
+			{(properties === { 'authorized_properties': undefined, 'owned_properties': undefined } || properties === { status :"No Properties" }) &&
 				<div className='w-full h-screen flex items-center justify-center'>
 
 					<UserLinks text={"You have no properties. Click here to add one!"} handleClick={handleAddProperty} />
