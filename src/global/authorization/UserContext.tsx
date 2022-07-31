@@ -555,7 +555,7 @@ export const UserProvider = ({ children }) => {
 						} else if (data === 411)
 						{ return { status :"No Properties" } ; }
 						else {
-							console.log(data.owned_properties)
+							console.log(typeof(data.owned_properties))
 							setProperties({
 								'authorized_properties': data.autherized_properties,
 								'owned_properties': data.owned_properties
