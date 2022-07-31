@@ -49,16 +49,16 @@ const PropertiesControl = ({ handleAddProperty }) => {
 		<div className='w-full mb-2'>
 			{displayProperty != null &&
 				<DisplayProperty property={displayProperty} displayProperty={setDisplayProperty} editProperty={handleDisplayPropertyForm} />
-			}{properties != null &&
+			}{properties !== { 'authorized_properties': undefined, 'owned_properties': undefined } &&
 				<div> 
-					{properties.owned_properties.length > 0 && 
+					{properties.owned_properties !== undefined && 
 					<div>
 						<div className='my-3'> Your Owned Properties </div>
 						<PropertiesList properties={properties !== undefined||null ? properties.owned_properties : null} displayProperty={handleViewProperty} displayPropertyForm={handleDisplayPropertyForm} />
 					</div>
 					}
 
-					{properties.authorized_properties.length > 0 && 
+					{properties.authorized_properties !== undefined && 
 							<div>
 								<div className='my-3'> Your Authorized Properties </div>
 								<PropertiesList properties={properties !== undefined||null ? properties.owned_properties : null} displayProperty={handleViewProperty} displayPropertyForm={handleDisplayPropertyForm} />
@@ -66,7 +66,7 @@ const PropertiesControl = ({ handleAddProperty }) => {
 					}
 				</div>
 			}
-			{properties === undefined &&
+			{properties === { 'authorized_properties': undefined, 'owned_properties': undefined } &&
 				<div className='w-full h-screen flex items-center justify-center'>
 
 					<UserLinks text={"You have no properties. Click here to add one!"} handleClick={handleAddProperty} />

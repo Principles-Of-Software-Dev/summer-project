@@ -48,7 +48,8 @@ const setToken = (t:(number| null)) => {
 export const UserContext = createContext<any>(null) ;
 
 export const UserProvider = ({ children }) => {
-	const [properties, setProperties] = useState({
+	const [properties, setProperties] = useState<{'authorized_properties': []| undefined,
+	'owned_properties': []| undefined}>({
 		'authorized_properties': [],
 		'owned_properties': []
 	})
@@ -558,20 +559,18 @@ export const UserProvider = ({ children }) => {
 						} else if (data === 411)
 						{ return { status :"No Properties" } ; }
 						else {
-							if (data.authorized_properties == null || undefined) { 
-								if (data.authorized_properties == null) {
-									console.log("Is null") ;
-								} else if (data.authorized_properties == undefined) {
-									console.log("Is undefined") ;
-								}
-
-							} else {
-								console.log(data.authorized_properties) ;
-								console.log(typeof(data.authorized_properties[0])) ;
+							let authorized_properties = undefined ;
+							let owned_properties = undefined ;
+							if (data.authorized_properties[0] !== undefined) {
+								authorized_properties = data.authorized_properties ;
 							}
+							if (data.authorized_properties[0] !== undefined) {
+								owned_properties = data.owned_properties ;
+							}
+
 							setProperties({
-								"authorized_properties": data.authorized_properties,
-								"owned_properties": data.owned_properties,
+								"authorized_properties": authorized_properties,
+								"owned_properties": owned_properties,
 							}) ;
 						}
 					}
