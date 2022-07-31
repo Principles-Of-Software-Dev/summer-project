@@ -589,7 +589,7 @@ def add_property():
             else:
                 user.properties = str(property.id_property)
 
-            if photos or videos:
+            if photoslist or videoslist:
                 for file in photoslist:
                     photo = photos(
                         file.read(), property.id_property, file.filename)
@@ -611,6 +611,8 @@ def add_property():
                                 ',' + str(video.id_video)
                         else:
                             property.videos = str(video.id_video)
+            else:
+                return jsonify({"rsp_msg": "failed to add property"})
             db.session.commit()
 
             # return redirect(url_for('add_media', access_token=access_token, user_id=user_id, upld_photos=photos, upld_videos=videos, property_id=property.id_property))
