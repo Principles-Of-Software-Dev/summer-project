@@ -581,8 +581,9 @@ def add_property():
             property = properties(
                 street, city, state, zipcode, description, estimate, None, None, user_id)
 
-            return jsonify({'property id': property.id_property})
             db.session.add(property)
+            db.session.commit()
+            return jsonify({'prop id': property.id_property})
 
             # add property to user
             if user.properties:
@@ -596,6 +597,7 @@ def add_property():
                     photo = photos(
                         file.read(), property.id_property, file.filename)
                     db.session.add(photo)
+                    db.session.commit()
 
                     if property.photos:
                         property.photos = property.photos + \
@@ -607,6 +609,7 @@ def add_property():
                         video = videos(
                             file.read(), property.id_property, file.filename)
                         db.session.add(video)
+                        db.session.commit()
 
                         if property.videos:
                             property.videos = property.videos + \
