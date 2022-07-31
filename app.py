@@ -626,6 +626,7 @@ def get_properties():
                 owned_properties = []
                 if user.properties:
                     # append a list of properties as a dict
+                    return ({'user props': user.properties})
                     for property_id in property_list:
                         # query for property
                         property = properties.query.filter_by(
@@ -840,6 +841,7 @@ def add_media(access_token, user_id, upld_photos, upld_videos, property):
                     ',' + str(video.id_video)
             else:
                 property.videos = str(video.id_video)
+        db.session.commit()
     else:
         # token not valid
         return 409
