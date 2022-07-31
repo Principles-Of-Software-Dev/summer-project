@@ -68,13 +68,8 @@ export const UserProvider = ({ children }) => {
 	// Store user data on local memory on every update of user or user.authenticated.
 
 	useEffect(() => {
-		let stored = sessionStorage.getItem('GilderiseUser') ;
-		setUser(stored == null ?
-			{
-				authenticated: false,
-				id: -100,
-			} :
-			JSON.parse(stored)) ;
+		let stored = sessionStorage.getItem('GilderiseUser')! ;
+		setUser(JSON.parse(stored)) ;
 	}, [refreshUser]) ;
 
 	useEffect(() => {
