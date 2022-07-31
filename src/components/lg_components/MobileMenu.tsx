@@ -147,7 +147,7 @@ const MobileMenu = () => {
                             				hoverColor='hover:bg-zinc-500'
                             				disable={handleValidLogin()}
                             				onClick={(e) => {
-                            					e.preventDefailt() ;
+                            					e.preventDefault() ;
                             					userLogin(loginEmail, loginPassword)
                             				}}
                             			/>
