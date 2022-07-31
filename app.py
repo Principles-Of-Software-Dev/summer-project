@@ -624,37 +624,36 @@ def get_properties():
                 owned_properties = []
                 if user.properties:
                     # append a list of properties as a dict
-                    for property_id in property_list:
-                        # query for property
-                        property = properties.query.filter_by(
-                            id_property=int(property_id)).first()
-                        # add to list
-                        property_dict = property.as_dict()
-                        return jsonify({'prop photos': properties.query.filter_by(
-                            id_property=int(2)).first(), 'prop dictionary': properties.query.filter_by(
-                            id_property=int(2)).first().as_dict()})
-                        photo_ids = property_dict.get('photos')
-                        if photo_ids:
-                            photo_ids = photo_ids.split(',')
-                            photo_list = []
-                            for photo_id in photo_ids:
-                                photo = photos.query.filter_by(
-                                    id_photo=int(photo_id)).first()
-                                photo_list.append(
-                                    send_file(BytesIO(photo.data), attachment_filename=photo.filename, as_attachment=False))
-                            property_dict['photos'] = photo_list
 
-                        video_ids = property_dict.get('videos')
-                        if video_ids:
-                            video_ids = video_ids.split(',')
-                            video_list = []
-                            for video_id in video_ids:
-                                video = videos.query.filter_by(
-                                    id_video=int(video_id)).first()
-                                video_list.append(
-                                    send_file(BytesIO(video.data), attachment_filename=video.filename, as_attachment=False))
-                            property_dict['videos'] = video_list
-                        owned_properties.append(property_dict)
+                    # for property_id in property_list:
+                    # query for property
+                    property = properties.query.filter_by(
+                        id_property=int(2)).first()
+                    # add to list
+                    property_dict = property.as_dict()
+                    return jsonify({'prop photos': property.photos, 'prop dictionary': property_dict})
+                    photo_ids = property_dict.get('photos')
+                    if photo_ids:
+                        photo_ids = photo_ids.split(',')
+                        photo_list = []
+                        for photo_id in photo_ids:
+                            photo = photos.query.filter_by(
+                                id_photo=int(photo_id)).first()
+                            photo_list.append(
+                                send_file(BytesIO(photo.data), attachment_filename=photo.filename, as_attachment=False))
+                        property_dict['photos'] = photo_list
+
+                    video_ids = property_dict.get('videos')
+                    if video_ids:
+                        video_ids = video_ids.split(',')
+                        video_list = []
+                        for video_id in video_ids:
+                            video = videos.query.filter_by(
+                                id_video=int(video_id)).first()
+                            video_list.append(
+                                send_file(BytesIO(video.data), attachment_filename=video.filename, as_attachment=False))
+                        property_dict['videos'] = video_list
+                    owned_properties.append(property_dict)
 
                 authorized_properties = []
                 # if user is authorized to another user
