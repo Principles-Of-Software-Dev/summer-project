@@ -580,6 +580,8 @@ def add_property():
             # enter property in db
             property = properties(
                 street, city, state, zipcode, description, estimate, None, None, user_id)
+
+            return jsonify({'property id': property.id_property})
             db.session.add(property)
 
             # add property to user
