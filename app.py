@@ -4,7 +4,7 @@ from urllib import response
 import uuid
 from os.path import dirname, abspath, exists
 from datetime import datetime, timedelta
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify, send_from_directory, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from sqlalchemy import ForeignKey
@@ -19,7 +19,7 @@ CORS(app)
 #    os.path.join(basedir, 'data.sqlite')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://kqnjsvtwnpmxgh:150bcbb0f8972d6eef08ca09c52a8b6a8cf05d1e183e8252fd50577de5a49c80@ec2-3-224-8-189.compute-1.amazonaws.com:5432/ddhno9rq3t97r8'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
+upload_dir = os.path.join(dirname(dirname(abspath(__file__))), 'assets')
 admin_emails = ['admin@email.com']
 
 
@@ -541,26 +541,29 @@ def deauthorize_user():
 
 @app.route("/add_property", methods=['POST'])  # FINISHED
 def add_property():
-    request_json = request.get_json()  # get json data
+    # request_json = request.get_json()  # get json data
+    print(request.form)
 
     # grab access token
-    access_token = request_json.get('access_token')
+    access_token = request.form.get('access_token')
     # was access token passed?
     if access_token:
         # set json data into vars
-        user_id = request_json.get('user_id')
+        user_id = request.form.get('user_id')
         # is the token valid?
         if is_token_valid(access_token, "access", user_id):
             # query for user in db
             user = users.query.filter_by(id_user=user_id).first()
 
             # set json data into vars
-            street = request_json.get('street')
-            city = request_json.get('city')
-            state = request_json.get('state')
-            zipcode = request_json.get('zipcode')
-            description = request_json.get('description')
-            estimate = request_json.get('estimate')
+            street = request.form.get('street')
+            city = request.form.get('city')
+            state = request.form.get('state')
+            zipcode = request.form.get('zipcode')
+            description = request.form.get('description')
+            estimate = request.form.get('estimate')
+            photos = request.files.getlist("photos")
+            videos = request.files.getlist("videos")
 
             # enter property in db
             property = properties(
@@ -575,7 +578,12 @@ def add_property():
             else:
                 user.properties = str(property.id_property)
             db.session.commit()
-            return jsonify({"rsp_msg": "property has been added", "property_id": property.id_property})
+
+            if photos or videos:
+                add_media(access_token=access_token, user_id=user_id, upld_photos=photos,
+                          upld_videos=videos, property_id=property.id_property)
+                # return redirect(url_for('add_media', access_token=access_token, user_id=user_id, upld_photos=photos, upld_videos=videos, property_id=property.id_property))
+            return jsonify({"rsp_msg": "property has been added"})
         else:
             # token not valid
             return jsonify(409)
@@ -784,6 +792,64 @@ def edit_property():
             return jsonify(409)
     else:
         # token was missing
+        return jsonify(409)
+
+
+@app.route("/add_media", methods=['POST'])  # FINISHED
+def add_media(access_token, user_id, upld_photos, upld_videos, property_id):
+
+    # grab access token
+    #access_token = request.form.get('access_token')
+    # if access token exist
+    if access_token:
+        # set form data into vars
+        #user_id = request.form.get('user_id')
+        # if access token
+        if is_token_valid(access_token, "access", user_id):
+            # grab files uploaded
+            #upld_photos = request.files.getlist("photos")
+            #upld_videos = request.files.getlist("videos")
+
+            # set json data into vars
+            #property_id = request.form.get('property_id')
+            # query for property in db
+            property = properties.query.filter_by(
+                id_property=property_id).first()
+
+            # save file and update path
+            for file in upld_photos:
+                path = os.path.join(upload_dir, str(
+                    uuid.uuid4()) + '-' + file.filename)
+                file.save(path)
+                photo = photos(path, property.id_property)
+                db.session.add(photo)
+                db.session.commit()
+
+                if property.photos:
+                    property.photos = property.photos + \
+                        ',' + str(photo.id_photo)
+                else:
+                    property.photos = str(photo.id_photo)
+                db.session.commit()
+
+            for file in upld_videos:
+                path = os.path.join(upload_dir, str(
+                    uuid.uuid4()) + '-' + file.filename)
+                file.save(path)
+                video = videos(path, property.id_property)
+                db.session.add(video)
+                db.session.commit()
+
+                if property.videos:
+                    property.videos = property.photos + \
+                        ',' + str(video.id_video)
+                else:
+                    property.videos = str(video.id_video)
+                db.session.commit()
+        else:
+            # token not valid
+            return jsonify(409)
+    else:
         return jsonify(409)
 
 
