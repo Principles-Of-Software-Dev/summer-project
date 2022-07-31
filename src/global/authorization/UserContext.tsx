@@ -353,15 +353,19 @@ export const UserProvider = ({ children }) => {
 
 		const aProp = async () => {
 			await fetch("/add_property", requestOptions).then(response => {
-				response.json().then(async data => {
+				response.json().then( data => {
 					if (data !== false) {
 						if (data === 409) {
 							userLogout() ;
 						} else {
 							console.log(formData)
 							formData.append('property_id', data.property_id)
-							await addPhotos(formData)
-							await addVideos(formData)
+							const photoreq = new XMLHttpRequest();
+							photoreq.open('POST', '/add_photos', true)
+							photoreq.send(formData)
+							const vidreq = new XMLHttpRequest();
+							vidreq.open('POST', '/add_videos', true);
+							vidreq.send(formData)
 						}
 					}
 				})
