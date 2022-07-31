@@ -569,10 +569,9 @@ export const UserProvider = ({ children }) => {
 		
 		setRefreshUser(false);
 		getProps();
-		let i = 0;
 		console.log(properties)
 		while (properties === undefined || null) {
-			i++;
+			let i = 'loop';
 			console.log(i)
 		}
 
