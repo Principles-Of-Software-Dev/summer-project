@@ -648,8 +648,8 @@ def get_properties():
             if user.properties:
                 user.properties = None
                 db.session.commit()
-                property_list = user.properties.split(',')
-                owned_properties = []
+                # property_list = user.properties.split(',')
+                # owned_properties = []
                 if user.properties:
                     # append a list of properties as a dict
                     return ({'user props': user.properties})
