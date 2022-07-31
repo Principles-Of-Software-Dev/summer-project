@@ -583,7 +583,6 @@ def add_property():
 
             db.session.add(property)
             db.session.commit()
-            return jsonify({'prop id': property.id_property})
 
             # add property to user
             if user.properties:
