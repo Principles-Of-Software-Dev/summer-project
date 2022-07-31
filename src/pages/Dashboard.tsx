@@ -41,7 +41,7 @@ const Dashboard = () => {
 			</div>
 			{/* Top Banner and Side Menu */}
 			<TopBar>
-				<div className='max-h-full max-w-main flex items-center justify-end'>
+				<div className='max-h-full max-w-full flex items-center justify-end'>
 					<div className='md:flex hidden'>
 						<Button
 							height="h-xsmall-button"

@@ -521,7 +521,7 @@ export const UserProvider = ({ children }) => {
 		return addVids() ;
 	}
 
-	const fetchProperties = () => { 
+	const fetchProperties = async () => { 
 		setRefreshUser(true) ;
 
 		let properties = {} ;
@@ -553,6 +553,7 @@ export const UserProvider = ({ children }) => {
 						{ return { status :"No Properties" } ; }
 						 else {
 							properties = data;
+							
 						}
 					}
 				})
@@ -561,9 +562,8 @@ export const UserProvider = ({ children }) => {
 			})
 		}
 
-		getProps() ;
+		await getProps() ;
 		setRefreshUser(false);
-		console.log(properties)
 		return properties;
 
 	} ;
