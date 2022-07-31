@@ -41,7 +41,7 @@ const PropertiesControl = ({ handleAddProperty }) => {
 
 	}
 
-
+	console.log(properties)
 	return (
 
 		<div className='w-full mb-2'>
