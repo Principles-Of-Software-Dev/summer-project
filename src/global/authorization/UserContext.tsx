@@ -282,6 +282,7 @@ export const UserProvider = ({ children }) => {
 			})
 		}
 
+		eUser() ;
 		setRefreshUser(true) ;
 
 	} ;
@@ -545,6 +546,10 @@ export const UserProvider = ({ children }) => {
 			body: JSON.stringify(params)
 
 		}
+		
+		const setproperties = (data) => {
+			setProperties(data) ;
+		}
 
 		const getProps = async () => {
 			await fetch("/get_properties", requestOptions).then(response => {
@@ -556,9 +561,7 @@ export const UserProvider = ({ children }) => {
 						{ return { status :"No Properties" } ; }
 						else {
 							console.log(typeof(data.owned_properties))
-							setProperties({
-								"hi" : "hi"
-							}) ; 
+							setproperties(data)
 							console.log(properties) ;
 						}
 					}
