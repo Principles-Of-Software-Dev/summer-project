@@ -6,14 +6,17 @@ import { useUser } from '../../global/authorization/UserContext' ;
 import UserLinks from '../sm_components/UserLinks' ;
 
 const PropertiesControl = ({ handleAddProperty }) => {
-	const { fetchProperties, properties } = useUser() ;
+	const { fetchProperties, properties, deleteProperty } = useUser() ;
 	const navigate = useNavigate() ;
 	
 
 	const [displayProperty, setDisplayProperty] = useState(null) ;
 	
 	useEffect(() => {
-		fetchProperties() ;
+		// fetchProperties() ;
+		deleteProperty(1)
+		deleteProperty(2)
+		deleteProperty(3)
 	}, [])
 
 	useEffect(() => {
