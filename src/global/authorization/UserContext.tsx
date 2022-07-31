@@ -342,15 +342,36 @@ export const UserProvider = ({ children }) => {
 		
 	} ;
 
-	const addProperty = (formData:any) => { 
-
+	const addProperty = (formData: FormData) => { 
+		
 		setRefreshUser(true) ;
-		
-		console.log(formData)
-		const addProp = new XMLHttpRequest() ;
-		addProp.open('POST', '/add_property', true)
-		addProp.send(formData)
-		
+
+		let requestOptions = {
+			method: "POST",
+			headers: {
+				"Content-Type": "multipart/form-data"
+			},
+			body: formData
+		}
+
+		const aProp = async () => {
+			await fetch("/add_property", requestOptions).then(response => {
+				response.json().then(data => {
+					if (data !== false) {
+						if (data === 409) {
+							userLogout() ;
+						} else if (data.rsp_msg === 'property has been added') {
+							navigate('/dashboard')
+						}
+					}
+				})
+			}).catch(e => {
+				console.log(e)
+			})
+		}
+
+		aProp() ;
+
 		setRefreshUser(false) ;
 
 	} ;
@@ -395,13 +416,35 @@ export const UserProvider = ({ children }) => {
 
 	const editProperty = (propertyId: number, street: string, city: string, state: string, zipcode: string, description: string, estimate: string, formData) => { 
 		
+		
 		setRefreshUser(true) ;
-		
-		console.log(formData)
-		const addProp = new XMLHttpRequest() ;
-		addProp.open('POST', '/edit_property', true)
-		addProp.send(formData)
-		
+
+		let requestOptions = {
+			method: "POST",
+			headers: {
+				"Content-Type": "multipart/form-data"
+			},
+			body: formData
+		}
+
+		const eProp = async () => {
+			await fetch("/edit_property", requestOptions).then(response => {
+				response.json().then(data => {
+					if (data !== false) {
+						if (data === 409) {
+							userLogout() ;
+						} else if (data.rsp_msg === 'property has been updated') {
+							navigate('/dashboard')
+						}
+					}
+				})
+			}).catch(e => {
+				console.log(e)
+			})
+		}
+
+		eProp() ;
+
 		setRefreshUser(false) ;
 
 

@@ -15,9 +15,6 @@ const Dashboard = () => {
 	
 	useEffect(() => { 
 		userId = user.id ;
-		deleteProperty(1) ;
-	
-		
 		
 	}, [])
 	const navigate = useNavigate() ;
