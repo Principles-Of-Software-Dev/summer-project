@@ -552,8 +552,8 @@ export const UserProvider = ({ children }) => {
 						} else if (data === 411)
 						{ return { status :"No Properties" } ; }
 						 else {
-							properties = data ;
-							return properties ;
+							properties = data;
+							console.log(properties);
 						}
 					}
 				})
@@ -563,7 +563,8 @@ export const UserProvider = ({ children }) => {
 		}
 
 		getProps() ;
-		setRefreshUser(false) ;
+		setRefreshUser(false);
+		return properties;
 
 	} ;
 	

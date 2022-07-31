@@ -9,7 +9,7 @@ import UserLinks from '../sm_components/UserLinks' ;
 const PropertiesControl = ({ handleAddProperty }) => {
 	const { fetchProperties } = useUser() ;
 	const navigate = useNavigate() ;
-	let properties: ({'owned_properties':PropertyType[], 'authorized_properties':PropertyType[]} | undefined) ;
+	let properties: {'authorized_properties': PropertyType[], 'owned_properties':PropertyType[]} | undefined;
 
 	const [displayProperty, setDisplayProperty] = useState(null) ;
 
