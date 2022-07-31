@@ -8,9 +8,9 @@ import UserLinks from '../sm_components/UserLinks' ;
 
 const PropertiesControl = ({ handleAddProperty }) => {
 	const { fetchProperties } = useUser() ;
-	const navigate = useNavigate() ;
-	let properties: { 'authorized_properties': PropertyType[], 'owned_properties': PropertyType[] } | undefined;
-	properties = fetchProperties();
+	const navigate = useNavigate();
+	const [properties, setProperties] = useState<{ 'authorized_properties': PropertyType[], 'owned_properties': PropertyType[] } | undefined | null>(null)
+
 
 	const [displayProperty, setDisplayProperty] = useState(null) ;
 
@@ -18,8 +18,10 @@ const PropertiesControl = ({ handleAddProperty }) => {
 		if (displayProperty != null) {
 			document.body.style.overflow = "hidden" ;
 		} else {
-			document.body.style.overflow = "visible" ;
+			document.body.style.overflow = "visible";
 		}
+
+		setProperties(fetchProperties)
 	}, [displayProperty]) ;
 	
 

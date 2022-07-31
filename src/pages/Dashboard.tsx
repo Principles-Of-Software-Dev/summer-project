@@ -16,7 +16,6 @@ const Dashboard = () => {
 	
 	useEffect(() => { 
 		userId = user.id ;
-		
 	}, [])
 	const navigate = useNavigate() ;
 
