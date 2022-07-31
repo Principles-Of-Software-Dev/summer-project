@@ -1,3 +1,4 @@
+import json
 import secrets
 import os
 from urllib import response
@@ -550,6 +551,8 @@ def add_property():
     # request_json = request.get_json()  # get json data
     print(request.form)
 
+    data = dict(request.form)
+    return jsonify({'data': data})
     # grab access token
     access_token = request.form.get('access_token')
     # was access token passed?

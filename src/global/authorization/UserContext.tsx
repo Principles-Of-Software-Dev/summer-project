@@ -362,6 +362,8 @@ export const UserProvider = ({ children }) => {
 							userLogout() ;
 						} else if (data.rsp_msg === 'property has been added') {
 							navigate('/dashboard')
+						} else { 
+							console.log(data.data)
 						}
 					}
 				})
