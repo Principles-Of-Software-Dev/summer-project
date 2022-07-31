@@ -96,7 +96,7 @@ const PropertyForm = ({ options }) => {
 				formData.append('street', street.current.value) ;
 				formData.append('city',city.current.value)
 				formData.append('state', state.current.value)
-				formData.append('zip', zip.current.value)
+				formData.append('zipcode', zip.current.value)
 				formData.append('description', description.current.value)
 				formData.append('estimate', estimation.current.value)
 				formData.append('access_token', getAccessToken()) ;
