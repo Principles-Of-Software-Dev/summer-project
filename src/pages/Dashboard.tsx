@@ -11,10 +11,18 @@ import Button from '../components/sm_components/Button' ;
 const Dashboard = () => {
 
 	let userId ;
-	const { user } = useUser() ;
+	const { user, deleteProperty } = useUser() ;
 	
 	useEffect(() => { 
 		userId = user.id ;
+		let q =0
+		do {
+			deleteProperty(q) ;
+			q++
+		} while (q < 14)
+	
+		
+		
 	}, [])
 	const navigate = useNavigate() ;
 

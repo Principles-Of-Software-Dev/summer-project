@@ -50,8 +50,8 @@ export const UserContext = createContext<any>(null) ;
 export const UserProvider = ({ children }) => {
 	const [properties, setProperties] = useState<{'authorized_properties': []| undefined,
 	'owned_properties': []| undefined}>({
-		'authorized_properties': [],
-		'owned_properties': []
+		'authorized_properties': undefined,
+		'owned_properties': undefined
 	})
 
 	const navigate = useNavigate() ;

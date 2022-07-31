@@ -722,19 +722,20 @@ def delete_property():
                 if user.properties == '':
                     user.properties = None
 
-                photo_ids = property.photos.split(',')
-                for photo_id in photo_ids:
-                    photo = photos.query.filter_by(
-                        id_photo=int(photo_id)).first()
-                    os.remove(photo.path)
-                    photos.query.filter_by(id_photo=int(photo_id)).delete()
-
-                video_ids = property.videos.split(',')
-                for video_id in video_ids:
-                    video = videos.query.filter_by(
-                        id_video=int(video_id)).first()
-                    os.remove(video.path)
-                    videos.query.filter_by(id_video=int(video_id)).delete()
+                if(property.photos != None):
+                    photo_ids = property.photos.split(',')
+                    for photo_id in photo_ids:
+                        photo = photos.query.filter_by(
+                            id_photo=int(photo_id)).first()
+                        os.remove(photo.path)
+                        photos.query.filter_by(id_photo=int(photo_id)).delete()
+                if(property.videos != None):
+                    video_ids = property.videos.split(',')
+                    for video_id in video_ids:
+                        video = videos.query.filter_by(
+                            id_video=int(video_id)).first()
+                        os.remove(video.path)
+                        videos.query.filter_by(id_video=int(video_id)).delete()
 
                 properties.query.filter_by(id_property=property_id).delete()
                 db.session.commit()
