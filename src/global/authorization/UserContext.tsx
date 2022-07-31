@@ -573,6 +573,7 @@ export const UserProvider = ({ children }) => {
 		while (properties != {}) {
 			let i = 'loop';
 			console.log(i)
+			console.log(properties)
 		}
 
 		return properties
