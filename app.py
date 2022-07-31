@@ -666,7 +666,7 @@ def get_properties():
                             photo_list.append(
                                 send_file(BytesIO(photo.data), attachment_filename=photo.filename, as_attachment=False))
                         for photo in photo_list:
-                            return json.dumps({'photo info': photo})
+                            return json.dumps(photo.__dict__)
                         return jsonify({'photo list': photo_list})
                         property_dict['photos'] = photo_list
 
