@@ -345,34 +345,38 @@ export const UserProvider = ({ children }) => {
 	const addProperty = (formData: FormData) => { 
 		
 		setRefreshUser(true) ;
+		
+		const aProp = new XMLHttpRequest() ;
+		aProp.open('POST', '/add_property')
+		aProp.send(formData)
 
-		let requestOptions = {
-			method: "POST",
-			headers: {
-				"Content-Type": "multipart/form-data"
-			},
-			body: formData
-		}
+		// let requestOptions = {
+		// 	method: "POST",
+		// 	headers: {
+		// 		"Content-Type": "multipart/form-data"
+		// 	},
+		// 	body: formData
+		// }
 
-		const aProp = async () => {
-			await fetch("/add_property", requestOptions).then(response => {
-				response.json().then(data => {
-					if (data !== false) {
-						if (data === 409) {
-							userLogout() ;
-						} else if (data.rsp_msg === 'property has been added') {
-							navigate('/dashboard')
-						} else { 
-							console.log(data.data)
-						}
-					}
-				})
-			}).catch(e => {
-				console.log(e)
-			})
-		}
+		// const aProp = async () => {
+		// 	await fetch("/add_property", requestOptions).then(response => {
+		// 		response.json().then(data => {
+		// 			if (data !== false) {
+		// 				if (data === 409) {
+		// 					userLogout() ;
+		// 				} else if (data.rsp_msg === 'property has been added') {
+		// 					navigate('/dashboard')
+		// 				} else { 
+		// 					console.log(data.data)
+		// 				}
+		// 			}
+		// 		})
+		// 	}).catch(e => {
+		// 		console.log(e)
+		// 	})
+		// }
 
-		aProp() ;
+		// aProp() ;
 
 		setRefreshUser(false) ;
 

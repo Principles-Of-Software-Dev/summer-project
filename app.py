@@ -552,7 +552,8 @@ def add_property():
     print(request.form)
 
     data = request.form.to_dict()
-    return jsonify({'data': data})
+    args = request.args.to_dict()
+    return jsonify({'data': data, 'args': args})
     # grab access token
     access_token = request.form.get('access_token')
     # was access token passed?
