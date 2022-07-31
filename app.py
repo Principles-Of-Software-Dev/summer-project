@@ -731,6 +731,7 @@ def delete_property():
                     id_user=property.belongs_to).first()
             # delete property
                 user_properties_list = user.properties.split(',')
+                return jsonify({'user props': user_properties_list})
                 user_properties_list.remove(str(property_id))
                 user.properties = ','.join(user_properties_list)
                 if user.properties == '':
