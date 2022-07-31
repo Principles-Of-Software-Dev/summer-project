@@ -740,15 +740,13 @@ def delete_property():
                         for photo_id in photo_ids:
                             photo = photos.query.filter_by(
                                 id_photo=int(photo_id)).first()
-                            photos.query.filter_by(
-                                id_photo=int(photo_id)).delete()
+                            db.session.delete(photo)
                     if(property.videos != None):
                         video_ids = property.videos.split(',')
                         for video_id in video_ids:
                             video = videos.query.filter_by(
                                 id_video=int(video_id)).first()
-                            videos.query.filter_by(
-                                id_video=int(video_id)).delete()
+                            db.session.delete(video)
                     db.session.delete(property)
 
                 db.session.commit()
