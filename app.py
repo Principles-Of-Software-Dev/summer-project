@@ -615,6 +615,7 @@ def get_properties():
             # split string of property ids
             if user.properties != None:
                 property_list = user.properties.split(',')
+                return jsonify({'test': property_list})
                 owned_properties = []
                 if user.properties:
                     # append a list of properties as a dict
@@ -654,7 +655,7 @@ def get_properties():
                         auth_user = users.query.filter_by(
                             id_user=auth_user_id).first()
                         property_list = auth_user.properties.split(',')
-                        if property_list:
+                        if property_list != None:
                             # append list of properties as a dict
                             for property_id in property_list:
                                 # query for property
@@ -683,6 +684,7 @@ def get_properties():
                                     property_dict['videos'] = path_list
 
                                 authorized_properties.append(property_dict)
+
                 return jsonify({"owned_properties": owned_properties, "authorized_properties": authorized_properties})
             else:
                 # no properties under user
