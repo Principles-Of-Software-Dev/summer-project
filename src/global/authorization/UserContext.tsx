@@ -571,9 +571,6 @@ export const UserProvider = ({ children }) => {
 		setRefreshUser(false);
 		getProps();
 		console.log(properties)
-		while (properties == null) {
-
-		}
 
 		return properties
 	} ;
