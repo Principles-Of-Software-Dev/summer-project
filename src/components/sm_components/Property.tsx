@@ -9,11 +9,9 @@ const Property = ({ property, displayProperty, displayPropertyForm }) => {
 
 	const prevPic = () => {
 		setCurrIndex(currIndex === 0 ? (maxLength - 1) : (currIndex - 1)) ;
-		console.log(currIndex) ;
 	} ;
 	const nextPic = () => {
 		setCurrIndex(currIndex === (maxLength - 1) ? 0 : (currIndex + 1)) ;
-		console.log(currIndex) ;
 	} ;
 
 

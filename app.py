@@ -1,3 +1,4 @@
+from fileinput import filename
 import json
 import secrets
 import os
@@ -5,13 +6,14 @@ from urllib import response
 import uuid
 from os.path import dirname, abspath, exists
 from datetime import datetime, timedelta
-from flask import Flask, request, jsonify, send_from_directory, redirect, url_for
+from flask import Flask, request, jsonify, send_from_directory, redirect, url_for, send_file
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from sqlalchemy import ForeignKey
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from flask_cors import CORS, cross_origin
+from io import BytesIO
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__, static_folder='build', static_url_path='')
@@ -100,15 +102,15 @@ class properties(db.Model):
 class photos(db.Model):
 
     id_photo = db.Column(db.Integer, primary_key=True)
-    path = db.Column(db.Text, nullable=False)
+    data = db.Column(db.LargeBinary)
     belongs_to = db.Column(db.Integer, db.ForeignKey(
         'properties.id_property'), nullable=False)
 
     properties = db.relationship(
         'properties', backref='photo_property', uselist=False)
 
-    def __init__(self, path, belongs_to):
-        self.path = path
+    def __init__(self, data, belongs_to):
+        self.data = data
         self.belongs_to = belongs_to
 
     def as_dict(self):
@@ -118,15 +120,15 @@ class photos(db.Model):
 class videos(db.Model):
 
     id_video = db.Column(db.Integer, primary_key=True)
-    path = db.Column(db.Text, nullable=False)
+    data = db.Column(db.LargeBinary)
     belongs_to = db.Column(db.Integer, db.ForeignKey(
         'properties.id_property'), nullable=False)
 
     properties = db.relationship(
         'properties', backref='video_property', uselist=False)
 
-    def __init__(self, path, belongs_to):
-        self.path = path
+    def __init__(self, data, belongs_to):
+        self.data = data
         self.belongs_to = belongs_to
 
     def as_dict(self):
@@ -616,7 +618,6 @@ def get_properties():
             # split string of property ids
             if user.properties != None:
                 property_list = user.properties.split(',')
-                return jsonify({'test': property_list})
                 owned_properties = []
                 if user.properties:
                     # append a list of properties as a dict
@@ -629,22 +630,24 @@ def get_properties():
                         photo_ids = property_dict.get('photos')
                         if photo_ids:
                             photo_ids = photo_ids.split(',')
-                            path_list = []
+                            photo_list = []
                             for photo_id in photo_ids:
                                 photo = photos.query.filter_by(
                                     id_photo=int(photo_id)).first()
-                                path_list.append(photo.path)
-                            property_dict['photos'] = path_list
+                                photo_list.append(
+                                    send_file(BytesIO(photo.data)))
+                            property_dict['photos'] = photo_list
 
                         video_ids = property_dict.get('videos')
                         if video_ids:
                             video_ids = video_ids.split(',')
-                            path_list = []
+                            video_list = []
                             for video_id in video_ids:
                                 video = videos.query.filter_by(
                                     id_video=int(video_id)).first()
-                                path_list.append(video.path)
-                            property_dict['videos'] = path_list
+                                video_list.append(
+                                    send_file(BytesIO(video.data)))
+                            property_dict['videos'] = video_list
                         owned_properties.append(property_dict)
 
                 authorized_properties = []
@@ -828,10 +831,7 @@ def add_media(access_token, user_id, upld_photos, upld_videos, property_id):
 
             # save file and update path
             for file in upld_photos:
-                path = os.path.join(upload_dir, str(
-                    uuid.uuid4()) + '-' + file.filename)
-                file.save(path)
-                photo = photos(path, property.id_property)
+                photo = photos(file.read(), property.id_property)
                 db.session.add(photo)
                 db.session.commit()
 
@@ -843,10 +843,7 @@ def add_media(access_token, user_id, upld_photos, upld_videos, property_id):
                 db.session.commit()
 
             for file in upld_videos:
-                path = os.path.join(upload_dir, str(
-                    uuid.uuid4()) + '-' + file.filename)
-                file.save(path)
-                video = videos(path, property.id_property)
+                video = videos(file.read(), property.id_property)
                 db.session.add(video)
                 db.session.commit()
 
@@ -885,10 +882,8 @@ def add_photo():
 
             # save file and update path
             for file in files:
-                path = os.path.join(upload_dir, str(
-                    uuid.uuid4()) + '-' + file.filename)
-                file.save(path)
-                photo = photos(path, property.id_property)
+
+                photo = photos(file.read(), property.id_property)
                 db.session.add(photo)
                 db.session.commit()
 
@@ -929,10 +924,7 @@ def add_video():
 
             # save file and update path
             for file in files:
-                path = os.path.join(upload_dir, str(
-                    uuid.uuid4()) + '-' + file.filename)
-                file.save(path)
-                video = videos(path, property.id_property)
+                video = videos(file.read(), property.id_property)
                 db.session.add(video)
                 db.session.commit()
 

@@ -15,7 +15,6 @@ const PropertiesControl = ({ handleAddProperty }) => {
 	
 	useEffect(() => {
 		fetchProperties() ;
-		console.log("calling fetch props")
 	}, [])
 
 	useEffect(() => {

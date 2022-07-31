@@ -53,6 +53,7 @@ const PopoutMenu = ({ handleDisplayLogout, userId, handleAddProperty }) => {
               		<div className='flex items-center justify-end row-span-1 my-2'>
               			<UserLinks text={"Download All Properties"} handleClick={true} />
               		</div>
+						
               		<div className='md:hidden flex items-center justify-end row-span-1 my-2'>
               			<Button
               				height="h-xsmall-button"
