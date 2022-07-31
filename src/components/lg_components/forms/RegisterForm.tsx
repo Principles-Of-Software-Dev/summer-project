@@ -2,8 +2,6 @@ import React, { useState } from 'react' ;
 import { useUser } from '../../../global/authorization/UserContext' ;
 import Button from '../../sm_components/Button' ;
 import EmailField from '../../sm_components/validator_fields/EmailField' ;
-import NameField from '../../sm_components/validator_fields/NameField' ;
-import PasswordField from '../../sm_components/validator_fields/PasswordField' ;
 import AgeCheck from '../../sm_components/validator_fields/AgeCheck' ;
 
 
@@ -12,12 +10,6 @@ const RegisterForm = ({ handleClickRegister, register }) => {
 	// Registration Validation.
 	const [email, setEmail] = useState('') ;
 	const [validEmail, setValidEmail] = useState(false) ;
-	const [firstName, setFirstName] = useState('') ;
-	const [lastName, setLastName] = useState('') ;
-	const [validName, setValidName] = useState(false) ;
-	const [password, setPassword] = useState('') ;
-	const [validPassword, setValidPassword] = useState(false) ;
-	const [validAgeCheck, setValidAgeCheck] = useState(false) ;
 	
 
 	const { userRegistration } = useUser() ;
@@ -25,14 +17,13 @@ const RegisterForm = ({ handleClickRegister, register }) => {
 
 	const handleValidRegistration = () => {
         
-		if (validEmail && validName && validPassword && validAgeCheck) {
+		if (validEmail) {
 			return false ;
 		}
 		else {
 			return true ;
 		}
 		
-
 	}
         
 
@@ -43,14 +34,14 @@ const RegisterForm = ({ handleClickRegister, register }) => {
 			<Button
 				height="h-small-button"
 				color='bg-sky-400'
-				buttonText='Register'
+				buttonText='Search for Account'
 				textColor='text-c-white'
 				hoverColor='hover:bg-sky-500'
 				disable={false}
 				onClick={handleClickRegister}
 			/>
 
-			{/* dropdown login menu */}
+			{/* dropdown search menu */}
 			<form >
 				{
 					!register ? <div className='hidden'>
@@ -66,24 +57,6 @@ const RegisterForm = ({ handleClickRegister, register }) => {
 									< EmailField size={25} required={true} setEmail={setEmail} handleValid={setValidEmail} />
 								</div>
 
-								{/* Name field */}
-								<div className='row-span-1 flex items-center justify-center'>
-									< NameField size={25} required={true} setName={setFirstName} handleValid={setValidName} type={"First"} />
-								</div>
-								<div className='row-span-1 flex items-center justify-center'>
-									< NameField size={25} required={true} setName={setLastName} handleValid={setValidName } type={"Last"}/>
-								</div>
-
-								{/* Password field */}
-								<div className='row-span-1 flex items-center justify-center'>
-									< PasswordField size={25} required={true} setPassword={setPassword} handleValid={setValidPassword} />
-								</div>
-                          
-								{/* Age Check*/}
-								<div className='row-span-1 flex items-center justify-center w-full'>
-									<AgeCheck handleValid={setValidAgeCheck} />
-								</div>
-
 								{/* "Submit" and "Cancel Button" */}
                             
 								<div className='row-span-1 flex items-center justify-between mb-2 mx-2'>
@@ -97,7 +70,7 @@ const RegisterForm = ({ handleClickRegister, register }) => {
 										// set later
 										onClick={(e) => {
 											e.preventDefault() ;
-											userRegistration(firstName, lastName, email, password) ;
+											userRegistration(email) ;
 										}}
 									/>
 

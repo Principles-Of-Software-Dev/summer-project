@@ -31,14 +31,16 @@ Migrate(app, db)
 
 
 class users(db.Model):
-
+    admin = db.Column(db.Integer, nullable=False)
+    organization = db.Column(db.Integer)
     id_user = db.Column(db.Integer, primary_key=True)
     firstName = db.Column(db.Text, nullable=False)
     lastName = db.Column(db.Text, nullable=False)
+    address = db.Colum(db.Text)
     dob = db.Column(db.Text)
     email = db.Column(db.Text, nullable=False, unique=True)
     password = db.Column(db.Text, nullable=False)
-    properties = db.Column(db.Text)
+    items = db.Column(db.Text)
     authorized_to_me = db.Column(db.Text)
     authorized_to = db.Column(db.Text)
     access_token = db.Column(db.Text)
@@ -46,13 +48,16 @@ class users(db.Model):
     session_token = db.Column(db.Text)
     session_token_expr = db.Column(db.Integer)
 
-    def __init__(self, firstName, lastName, dob, email, password, properties, authorized_to, authorized_to_me, access_token, access_token_expr, session_token, session_token_expr):
+    def __init__(self, admin, organization, firstName, lastName, address, dob, email, password, items, authorized_to, authorized_to_me, access_token, access_token_expr, session_token, session_token_expr):
+        self.admin = admin
+        self.organization = organization
         self.firstName = firstName
         self.lastName = lastName
+        self.address = address
         self.dob = dob
         self.email = email
         self.password = password
-        self.properties = properties
+        self.items = items
         self.authorized_to = authorized_to
         self.authorized_to_me = authorized_to_me
         self.access_token = access_token
@@ -67,13 +72,9 @@ class users(db.Model):
         return self.id_user
 
 
-class properties(db.Model):
+class items(db.Model):
 
-    id_property = db.Column(db.Integer, primary_key=True)
-    street = db.Column(db.Text, nullable=False)
-    city = db.Column(db.Text, nullable=False)
-    state = db.Column(db.Text, nullable=False)
-    zipcode = db.Column(db.Integer, nullable=False)
+    id_item = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.Text, nullable=False)
     estimate = db.Column(db.Integer, nullable=False)
     photos = db.Column(db.Text)
@@ -83,11 +84,7 @@ class properties(db.Model):
 
     users = db.relationship('users', backref='user', uselist=False)
 
-    def __init__(self, street, city, state, zipcode, description, estimate, photos, videos, belongs_to):
-        self.street = street
-        self.city = city
-        self.state = state
-        self.zipcode = zipcode
+    def __init__(self, description, estimate, photos, videos, belongs_to):
         self.description = description
         self.estimate = estimate
         self.photos = photos
@@ -160,6 +157,18 @@ class tickets(db.Model):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
 
+class organizations(db.Model):
+
+    id_organization = db.Column(db.Integer, primary_key=True)
+    users_list = db.Column(db.Text)
+
+    def __init__(self, users_list):
+        self.user_list = users_list
+
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
+
 db.create_all()
 
 
@@ -177,7 +186,7 @@ def hello():
     return jsonify({'string': 'Hello World'})
 
 
-@app.route("/add_user", methods=['POST'])  # FINISHED
+@app.route("/add_admin", methods=['POST'])  # FINISHED
 def add_user():
     request_json = request.get_json()  # get json data
 
@@ -193,10 +202,46 @@ def add_user():
         return jsonify(401)
 
     # add user to database
-    user = users(firstname, lastname, None, email, generate_password_hash(
+    user = users(1, None, firstname, lastname, None, email, generate_password_hash(
         password), None, None, None, None, None, None, None)
     db.session.add(user)
     db.session.commit()
+
+    organization = organizations(user.id_user)
+    db.session.add(organization)
+    db.session.commit()
+
+    user.organization = organization.id_organization
+    db.session.commit()
+
+    # generate valid access and session tokens
+    token = generate_access_token(user)
+    ses_token = generate_session_token(user)
+
+    # create response object
+    response = jsonify({"user_id": user.id_user, "access_token": token})
+    # add cookie
+    response.set_cookie('session_token', ses_token, httponly=True)
+    # return the new user's id along with tokens
+    return response
+
+
+@app.route("/add_resident", methods=['POST'])  # FINISHED
+def add_user():
+    request_json = request.get_json()  # get json data
+
+    # set json data into vars
+    firstname = request_json.get('firstname').lower()
+    lastname = request_json.get('lastname').lower()
+    email = request_json.get('email').lower()
+    password = request_json.get('password')
+
+    user = users.query.filter_by(email=email).first()
+    if user:
+        if firstname == user.firstname:
+            if lastname == user.lastname:
+                # verified user... do stuff
+                None
 
     # generate valid access and session tokens
     token = generate_access_token(user)
@@ -224,21 +269,21 @@ def delete_user():
         if is_token_valid(access_token, "access", user_id):
             # query for user in db
             user = users.query.filter_by(id_user=user_id).first()
-            user_property_list = user.properties.split(',')
-            for property_id in user_property_list:
-                property = properties.query.filter_by(
-                    id_property=property_id).first()
-                photo_ids = property.photos
+            user_item_list = user.items.split(',')
+            for item_id in user_item_list:
+                item = items.query.filter_by(
+                    id_item=item_id).first()
+                photo_ids = item.photos
                 if photo_ids:
-                    photo_ids = property.photos.split(',')
+                    photo_ids = item.photos.split(',')
                     for photo_id in photo_ids:
                         photo = photos.query.filter_by(
                             id_photo=int(photo_id)).first()
                         os.remove(photo.path)
                         photos.query.filter_by(id_photo=int(photo_id)).delete()
-                video_ids = property.videos
+                video_ids = item.videos
                 if video_ids:
-                    video_ids = property.videos.split(',')
+                    video_ids = item.videos.split(',')
                     for video_id in video_ids:
                         video = videos.query.filter_by(
                             id_video=int(video_id)).first()
@@ -551,7 +596,7 @@ def deauthorize_user():
         return jsonify(409)
 
 
-@app.route("/add_property", methods=['POST'])  # FINISHED
+@app.route("/add_item", methods=['POST'])  # FINISHED
 def add_property():
     # request_json = request.get_json()  # get json data
     print(request.form)
@@ -567,61 +612,55 @@ def add_property():
             # query for user in db
             user = users.query.filter_by(id_user=user_id).first()
 
-            # set json data into vars
-            street = request.form.get('street')
-            city = request.form.get('city')
-            state = request.form.get('state')
-            zipcode = request.form.get('zipcode')
             description = request.form.get('description')
             estimate = request.form.get('estimate')
             photoslist = request.files.getlist("photos")
             videoslist = request.files.getlist("videos")
 
             # enter property in db
-            property = properties(
-                street, city, state, zipcode, description, estimate, None, None, user_id)
+            item = items(description, estimate, None, None, user_id)
 
-            db.session.add(property)
+            db.session.add(item)
             db.session.commit()
 
             # add property to user
-            if user.properties:
-                user.properties = user.properties + \
-                    ',' + str(property.id_property)
+            if user.items:
+                user.items = user.items + \
+                    ',' + str(items.id_item)
             else:
-                user.properties = str(property.id_property)
+                user.properties = str(items.id_item)
 
             if photoslist or videoslist:
                 for file in photoslist:
                     photo = photos(
-                        file.read(), property.id_property, file.filename)
+                        file.read(), items.id_item, file.filename)
                     db.session.add(photo)
                     db.session.commit()
 
-                    if property.photos:
-                        property.photos = property.photos + \
+                    if items.photos:
+                        items.photos = items.photos + \
                             ',' + str(photo.id_photo)
                     else:
-                        property.photos = str(photo.id_photo)
+                        items.photos = str(photo.id_photo)
 
                     for file in videoslist:
                         video = videos(
-                            file.read(), property.id_property, file.filename)
+                            file.read(), items.id_item, file.filename)
                         db.session.add(video)
                         db.session.commit()
 
-                        if property.videos:
-                            property.videos = property.videos + \
+                        if items.videos:
+                            items.videos = items.videos + \
                                 ',' + str(video.id_video)
                         else:
-                            property.videos = str(video.id_video)
+                            items.videos = str(video.id_video)
             else:
                 db.session.flush()
-                return jsonify({"rsp_msg": "failed to add property"})
+                return jsonify({"rsp_msg": "failed to add item"})
             db.session.commit()
 
             # return redirect(url_for('add_media', access_token=access_token, user_id=user_id, upld_photos=photos, upld_videos=videos, property_id=property.id_property))
-            return jsonify({"rsp_msg": "property has been added"})
+            return jsonify({"rsp_msg": "item has been added"})
         else:
             # token not valid
             return jsonify(409)
@@ -630,7 +669,7 @@ def add_property():
         return jsonify(419)
 
 
-@app.route("/get_properties", methods=['POST'])  # FINISHED
+@app.route("/get_items", methods=['POST'])  # FINISHED
 def get_properties():
     request_json = request.get_json()  # get json data
 
@@ -645,18 +684,18 @@ def get_properties():
             # query for authorized user in db
             user = users.query.filter_by(id_user=user_id).first()
             # split string of property ids
-            if user.properties:
-                property_list = user.properties.split(',')
-                owned_properties = []
-                if user.properties:
+            if user.items:
+                item_list = user.items.split(',')
+                owned_items = []
+                if user.items:
                     # append a list of properties as a dict
-                    for property_id in property_list:
+                    for item_id in item_list:
                         # query for property
-                        property = properties.query.filter_by(
-                            id_property=int(property_id)).first()
+                        item = items.query.filter_by(
+                            id_property=int(item_id)).first()
                     # add to list
-                    property_dict = property.as_dict()
-                    photo_ids = property_dict.get('photos')
+                    item_dict = item.as_dict()
+                    photo_ids = item_dict.get('photos')
                     if photo_ids:
                         photo_ids = photo_ids.split(',')
                         photo_list = []
@@ -667,10 +706,9 @@ def get_properties():
                                 send_file(BytesIO(photo.data), attachment_filename=photo.filename, as_attachment=False))
                         for photo in photo_list:
                             return json.dumps(photo)
-                        return jsonify({'photo list': photo_list})
-                        property_dict['photos'] = photo_list
+                        item_dict['photos'] = photo_list
 
-                    video_ids = property_dict.get('videos')
+                    video_ids = item_dict.get('videos')
                     if video_ids:
                         video_ids = video_ids.split(',')
                         video_list = []
@@ -679,15 +717,11 @@ def get_properties():
                                 id_video=int(video_id)).first()
                             video_list.append(
                                 send_file(BytesIO(video.data), attachment_filename=video.filename, as_attachment=False))
-                        property_dict['videos'] = video_list
+                        item_dict['videos'] = video_list
 
-                    # for video in property_dict:
-                    #     fileData = jsonify({'file': file})
-                    #     owned_properties.append(fileData)
-                    # return jsonify({'owned_properties': owned_properties})
-                    owned_properties.append(property_dict)
+                    owned_items.append(item_dict)
 
-                authorized_properties = []
+                authorized_items = []
                 # if user is authorized to another user
                 if user.authorized_to:
                     # split string of user ids that you're authorized to
@@ -695,16 +729,16 @@ def get_properties():
                     for auth_user_id in authorized_to:
                         auth_user = users.query.filter_by(
                             id_user=auth_user_id).first()
-                        property_list = auth_user.properties.split(',')
-                        if property_list != None:
+                        item_list = auth_user.items.split(',')
+                        if item_list != None:
                             # append list of properties as a dict
-                            for property_id in property_list:
+                            for item_id in item_list:
                                 # query for property
-                                property = properties.query.filter_by(
-                                    id_property=int(property_id)).first()
+                                item = items.query.filter_by(
+                                    id_property=int(item_id)).first()
                                 # add to list
-                                property_dict = property.as_dict()
-                                photo_ids = property_dict.get('photos')
+                                item_dict = item.as_dict()
+                                photo_ids = item_dict.get('photos')
                                 if photo_ids:
                                     photo_ids = photo_ids.split(',')
                                     photo_list = []
@@ -713,9 +747,9 @@ def get_properties():
                                             id_photo=int(photo_id)).first()
                                         photo_list.append(
                                             send_file(BytesIO(photo.data), attachment_filename=photo.filename, as_attachment=False))
-                                    property_dict['photos'] = photo_list
+                                    item_dict['photos'] = photo_list
 
-                                video_ids = property_dict.get('videos')
+                                video_ids = item_dict.get('videos')
                                 if video_ids:
                                     video_ids = video_ids.split(',')
                                     video_list = []
@@ -724,10 +758,8 @@ def get_properties():
                                             id_video=int(video_id)).first()
                                         video_list.append(
                                             send_file(BytesIO(video.data), attachment_filename=video.filename, as_attachment=False))
-                                    property_dict['videos'] = video_list
-                                authorized_properties.append(property_dict)
-
-                return json.dumps({"owned_properties": owned_properties, "authorized_properties": authorized_properties})
+                                    item_dict['videos'] = video_list
+                                authorized_items.append(item_dict)
             else:
                 # no properties under user
                 return jsonify(411)
@@ -739,7 +771,7 @@ def get_properties():
         return jsonify(409)
 
 
-@app.route("/delete_property", methods=['POST'])  # FINISHED
+@app.route("/delete_item", methods=['POST'])  # FINISHED
 def delete_property():
     request_json = request.get_json()  # get json data
 
@@ -752,37 +784,37 @@ def delete_property():
         # is the token valid?
         if is_token_valid(access_token, "access", user_id):
             # set json data into vars
-            property_id = request_json.get('property_id')
+            item_id = request_json.get('item_id')
             # query for property in db
-            property = properties.query.filter_by(
-                id_property=property_id).first()
+            item = items.query.filter_by(
+                id_property=item_id).first()
             # # if property exist
-            if property:
+            if item:
                 # query for user in db
                 user = users.query.filter_by(
-                    id_user=property.belongs_to).first()
+                    id_user=item.belongs_to).first()
             # delete property
-                user_properties_list = user.properties.split(',')
-                user_properties_list.remove(str(property_id))
-                user.properties = ','.join(user_properties_list)
-                if user.properties == '':
-                    user.properties = None
-                    if(property.photos != None):
-                        photo_ids = property.photos.split(',')
+                user_items_list = user.properties.split(',')
+                user_items_list.remove(str(item_id))
+                user.items = ','.join(user_items_list)
+                if user.items == '':
+                    user.item = None
+                    if(item.photos != None):
+                        photo_ids = item.photos.split(',')
                         for photo_id in photo_ids:
                             photo = photos.query.filter_by(
                                 id_photo=int(photo_id)).first()
                             db.session.delete(photo)
-                    if(property.videos != None):
-                        video_ids = property.videos.split(',')
+                    if(item.videos != None):
+                        video_ids = item.videos.split(',')
                         for video_id in video_ids:
                             video = videos.query.filter_by(
                                 id_video=int(video_id)).first()
                             db.session.delete(video)
-                    db.session.delete(property)
+                    db.session.delete(item)
 
                 db.session.commit()
-                return jsonify({"rsp_msg": "property has been deleted "})
+                return jsonify({"rsp_msg": "item has been deleted "})
             else:
                 # property cant be found
                 return jsonify(407)
@@ -891,24 +923,24 @@ def add_photo():
             files = request.files.getlist("photos")
 
             # set json data into vars
-            property_id = request.form.get('property_id')
+            item_id = request.form.get('item_id')
             # query for property in db
-            property = properties.query.filter_by(
-                id_property=property_id).first()
+            item = items.query.filter_by(
+                id_property=item_id).first()
 
             # save file and update path
             for file in files:
 
                 photo = photos(
-                    file.read(), property.id_property, file.filename)
+                    file.read(), item.id_item, file.filename)
                 db.session.add(photo)
                 db.session.commit()
 
-                if property.photos:
-                    property.photos = property.photos + \
+                if item.photos:
+                    item.photos = item.photos + \
                         ',' + str(photo.id_photo)
                 else:
-                    property.photos = str(photo.id_photo)
+                    item.photos = str(photo.id_photo)
                 db.session.commit()
 
             return jsonify({"rsp_msg": "Image was uploaded"})
@@ -934,23 +966,23 @@ def add_video():
             files = request.files.getlist("videos")
 
             # set json data into vars
-            property_id = request.form.get('property_id')
+            item_id = request.form.get('item_id')
             # query for property in db
-            property = properties.query.filter_by(
-                id_property=property_id).first()
+            item = items.query.filter_by(
+                id_property=item_id).first()
 
             # save file and update path
             for file in files:
                 video = videos(
-                    file.read(), property.id_property, file.filename)
+                    file.read(), item.id_item, file.filename)
                 db.session.add(video)
                 db.session.commit()
 
-                if property.videos:
-                    property.videos = property.photos + \
+                if item.videos:
+                    item.videos = item.photos + \
                         ',' + str(video.id_video)
                 else:
-                    property.videos = str(video.id_video)
+                    item.videos = str(item.id_video)
                 db.session.commit()
 
             return jsonify({"rsp_msg": "Video was uploaded"})
@@ -980,8 +1012,8 @@ def delete_photo():
             # if photo exist
             if photo:
                 # query for propety in db
-                property = properties.query.filter_by(
-                    id_property=photo.belongs_to).first()
+                item = items.query.filter_by(
+                    id_item=photo.belongs_to).first()
                 # delete photo
                 property_photo_list = property.photos.split(',')
                 property_photo_list.remove(str(photo.id_photo))
