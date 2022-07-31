@@ -720,7 +720,7 @@ def get_properties():
 
                                 authorized_properties.append(property_dict)
 
-                return {"owned_properties": owned_properties, "authorized_properties": authorized_properties}
+                return json.dumps({"owned_properties": owned_properties, "authorized_properties": authorized_properties})
             else:
                 # no properties under user
                 return jsonify(411)
