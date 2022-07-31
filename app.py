@@ -612,6 +612,7 @@ def add_property():
                         else:
                             property.videos = str(video.id_video)
             else:
+                db.session.flush()
                 return jsonify({"rsp_msg": "failed to add property"})
             db.session.commit()
 
