@@ -733,7 +733,8 @@ def delete_property():
             user = users.query.filter_by(id_user=user_id).first()
             # delete property
             user_properties_list = user.properties.split(',')
-            user_properties_list.remove(int(property.id_property))
+            # user_properties_list.remove(int(property.id_property))
+            user_properties_list.remove(int(property_id))
             user.properties = ','.join(user_properties_list)
             if user.properties == '':
                 user.properties = None
