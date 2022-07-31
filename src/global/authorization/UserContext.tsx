@@ -342,52 +342,17 @@ export const UserProvider = ({ children }) => {
 		
 	} ;
 
-	const addProperty = (street: string, city: string, state: string, zipcode: number, description: string, estimate: number, formData:any) => { 
+	const addProperty = (formData:any) => { 
 
 		setRefreshUser(true) ;
-		let atoken = getAccessToken() ;
 		
 		console.log(formData)
-
-		let params = {
-			'user_id': user.id,
-			'street': street,
-			'city': city,
-			'state': state,
-			'zipcode': zipcode,
-			'description': description,
-			'estimate': estimate,
-			'access_token': atoken,
-		}
-
-		let requestOptions = {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify(params)
-		}
-
-		const aProp = async () => {
-			await fetch("/add_property", requestOptions).then(response => {
-				response.json().then( data => {
-					if (data !== false) {
-						if (data === 409) {
-							userLogout() ;
-						} else {
-							console.log(formData)
-							formData.append('property_id', data.property_id) ;
-						}
-					}
-				})
-			}).catch(e => {
-				console.log(e)
-			})
-		}
+		const addProp = new XMLHttpRequest() ;
+		addProp.open('POST', '/add_property', true)
+		addProp.send(formData)
 		
 		setRefreshUser(false) ;
 
-		return aProp() ;
 	} ;
 
 	const deleteProperty = (propertyId: number) => { 
@@ -429,116 +394,19 @@ export const UserProvider = ({ children }) => {
 	} ;
 
 	const editProperty = (propertyId: number, street: string, city: string, state: string, zipcode: string, description: string, estimate: string, formData) => { 
+		
 		setRefreshUser(true) ;
-
-		let atoken = getAccessToken() ;
-
-		let params = {
-			'property_id': propertyId,
-			'street': street,
-			'city': city,
-			'state': state,
-			'zipcode': zipcode,
-			'description': description,
-			'estimate': estimate,
-			'access_token': atoken,
-
-		}
-
-		let requestOptions = {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify(params)
-		}
-
-		const eProp = async () => {
-			await fetch("/edit_property", requestOptions).then(response => {
-				response.json().then(data => {
-					if (data !== false) {
-						if (data === 409) {
-							userLogout() ;
-						} else { 
-							if (formData.get('photos') !== (null || undefined || "")) {
-							}
-							if (formData.get('videos') !== (null || undefined || "")) {
-							}
-							navigate("/dashboard")
-						}
-					}
-				})
-			}).catch(e => {
-				console.log(e)
-			})
-		}
-
-		eProp() ;
-
+		
+		console.log(formData)
+		const addProp = new XMLHttpRequest() ;
+		addProp.open('POST', '/edit_property', true)
+		addProp.send(formData)
+		
 		setRefreshUser(false) ;
+
 
 	} ;
 	
-	const addPhotos = (formData) => {
-		setRefreshUser(true) ;
-
-		let requestOptions = {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: formData,
-		}
-
-		const addPhots = async () => {
-			await fetch("/add_photos", requestOptions).then(response => {
-				response.json().then(data => {
-					if (data !== false) {
-						if (data === 409) {
-							userLogout() ;
-						}
-					}
-				})
-			}).catch(e => {
-				console.log(e)
-			})
-		}
-
-		setRefreshUser(false) ;
-		return addPhots() ;
-		
-	}
-
-	const addVideos = (formData) => {
-		setRefreshUser(true) ;
-
-		let requestOptions = {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: formData,
-		}
-
-		const addVids = async () => {
-			await fetch("/add_videos", requestOptions).then(response => {
-				response.json().then(data => {
-					if (data !== false) {
-						if (data === 409) {
-							userLogout() ;
-						}
-					}
-				})
-			}).catch(e => {
-				console.log(e)
-			})
-		}
-
-		setRefreshUser(false) ;
-
-		return addVids() ;
-	}
-
 	const fetchProperties = ( ) => { 
 		setRefreshUser(true) ;
 
@@ -736,8 +604,7 @@ export const UserProvider = ({ children }) => {
 	return (
 		<UserContext.Provider value={{
 			user, getAccessToken, userLogin, userRegistration, userLogout,
-			deleteUser, editUser, getUserInfo, addProperty, addPhotos,
-			addVideos, deleteProperty, editProperty, fetchProperties,
+			deleteUser, editUser, getUserInfo, addProperty, deleteProperty, editProperty, fetchProperties,
 			refreshAccessToken, authorizeUser, deauthorizeUser, properties,
 			test, testToken
 		}}>

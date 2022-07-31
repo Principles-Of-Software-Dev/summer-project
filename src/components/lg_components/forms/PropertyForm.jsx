@@ -59,12 +59,12 @@ const PropertyForm = ({ options }) => {
 			console.log('ran') ;
 			return false ;
 		} else if (!required && (
-			estimation.current.value != initalVals.estimation
-			|| description.current.value != initalVals.description
-			|| street.current.value != initalVals.street
-			|| city.current.value != initalVals.city
-			|| zip.current.value != initalVals.zip
-			|| state.current.value != initalVals.state
+			estimation.current.value !== initalVals.estimation
+			|| description.current.value !== initalVals.description
+			|| street.current.value !== initalVals.street
+			|| city.current.value !== initalVals.city
+			|| zip.current.value !== initalVals.zip
+			|| state.current.value !== initalVals.state
 			|| photos.current.value !== ("")
 			|| videos.current.value !== ("")
 		)) {
@@ -85,24 +85,27 @@ const PropertyForm = ({ options }) => {
 
 				if (photos.current.value !== ("" || null || undefined)) {
 					for (let i = 0 ; i < document.forms["propertyForm"]["photos"].files.length ; i++) {
-						formData.append('files', document.forms["propertyForm"]["photos"].files[i]) ;
+						formData.append('photos', document.forms["propertyForm"]["photos"].files[i]) ;
 					}
 				}
 				if (videos.current.value !== ("" || null || undefined)) {
 					for (let i = 0 ; i < document.forms["propertyForm"]["videos"].files.length ; i++) {
-						formData.append('files', document.forms["propertyForm"]["videos"].files[i]) ;
+						formData.append('videos', document.forms["propertyForm"]["videos"].files[i]) ;
 					}
 				}
+				formData.append('street', street.current.value) ;
+				formData.append('city',city.current.value)
+				formData.append('state', state.current.value)
+				formData.append('zip', zip.current.value)
+				formData.append('description', description.current.value)
+				formData.append('estimate', estimation.current.value)
 				formData.append('access_token', getAccessToken()) ;
-				formData.append('property_id', null) ;
 				formData.append('user_id', user.id)
 			} else {
 				formData = null ;
 			}
 
-			await addProperty(street.current.value, city.current.value, state.current.value, zip.current.value, description.current.value, estimation.current.value, formData)
-			await addPhotos(formData)
-			await addVideos(formData)
+			await addProperty(formData) ;
 			
 		}
 		// edit property
@@ -116,18 +119,18 @@ const PropertyForm = ({ options }) => {
 				'state': ''
 			}
 
-			if (estimation.current.value != initalVals.estimation) {
+			if (estimation.current.value !== initalVals.estimation) {
 				params.estimation = estimation.current.value ;
 			}
-			if (description.current.value != initalVals.description) {
+			if (description.current.value !== initalVals.description) {
 				params.description = description.current.value ;
-			} if (street.current.value != initalVals.street) {
+			} if (street.current.value !== initalVals.street) {
 				params.street = street.current.value ; 
-			} if (city.current.value != initalVals.city) {
+			} if (city.current.value !== initalVals.city) {
 				params.city = city.current.value ;
-			} if (zip.current.value != initalVals.zip) { 
+			} if (zip.current.value !== initalVals.zip) { 
 				params.zip = zip.current.value ;
-			} if (state.current.value != initalVals.state) { 
+			} if (state.current.value !== initalVals.state) { 
 				params.state = state.current.value ;
 			}
 
@@ -144,6 +147,15 @@ const PropertyForm = ({ options }) => {
 						formData.append('videos', document.forms["propertyForm"]["videos"].files[i]) ;
 					}
 				}
+
+				formData.append('street', params.street) ;
+				formData.append('city', params.city)
+				formData.append('state', params.state)
+				formData.append('zip', params.zip)
+				formData.append('description', params.description)
+				formData.append('estimate', params.estimation)
+				formData.append('access_token', getAccessToken()) ;
+				formData.append('user_id', user.id)
 				formData.append('access_token', 10) ;
 				formData.append('property_id', options.property.propertyId) ;
 				formData.append('user_id', user.id)

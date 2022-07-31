@@ -15,11 +15,7 @@ const Dashboard = () => {
 	
 	useEffect(() => { 
 		userId = user.id ;
-		let q =0
-		do {
-			deleteProperty(q) ;
-			q++
-		} while (q < 14)
+		deleteProperty(1) ;
 	
 		
 		
