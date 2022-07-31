@@ -814,49 +814,40 @@ def edit_property():
 @app.route("/add_media", methods=['POST'])  # FINISHED
 def add_media(access_token, user_id, upld_photos, upld_videos, property_id):
 
-    # grab access token
-    access_token = request.form.get('access_token')
-    # if access token exist
-    if access_token:
-        # set form data into vars
-        user_id = request.form.get('user_id')
-        # if access token
-        if is_token_valid(access_token, "access", user_id):
-            # grab files uploaded
-            upld_photos = request.files.getlist("photos")
-            upld_videos = request.files.getlist("videos")
+    if is_token_valid(access_token, "access", user_id):
+        # grab files uploaded
+        upld_photos = request.files.getlist("photos")
+        upld_videos = request.files.getlist("videos")
 
-            # query for property in db
-            property = properties.query.filter_by(
-                id_property=property_id).first()
+        # query for property in db
+        property = properties.query.filter_by(
+            id_property=property_id).first()
 
-            # save file and update path
-            for file in upld_photos:
-                photo = photos(
-                    file.read(), property.id_property, file.filename)
-                db.session.add(photo)
+        # save file and update path
+        for file in upld_photos:
+            photo = photos(
+                file.read(), property.id_property, file.filename)
+            db.session.add(photo)
 
-                if property.photos:
-                    property.photos = property.photos + \
-                        ',' + str(photo.id_photo)
-                else:
-                    property.photos = str(photo.id_photo)
+            if property.photos:
+                property.photos = property.photos + \
+                    ',' + str(photo.id_photo)
+            else:
+                property.photos = str(photo.id_photo)
 
-            for file in upld_videos:
-                video = videos(
-                    file.read(), property.id_property, file.filename)
-                db.session.add(video)
+        for file in upld_videos:
+            video = videos(
+                file.read(), property.id_property, file.filename)
+            db.session.add(video)
 
-                if property.videos:
-                    property.videos = property.videos + \
-                        ',' + str(video.id_video)
-                else:
-                    property.videos = str(video.id_video)
-            db.session.commit()
-        else:
-            # token not valid
-            return jsonify(409)
+            if property.videos:
+                property.videos = property.videos + \
+                    ',' + str(video.id_video)
+            else:
+                property.videos = str(video.id_video)
+        db.session.commit()
     else:
+        # token not valid
         return jsonify(409)
 
 
