@@ -325,7 +325,7 @@ export const UserProvider = ({ children }) => {
 		
 	} ;
 
-	const addProperty = async (street: string, city: string, state: string, zipcode: number, description: string, estimate: number, formData:any) => { 
+	const addProperty = (street: string, city: string, state: string, zipcode: number, description: string, estimate: number, formData:any) => { 
 
 		setRefreshUser(true);
 		let atoken = getAccessToken();
@@ -359,24 +359,18 @@ export const UserProvider = ({ children }) => {
 							userLogout() ;
 						} else {
 							console.log(formData)
-							formData.append('property_id', data.property_id)
+							formData.append('property_id', data.property_id);
 						}
 					}
 				})
 			}).catch(e => {
 				console.log(e)
 			})
-
-							const photoreq = new XMLHttpRequest();
-							photoreq.open('POST', '/add_photos', true)
-							photoreq.send(formData)
-							const vidreq = new XMLHttpRequest();
-							vidreq.open('POST', '/add_videos', true);
-							vidreq.send(formData)
 		}
-		 await aProp() ;
 		
 		setRefreshUser(false);
+
+		return aProp();
 	} ;
 
 	const deleteProperty = (propertyId: number) => { 
@@ -711,8 +705,8 @@ export const UserProvider = ({ children }) => {
 	return (
 		<UserContext.Provider value={{
 			user, getAccessToken, userLogin, userRegistration, userLogout,
-			deleteUser, editUser, getUserInfo, addProperty,
-			deleteProperty, editProperty, fetchProperties,
+			deleteUser, editUser, getUserInfo, addProperty, addPhotos,
+			addVideos, deleteProperty, editProperty, fetchProperties,
 			refreshAccessToken, authorizeUser, deauthorizeUser,
 			test, testToken
 		}}>

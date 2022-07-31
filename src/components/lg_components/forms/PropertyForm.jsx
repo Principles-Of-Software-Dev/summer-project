@@ -6,10 +6,7 @@ import Button from "../../sm_components/Button" ;
 
 const PropertyForm = ({ options }) => {
 
-	useEffect(() => { 
-	}, [])
-
-	const { getAccessToken, user, editProperty, addProperty } = useUser() ;
+	const { getAccessToken, user, editProperty, addProperty, addPhotos, addVideos } = useUser() ;
 	const estimation = useRef() ;
 	const description = useRef() ;
 	const street = useRef() ;
@@ -76,7 +73,7 @@ const PropertyForm = ({ options }) => {
 		return true ;
 	}
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		formData = new FormData() ;
 
 		e.preventDefault()
@@ -87,23 +84,29 @@ const PropertyForm = ({ options }) => {
 			if (photos.current.value !== ("" || null || undefined) || videos.current.value !== ("" || null || undefined)) {
 
 				if (photos.current.value !== ("" || null || undefined)) {
-					for (let i = 0 ; i < document.forms["propertyForm"]["photos"].files.length ; i++) {
-						formData.append('files', document.forms["propertyForm"]["photos"].files[i]) ;
+					for (let i = 0; i < document.forms["propertyForm"]["photos"].files.length; i++) {
+						formData.append('files', document.forms["propertyForm"]["photos"].files[i]);
 					}
 				}
 				if (videos.current.value !== ("" || null || undefined)) {
-					for (let i = 0 ; i < document.forms["propertyForm"]["videos"].files.length ; i++) {
-						formData.append('files', document.forms["propertyForm"]["videos"].files[i]) ;
+					for (let i = 0; i < document.forms["propertyForm"]["videos"].files.length; i++) {
+						formData.append('files', document.forms["propertyForm"]["videos"].files[i]);
 					}
 				}
-				formData.append('access_token', getAccessToken()) ;
-				formData.append('property_id', null) ;
+				formData.append('access_token', getAccessToken());
+				formData.append('property_id', null);
 				formData.append('user_id', user.id)
-			} else { 
-				formData = null ;
+			} else {
+				formData = null;
 			}
 
-			addProperty(street.current.value, city.current.value, state.current.value, zip.current.value, description.current.value, estimation.current.value, formData)
+			await Promise.all([
+				addProperty(street.current.value, city.current.value, state.current.value, zip.current.value, description.current.value, estimation.current.value, formData),
+				addPhotos(formData),
+				addVideos(formData)
+			]
+				
+			)
 			
 		}
 		// edit property
