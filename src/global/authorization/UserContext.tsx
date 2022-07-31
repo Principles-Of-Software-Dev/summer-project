@@ -48,6 +48,7 @@ const setToken = (t:(number| null)) => {
 export const UserContext = createContext<any>(null) ;
 
 export const UserProvider = ({ children }) => {
+	const [properties, setProperties] = useState(null);
 
 	const navigate = useNavigate() ;
 	const [user, setUser] = useState<User>({}) ;
@@ -527,8 +528,6 @@ export const UserProvider = ({ children }) => {
 
 	const fetchProperties = ( ) => { 
 		setRefreshUser(true) ;
-		
-		let properties = {};
 
 		let atoken = getAccessToken() ;
 		
@@ -547,7 +546,7 @@ export const UserProvider = ({ children }) => {
 
 		}
 
-		const getProps = async (properties) => {
+		const getProps = async () => {
 			await fetch("/get_properties", requestOptions).then(response => {
 				response.json().then(data => {
 					if (data !== false) {
@@ -556,8 +555,7 @@ export const UserProvider = ({ children }) => {
 						} else if (data === 411)
 						{ return { status :"No Properties" } ; }
 						 else {
-							properties = data;
-							
+							setProperties(data); 
 						}
 					}
 				})
@@ -569,7 +567,7 @@ export const UserProvider = ({ children }) => {
 
 		
 		setRefreshUser(false);
-		getProps(properties).then(() => {
+		getProps().then(() => {
 			console.log(properties);
 			return properties
 		});
