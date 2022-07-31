@@ -177,13 +177,21 @@ export const UserProvider = ({ children }) => {
 	} ;
 
 	const userLogout = () => {
+
+
 		// Remove user info.
 		setRefreshUser(true) ;
+		
+		let params = {
+			'user_id': user.id,
+		}
+
 		const requestOptions = {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json"
 			},
+			body: JSON.stringify(params)
 		}
 
 		const logout = async () => {
@@ -388,6 +396,7 @@ export const UserProvider = ({ children }) => {
 		let atoken = getAccessToken() ;
 
 		let params = {
+			'user_id': user.id,
 			'property_id': propertyId,
 			'access_token': atoken,
 		}
