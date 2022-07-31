@@ -546,28 +546,32 @@ export const UserProvider = ({ children }) => {
 
 		}
 
-		fetch("/get_properties", requestOptions).then(response => {
-			response.json().then(data => {
-				if (data !== false) {
-					if (data === 409) {
-						userLogout() ;
-					} else if (data === 411) {
-						return { status: "No Properties" } ;
+		const getProps = async () => {
+			await fetch("/get_properties", requestOptions).then(response => {
+				response.json().then(data => {
+					if (data !== false) {
+						if (data === 409) {
+							userLogout() ;
+						} else if (data === 411)
+						{ return { status :"No Properties" } ; }
+						else {
+							console.log(data.owned_properties)
+							setProperties(data.owned_properties) ; 
+							console.log(properties) ;
+						}
 					}
-					else {
-						console.log(data)
-						setProperties(data) ; 
-						console.log(properties) ;
-						return properties
-					}
-				}
+				})
+			}).catch(e => {
+				console.log(e)
 			})
-		}).catch(e => {
-			console.log(e)
-		})
+		}
 
 		
-		console.log("Made it to end")
+		setRefreshUser(false) ;
+		getProps() ;
+		console.log(properties)
+
+		return properties
 	} ;
 	
 	const refreshAccessToken = () => { 
