@@ -831,7 +831,7 @@ def add_media(access_token, user_id, upld_photos, upld_videos, property_id):
             property = properties.query.filter_by(
                 id_property=property_id).first()
 
-            return jsonify({'read photes': upld_videos, 'read vids': upld_videos})
+            return {'read photes': upld_photos, 'read vids': upld_videos}
             # save file and update path
             for file in upld_photos:
                 photo = photos(
