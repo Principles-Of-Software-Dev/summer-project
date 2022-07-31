@@ -827,8 +827,6 @@ def add_media(access_token, user_id, upld_photos, upld_videos, property_id):
             upld_photos = request.files.getlist("photos")
             upld_videos = request.files.getlist("videos")
 
-            # set json data into vars
-            property_id = request.form.get('property_id')
             # query for property in db
             property = properties.query.filter_by(
                 id_property=property_id).first()
