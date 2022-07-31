@@ -13,10 +13,7 @@ const PropertiesControl = ({ handleAddProperty }) => {
 	const [displayProperty, setDisplayProperty] = useState(null) ;
 	
 	useEffect(() => {
-		// fetchProperties() ;
-		deleteProperty(1)
-		deleteProperty(2)
-		deleteProperty(3)
+		fetchProperties() ;
 	}, [])
 
 	useEffect(() => {
