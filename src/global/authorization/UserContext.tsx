@@ -558,7 +558,14 @@ export const UserProvider = ({ children }) => {
 						} else if (data === 411)
 						{ return { status :"No Properties" } ; }
 						else {
-							console.log(typeof (data.authorized_properties)) ;
+							if (data.authorized_properties == null || undefined) { 
+								if (data.authorized_properties == null) {
+									console.log("Is null") ;
+								} else if (data.authorized_properties == undefined) {
+									console.log("Is undefined") ;
+								}
+
+							}
 							setProperties({
 								"authorized_properties": data.authorized_properties,
 								"owned_properties": data.owned_properties,
