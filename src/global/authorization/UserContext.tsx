@@ -548,6 +548,8 @@ export const UserProvider = ({ children }) => {
 		}
 		
 		const setproperties = (data) => {
+			console.log("Running")
+			console.log(data) ;
 			setProperties(data) ;
 		}
 
