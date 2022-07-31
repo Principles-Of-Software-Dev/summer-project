@@ -55,13 +55,20 @@ export const UserProvider = ({ children }) => {
 	})
 
 	const navigate = useNavigate() ;
-	const [user, setUser] = useState<User>({}) ;
+	let stored = sessionStorage.getItem('GilderiseUser') ;
+	const [user, setUser] = useState<User >(stored == null ?
+		{
+			authenticated: false,
+			id: -100,
+		} :
+		JSON.parse(stored)
+	) ;
 	const [refreshUser, setRefreshUser] = useState(false) ;
 
 	// Store user data on local memory on every update of user or user.authenticated.
 
 	useEffect(() => {
-		const stored = sessionStorage.getItem('GilderiseUser') ;
+		let stored = sessionStorage.getItem('GilderiseUser') ;
 		setUser(stored == null ?
 			{
 				authenticated: false,
@@ -485,7 +492,7 @@ export const UserProvider = ({ children }) => {
 	} ;
 	
 	const refreshAccessToken = () => { 
-		
+
 		let params = {
 			'user_id' : user.id
 		}

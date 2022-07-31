@@ -312,7 +312,7 @@ def logout_user():
     token = generate_access_token(user)  # generate new tokens but don't return
     ses_token = generate_session_token(user)
 
-    reponse = jsonify({'status': 'successful'})
+    response = jsonify({'status': 'successful'})
 
     response.set_cookie('session_token', None)
 
