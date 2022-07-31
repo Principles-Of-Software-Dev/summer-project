@@ -48,7 +48,7 @@ const setToken = (t:(number| null)) => {
 export const UserContext = createContext<any>(null) ;
 
 export const UserProvider = ({ children }) => {
-	const [properties, setProperties] = useState(null);
+	const [properties, setProperties] = useState<null | {}>(null);
 
 	const navigate = useNavigate() ;
 	const [user, setUser] = useState<User>({}) ;
@@ -558,6 +558,7 @@ export const UserProvider = ({ children }) => {
 							console.log(data)
 							console.log()
 							setProperties(data); 
+							console.log(properties);
 						}
 					}
 				})
@@ -570,10 +571,8 @@ export const UserProvider = ({ children }) => {
 		setRefreshUser(false);
 		getProps();
 		console.log(properties)
-		while (properties != {}) {
-			let i = 'loop';
-			console.log(i)
-			console.log(properties)
+		while (properties == null) {
+
 		}
 
 		return properties
