@@ -631,7 +631,7 @@ def get_properties():
                     # add to list
                     property_dict = property.as_dict()
                     photo_ids = property_dict.get('photos')
-                    return jsonify({'photo_ids': photo_ids})
+                    return jsonify({'property': property_dict})
                     if photo_ids:
                         photo_ids = photo_ids.split(',')
                         photo_list = []
@@ -831,7 +831,6 @@ def add_media(access_token, user_id, upld_photos, upld_videos, property_id):
             property = properties.query.filter_by(
                 id_property=property_id).first()
 
-            return {'read photes': upld_photos, 'read vids': upld_videos}
             # save file and update path
             for file in upld_photos:
                 photo = photos(
