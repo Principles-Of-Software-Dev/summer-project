@@ -14,12 +14,6 @@ const PropertiesControl = ({ handleAddProperty }) => {
 	
 	useEffect(() => {
 		fetchProperties() ;
-		// deleteProperty(1)
-		// deleteProperty(2)
-		// deleteProperty(3)
-		deleteProperty(4)
-		deleteProperty(5)
-		deleteProperty(6) ;
 	}, [])
 
 	useEffect(() => {
