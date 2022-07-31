@@ -550,7 +550,10 @@ export const UserProvider = ({ children }) => {
 		const setproperties = (data) => {
 			console.log("Running")
 			console.log(data) ;
-			setProperties(data) ;
+			setProperties({
+				"authorized_properties": data.authorized_properties,
+				"owned_properties": data.owned_properties,
+			}) ;
 			console.log(properties)
 		}
 
@@ -563,7 +566,7 @@ export const UserProvider = ({ children }) => {
 						} else if (data === 411)
 						{ return { status :"No Properties" } ; }
 						else {
-							console.log(typeof(data.owned_properties))
+							console.log(typeof(data))
 							setproperties(data)
 						}
 					}
