@@ -657,7 +657,6 @@ def get_properties():
                     # add to list
                     property_dict = property.as_dict()
                     photo_ids = property_dict.get('photos')
-                    return jsonify({'property': property_dict})
                     if photo_ids:
                         photo_ids = photo_ids.split(',')
                         photo_list = []
