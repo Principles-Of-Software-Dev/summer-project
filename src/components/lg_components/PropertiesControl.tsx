@@ -8,22 +8,22 @@ import UserLinks from '../sm_components/UserLinks' ;
 
 const PropertiesControl = ({ handleAddProperty }) => {
 	const { fetchProperties } = useUser() ;
-	const navigate = useNavigate();
+	const navigate = useNavigate() ;
 	const [properties, setProperties] = useState<{ 'authorized_properties': PropertyType[], 'owned_properties': PropertyType[] } | undefined | null>(null)
 
 
-	const [displayProperty, setDisplayProperty] = useState(null);
+	const [displayProperty, setDisplayProperty] = useState(null) ;
 	
 	useEffect(() => {
 		setProperties(fetchProperties())
-		console.log(properties);
+		console.log(properties) ;
 	}, [])
 
 	useEffect(() => {
 		if (displayProperty != null) {
 			document.body.style.overflow = "hidden" ;
 		} else {
-			document.body.style.overflow = "visible";
+			document.body.style.overflow = "visible" ;
 		}
 	}, [displayProperty]) ;
 	

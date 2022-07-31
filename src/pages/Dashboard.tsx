@@ -11,7 +11,7 @@ import Button from '../components/sm_components/Button' ;
 const Dashboard = () => {
 
 	let userId ;
-	const { user } = useUser();
+	const { user } = useUser() ;
 	
 	useEffect(() => { 
 		userId = user.id ;

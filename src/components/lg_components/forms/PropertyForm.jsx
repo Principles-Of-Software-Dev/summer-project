@@ -84,20 +84,20 @@ const PropertyForm = ({ options }) => {
 			if (photos.current.value !== ("" || null || undefined) || videos.current.value !== ("" || null || undefined)) {
 
 				if (photos.current.value !== ("" || null || undefined)) {
-					for (let i = 0; i < document.forms["propertyForm"]["photos"].files.length; i++) {
-						formData.append('files', document.forms["propertyForm"]["photos"].files[i]);
+					for (let i = 0 ; i < document.forms["propertyForm"]["photos"].files.length ; i++) {
+						formData.append('files', document.forms["propertyForm"]["photos"].files[i]) ;
 					}
 				}
 				if (videos.current.value !== ("" || null || undefined)) {
-					for (let i = 0; i < document.forms["propertyForm"]["videos"].files.length; i++) {
-						formData.append('files', document.forms["propertyForm"]["videos"].files[i]);
+					for (let i = 0 ; i < document.forms["propertyForm"]["videos"].files.length ; i++) {
+						formData.append('files', document.forms["propertyForm"]["videos"].files[i]) ;
 					}
 				}
-				formData.append('access_token', getAccessToken());
-				formData.append('property_id', null);
+				formData.append('access_token', getAccessToken()) ;
+				formData.append('property_id', null) ;
 				formData.append('user_id', user.id)
 			} else {
-				formData = null;
+				formData = null ;
 			}
 
 			await addProperty(street.current.value, city.current.value, state.current.value, zip.current.value, description.current.value, estimation.current.value, formData)

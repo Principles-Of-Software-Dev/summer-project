@@ -48,7 +48,7 @@ const setToken = (t:(number| null)) => {
 export const UserContext = createContext<any>(null) ;
 
 export const UserProvider = ({ children }) => {
-	const [properties, setProperties] = useState<null | {}>(null);
+	const [properties, setProperties] = useState<null | {}>(null) ;
 
 	const navigate = useNavigate() ;
 	const [user, setUser] = useState<User>({}) ;
@@ -75,10 +75,10 @@ export const UserProvider = ({ children }) => {
 	useEffect(() => {
 		const interval = setInterval(() => refreshAccessToken(), (60000 *14)) ;
 		return () => clearInterval(interval) ;
-	}, []);
+	}, []) ;
 	
 	useEffect(() => { 
-		refreshAccessToken();
+		refreshAccessToken() ;
 	},[])
 	
 
@@ -332,8 +332,8 @@ export const UserProvider = ({ children }) => {
 
 	const addProperty = (street: string, city: string, state: string, zipcode: number, description: string, estimate: number, formData:any) => { 
 
-		setRefreshUser(true);
-		let atoken = getAccessToken();
+		setRefreshUser(true) ;
+		let atoken = getAccessToken() ;
 		
 		console.log(formData)
 
@@ -364,7 +364,7 @@ export const UserProvider = ({ children }) => {
 							userLogout() ;
 						} else {
 							console.log(formData)
-							formData.append('property_id', data.property_id);
+							formData.append('property_id', data.property_id) ;
 						}
 					}
 				})
@@ -373,9 +373,9 @@ export const UserProvider = ({ children }) => {
 			})
 		}
 		
-		setRefreshUser(false);
+		setRefreshUser(false) ;
 
-		return aProp();
+		return aProp() ;
 	} ;
 
 	const deleteProperty = (propertyId: number) => { 
@@ -416,7 +416,7 @@ export const UserProvider = ({ children }) => {
 	} ;
 
 	const editProperty = (propertyId: number, street: string, city: string, state: string, zipcode: string, description: string, estimate: string, formData) => { 
-		setRefreshUser(true);
+		setRefreshUser(true) ;
 
 		let atoken = getAccessToken() ;
 
@@ -445,7 +445,7 @@ export const UserProvider = ({ children }) => {
 				response.json().then(data => {
 					if (data !== false) {
 						if (data === 409) {
-							userLogout();
+							userLogout() ;
 						} else { 
 							if (formData.get('photos') !== (null || undefined || "")) {
 							}
@@ -482,7 +482,7 @@ export const UserProvider = ({ children }) => {
 				response.json().then(data => {
 					if (data !== false) {
 						if (data === 409) {
-							userLogout();
+							userLogout() ;
 						}
 					}
 				})
@@ -492,7 +492,7 @@ export const UserProvider = ({ children }) => {
 		}
 
 		setRefreshUser(false) ;
-		return addPhots();
+		return addPhots() ;
 		
 	}
 
@@ -526,7 +526,7 @@ export const UserProvider = ({ children }) => {
 		return addVids() ;
 	}
 
-	const fetchProperties = ( ) => { 
+	const fetchProperties = async ( ) => { 
 		setRefreshUser(true) ;
 
 		let atoken = getAccessToken() ;
@@ -546,33 +546,28 @@ export const UserProvider = ({ children }) => {
 
 		}
 
-		const getProps = async () => {
-			await fetch("/get_properties", requestOptions).then(response => {
-				response.json().then(data => {
-					if (data !== false) {
-						if (data === 409) {
-							userLogout() ;
-						} else if (data === 411)
-						{ return { status :"No Properties" } ; }
-						else {
-							console.log(data)
-							console.log()
-							setProperties(data); 
-							console.log(properties);
-						}
+		await fetch("/get_properties", requestOptions).then(response => {
+			response.json().then(data => {
+				if (data !== false) {
+					if (data === 409) {
+						userLogout() ;
+					} else if (data === 411)
+					{ return { status :"No Properties" } ; }
+					else {
+						console.log(data)
+						console.log()
+						setProperties(data) ; 
+						console.log(properties) ;
+						return properties
 					}
-				})
-			}).catch(e => {
-				console.log(e)
+				}
 			})
-		}
+		}).catch(e => {
+			console.log(e)
+		})
 
 		
-		setRefreshUser(false);
-		getProps();
-		console.log(properties)
-
-		return properties
+		console.log("Made it to end")
 	} ;
 	
 	const refreshAccessToken = () => { 

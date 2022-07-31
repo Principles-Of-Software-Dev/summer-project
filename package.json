@@ -24,7 +24,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "predeploy": "npm run build && git add --all && git commit -m 'deploy' && git push",
+    "predeploy": "npm run lint-fix && npm run build && git add --all && git commit -m 'deploy' && git push",
     "deploy": "git push heroku PSD-12:main",
     "lint": "eslint './src/**/*.{js,jsx,ts,tsx}'",
     "lint-fix": "eslint --fix './src/**/*.{js,jsx,ts,tsx}'",
