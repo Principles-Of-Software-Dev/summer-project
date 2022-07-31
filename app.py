@@ -742,16 +742,13 @@ def delete_property():
                     for photo_id in photo_ids:
                         photo = photos.query.filter_by(
                             id_photo=int(photo_id)).first()
-                        os.remove(photo.path)
                         photos.query.filter_by(id_photo=int(photo_id)).delete()
                 if(property.videos != None):
                     video_ids = property.videos.split(',')
                     for video_id in video_ids:
                         video = videos.query.filter_by(
                             id_video=int(video_id)).first()
-                        os.remove(video.path)
                         videos.query.filter_by(id_video=int(video_id)).delete()
-
                 properties.query.filter_by(id_property=property_id).delete()
                 db.session.commit()
                 return jsonify({"rsp_msg": "property has been deleted"})
