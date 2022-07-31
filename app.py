@@ -613,7 +613,7 @@ def get_properties():
             # query for authorized user in db
             user = users.query.filter_by(id_user=user_id).first()
             # split string of property ids
-            if (user.properties != None):
+            if user.properties != None:
                 property_list = user.properties.split(',')
                 owned_properties = []
                 if user.properties:
