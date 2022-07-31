@@ -565,6 +565,9 @@ export const UserProvider = ({ children }) => {
 									console.log("Is undefined") ;
 								}
 
+							} else {
+								console.log(data.authorized_properties) ;
+								console.log(typeof(data.authorized_properties[0])) ;
 							}
 							setProperties({
 								"authorized_properties": data.authorized_properties,
