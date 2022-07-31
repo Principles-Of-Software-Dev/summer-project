@@ -679,8 +679,7 @@ def get_properties():
                         property_dict['videos'] = video_list
 
                     for file in property_dict:
-                        fileJson = file.to_json()
-                        fileData = json.loads(fileJson)
+                        fileData = jsonify({'file': file})
                         authorized_properties.append(fileData)
                     return jsonify({'authorized_properties': property_dict})
                     owned_properties.append(property_dict)
