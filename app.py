@@ -665,6 +665,8 @@ def get_properties():
                                 id_photo=int(photo_id)).first()
                             photo_list.append(
                                 send_file(BytesIO(photo.data), attachment_filename=photo.filename, as_attachment=False))
+                        for photo in photo_list:
+                            return jsonify({'photo info': photo})
                         return jsonify({'photo list': photo_list})
                         property_dict['photos'] = photo_list
 
@@ -679,10 +681,10 @@ def get_properties():
                                 send_file(BytesIO(video.data), attachment_filename=video.filename, as_attachment=False))
                         property_dict['videos'] = video_list
 
-                    for video in property_dict:
-                        fileData = jsonify({'file': file})
-                        owned_properties.append(fileData)
-                    return jsonify({'owned_properties': owned_properties})
+                    # for video in property_dict:
+                    #     fileData = jsonify({'file': file})
+                    #     owned_properties.append(fileData)
+                    # return jsonify({'owned_properties': owned_properties})
                     owned_properties.append(property_dict)
 
                 authorized_properties = []
