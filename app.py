@@ -157,7 +157,7 @@ class tickets(db.Model):
 db.create_all()
 
 
-@app.route("/*")
+@app.route("*")
 def index():
     return send_from_directory(app.static_folder, 'index.html')
 
