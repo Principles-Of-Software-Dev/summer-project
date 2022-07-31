@@ -464,7 +464,6 @@ export const UserProvider = ({ children }) => {
 						} else if (data === 411)
 						{ return { status :"No Properties" } ; }
 						else {
-							console.log(data) ;
 							let authorized_properties = undefined ;
 							let owned_properties = undefined ;
 							if (data.authorized_properties[0] !== undefined) {

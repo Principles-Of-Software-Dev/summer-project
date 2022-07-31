@@ -624,13 +624,13 @@ def get_properties():
                 owned_properties = []
                 if user.properties:
                     # append a list of properties as a dict
-                    return jsonify({'proplist': property_list})
                     for property_id in property_list:
                         # query for property
                         property = properties.query.filter_by(
                             id_property=int(property_id)).first()
                         # add to list
                         property_dict = property.as_dict()
+                        return jsonify({'prop': property, 'prop dictionary': property_dict})
                         photo_ids = property_dict.get('photos')
                         if photo_ids:
                             photo_ids = photo_ids.split(',')
