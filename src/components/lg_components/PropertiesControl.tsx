@@ -20,7 +20,8 @@ const PropertiesControl = ({ handleAddProperty }) => {
 			document.body.style.overflow = "visible" ;
 		}
 
-		properties = fetchProperties() ;
+		properties = fetchProperties();
+		console.log(properties);
 	}, [displayProperty]) ;
 	
 
