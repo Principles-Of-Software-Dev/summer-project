@@ -55,21 +55,20 @@ export const UserProvider = ({ children }) => {
 	})
 
 	const navigate = useNavigate() ;
-	let stored = sessionStorage.getItem('GilderiseUser') ;
-	const [user, setUser] = useState<User >(stored == null ?
-		{
-			authenticated: false,
-			id: -100,
-		} :
-		JSON.parse(stored)
-	) ;
+	const [user, setUser] = useState<User>({})
 	const [refreshUser, setRefreshUser] = useState(false) ;
 
 	// Store user data on local memory on every update of user or user.authenticated.
 
 	useEffect(() => {
-		let stored = sessionStorage.getItem('GilderiseUser')! ;
-		setUser(JSON.parse(stored)) ;
+		let stored = sessionStorage.getItem('GilderiseUser') ;
+		setUser(stored == null ?
+			{
+				authenticated: false,
+				id: -100,
+			} :
+			JSON.parse(stored)
+		) ;
 	}, [refreshUser]) ;
 
 	useEffect(() => {
@@ -85,6 +84,7 @@ export const UserProvider = ({ children }) => {
 	
 	useEffect(() => { 
 		refreshAccessToken() ;
+		console.log("Running on mount")
 	},[])
 
 	const userLogin = (email: string, password: string) => {
