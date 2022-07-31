@@ -17,6 +17,8 @@ const PropertiesControl = ({ handleAddProperty }) => {
 		// deleteProperty(1)
 		// deleteProperty(2)
 		// deleteProperty(3)
+		deleteProperty(4)
+		deleteProperty(5)
 		deleteProperty(6) ;
 	}, [])
 

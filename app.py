@@ -581,7 +581,6 @@ def add_property():
             property = properties(
                 street, city, state, zipcode, description, estimate, None, None, user_id)
             db.session.add(property)
-            db.session.commit()
 
             # add property to user
             if user.properties:
@@ -589,12 +588,13 @@ def add_property():
                     ',' + str(property.id_property)
             else:
                 user.properties = str(property.id_property)
-            db.session.commit()
 
             if photos or videos:
                 add_media(access_token=access_token, user_id=user_id, upld_photos=photos,
                           upld_videos=videos, property_id=property.id_property)
-                # return redirect(url_for('add_media', access_token=access_token, user_id=user_id, upld_photos=photos, upld_videos=videos, property_id=property.id_property))
+
+            db.session.commit()
+            # return redirect(url_for('add_media', access_token=access_token, user_id=user_id, upld_photos=photos, upld_videos=videos, property_id=property.id_property))
             return jsonify({"rsp_msg": "property has been added"})
         else:
             # token not valid
@@ -731,7 +731,6 @@ def delete_property():
                     id_user=property.belongs_to).first()
             # delete property
                 user_properties_list = user.properties.split(',')
-                return jsonify({'user props': user_properties_list})
                 user_properties_list.remove(str(property_id))
                 user.properties = ','.join(user_properties_list)
                 if user.properties == '':
@@ -750,8 +749,9 @@ def delete_property():
                                 id_video=int(video_id)).first()
                             videos.query.filter_by(
                                 id_video=int(video_id)).delete()
-                    property.delete()
-                    db.session.commit()
+                    db.session.delete(property)
+
+                db.session.commit()
                 return jsonify({"rsp_msg": "property has been deleted "})
             else:
                 # property cant be found
@@ -837,27 +837,24 @@ def add_media(access_token, user_id, upld_photos, upld_videos, property_id):
                 photo = photos(
                     file.read(), property.id_property, file.filename)
                 db.session.add(photo)
-                db.session.commit()
 
                 if property.photos:
                     property.photos = property.photos + \
                         ',' + str(photo.id_photo)
                 else:
                     property.photos = str(photo.id_photo)
-                db.session.commit()
 
             for file in upld_videos:
                 video = videos(
                     file.read(), property.id_property, file.filename)
                 db.session.add(video)
-                db.session.commit()
 
                 if property.videos:
                     property.videos = property.videos + \
                         ',' + str(video.id_video)
                 else:
                     property.videos = str(video.id_video)
-                db.session.commit()
+            db.session.commit()
         else:
             # token not valid
             return jsonify(409)
