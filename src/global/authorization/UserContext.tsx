@@ -521,10 +521,8 @@ export const UserProvider = ({ children }) => {
 		return addVids() ;
 	}
 
-	const fetchProperties = async () => { 
+	const fetchProperties = ( properties) => { 
 		setRefreshUser(true) ;
-
-		let properties = {} ;
 		
 		let atoken = getAccessToken() ;
 		
@@ -543,7 +541,7 @@ export const UserProvider = ({ children }) => {
 
 		}
 
-		const getProps = async () => {
+		const getProps = async (properties) => {
 			await fetch("/get_properties", requestOptions).then(response => {
 				response.json().then(data => {
 					if (data !== false) {
@@ -560,12 +558,12 @@ export const UserProvider = ({ children }) => {
 			}).catch(e => {
 				console.log(e)
 			})
+			return properties;
 		}
 
-		await getProps() ;
+		
 		setRefreshUser(false);
-		return properties;
-
+		return getProps(properties) ;
 	} ;
 	
 	const refreshAccessToken = () => { 
