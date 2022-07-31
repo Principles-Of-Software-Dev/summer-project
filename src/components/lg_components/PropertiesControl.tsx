@@ -16,6 +16,7 @@ const PropertiesControl = ({ handleAddProperty }) => {
 	
 	useEffect(() => {
 		setProperties(fetchProperties())
+		console.log(fetchProperties())
 		console.log(properties)
 	}, [])
 
@@ -54,14 +55,14 @@ const PropertiesControl = ({ handleAddProperty }) => {
 			{properties?.owned_properties && 
 				<div>
 					<div className='my-3'> Your Owned Properties </div>
-					<PropertiesList properties={properties !== undefined ? properties.owned_properties : null} displayProperty={handleViewProperty} displayPropertyForm={handleDisplayPropertyForm} />
+					<PropertiesList properties={properties !== undefined||null ? properties.owned_properties : null} displayProperty={handleViewProperty} displayPropertyForm={handleDisplayPropertyForm} />
 				</div>
 			}
 
 			{properties?.authorized_properties && 
 						<div>
 							<div className='my-3'> Your Authorized Properties </div>
-							<PropertiesList properties={properties !== undefined ? properties.owned_properties : null} displayProperty={handleViewProperty} displayPropertyForm={handleDisplayPropertyForm} />
+							<PropertiesList properties={properties !== undefined||null ? properties.owned_properties : null} displayProperty={handleViewProperty} displayPropertyForm={handleDisplayPropertyForm} />
 						</div>
 			}
 			{properties === undefined &&
