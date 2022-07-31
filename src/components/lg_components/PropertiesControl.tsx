@@ -9,12 +9,12 @@ import UserLinks from '../sm_components/UserLinks' ;
 const PropertiesControl = ({ handleAddProperty }) => {
 	const { fetchProperties, properties } = useUser() ;
 	const navigate = useNavigate() ;
-	fetchProperties() ;
+	
 
 	const [displayProperty, setDisplayProperty] = useState(null) ;
 	
 	useEffect(() => {
-		console.log(properties) ;
+		fetchProperties() ;
 	}, [])
 
 	useEffect(() => {
@@ -48,19 +48,22 @@ const PropertiesControl = ({ handleAddProperty }) => {
 		<div className='w-full mb-2'>
 			{displayProperty != null &&
 				<DisplayProperty property={displayProperty} displayProperty={setDisplayProperty} editProperty={handleDisplayPropertyForm} />
-			}
-			{properties.owned_properties.length > 0 && 
-				<div>
-					<div className='my-3'> Your Owned Properties </div>
-					<PropertiesList properties={properties !== undefined||null ? properties.owned_properties : null} displayProperty={handleViewProperty} displayPropertyForm={handleDisplayPropertyForm} />
-				</div>
-			}
+			}{properties != null &&
+				<div> 
+					{properties.owned_properties.length > 0 && 
+					<div>
+						<div className='my-3'> Your Owned Properties </div>
+						<PropertiesList properties={properties !== undefined||null ? properties.owned_properties : null} displayProperty={handleViewProperty} displayPropertyForm={handleDisplayPropertyForm} />
+					</div>
+					}
 
-			{properties.authorized_properties.length > 0 && 
-						<div>
-							<div className='my-3'> Your Authorized Properties </div>
-							<PropertiesList properties={properties !== undefined||null ? properties.owned_properties : null} displayProperty={handleViewProperty} displayPropertyForm={handleDisplayPropertyForm} />
-						</div>
+					{properties.authorized_properties.length > 0 && 
+							<div>
+								<div className='my-3'> Your Authorized Properties </div>
+								<PropertiesList properties={properties !== undefined||null ? properties.owned_properties : null} displayProperty={handleViewProperty} displayPropertyForm={handleDisplayPropertyForm} />
+							</div>
+					}
+				</div>
 			}
 			{properties === undefined &&
 				<div className='w-full h-screen flex items-center justify-center'>

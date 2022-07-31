@@ -545,15 +545,6 @@ export const UserProvider = ({ children }) => {
 			body: JSON.stringify(params)
 
 		}
-		
-		const setproperties = (data) => {
-			console.log("Running")
-			console.log(data) ;
-			setProperties({
-				"authorized_properties": data.authorized_properties,
-				"owned_properties": data.owned_properties,
-			}) ;
-		}
 
 		const getProps = async () => {
 			await fetch("/get_properties", requestOptions).then(response => {
@@ -565,7 +556,10 @@ export const UserProvider = ({ children }) => {
 						{ return { status :"No Properties" } ; }
 						else {
 							console.log(typeof(data))
-							setproperties(data)
+							setProperties({
+								"authorized_properties": data.authorized_properties,
+								"owned_properties": data.owned_properties,
+							}) ;
 						}
 					}
 				})
