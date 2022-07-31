@@ -48,7 +48,10 @@ const setToken = (t:(number| null)) => {
 export const UserContext = createContext<any>(null) ;
 
 export const UserProvider = ({ children }) => {
-	const [properties, setProperties] = useState<null | {}>(null) ;
+	const [properties, setProperties] = useState({
+		'authorized_properties': [],
+		'owned_properties': []
+	})
 
 	const navigate = useNavigate() ;
 	const [user, setUser] = useState<User>({}) ;
@@ -555,7 +558,7 @@ export const UserProvider = ({ children }) => {
 						} else if (data === 411)
 						{ return { status :"No Properties" } ; }
 						else {
-							console.log(typeof(data))
+							console.log(typeof (data.authorized_properties)) ;
 							setProperties({
 								"authorized_properties": data.authorized_properties,
 								"owned_properties": data.owned_properties,
