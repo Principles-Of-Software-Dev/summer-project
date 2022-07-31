@@ -12,7 +12,12 @@ const PropertiesControl = ({ handleAddProperty }) => {
 	const [properties, setProperties] = useState<{ 'authorized_properties': PropertyType[], 'owned_properties': PropertyType[] } | undefined | null>(null)
 
 
-	const [displayProperty, setDisplayProperty] = useState(null) ;
+	const [displayProperty, setDisplayProperty] = useState(null);
+	
+	useEffect(() => {
+		setProperties(fetchProperties())
+		console.log(properties)
+	}, [])
 
 	useEffect(() => {
 		if (displayProperty != null) {
@@ -20,8 +25,6 @@ const PropertiesControl = ({ handleAddProperty }) => {
 		} else {
 			document.body.style.overflow = "visible";
 		}
-
-		setProperties(fetchProperties)
 	}, [displayProperty]) ;
 	
 
