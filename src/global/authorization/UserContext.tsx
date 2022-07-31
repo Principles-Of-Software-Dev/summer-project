@@ -74,7 +74,11 @@ export const UserProvider = ({ children }) => {
 	useEffect(() => {
 		const interval = setInterval(() => refreshAccessToken(), (60000 *14)) ;
 		return () => clearInterval(interval) ;
-	}, []) ;
+	}, []);
+	
+	useEffect(() => { 
+		refreshAccessToken();
+	},[])
 	
 
 	const userLogin = (email: string, password: string) => {
