@@ -325,7 +325,7 @@ export const UserProvider = ({ children }) => {
 		
 	} ;
 
-	const addProperty = (street: string, city: string, state: string, zipcode: number, description: string, estimate: number, formData:any) => { 
+	const addProperty = async (street: string, city: string, state: string, zipcode: number, description: string, estimate: number, formData:any) => { 
 
 		setRefreshUser(true);
 		let atoken = getAccessToken();
@@ -353,16 +353,15 @@ export const UserProvider = ({ children }) => {
 
 		const aProp = async () => {
 			await fetch("/add_property", requestOptions).then(response => {
-				response.json().then(data => {
+				response.json().then(async data => {
 					if (data !== false) {
 						if (data === 409) {
 							userLogout() ;
 						} else {
 							console.log(formData)
 							formData.append('property_id', data.property_id)
-							addPhotos(formData)
-							addVideos(formData)
-							navigate("/dashboard")
+							await addPhotos(formData)
+							await addVideos(formData)
 						}
 					}
 				})
@@ -370,11 +369,10 @@ export const UserProvider = ({ children }) => {
 				console.log(e)
 			})
 		}
-		aProp() ;
-
-
-
+		 await aProp() ;
+		
 		setRefreshUser(false);
+		navigate("/dashboard");
 	} ;
 
 	const deleteProperty = (propertyId: number) => { 
