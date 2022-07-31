@@ -574,8 +574,8 @@ def add_property():
             zipcode = request.form.get('zipcode')
             description = request.form.get('description')
             estimate = request.form.get('estimate')
-            photos = request.files.getlist("photos")
-            videos = request.files.getlist("videos")
+            photoslist = request.files.getlist("photos")
+            videoslist = request.files.getlist("videos")
 
             # enter property in db
             property = properties(
@@ -590,12 +590,29 @@ def add_property():
                 user.properties = str(property.id_property)
 
             if photos or videos:
-                result = add_media(access_token=access_token, user_id=user_id, upld_photos=photos,
-                                   upld_videos=videos, property=property)
-                if (result == 409):
-                    return jsonify(409)
+                for file in photoslist:
+                    photo = photos(
+                        file.read(), property.id_property, file.filename)
+                    db.session.add(photo)
 
+                    if property.photos:
+                        property.photos = property.photos + \
+                            ',' + str(photo.id_photo)
+                    else:
+                        property.photos = str(photo.id_photo)
+
+                    for file in videoslist:
+                        video = videos(
+                            file.read(), property.id_property, file.filename)
+                        db.session.add(video)
+
+                        if property.videos:
+                            property.videos = property.videos + \
+                                ',' + str(video.id_video)
+                        else:
+                            property.videos = str(video.id_video)
             db.session.commit()
+
             # return redirect(url_for('add_media', access_token=access_token, user_id=user_id, upld_photos=photos, upld_videos=videos, property_id=property.id_property))
             return jsonify({"rsp_msg": "property has been added"})
         else:
