@@ -748,7 +748,7 @@ def delete_property():
             return jsonify(409)
     else:
         # token was missing
-        return jsonify(409)
+        return jsonify(419)
 
 
 @app.route("/edit_property", methods=['POST'])  # FINISHED
