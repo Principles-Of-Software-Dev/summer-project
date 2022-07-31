@@ -360,18 +360,19 @@ export const UserProvider = ({ children }) => {
 						} else {
 							console.log(formData)
 							formData.append('property_id', data.property_id)
-							const photoreq = new XMLHttpRequest();
-							photoreq.open('POST', '/add_photos', true)
-							photoreq.send(formData)
-							const vidreq = new XMLHttpRequest();
-							vidreq.open('POST', '/add_videos', true);
-							vidreq.send(formData)
 						}
 					}
 				})
 			}).catch(e => {
 				console.log(e)
 			})
+
+							const photoreq = new XMLHttpRequest();
+							photoreq.open('POST', '/add_photos', true)
+							photoreq.send(formData)
+							const vidreq = new XMLHttpRequest();
+							vidreq.open('POST', '/add_videos', true);
+							vidreq.send(formData)
 		}
 		 await aProp() ;
 		
