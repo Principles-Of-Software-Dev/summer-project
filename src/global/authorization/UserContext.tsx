@@ -557,8 +557,7 @@ export const UserProvider = ({ children }) => {
 						else {
 							console.log(typeof(data.owned_properties))
 							setProperties({
-								'authorized_properties': data.autherized_properties,
-								'owned_properties': data.owned_properties
+								"hi" : "hi"
 							}) ; 
 							console.log(properties) ;
 						}
