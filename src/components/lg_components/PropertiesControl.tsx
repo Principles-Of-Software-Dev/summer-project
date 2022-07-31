@@ -9,7 +9,8 @@ import UserLinks from '../sm_components/UserLinks' ;
 const PropertiesControl = ({ handleAddProperty }) => {
 	const { fetchProperties } = useUser() ;
 	const navigate = useNavigate() ;
-	let properties: {'authorized_properties': PropertyType[], 'owned_properties':PropertyType[]} | undefined;
+	let properties: { 'authorized_properties': PropertyType[], 'owned_properties': PropertyType[] } | undefined;
+	properties = fetchProperties();
 
 	const [displayProperty, setDisplayProperty] = useState(null) ;
 
@@ -19,9 +20,6 @@ const PropertiesControl = ({ handleAddProperty }) => {
 		} else {
 			document.body.style.overflow = "visible" ;
 		}
-
-		properties = fetchProperties();
-		console.log(properties);
 	}, [displayProperty]) ;
 	
 
