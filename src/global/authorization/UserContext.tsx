@@ -80,10 +80,6 @@ export const UserProvider = ({ children }) => {
 	useEffect(() => { 
 		refreshAccessToken() ;
 	},[])
-	
-	useEffect(() => {
-		console.log(properties)
-	}, [properties])
 
 	const userLogin = (email: string, password: string) => {
 		setRefreshUser(true) ;
@@ -557,7 +553,6 @@ export const UserProvider = ({ children }) => {
 				"authorized_properties": data.authorized_properties,
 				"owned_properties": data.owned_properties,
 			}) ;
-			console.log(properties)
 		}
 
 		const getProps = async () => {
@@ -582,9 +577,6 @@ export const UserProvider = ({ children }) => {
 		
 		setRefreshUser(false) ;
 		getProps() ;
-		console.log(properties)
-
-		return properties
 	} ;
 	
 	const refreshAccessToken = () => { 
@@ -727,7 +719,7 @@ export const UserProvider = ({ children }) => {
 			user, getAccessToken, userLogin, userRegistration, userLogout,
 			deleteUser, editUser, getUserInfo, addProperty, addPhotos,
 			addVideos, deleteProperty, editProperty, fetchProperties,
-			refreshAccessToken, authorizeUser, deauthorizeUser,
+			refreshAccessToken, authorizeUser, deauthorizeUser, properties,
 			test, testToken
 		}}>
 			{children}
