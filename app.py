@@ -630,7 +630,9 @@ def get_properties():
                             id_property=int(property_id)).first()
                         # add to list
                         property_dict = property.as_dict()
-                        return jsonify({'prop photos': property.photos, 'prop dictionary': property_dict})
+                        return jsonify({'prop photos': properties.query.filter_by(
+                            id_property=int(2)).first(), 'prop dictionary': properties.query.filter_by(
+                            id_property=int(2)).first().as_dict()})
                         photo_ids = property_dict.get('photos')
                         if photo_ids:
                             photo_ids = photo_ids.split(',')
