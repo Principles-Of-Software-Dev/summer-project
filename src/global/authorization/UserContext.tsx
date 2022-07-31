@@ -81,6 +81,9 @@ export const UserProvider = ({ children }) => {
 		refreshAccessToken() ;
 	},[])
 	
+	useEffect(() => {
+		console.log(properties)
+	}, [properties])
 
 	const userLogin = (email: string, password: string) => {
 		setRefreshUser(true) ;
