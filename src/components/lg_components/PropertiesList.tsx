@@ -3,6 +3,7 @@ import Property from '../sm_components/Property'
 
 
 const PropertiesList = ({ properties, displayProperty, displayPropertyForm }) => {
+	console.log(properties)
 	return (
 		<div className='grid md:grid md:grid-cols-3 grid-cols-1 h-auto w-screen'>
 			{properties.map((prop, numb) => {

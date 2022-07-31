@@ -17,7 +17,7 @@ const PropertiesControl = ({ handleAddProperty }) => {
 	useEffect(() => {
 		setProperties(fetchProperties())
 		console.log(fetchProperties())
-		console.log(properties)
+		console.log(properties);
 	}, [])
 
 	useEffect(() => {

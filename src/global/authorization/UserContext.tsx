@@ -553,7 +553,6 @@ export const UserProvider = ({ children }) => {
 						{ return { status :"No Properties" } ; }
 						 else {
 							properties = data;
-							console.log(properties);
 						}
 					}
 				})
@@ -564,6 +563,7 @@ export const UserProvider = ({ children }) => {
 
 		getProps() ;
 		setRefreshUser(false);
+		console.log(properties)
 		return properties;
 
 	} ;
