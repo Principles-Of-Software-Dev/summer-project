@@ -677,6 +677,7 @@ def get_properties():
                             video_list.append(
                                 send_file(BytesIO(video.data), attachment_filename=video.filename, as_attachment=False))
                         property_dict['videos'] = video_list
+                    return jsonify({'authorized_properties': property_dict})
                     owned_properties.append(property_dict)
 
                 authorized_properties = []
