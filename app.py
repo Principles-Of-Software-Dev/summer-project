@@ -665,6 +665,7 @@ def get_properties():
                                 id_photo=int(photo_id)).first()
                             photo_list.append(
                                 send_file(BytesIO(photo.data), attachment_filename=photo.filename, as_attachment=False))
+                        return jsonify({'photo list': photo_list})
                         property_dict['photos'] = photo_list
 
                     video_ids = property_dict.get('videos')
@@ -678,7 +679,7 @@ def get_properties():
                                 send_file(BytesIO(video.data), attachment_filename=video.filename, as_attachment=False))
                         property_dict['videos'] = video_list
 
-                    for file in property_dict:
+                    for video in property_dict:
                         fileData = jsonify({'file': file})
                         owned_properties.append(fileData)
                     return jsonify({'owned_properties': owned_properties})
