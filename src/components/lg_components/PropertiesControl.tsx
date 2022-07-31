@@ -64,7 +64,7 @@ const PropertiesControl = ({ handleAddProperty }) => {
 					}
 				</div>
 			}
-			{(properties === { 'authorized_properties': undefined, 'owned_properties': undefined } || properties === { status :"No Properties" }) &&
+			{(properties.authorized_properties === undefined && properties.owned_properties === undefined) &&
 				<div className='w-full h-screen flex items-center justify-center'>
 
 					<UserLinks text={"You have no properties. Click here to add one!"} handleClick={handleAddProperty} />
