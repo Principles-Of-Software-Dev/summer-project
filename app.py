@@ -623,16 +623,13 @@ def get_properties():
                 property_list = user.properties.split(',')
                 owned_properties = []
                 if user.properties:
-                    user.properties = None
                     # append a list of properties as a dict
-                    return jsonify({'properties': user.properties})
                     for property_id in property_list:
                         # query for property
                         property = properties.query.filter_by(
                             id_property=int(property_id)).first()
                     # add to list
                     property_dict = property.as_dict()
-                    return jsonify({'prop photos': property.photos, 'prop dictionary': property_dict, 'properties': user.properties})
                     photo_ids = property_dict.get('photos')
                     if photo_ids:
                         photo_ids = photo_ids.split(',')
@@ -724,36 +721,35 @@ def delete_property():
             # set json data into vars
             property_id = request_json.get('property_id')
             # query for property in db
-            # property = properties.query.filter_by(
-            #     id_property=property_id).first()
+            property = properties.query.filter_by(
+                id_property=property_id).first()
             # # if property exist
-            # if property:
-            # query for user in db
-            # user = users.query.filter_by(
-            #     id_user=property.belongs_to).first()
-            user = users.query.filter_by(id_user=user_id).first()
+            if property:
+                # query for user in db
+                user = users.query.filter_by(
+                    id_user=property.belongs_to).first()
             # delete property
-            user_properties_list = user.properties.split(',')
-            # user_properties_list.remove(int(property.id_property))
-            user_properties_list.remove(int(property_id))
-            user.properties = ','.join(user_properties_list)
-            if user.properties == '':
-                user.properties = None
-
-                # if(property.photos != None):
-                #     photo_ids = property.photos.split(',')
-                #     for photo_id in photo_ids:
-                #         photo = photos.query.filter_by(
-                #             id_photo=int(photo_id)).first()
-                #         photos.query.filter_by(id_photo=int(photo_id)).delete()
-                # if(property.videos != None):
-                #     video_ids = property.videos.split(',')
-                #     for video_id in video_ids:
-                #         video = videos.query.filter_by(
-                #             id_video=int(video_id)).first()
-                #         videos.query.filter_by(id_video=int(video_id)).delete()
-                # property.delete()
-                db.session.commit()
+                user_properties_list = user.properties.split(',')
+                user_properties_list.remove(int(property.id_property))
+                user.properties = ','.join(user_properties_list)
+                if user.properties == '':
+                    user.properties = None
+                    if(property.photos != None):
+                        photo_ids = property.photos.split(',')
+                        for photo_id in photo_ids:
+                            photo = photos.query.filter_by(
+                                id_photo=int(photo_id)).first()
+                            photos.query.filter_by(
+                                id_photo=int(photo_id)).delete()
+                    if(property.videos != None):
+                        video_ids = property.videos.split(',')
+                        for video_id in video_ids:
+                            video = videos.query.filter_by(
+                                id_video=int(video_id)).first()
+                            videos.query.filter_by(
+                                id_video=int(video_id)).delete()
+                    property.delete()
+                    db.session.commit()
                 return jsonify({"rsp_msg": "property has been deleted "})
             else:
                 # property cant be found
