@@ -45,7 +45,7 @@ const LandingPageContent = () => {
 				<a href="#about" >About</a>
 				<a href="#news">News</a>
 				<a href="#skills">Info</a>
-				<a href="#properties">Property</a>
+				<a href="#item">Items</a>
 				<a href="#review">Reviews</a>
 				<a href="#contact">Contact</a>
 				
@@ -57,7 +57,7 @@ const LandingPageContent = () => {
 				<div className="max-w-full">
 					<div className="row align-items-center justify-content-center text-center">
 						<div className="col-lg-10 align-self-end">
-							<p className="text-uppercase text-white font-weight-bold text-xl heading">Gilderise Enterprises</p>
+							<p className="text-uppercase text-white font-weight-bold text-xl heading">Gilderise Communities</p>
 							<hr className="divider dark my-4" />
 						</div>
 						<div className="col-lg-8 align-self-baseline">
@@ -80,7 +80,13 @@ const LandingPageContent = () => {
 							
 							<img alt="GEBalance" src={require("../../assets/BrandImage.jpg")} className="w-full md:px-10"/>
 							
-							<p className="pcontrol text-white">Gilderise Enterprises has been helping the retired with their assets for over fifteen years. We provide a full-scale inventory management service for West Boca Make-Believe Retirement Community. We are constantly working to swiftly deal with all incoming and outgoing inventory data to help create an ideal lifestyles that residents can enjoy. We provide incomparable levels of service and expertise! Our main focus is on building long-lasting relationship with the community so we can assist the needs of everybody.</p>
+							<p className="pcontrol text-white">>Gilderise Communities have been helping
+retirement communities manage their household items and many other needs for over fifteen
+years. We provide a full-scale organizational service to all of our residents at Gilderise
+Communites. We are contantly working to maximize the funcaionality of our website so that it is
+simple and ready for you to use. We provide incomparable levels of service and expertise! Our
+main focus is on building long-lasting relationships with our residents and we share our vision
+and commitment to a better lifestyle for all.</p>
 						</div>
 					</div>
 				</div>
@@ -100,8 +106,11 @@ const LandingPageContent = () => {
 							<p className="pcontrol">Due to our long-lasting relationships with contractors, we can contact our maintenance team quickly & repair your property below quicker and at a lower price than normal contractors. 
 This means less money out of your pockets AND more return on your investment.  </p>
 							
-							<p className="text-lg heading">Property Marketing and Remodling</p>
-							<p className="pcontrol"> We have implemented many proven marketing strategies that can be specifically tailored to your property. which will nclude listing your property on over 200 of the top real estate websites. We then track the performance of our marketing plan, which allows us to quickly make adjustmentsto make marketing your property more effective.Our property managers have the potential of arranging necessary renovations before listing it on the market. This can be as small as repainting the walls, or as important as changing the partitions inside the house. Our team will first assess your property’s value, and then come to you with a list of suggestions fitted to your every need. </p>
+							<p className="text-lg heading">Care Type Services</p>
+							<p className="pcontrol"> We also provide any care you might need here at Gilderise
+Communities whether that is Memory Care, Assisted living, Skilled Nursing, or Independent
+living. We are here for you and to help in any way that we see fit. Please don't hesitate to
+contact us at any time. We respond to any communication within the hour 24 hours a day! </p>
 						</div>
 					</div>
 				</div>
@@ -110,7 +119,7 @@ This means less money out of your pockets AND more return on your investment.  <
 			{/* <!-- Services--> */}
 			<section className="page-section" id="skills">
 				<div className="max-w-full">
-					<p className="textcenter mt-0 text-lg heading">An Enterprise You Can Trust</p>
+					<p className="textcenter mt-0 text-lg heading">A Community You Can Trust</p>
 					<hr className="divider my-4" />
 					<div className="skillsutility">
 							
