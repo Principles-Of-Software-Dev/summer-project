@@ -117,22 +117,22 @@ This means less money out of your pockets AND more return on your investment.  <
 						<table className='min-w-full'>
 							<tbody>
 								<tr >
-									<th>Properties</th>
+									<th>Why Register</th>
 									<th>Locations</th>
 									<th>Communities</th>
 								</tr>
 								<tr>
-									<td>1,000 Houses</td>
+									<td>Easy To Use User Interface</td>
 									<td>Florida</td>
 									<td>West Boca MB Retirement Community</td>
 								</tr>
 								<tr>
-									<td>1,500 Condos</td>
+									<td>Responsive Customer Support</td>
 									<td>Georgia</td>
 									<td>Unity Springs Retirement Community</td>
 								</tr>
 								<tr>
-									<td>1270 Apartments</td>
+									<td>Free For Residents Of West Boca!</td>
 									<td>North Carolina</td>
 									<td>Sun City Peachtree Retirement Community</td>
 								</tr>
@@ -147,12 +147,12 @@ This means less money out of your pockets AND more return on your investment.  <
 									<th>Employees</th>
 								</tr>
 								<tr>
-									<td>ONE! (You are our Focus.)</td>
-									<td>Over 2000 Now</td>
+									<td>Only West Boca MB Retirement Community</td>
+									<td>Over 115 Ready To Help</td>
 								</tr>
 								<tr>
-									<td>Expanding Elsewhere</td>
-									<td>Always On Standby</td>
+									<td>You Are Our Total And Complete Focus!!</td>
+									<td>Ready To Help You At All Hours!</td>
 								</tr>
 							</tbody>
 						</table>
