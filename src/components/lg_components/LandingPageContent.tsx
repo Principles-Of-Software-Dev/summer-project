@@ -57,11 +57,11 @@ const LandingPageContent = () => {
 				<div className="max-w-full">
 					<div className="row align-items-center justify-content-center text-center">
 						<div className="col-lg-10 align-self-end">
-							<p className="text-uppercase text-white font-weight-bold text-xl heading">Gilderise Enterprises and Properties</p>
+							<p className="text-uppercase text-white font-weight-bold text-xl heading">Gilderise Enterprises</p>
 							<hr className="divider dark my-4" />
 						</div>
 						<div className="col-lg-8 align-self-baseline">
-							<p className="text-uppercase text-white font-weight-bold heading ">An Assets Management Company</p>
+							<p className="text-uppercase text-white font-weight-bold heading ">Asset Management for West Boca Make-Believe Community</p>
 
 							<div className="imgcontainer"><img className="w-full md:px-10 px-4" alt="Entrance" src={require("../../assets/EntrancePhoto.jpg")} /></div>
 
@@ -94,8 +94,8 @@ const LandingPageContent = () => {
 							<hr className="divider light my-4" />
 							
 							<div className="text-black-50 mb-4" />
-							<p className='text-lg heading'>Planning to expand into North East Texas!</p>
-							<p className="pcontrol">Gilderise Enterprise has been growing throughout Florida and Georgia. We currently manage over 60,000 units across over 80 communities, including prestigious locations such as Delray River Reserve, Naples Creek Estates, Village Path of Concord, and Garland Reserve. In Central Georgia, we now have a prominent presence and we’re happy to be expanding throughout the North East Texas and St. Colombus area, as we continue to grow our services and our family continues to grow.</p>
+							<p className='text-lg heading'>Our focus is you!</p>
+							<p className="pcontrol">Gilderise Enterprise takes a different approach to the way we help with asset management. Our focus is quality. Managing tangile assets through us is simple, easy to underestand and reliable. If you are every having any difficulties it is as simple as contacting out support page and our staff will contact you promptly with a solution. We treat the residents of West Boca Make-Believe Retirement Community. We hope you will see us as family too. Regist now and join the our family!</p>
 							<p className='text-lg heading'>Maintenance, Repairs & Renovations  </p>
 							<p className="pcontrol">Due to our long-lasting relationships with contractors, we can contact our maintenance team quickly & repair your property below quicker and at a lower price than normal contractors. 
 This means less money out of your pockets AND more return on your investment.  </p>
