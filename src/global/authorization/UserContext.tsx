@@ -149,9 +149,15 @@ export const UserProvider = ({ children }) => {
 
 		const login = () => {
 			const xhr = new XMLHttpRequest() ;
+			// send request and and wait unitl we get a response
 			xhr.open('POST', '/login_user', false)
 			xhr.send(formData) ;
-			console.log(xhr.response.rsp_msg)
+			xhr.response.json().then(
+				data => {
+					console.log("running")
+					console.log(data.rsp_mg)
+				}
+			)
 			// // send request
 			// await fetch("/login_user", requestOptions).then(
 			// 	// after successful call to api, convert response to JSON
