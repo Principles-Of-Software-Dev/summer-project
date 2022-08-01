@@ -4,9 +4,9 @@ import Button from '../sm_components/Button' ;
 import EmailField from '../sm_components/validator_fields/EmailField' ;
 import NameField from '../sm_components/validator_fields/NameField' ;
 import PasswordField from '../sm_components/validator_fields/PasswordField' ;
-import AgeCheck from '../sm_components/validator_fields/AgeCheck' ;
 import { useNavigate } from 'react-router-dom' ;
 import { useUser } from '../../global/authorization/UserContext' ;
+import AccountType from '../sm_components/validator_fields/AccountType' ;
 
 
 // @TODO cleanup and restructure code. Create components for long sections.
@@ -25,12 +25,36 @@ const MobileMenu = () => {
 	const [regFirstName, setRegFirstName] = useState('') ;
 	const [regLastName, setRegLastName] = useState('') ;
 	const [validRegName, setValidRegName] = useState(false) ;
-	const [regPassword, setRegPassword] = useState('') ;
-	const [validRegPassword, setValidRegPassword] = useState(false) ;
-	const [validAgeCheck, setValidAgeCheck] = useState(false) ;
-
-	const { userLogin, userRegistration } = useUser() ;
+	const { userLogin, setupAccount } = useUser() ;
 	const navigate = useNavigate() ;
+	const [accountType, setAccountType] = useState<string>('') ;
+
+	const handleChangeAccountType = (str:string) => {
+		setAccountType(str)
+	}
+
+	const handleLogin = (e) => {
+		e.preventDefault() ;
+		const formData = new FormData() ;
+		formData.append('email', loginEmail) ;
+		formData.append('password', loginPassword) ;
+		
+		userLogin(formData) ;
+		
+	}
+	
+
+	const handleSetupAccount = (e) => {
+		e.preventDefault() ;
+		const formData = new FormData() ;
+
+		formData.append('email', regEmail) ;
+		formData.append('firstname', regFirstName) ;
+		formData.append('lastname', regLastName) ;
+		formData.append('manager', accountType) ;
+		
+		setupAccount(formData)
+	}
 
 	const handleNavigate = (page:string, check:boolean) => {
 
@@ -51,7 +75,7 @@ const MobileMenu = () => {
 	const handleValidRegistration = () => {
 		// Require phone to be valid if added.
 		
-		if (validRegEmail && validRegName && validRegPassword && validAgeCheck) {
+		if (validRegEmail && validRegName && accountType !== '') {
 			return false ;
 		}
 		else {
@@ -129,12 +153,12 @@ const MobileMenu = () => {
                             	<div className="grid grid-rows-5">
                             		{/* Email field */}
                             		<div className='row-span-2 my-4 flex items-center justify-center'>
-                            			< EmailField size={15} required={true} setEmail={setLoginEmail } handleValid={setValidLoginEmail} />
+                            			< EmailField size={15} required={true} setEmail={setLoginEmail } handleValid={setValidLoginEmail} text={'Email'} />
                             		</div>
 
                             		{/* Password field */}
                             		<div className='row-span-2 flex items-center justify-center'>
-                            			< PasswordField size={15} required={true} setPassword={setLoginPassword} handleValid={setValidLoginPassword} />
+                            			< PasswordField size={15} required={true} setPassword={setLoginPassword} handleValid={setValidLoginPassword} text={"Password"} />
                             		</div>
 
                             		{/* "Submit" and "Cancel Button" */} 
@@ -146,10 +170,7 @@ const MobileMenu = () => {
                             				textColor='text-c-white'
                             				hoverColor='hover:bg-zinc-500'
                             				disable={handleValidLogin()}
-                            				onClick={(e) => {
-                            					e.preventDefault() ;
-                            					userLogin(loginEmail, loginPassword)
-                            				}}
+                            				onClick={handleLogin}
                             			/>
 
                             			< Button
@@ -182,7 +203,7 @@ const MobileMenu = () => {
 								<div className='grid grid-rows-6'>
                             	{/* Email field */}
                             	<div className='row-span-1 my-2 flex items-center justify-center'>
-                            		< EmailField size={15} required={true} setEmail={setRegEmail} handleValid={setValidRegEmail} />
+										< EmailField size={15} required={true} setEmail={setRegEmail} handleValid={setValidRegEmail} text={"Enter your email"} />
                             	</div>
 
                             	{/* Name field */}
@@ -193,16 +214,12 @@ const MobileMenu = () => {
 									<div className='row-span-1 my-2 flex items-center justify-center'>
 										< NameField size={15} required={true} setName={setRegLastName} handleValid={setValidRegName} type={"Last"} />
 									</div>
+									
+									{/* Account Type field */}
+                            	<div className='row-span-1 my-2 flex items-center justify-center'>
+										< AccountType setType={handleChangeAccountType} />
+                            	</div>
 
-                            	{/* Password field */}
-                            	<div className='row-span-1 my-2 flex items-center justify-center'>
-                            		< PasswordField size={15} required={true} setPassword={ setRegPassword} handleValid={setValidRegPassword}/>
-                            	</div>
-                                    
-                            	{/* Age Check */}
-                            	<div className='row-span-1 my-2 flex items-center justify-center'>
-										<AgeCheck handleValid={setValidAgeCheck} />
-                            	</div>
 
                             	{/* "Submit" and "Cancel Button" */} 
                             	<div className='row-span-1 flex items-center justify-between mb-2 mx-2'>
@@ -214,10 +231,7 @@ const MobileMenu = () => {
                             			hoverColor='hover:bg-zinc-500'
                             			disable={handleValidRegistration()}
                             			// set later
-											onClick={(e) => {
-												e.preventDefault() ;
-												userRegistration(regFirstName, regLastName, regEmail, regPassword)
-											}}
+											onClick={handleSetupAccount}
                             		/>
 
                             		< Button

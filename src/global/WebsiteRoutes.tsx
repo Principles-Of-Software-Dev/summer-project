@@ -8,7 +8,7 @@ import PrivateRoute from '../components/routes/PrivateRoute' ;
 import { UserProvider } from './authorization/UserContext' ;
 import AccountPreferences from '../pages/AccountPreferences' ;
 import RedirectRoute from '../components/routes/RedirectRoute' ;
-import ModifyAddProperty from '../pages/ModifyAddProperty.jsx' ;
+import ModifyAddItem from '../pages/ModifyAddItem.jsx' ;
 
 const WebsiteRoutes = () => {
   
@@ -20,14 +20,14 @@ const WebsiteRoutes = () => {
 					<Route element={<RedirectRoute />}>
 						<Route path="/" element={<LandingPage />} />
 					</Route>
-					<Route path="support" element={<SupportPage />} />
+					<Route path="/support" element={<SupportPage />} />
 					
 
 					{/* Private Routes */}
 					<Route element={<PrivateRoute />}>
-						<Route path="dashboard" element={<Dashboard />} />
-						<Route path="account-preferences" element={<AccountPreferences />} />
-						<Route path="/dashboard/edit-property" element={<ModifyAddProperty />} />
+						<Route path="/dashboard" element={<Dashboard />} />
+						<Route path="/account-preferences" element={<AccountPreferences />} />
+						<Route path="/dashboard/edit-item" element={<ModifyAddItem />} />
 					</Route>
 
 					{/* Invalid URL */}

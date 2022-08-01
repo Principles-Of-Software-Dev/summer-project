@@ -6,11 +6,9 @@ const NameField = ({ size, required, setName, handleValid, type, ...rest }) => {
 	// * copy the line below to parent component and pass "name and setName" as parameters
 	//  const [name, setName] = useState('');
 	const [nameErr, setNameErr] = useState(false) ;
-	let initial = null ;
 
 	if (rest != null) {
 		handleValid(true) ;
-		initial = rest.storedVal ;
 	}
 
     
@@ -27,39 +25,18 @@ const NameField = ({ size, required, setName, handleValid, type, ...rest }) => {
 		if (required || name !== '') {
 			if (name === '') {
 				handleValid(false) ;
-				if (initial != null) {
-					if (initial !== e.target.value) {
-						rest.changed(true) ;
-					} else {
-						rest.changed(false) ;
-					}
-				}
 				return true ;
 			}
 			else {
 				setName(name) ;
 				handleValid(true) ;
 				if (nameErr) { setNameErr(false) }
-				if (initial != null) {
-					if (initial !== e.target.value) {
-						rest.changed(true) ;
-					} else {
-						rest.changed(false) ;
-					}
-				}
 				return false ;
 			}
 		} else {
 			setName(name) ;
 			handleValid(true) ;
 			if (nameErr) { setNameErr(false) }
-			if (initial != null) {
-				if (initial !== e.target.value) {
-					rest.changed(true) ;
-				} else {
-					rest.changed(false) ;
-				}
-			}
 			return false ;
 		}
 	}
@@ -73,17 +50,18 @@ const NameField = ({ size, required, setName, handleValid, type, ...rest }) => {
 	return (
 
 	// Start actual code.
-		<span className='grid grid-rows-7 mx-6 max-h-full'>
+		<span className='grid grid-rows-7 mx-6 max-h-full w-full'>
 			<label className='row-span-3 mb-2 flex items-center justify-start'>
 				{type} Name * :
 			</label>
-			<div className='rows-span-3 mb-2 flex items-center justify-start mx-2'>
+			<div className='rows-span-3 mb-2 flex items-center justify-center mx-2'>
 				<input
 					type="name"
 					onChange={handleNameChange}
 					onBlur={handleSetErrMsg}
 					required={required}
-					size={size}
+					placeholder={!required ? 'Optional': 'Required'}
+					className="px-2 rounded-md w-most"
 					defaultValue={ rest.storedVal != null ? rest.storedVal : null}
 				/>
 			</div>

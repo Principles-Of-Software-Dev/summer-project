@@ -3,59 +3,19 @@ import { User } from "../TypeDefs" ;
 import { useNavigate } from "react-router-dom" ;
 
 
-let accessToken:(number | null) = null ;
-
-const getAccessToken = () => {
-	return accessToken ;
-}
-
-const setToken = (t:(number| null)) => {
-	accessToken = t ;
-}
-
-// export const initializeUser:
-// 	{
-// 		user: User, accessToken: any, setUser: any, userLogin: any, userRegistration: any,
-// 		userLogout: any, deleteUser: any, editUser: any, getUserInfo: any, addProperty: any,
-// 		deleteProperty: any, editProperty: any, fetchProperties: any, refreshAccessToken: any,
-// 		addPhotos:any,
-// 		authorizeUser: any, deauthorizeUser: any, test: any, testToken: any,
-// 	} = {
-// 	user: {
-// 		authenticated: false,
-// 		id: -100
-// 	},
-// 	accessToken: getAccessToken(),
-// 	setUser: (user: User) => { },
-// 	userLogin: (email: string, password: string) => { },
-// 	userRegistration: (firstName: string, lastName: string, dob: string, email: string, password: string) => { },
-// 	userLogout: () => { },
-// 	deleteUser: () => { },
-// 	editUser: (firstName: string, lastName: string, dob: string, email: string, password: string) => { },
-// 	getUserInfo: () => { },
-// 	addProperty: (street: string, city: string, state: string, zipcode: number, description: string, estimate: number, formData:any) => { },
-// 	deleteProperty: (propertyId: number) => { },
-// 	editProperty: (propertyId: number, street: string, city: string, state: string, zipcode: string, description: string, estimate: string, formData:any) => { },
-// 	fetchProperties: () => { },
-// 	addPhotos: (formData:any) => { },
-// 	refreshAccessToken: () => { },
-// 	authorizeUser: () => { },
-// 	deauthorizeUser: () => { },
-// 	test: () => { },
-// 	testToken: (t: any) => { },
-// }
 
 export const UserContext = createContext<any>(null) ;
 
 export const UserProvider = ({ children }) => {
-	const [properties, setProperties] = useState<{'authorized_properties': []| undefined,
-	'owned_properties': []| undefined}>({
-		'authorized_properties': undefined,
-		'owned_properties': undefined
+	const [items, setItems] = useState<{'authorized_items': []| undefined,
+	'owned_items': []| undefined}>({
+		'authorized_items': undefined,
+		'owned_items': undefined
 	})
 
 	const navigate = useNavigate() ;
-	const [user, setUser] = useState<User>({})
+	const [user, setUser] = useState<User>({
+	})
 	const [refreshUser, setRefreshUser] = useState(false) ;
 
 	// Store user data on local memory on every update of user or user.authenticated.
@@ -64,7 +24,7 @@ export const UserProvider = ({ children }) => {
 		let stored = sessionStorage.getItem('GilderiseUser') ;
 		setUser(stored == null ?
 			{
-				authenticated: false,
+				authenticated: true,
 				id: -100,
 			} :
 			JSON.parse(stored)
@@ -76,329 +36,13 @@ export const UserProvider = ({ children }) => {
 
 	}, [user, user.authenticated]) ;
 	
-	// refresh the access token every minute if applicable. time is in milliseconds.
-	useEffect(() => {
-		const interval = setInterval(() => refreshAccessToken(), (60000 *14)) ;
-		return () => clearInterval(interval) ;
-	}, []) ;
-	
-	useEffect(() => { 
-		refreshAccessToken() ;
-		console.log("Running on mount")
-	},[])
 
-	const userLogin = (email: string, password: string) => {
-		setRefreshUser(true) ;
-		const params = {
-			'email': email,
-			'password': password,
-		}
+	const setupAccount = (formData: FormData) => {
 
-		let requestOptions = {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify(params)
-		}
-	
-		const login = async () => {
-			await fetch("/login_user", requestOptions).then(response => {
-				response.json().then(data => {
-					if (data !== false) {
-						if (data === 402) {
-							// warn user of unsuccessful registration attempt
-							window.alert("Invalid email, please try again")
-						} else if (data === 403) {
-							// warn user of unsuccessful registration attempt
-							window.alert("Invalid password, please try again")
-						} else {
-							setUser({
-								'authenticated': true,
-								'id': data.user_id
-							})
-							setToken(data.access_token) ;
-							navigate("/dashboard") ;
-						}
-					}
-				})
-			}).catch(e => {
-				console.log(e)
-			})
-		}
-
-		login() ;
-		setRefreshUser(false) ;
-		
-	} ;
-
-	const userRegistration = (firstName: string, lastName: string, email: string, password: string) => {
-		setRefreshUser(true) ;
-
-		const params = {
-			'firstname': firstName,
-			'lastname': lastName,
-			'email': email,
-			'password': password,
-		}
-
-		let requestOptions = {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify(params)
-		}
-	
-		const register = async () => {
-			await fetch("/add_user", requestOptions).then(response => {
-				response.json().then(data => {
-					if (data !== false) {
-						if (data === 401) {
-							window.alert("Email is already on file. Please try again or use Forgot Password")
-						 }
-						else {
-							setUser({
-								'authenticated': true,
-								'id': data.user_id,
-							})
-					
-							setToken(data.access_token)
-							navigate("/dashboard") ;
-						} }
-				})
-			}).catch(e => {
-				console.log(e)
-			})
-		}
-
-		register() ;
-		
-		// warn user of unsuccessful registration attempt
-		setRefreshUser(false) ;
-	} ;
-
-	const userLogout = () => {
-
-
-		// Remove user info.
+		// get userInfo 
 		setRefreshUser(true) ;
 		
-		let params = {
-			'user_id': user.id,
-		}
-
-		const requestOptions = {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify(params)
-		}
-
-		const logout = async () => {
-			await fetch("/logout_user", requestOptions).then(response => {
-				response.json().then(data => {
-					if (data !== false) {
-						setUser({
-							'authenticated': false,
-							'id': undefined
-						})
-						
-					}
-				})
-			}).catch(e => {
-				console.log(e)
-			})
-		}
-
-		logout() ;
-		setRefreshUser(false) ;
-	} ;
-
-	const deleteUser = () => {
-		
-		setRefreshUser(true) ;
-		
-
-		let atoken = getAccessToken() ;
-
-		let params = {
-			'user_id': user.id,
-			'access_token': atoken,
-		}
-
-		let requestOptions = {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify(params)
-		}
-
-		const dUser = async () => {
-			await fetch("/delete_user", requestOptions).then(response => {
-				response.json().then(data => {
-					if (data !== false) {
-						userLogout() ;
-					}
-				})
-			}).catch(e => {
-				console.log(e)
-			})
-		}
-
-		dUser() ;
-		setRefreshUser(false) ;
-
-	} ;
-
-	const editUser = (firstName: string, lastName: string, dob: string, email: string, password: string) => {
-
-		setRefreshUser(true) ;
-		
-		let atoken = getAccessToken() ;
-
-		let params = {
-			'userid': user.id,
-			'firstname': firstName,
-			'lastname': lastName,
-			'dob': dob,
-			'email': email,
-			'password': password,
-			'access_token': atoken,
-
-		}
-
-		let requestOptions = {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify(params)
-		}
-
-		const eUser = async () => {
-			await fetch("/edit_user", requestOptions).then(response => {
-				response.json().then(data => {
-					if (data !== false) {
-						if (data === 409) {
-							userLogout() ;
-						}
-						else if (data === 401) {
-							window.alert("Email is already in use!") ;
-						}
-					}
-				})
-			}).catch(e => {
-				console.log(e)
-			})
-		}
-
-		eUser() ;
-		setRefreshUser(true) ;
-
-	} ;
-	
-	const getUserInfo = () => {
-		setRefreshUser(true) ;
-
-		let userInfo = {} ;
-
-		let atoken = getAccessToken() ;
-
-		let params = {
-			'user_id': user.id,
-			'access_token': atoken,
-
-		}
-
-		let requestOptions = {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify(params)
-		}
-
-		const gUser = async () => {
-			await fetch("/get_user", requestOptions).then(response => {
-				response.json().then(data => {
-					if (data !== false) {
-						if (data === 409) {
-							window.alert("Please Log In or Register") ;
-							userLogout() ;
-						}
-						userInfo = data ;
-						return userInfo ;
-					}
-				})
-			}).catch(e => {
-				console.log(e)
-			})
-		}
-
-		gUser() ;
-
-		setRefreshUser(false) ;
-		
-	} ;
-
-	const addProperty = (formData: FormData) => { 
-		
-		setRefreshUser(true) ;
-		
-		const aProp = new XMLHttpRequest() ;
-		aProp.open('POST', '/add_property')
-		aProp.send(formData)
-
-		setRefreshUser(false) ;
-
-	} ;
-
-	const deleteProperty = (propertyId: number) => { 
-		setRefreshUser(true) ;
-
-		let atoken = getAccessToken() ;
-
-		let params = {
-			'user_id': user.id,
-			'property_id': propertyId,
-			'access_token': atoken,
-		}
-
-		let requestOptions = {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify(params)
-		}
-
-		const dProp = async () => {
-			await fetch("/delete_property", requestOptions).then(response => {
-				response.json().then(data => {
-					if (data !== false) {
-						if (data === 409) {
-							userLogout() ;
-						}
-					}
-				})
-			}).catch(e => {
-				console.log(e)
-			})
-		}
-
-		dProp() ;
-
-		setRefreshUser(false) ;
-	} ;
-
-	const editProperty = (propertyId: number, street: string, city: string, state: string, zipcode: string, description: string, estimate: string, formData) => { 
-		
-		
-		setRefreshUser(true) ;
-
+		// set request options
 		let requestOptions = {
 			method: "POST",
 			headers: {
@@ -407,225 +51,406 @@ export const UserProvider = ({ children }) => {
 			body: formData
 		}
 
-		const eProp = async () => {
-			await fetch("/edit_property", requestOptions).then(response => {
-				response.json().then(data => {
-					if (data !== false) {
-						if (data === 409) {
-							userLogout() ;
-						} else if (data.rsp_msg === 'property has been updated') {
-							navigate('/dashboard')
-						}
-					}
-				})
-			}).catch(e => {
-				console.log(e)
-			})
-		}
-
-		eProp() ;
-
-		setRefreshUser(false) ;
-
-
-	} ;
-	
-	const fetchProperties = ( ) => { 
-		setRefreshUser(true) ;
-
-		let atoken = getAccessToken() ;
-		
-		let params = {
-			'user_id': user.id,
-			'access_token': atoken,
-		}
-
-
-		let requestOptions = {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify(params)
-
-		}
-
-		const getProps = async () => {
-			await fetch("/get_properties", requestOptions).then(response => {
-				response.json().then(data => {
-					if (data !== false) {
-						if (data === 409) {
-							userLogout() ;
-						} else if (data === 411)
-						{ return { status :"No Properties" } ; }
-						else {
-							let authorized_properties = undefined ;
-							let owned_properties = undefined ;
-							if (data.authorized_properties[0] !== undefined) {
-								authorized_properties = data.authorized_properties ;
-								
+		const register = async () => {
+			// send request
+			await fetch("/setup_account", requestOptions).then(
+				// after successful call to api, convert response to JSON
+				response => {
+					response.json().then(
+						// get returned information
+						data => { 
+							// do stuff with returned information
+							if (data.rsp_msg === 'user has been setup') {
+								// alert user to check email.
+								window.alert('Please check your email for login information') ;
+							} else {
+								// warn user registration failed
+								window.alert('Something went wrong; please try again') ;
 							}
-							if (data.owned_properties[0] !== undefined) {
-								owned_properties = data.owned_properties ;
-							}
-
-							setProperties({
-								"authorized_properties": authorized_properties,
-								"owned_properties": owned_properties,
-							}) ;
 						}
-					}
-				})
-			}).catch(e => {
+					)
+				}
+			).catch(e => {
+				// general catch all
 				console.log(e)
 			})
 		}
 
-		
+		// run api call
 		setRefreshUser(false) ;
-		getProps() ;
-	} ;
-	
-	const refreshAccessToken = () => { 
-
-		let params = {
-			'user_id' : user.id
-		}
-
-		let requestOptions = {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify(params)
-		}
-
-
-		const refreshAToken = async () => {
-			await fetch("/refresh_access_token", requestOptions).then(response => {
-				response.json().then(data => {
-					if (data !== false) {
-						if (data === 408) {
-							userLogout() ;
-						}
-						setToken(data.access_token) ;
-					}
-				})
-			}).catch(e => {
-				console.log(e)
-			})
-		}
-
-		refreshAToken() ;
-		setRefreshUser(false) ;
-
-	} ;
-	
-	const authorizeUser = (email: string) => {
-		setRefreshUser(true) ;
-		
-		let atoken = getAccessToken() ;
-
-		let params = {
-			'user_id': user.id,
-			'email_of_authorized': email,
-			'access_token' : atoken
-		}
-
-		let requestOptions = {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify(params)
-		}
-
-
-		const authorize = async () => {
-			await fetch("/authorize_user", requestOptions).then(response => {
-				response.json().then(data => {
-					if (data !== false) {
-						if (data === 409) {
-							userLogout() ;
-						}
-
-					}
-				})
-			}).catch(e => {
-				console.log(e)
-			})
-		}
-
-		authorize() ;
-
-		setRefreshUser(false) ;
-	}
-	
-	const deauthorizeUser = (email: string) => {
-		setRefreshUser(true) ;
-
-		let atoken = getAccessToken() ;
-		
-		let params = {
-			'user_id': user.id,
-			'email_of_authorized': email,
-			'access_token': atoken
-		}
-
-		let requestOptions = {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify(params)
-		}
-
-
-		const remove = async () => {
-			await fetch("/deauthorize_user", requestOptions).then(response => {
-				response.json().then(data => {
-					if (data !== false) {
-						if (data === 409) {
-							userLogout() ;
-						}
-					}
-				})
-			}).catch(e => {
-				console.log(e)
-			})
-		}
-
-		remove() ;
-		setRefreshUser(false) ;
+		register() ;
 
 	}
-	
-	const test = () => {
+
+	const editUser = (formData: FormData) => {
+		// get userInfo 
 		setRefreshUser(true) ;
 		
-		const test = async () => await fetch("/hello").then(response => {
-			response.json().then(data => {
+		// set request options
+		let requestOptions = {
+			method: "POST",
+			headers: {
+				"Content-Type": "multipart/form-data"
+			},
+			body: formData
+		}
+	
+		const eUser = async () => {
+			// send request
+			await fetch("/edit_user", requestOptions).then(
+				// after successful call to api, convert response to JSON
+				response => {
+					response.json().then(
+						// get returned information
+						data => { 
+							// do stuff with returned information
+							if (data.rsp_msg === 'User has been updated') {
+								// alert user account update was successful.
+								window.alert('Update Successful') ;
+							} else if (data === 401) { 
+								// email already exits in db
+								window.alert("Email already exists on file. Please enter another email.")
+									
+							} else {
+								// warn user of general failure
+								window.alert('Something went wrong; please try again') ;
+							}
+						}
+					)
+				}
+			).catch(e => {
+				console.log(e)
 			})
-		}).catch(e => {
-			console.log(e)
-		})
-
-		test() ;
+		}
+	
+		// run api call
 		setRefreshUser(false) ;
+		eUser() ;
+	
+		
+	}
+
+	const userLogin = (formData:FormData) => {
+		// get userInfo 
+		setRefreshUser(true) ;
+		
+		// set request options
+		let requestOptions = {
+			method: "POST",
+			headers: {
+				"Content-Type": "multipart/form-data"
+			},
+			body: formData
+		}
+
+		const login = async () => {
+			// send request
+			await fetch("/login_user", requestOptions).then(
+				// after successful call to api, convert response to JSON
+				response => {
+					response.json().then(
+						// get returned information
+						data => { 
+							// do stuff with returned information
+							if (data.user !== null || undefined) {
+								// store user id
+								setUser({
+									authenticated: true,
+									id: data.user.user_id
+								})
+								// navigate to dash or first-time account edit
+								if (data.placeholder === 'placeholder') {
+									let options = 'Setup' ;
+									navigate('/account-preferences' , { state: { options } })
+								} else {
+									navigate('/dashboard')
+								}
+							} else {
+								// warn user of general failure
+								window.alert('Something went wrong; please try again') ;
+							}
+						}
+					)
+				}
+			).catch(e => {
+				console.log(e)
+			})
+		}
+
+		// run api call
+		setRefreshUser(false) ;
+		login() ;
+		
 	} ;
 
-	const testToken = (t: any) => {
-		setToken(t) ;
-	} ;
+	const getUser = () => {
+		// get userInfo 
+		setRefreshUser(true) ;
 
+		const formData = new FormData() ;
+		formData.append('user_id', user.id!.toString()) ;
+		
+		// set request options
+		let requestOptions = {
+			method: "POST",
+			headers: {
+				"Content-Type": "multipart/form-data"
+			},
+			body: formData
+		}
+
+		const gUser= async () => {
+			// send request
+			await fetch("/get_user", requestOptions).then(
+				// after successful call to api, convert response to JSON
+				response => {
+					response.json().then(
+						// get returned information
+						data => { 
+							// do stuff with returned information
+							if (data.user !== null || undefined) {
+								// return user data
+								return data.user
+							} else {
+								// warn user of general failure
+								window.alert('Something went wrong; please try again') ;
+							}
+						}
+					)
+				}
+			).catch(e => {
+				console.log(e)
+			})
+		}
+
+		// return async function
+		setRefreshUser(false) ;
+		return gUser() ;
+	}
+
+
+	const addItem = (formData: FormData) => {
+		// get userInfo 
+		setRefreshUser(true) ;
+		
+		// set request options
+		let requestOptions = {
+			method: "POST",
+			headers: {
+				"Content-Type": "multipart/form-data"
+			},
+			body: formData
+		}
+
+		const aItem= async () => {
+			// send request
+			await fetch("/add_item", requestOptions).then(
+				// after successful call to api, convert response to JSON
+				response => {
+					response.json().then(
+						// get returned information
+						data => { 
+							// do stuff with returned information
+							if (data.rsp_msg === 'item has been added') {
+								// navigate back to dashboard
+								navigate('/dashboard')
+							} else {
+								// warn user of general failure
+								window.alert('Something went wrong; please try again') ;
+							}
+						}
+					)
+				}
+			).catch(e => {
+				console.log(e)
+			})
+		}
+
+		// call api 
+		setRefreshUser(false) ;
+		aItem() ;
+	}
+
+	const editItem = (formData: FormData) => {
+		// get userInfo 
+		setRefreshUser(true) ;
+		
+		// set request options
+		let requestOptions = {
+			method: "POST",
+			headers: {
+				"Content-Type": "multipart/form-data"
+			},
+			body: formData
+		}
+
+		const eItem= async () => {
+			// send request
+			await fetch("/edit_item", requestOptions).then(
+				// after successful call to api, convert response to JSON
+				response => {
+					response.json().then(
+						// get returned information
+						data => { 
+							// do stuff with returned information
+							if (data.rsp_msg === 'item has been edited') {
+								// navigate back to dashboard
+								navigate('/dashboard')
+							} else {
+								// warn user of general failure
+								window.alert('Something went wrong; please try again') ;
+							}
+						}
+					)
+				}
+			).catch(e => {
+				console.log(e)
+			})
+		}
+
+		// call api 
+		setRefreshUser(false) ;
+		eItem() ;
+	}
+
+	const deleteItem = (formData: FormData) => {
+		// get userInfo 
+		setRefreshUser(true) ;
+		
+		// set request options
+		let requestOptions = {
+			method: "POST",
+			headers: {
+				"Content-Type": "multipart/form-data"
+			},
+			body: formData
+		}
+
+		const dItem= async () => {
+			// send request
+			await fetch("/delete_item", requestOptions).then(
+				// after successful call to api, convert response to JSON
+				response => {
+					response.json().then(
+						// get returned information
+						data => { 
+							// do stuff with returned information
+							if (data.rsp_msg === 'item has been deleted') {
+								// navigate back to dashboard
+								navigate('/dashboard')
+							} else {
+								// warn user of general failure
+								window.alert('Something went wrong; please try again') ;
+							}
+						}
+					)
+				}
+			).catch(e => {
+				console.log(e)
+			})
+		}
+
+		// call api 
+		setRefreshUser(false) ;
+		dItem() ;
+	}
+	
+	const getItems = () => {
+		// get userInfo 
+		setRefreshUser(true) ;
+
+		const formData = new FormData() ;
+		formData.append('user_id', user.id!.toString()) ;
+		
+		// set request options
+		let requestOptions = {
+			method: "POST",
+			headers: {
+				"Content-Type": "multipart/form-data"
+			},
+			body: formData
+		}
+
+		const gItems= async () => {
+			// send request
+			await fetch("/get_items", requestOptions).then(
+				// after successful call to api, convert response to JSON
+				response => {
+					response.json().then(
+						// get returned information
+						data => { 
+							// do stuff with returned information
+							if (data.items !== null||undefined) {
+								// return list of items
+								return data.items
+							} else {
+								// warn user of general failure
+								window.alert('Something went wrong; please try again') ;
+							}
+						}
+					)
+				}
+			).catch(e => {
+				console.log(e)
+			})
+		}
+
+		// return async fucntion 
+		setRefreshUser(false) ;
+		return gItems() ;
+	}
+
+	const downloadItems = () => {
+		// get userInfo 
+		setRefreshUser(true) ;
+
+		const formData = new FormData() ;
+		formData.append('user_id', user.id!.toString()) ;
+		
+		// set request options
+		let requestOptions = {
+			method: "POST",
+			headers: {
+				"Content-Type": "multipart/form-data"
+			},
+			body: formData
+		}
+
+		const gItems= async () => {
+			// send request
+			await fetch("/get_items_download", requestOptions).then(
+				// after successful call to api, convert response to JSON
+				response => {
+					response.json().then(
+						// get returned information
+						data => { 
+							// do stuff with returned information
+							if (data.items !== null||undefined) {
+								// return list of items
+								return data.items
+							} else {
+								// warn user of general failure
+								window.alert('Something went wrong; please try again') ;
+							}
+						}
+					)
+				}
+			).catch(e => {
+				console.log(e)
+			})
+		}
+
+		// return async fucntion 
+		setRefreshUser(false) ;
+		return gItems() ;
+	}
 	
 
 	return (
 		<UserContext.Provider value={{
-			user, getAccessToken, userLogin, userRegistration, userLogout,
-			deleteUser, editUser, getUserInfo, addProperty, deleteProperty, editProperty, fetchProperties,
-			refreshAccessToken, authorizeUser, deauthorizeUser, properties,
-			test, testToken
+			setupAccount, editUser, userLogin, getUser,
+			addItem, editItem, deleteItem, getItems, downloadItems
+			
 		}}>
 			{children}
 		</UserContext.Provider>

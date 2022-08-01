@@ -8,7 +8,7 @@ const RedirectRoute = () => {
 	const { user } = useUser() ;
 
 	return (
-		user.authenticated ?
+		user && user.authenticated ?
 			<Navigate to="/dashboard"/>:
 			<Outlet /> 
 	) ;

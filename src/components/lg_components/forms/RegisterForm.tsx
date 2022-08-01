@@ -2,7 +2,8 @@ import React, { useState } from 'react' ;
 import { useUser } from '../../../global/authorization/UserContext' ;
 import Button from '../../sm_components/Button' ;
 import EmailField from '../../sm_components/validator_fields/EmailField' ;
-import AgeCheck from '../../sm_components/validator_fields/AgeCheck' ;
+import NameField from '../../sm_components/validator_fields/NameField' ;
+import AccountType from '../../sm_components/validator_fields/AccountType' ;
 
 
 const RegisterForm = ({ handleClickRegister, register }) => {
@@ -10,20 +11,40 @@ const RegisterForm = ({ handleClickRegister, register }) => {
 	// Registration Validation.
 	const [email, setEmail] = useState('') ;
 	const [validEmail, setValidEmail] = useState(false) ;
+	const [firstName, setFirstName] = useState('') ;
+	const [lastName, setLastName] = useState('') ;
+	const [validName, setValidName] = useState(false) ;
+	const [accountType, setAccountType] = useState('')
 	
 
-	const { userRegistration } = useUser() ;
+	const { setupAccount } = useUser() ;
     
 
 	const handleValidRegistration = () => {
         
-		if (validEmail) {
+		if (validEmail && validName && accountType !== '') {
 			return false ;
 		}
 		else {
 			return true ;
 		}
 		
+	}
+
+	const handleChangeAccountType = (str:string) => {
+		setAccountType(str)
+	}
+
+	const handleSetupAccount = (e) => {
+		e.preventDefault() ;
+		const formData = new FormData() ;
+
+		formData.append('email', email) ;
+		formData.append('firstname', firstName) ;
+		formData.append('lastname', lastName) ;
+		formData.append('manager', accountType) ;
+		
+		setupAccount(formData) ;
 	}
         
 
@@ -50,12 +71,25 @@ const RegisterForm = ({ handleClickRegister, register }) => {
 					</div> :
                     
 					// display menu
-						<div className=' absolute right-0 top-[4.5rem] min-h-dropdown-menu-register max-h-dropdown-menu-mobile-register h-auto w-dropdown-menu min-w-[25rem] bg-sky-200 bg-opacity-95'>
-							<div className='grid grid-rows-6 min-h-dropdown-menu-register max-h-dropdown-menu-mobile-register p-3'>
+						<div className=' absolute right-0 top-[4.5rem] min-h-[5rem]  h-auto w-dropdown-menu min-w-[25rem] bg-sky-200 bg-opacity-95'>
+							<div className='grid grid-rows-5 min-h-[5rem] max-h-dropdown-menu-mobile-register h-auto p-3'>
 								{/* Email field */}
 								<div className='row-span-1 my-4 flex items-center justify-center'>
-									< EmailField size={25} required={true} setEmail={setEmail} handleValid={setValidEmail} />
+									< EmailField size={25} required={true} setEmail={setEmail} handleValid={setValidEmail} text={"Enter your email"} />
 								</div>
+
+								{/* Name field */}
+								<div className='row-span-1 flex items-center justify-center'>
+									< NameField size={25} required={true} setName={setFirstName} handleValid={setValidName} type={"First"} />
+								</div>
+								<div className='row-span-1 flex items-center justify-center'>
+									< NameField size={25} required={true} setName={setLastName} handleValid={setValidName } type={"Last"}/>
+								</div>
+
+								{/* Account Type field */}
+                            	<div className='row-span-1 my-2 flex items-center justify-center'>
+									< AccountType setType={handleChangeAccountType} />
+                            	</div>
 
 								{/* "Submit" and "Cancel Button" */}
                             
@@ -68,10 +102,7 @@ const RegisterForm = ({ handleClickRegister, register }) => {
 										hoverColor='hover:bg-sky-500'
 										disable={handleValidRegistration()}
 										// set later
-										onClick={(e) => {
-											e.preventDefault() ;
-											userRegistration(email) ;
-										}}
+										onClick={handleSetupAccount}
 									/>
 
 									< Button

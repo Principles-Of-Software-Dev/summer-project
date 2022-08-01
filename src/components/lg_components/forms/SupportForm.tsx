@@ -11,8 +11,8 @@ import { useNavigate } from 'react-router-dom' ;
 
 const SupportForm = () => {
 
-	const [text, setText] = useState('') ;
-	const [validText, setValidText] = useState(false) ;
+	const [message, setMessage] = useState('') ;
+	const [validMessage, setValidMessage] = useState(false) ;
 	const [email, setEmail] = useState('') ;
 	const [validEmail, setValidEmail] = useState(false) ;
 	const [firstName, setFirstName] = useState('') ;
@@ -29,11 +29,24 @@ const SupportForm = () => {
 
 	const handleCompleteForm = () => {
 
-		if (validText && validEmail && validName && validTitle && validPhone) {
+		if (validMessage && validEmail && validName && validTitle && validPhone) {
 			return false
 		} else {
 			return true
 		}
+	}
+
+	const handleSubmitRequest = (e) => {
+		e.preventDefault() ;
+		const formData = new FormData() ;
+		formData.append('email', email) ;
+		formData.append('firstname', firstName) ;
+		formData.append('lastname', lastName) ;
+		formData.append('phone', phone) ;
+		formData.append('title', title) ;
+		formData.append('message', message ) ;
+			
+			
 	}
 
 
@@ -57,10 +70,10 @@ const SupportForm = () => {
 
 				{/* Email Field */}
 				<div className='lg:hidden flex items-center justify-center row-span-1 col-span-1'>
-					<EmailField size={15} required={true} setEmail={setEmail} handleValid={setValidEmail} />
+					<EmailField size={15} required={true} setEmail={setEmail} handleValid={setValidEmail} text={"Email"} />
 				</div>
 				<div className='lg:flex hidden items-center justify-center row-span-1 col-span-1'>
-					<EmailField size={22} required={true} setEmail={setEmail} handleValid={setValidEmail} />
+					<EmailField size={22} required={true} setEmail={setEmail} handleValid={setValidEmail} text={"Email"} />
 				</div>
 
 				{/* Phone Field */}
@@ -77,7 +90,7 @@ const SupportForm = () => {
 				</div>
 				{/* Message */}
 				<div className='flex items-center justify-center row-span-2 col-span-2'>
-					<TextField text_length={50} required={true} setText={setText} handleValid={setValidText} type={"Message"} largeArea={true} />
+					<TextField text_length={50} required={true} setText={setMessage} handleValid={setValidMessage} type={"Message"} largeArea={true} />
 				</div>
 				<div className='flex items-center justify-end row-span-1 col-span-2 mx-4 my-2'>
 					<Button
@@ -86,9 +99,9 @@ const SupportForm = () => {
 						buttonText='Submit'
 						textColor='text-c-white'
 						hoverColor='hover:bg-sky-500'
-						disable={false}
+						disable={handleCompleteForm()}
 						// set later
-						onClick={test}
+						onClick={handleSubmitRequest}
 					/>
 					<Button
 						height="h-xsmall-button"

@@ -4,7 +4,6 @@ import LoginBar from '../components/lg_components/LoginBar' ;
 import "../styles/GlobalStyle.css" ;
 import { Helmet } from 'react-helmet' ;
 import LandingPageContent from '../components/lg_components/LandingPageContent' ;
-import { useUser } from '../global/authorization/UserContext' ;
 
 const LandingPage = () => {
 	return (

@@ -1,36 +1,13 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
 
 
-const StateField = ({ handleValid, required , ...rest }) => {
-	let select ;
-	let initial = null ;
-
-	useEffect(() => { 
-		select = document.getElementById('state') ;
-		console.log(select)
-	}, [])
+const StateField = ({ handleValid, setState, required , ...rest }) => {
 	
-	if (rest != null) {
-		handleValid(true) ;
-		initial = rest.storedVal ;
-	}
-
-	const handleStateSelect = () => {
-		console.log(select.options[select.selectedIndex].value) ;
-		if (select.options[select.selectedIndex].value !== "") {
-			handleValid(true) ;
-		} else {
-			handleValid(false) ;
-		}
-		
-		if (initial != null) {
-			if (initial !== select.options[select.selectedIndex].value) {
-				rest.changed(true) ;
-			} else {
-				rest.changed(false) ;
-			}
-		}
+	const handleStateSelect = (e) => {
+		e.preventDefault()
+		console.log(e.target.value) ;
+		setState(e.target.value)
 	}
     
 	return (
@@ -38,7 +15,6 @@ const StateField = ({ handleValid, required , ...rest }) => {
 			<label htmlFor="state" > Select State: </label>
 			<select id='state'
 				required={required}
-				form='PropertyForm'
 				name='State List'
 				onChange={handleStateSelect}>
 				<option value="">--State--</option>

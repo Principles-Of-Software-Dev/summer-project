@@ -5,7 +5,7 @@ import { UserCircleIcon } from '@heroicons/react/outline' ;
 import UserLinks from '../sm_components/UserLinks' ;
 
 
-const PopoutMenu = ({ handleDisplayLogout, userId, handleAddProperty }) => {
+const PopoutMenu = ({ handleDisplayLogout, userId, handleAddItem }) => {
     
 	const navigate = useNavigate() ;
 	const [displayPopoutMenu, setDisplayPopoutMenu] = useState(false) ; 
@@ -16,11 +16,25 @@ const PopoutMenu = ({ handleDisplayLogout, userId, handleAddProperty }) => {
 	}
 	
 	const handleAccountPreferences = () => {
-		navigate('/account-preferences') ;
+
+		let options = 'Edit'
+		navigate('/account-preferences', { state: { options } })
 	}
 	
 	const handleContactUs = () => {
 		navigate('/support') ;
+	}
+
+	const downloadItems = () => {
+
+		
+		const file = new Blob(["hello world"], {
+		  type: "text/plain"
+		}) ;
+		// element.href = URL.createObjectURL(file);
+		// element.download = "myFile.txt";
+		// document.body.appendChild(element);
+		// element.click();
 	}
 
 
@@ -51,18 +65,18 @@ const PopoutMenu = ({ handleDisplayLogout, userId, handleAddProperty }) => {
               			<UserLinks text={"Contact Us"} handleClick={handleContactUs} />
               		</div>
               		<div className='flex items-center justify-end row-span-1 my-2'>
-              			<UserLinks text={"Download All Properties"} handleClick={true} />
+              			<UserLinks text={"Download All Items"} handleClick={true} />
               		</div>
 						
               		<div className='md:hidden flex items-center justify-end row-span-1 my-2'>
               			<Button
               				height="h-xsmall-button"
               				color='bg-zinc-400'
-              				buttonText='Add Property'
+              				buttonText='Add Item'
               				textColor='text-c-white'
               				hoverColor='hover:bg-zinc-500'
               				disable={false}
-              				onClick={handleAddProperty}
+              				onClick={handleAddItem}
               			/>
               		</div>
               	</div>

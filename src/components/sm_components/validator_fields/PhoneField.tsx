@@ -83,8 +83,9 @@ const PhoneField = ({ size, setPhone, handleValid, required, ...rest }) => {
 					type="tel"
 					onChange={handlePhoneChange}
 					onBlur={handleSetErrMsg}
-					size={size}
-					defaultValue={ rest.storedVal != null ? rest.storedVal : null}
+					placeholder={!required ? 'Optional': 'Required'}
+					defaultValue={rest.storedVal != null ? rest.storedVal : null}
+					className='px-2 rounded-md w-most'
 				/>
 			</div>
 

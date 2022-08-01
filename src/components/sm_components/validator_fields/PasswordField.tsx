@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 
-const PasswordField = ({ size , required, setPassword, handleValid }) => {
+const PasswordField = ({ size , required, setPassword, handleValid, text }) => {
 
 	// * copy the line below to parent component and pass "password and setPassword as parameters"
 	// const [password, setPassword] = useState('');
@@ -49,17 +49,18 @@ const PasswordField = ({ size , required, setPassword, handleValid }) => {
 
 	return (
 	// Start actual code.
-		<span className='grid grid-rows-7 mx-6'>
+		<span className='grid grid-rows-7 mx-6 w-full'>
 			<label className='row-span-3 mb-2 flex items-center justify-start'>
-        Password* :
+				{text} { required && "*"} :
 			</label>
-			<div className='rows-span-3 mb-2 flex items-center justify-start mx-2 flex-wrap'>
+			<div className='rows-span-3 mb-2 flex items-center justify-center mx-2 flex-wrap'>
 				<input
 					type="password"
 					onChange={handlePasswordChange}
 					onBlur={handleSetErrMsg}
-					required
-					size={size}
+					required={required}
+					placeholder={!required ? 'Optional': 'Required'}
+					className="px-2 rounded-md w-most"
 				/>
 				{passwordErr &&
           <div className='max-w-full flex items-end justify-center mx-3 text-red-500 text-sm p-4 '>

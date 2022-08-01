@@ -1,16 +1,14 @@
 import React, { useState } from 'react'
 
 
-const EmailField = ({ size, required, setEmail, handleValid, ...rest }) => {
+const EmailField = ({ size, required, setEmail, handleValid, text, ...rest }) => {
 
 	// * copy the line below to parent component and pass "email and setEmail as parameters"
 	// const [email, setEmail] = useState('');
 	const [emailErr, setEmailErr] = useState(false) ;
-	let initial = null ;
 
 	if (rest  != null) {
 		handleValid(true) ;
-		initial = rest.storedVal ;
 	}
 
     
@@ -31,37 +29,16 @@ const EmailField = ({ size, required, setEmail, handleValid, ...rest }) => {
 				setEmail(email) ;
 				handleValid(true) ;
 				if (emailErr) { setEmailErr(false) }
-				if (initial != null) {
-					if (initial !== e.target.value) {
-						rest.changed(true) ;
-					} else {
-						rest.changed(false) ;
-					}
-				}
 				return false ;
 			}
 			else {
 				handleValid(false) ;
-				if (initial != null) {
-					if (initial !== e.target.value) {
-						rest.changed(true) ;
-					} else {
-						rest.changed(false) ;
-					}
-				}
 				return true ;
 			}
 		} else {
 			setEmail(email) ;
 			if (emailErr) { setEmailErr(false) }
 			handleValid(true) ;
-			if (initial != null) {
-				if (initial !== e.target.value) {
-					rest.changed(true) ;
-				} else {
-					rest.changed(false) ;
-				}
-			}
 			return false ;
 		}
     
@@ -74,17 +51,18 @@ const EmailField = ({ size, required, setEmail, handleValid, ...rest }) => {
 	return (
 
 	// Start actual code.
-		<span className='grid grid-rows-7 mx-6 max-h-full '>
+		<span className='grid grid-rows-7 mx-6 max-h-full w-full '>
 			<label className='row-span-3 mb-2 flex items-center justify-start'>
-        Email* :
+				{text} {required && '*'} :
 			</label>
-			<div className='rows-span-3 mb-2 flex items-center justify-start mx-2 max-w-half'>
+			<div className='rows-span-3 mb-2 flex items-center justify-center mx-2 max-w-full' >
 				<input
 					type="email"
 					onChange={handleEmailChange}
 					onBlur={handleSetErrMsg}
 					required={required}
-					size={size}
+					placeholder={!required ? 'Optional': 'Required'}
+					className="px-2 rounded-md w-most"
 					defaultValue={ rest.storedVal != null ? rest.storedVal : null}
 				/>
 			</div>
@@ -92,7 +70,7 @@ const EmailField = ({ size, required, setEmail, handleValid, ...rest }) => {
 			{/* If email not valid format, display error.  */}
 			{emailErr &&
           <div className='flex items-end justify-center mx-3 text-red-500 text-sm p-4'>
-            Invalid email!
+            Email is not in the correct format!
           </div>  
 			}
       

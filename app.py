@@ -1,29 +1,28 @@
-from fileinput import filename
-import json
 import secrets
 import os
-from urllib import response
 import uuid
 from os.path import dirname, abspath, exists
 from datetime import datetime, timedelta
-from flask import Flask, request, jsonify, send_from_directory, redirect, url_for, send_file
+from flask import Flask, request, jsonify, redirect, url_for, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from sqlalchemy import ForeignKey
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
+import smtplib
+import base64
 from flask_cors import CORS, cross_origin
-from io import BytesIO
 
-basedir = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__, static_folder='build', static_url_path='')
 CORS(app)
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + \
 #    os.path.join(basedir, 'data.sqlite')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://fcdzhqckiozqbr:f6059a11cdec03755c9ac2f1fe6a6527576aefeecdc3f22b88ca865aa7d37dd2@ec2-54-208-104-27.compute-1.amazonaws.com:5432/dpk9devsr60ge'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://awsgyvkleqkgyq:53d519f5a884febc6d5196f1ef269425e9bd50a031321265d7f2e1b6ef02dfdd@ec2-3-223-242-224.compute-1.amazonaws.com:5432/d42ob7daa9e0p5'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-admin_emails = ['admin@email.com']
+upload_dir = os.path.join(dirname(dirname(abspath(__file__))), 'assets')
+app.config['UPLOAD_FOLDER'] = upload_dir
 
+admin_emails = ['admin@email.com']
 
 # DATABASE SETUP
 db = SQLAlchemy(app)
@@ -31,39 +30,32 @@ Migrate(app, db)
 
 
 class users(db.Model):
-    admin = db.Column(db.Integer, nullable=False)
-    organization = db.Column(db.Integer)
+
     id_user = db.Column(db.Integer, primary_key=True)
     firstName = db.Column(db.Text, nullable=False)
     lastName = db.Column(db.Text, nullable=False)
-    address = db.Colum(db.Text)
-    dob = db.Column(db.Text)
-    email = db.Column(db.Text, nullable=False, unique=True)
-    password = db.Column(db.Text, nullable=False)
-    items = db.Column(db.Text)
-    authorized_to_me = db.Column(db.Text)
+    #dob = db.Column(db.Text)
+    street = db.Column(db.Text)
+    city = db.Column(db.Text)
+    state = db.Column(db.Text)
+    zipcode = db.Column(db.Integer)
+    email = db.Column(db.Text, unique=True)
+    password = db.Column(db.Text)
+    manager = db.Column(db.Text)
     authorized_to = db.Column(db.Text)
-    access_token = db.Column(db.Text)
-    access_token_expr = db.Column(db.Integer)
-    session_token = db.Column(db.Text)
-    session_token_expr = db.Column(db.Integer)
+    items = db.Column(db.Text)
 
-    def __init__(self, admin, organization, firstName, lastName, address, dob, email, password, items, authorized_to, authorized_to_me, access_token, access_token_expr, session_token, session_token_expr):
-        self.admin = admin
-        self.organization = organization
+    def __init__(self, firstName, lastName, street, city, state, zipcode, email, password, manager):
         self.firstName = firstName
         self.lastName = lastName
-        self.address = address
-        self.dob = dob
+       # self.dob = dob
+        self.street = street
+        self.city = city
+        self.state = state
+        self.zipcode = zipcode
         self.email = email
         self.password = password
-        self.items = items
-        self.authorized_to = authorized_to
-        self.authorized_to_me = authorized_to_me
-        self.access_token = access_token
-        self.access_token_expr = access_token_expr
-        self.session_token = session_token
-        self.session_token_expr = session_token_expr
+        self.manager = manager
 
     def as_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
@@ -75,8 +67,9 @@ class users(db.Model):
 class items(db.Model):
 
     id_item = db.Column(db.Integer, primary_key=True)
-    description = db.Column(db.Text, nullable=False)
-    estimate = db.Column(db.Integer, nullable=False)
+    name = db.Column(db.Text)
+    description = db.Column(db.Text)
+    estimate = db.Column(db.Integer)
     photos = db.Column(db.Text)
     videos = db.Column(db.Text)
     belongs_to = db.Column(db.Integer, db.ForeignKey(
@@ -84,7 +77,8 @@ class items(db.Model):
 
     users = db.relationship('users', backref='user', uselist=False)
 
-    def __init__(self, description, estimate, photos, videos, belongs_to):
+    def __init__(self, name, description, estimate, photos, videos, belongs_to):
+        self.name = name
         self.description = description
         self.estimate = estimate
         self.photos = photos
@@ -98,18 +92,15 @@ class items(db.Model):
 class photos(db.Model):
 
     id_photo = db.Column(db.Integer, primary_key=True)
-    data = db.Column(db.LargeBinary)
+    path = db.Column(db.Text, nullable=False)
     belongs_to = db.Column(db.Integer, db.ForeignKey(
-        'properties.id_property'), nullable=False)
-    filename = db.Column(db.String)
+        'items.id_item'), nullable=False)
 
-    properties = db.relationship(
-        'properties', backref='photo_property', uselist=False)
+    properties = db.relationship('items', backref='photo_item', uselist=False)
 
-    def __init__(self, data, belongs_to, filename):
-        self.data = data
+    def __init__(self, path, belongs_to):
+        self.path = path
         self.belongs_to = belongs_to
-        self.filename = filename
 
     def as_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
@@ -118,18 +109,15 @@ class photos(db.Model):
 class videos(db.Model):
 
     id_video = db.Column(db.Integer, primary_key=True)
-    data = db.Column(db.LargeBinary)
+    path = db.Column(db.Text, nullable=False)
     belongs_to = db.Column(db.Integer, db.ForeignKey(
-        'properties.id_property'), nullable=False)
-    filename = db.Column(db.String)
+        'items.id_item'), nullable=False)
 
-    properties = db.relationship(
-        'properties', backref='video_property', uselist=False)
+    properties = db.relationship('items', backref='video_item', uselist=False)
 
-    def __init__(self, data, belongs_to, filename):
-        self.data = data
+    def __init__(self, path, belongs_to):
+        self.path = path
         self.belongs_to = belongs_to
-        self.filename = filename
 
     def as_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
@@ -157,265 +145,99 @@ class tickets(db.Model):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
 
-class organizations(db.Model):
-
-    id_organization = db.Column(db.Integer, primary_key=True)
-    users_list = db.Column(db.Text)
-
-    def __init__(self, users_list):
-        self.user_list = users_list
-
-    def as_dict(self):
-        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
-
-
 db.create_all()
 
 
-@app.route('/', defaults={'path': ''})
-@app.route('/<path:path>')
-def index(path):
-    if path != "" and os.path.exists(app.static_folder + '/' + path):
-        return send_from_directory(app.static_folder, path)
-    else:
-        return send_from_directory(app.static_folder, 'index.html')
-
-
-@app.route("/hello")
-def hello():
-    return jsonify({'string': 'Hello World'})
-
-
-@app.route("/add_admin", methods=['POST'])  # FINISHED
-def add_user():
-    request_json = request.get_json()  # get json data
+@app.route("/setup_account", methods=['POST'])
+def setup_account():
 
     # set json data into vars
-    firstname = request_json.get('firstname').lower()
-    lastname = request_json.get('lastname').lower()
-    email = request_json.get('email').lower()
-    password = request_json.get('password')
+    firstname = request.form.get('firstname').lower()
+    lastname = request.form.get('lastname').lower()
+    email = request.form.get('email').lower()
+    manager = request.form.get('manager').lower()
+    print(manager)
 
     # validate if email already exist
     if users.query.filter_by(email=email).first():
         # email already exist
         return jsonify(401)
 
+    password = secrets.token_hex(5)
+
     # add user to database
-    user = users(1, None, firstname, lastname, None, email, generate_password_hash(
-        password), None, None, None, None, None, None, None)
+    user = users(firstname, lastname, None, None, None, None, None,
+                 email, generate_password_hash(password), manager)
     db.session.add(user)
     db.session.commit()
 
-    organization = organizations(user.id_user)
-    db.session.add(organization)
-    db.session.commit()
+    with smtplib.SMTP('smtp.gmail.com', 587) as smtp:
+        smtp.ehlo()
+        smtp.starttls()
+        smtp.ehlo()
+        smtp.login('mercer.jonathancode@gmail.com', 'myqjezytyfvfycmy')
 
-    user.organization = organization.id_organization
-    db.session.commit()
+        subject = 'Login Details'
+        body = 'Your username is ' + email + ' and your password is ' + password
+        msg = f'Subject: {subject}\n\n{body}'
 
-    # generate valid access and session tokens
-    token = generate_access_token(user)
-    ses_token = generate_session_token(user)
-
+        smtp.sendmail('mercer.jonathancode@gmail.com', email, msg)
     # create response object
-    response = jsonify({"user_id": user.id_user, "access_token": token})
-    # add cookie
-    response.set_cookie('session_token', ses_token, httponly=True)
-    # return the new user's id along with tokens
-    return response
-
-
-@app.route("/add_resident", methods=['POST'])  # FINISHED
-def add_user():
-    request_json = request.get_json()  # get json data
-
-    # set json data into vars
-    firstname = request_json.get('firstname').lower()
-    lastname = request_json.get('lastname').lower()
-    email = request_json.get('email').lower()
-    password = request_json.get('password')
-
-    user = users.query.filter_by(email=email).first()
-    if user:
-        if firstname == user.firstname:
-            if lastname == user.lastname:
-                # verified user... do stuff
-                None
-
-    # generate valid access and session tokens
-    token = generate_access_token(user)
-    ses_token = generate_session_token(user)
-
-    # create response object
-    response = jsonify({"user_id": user.id_user, "access_token": token})
-    # add cookie
-    response.set_cookie('session_token', ses_token, httponly=True)
-    # return the new user's id along with tokens
-    return response
-
-
-@app.route("/delete_user", methods=['POST'])
-def delete_user():
-    request_json = request.get_json()  # get json data
-
-    # grab access token
-    access_token = request_json.get('access_token')
-    # was access token passed?
-    if access_token:
-        # set json data into vars
-        user_id = request_json.get('user_id')
-        # is the token valid?
-        if is_token_valid(access_token, "access", user_id):
-            # query for user in db
-            user = users.query.filter_by(id_user=user_id).first()
-            user_item_list = user.items.split(',')
-            for item_id in user_item_list:
-                item = items.query.filter_by(
-                    id_item=item_id).first()
-                photo_ids = item.photos
-                if photo_ids:
-                    photo_ids = item.photos.split(',')
-                    for photo_id in photo_ids:
-                        photo = photos.query.filter_by(
-                            id_photo=int(photo_id)).first()
-                        os.remove(photo.path)
-                        photos.query.filter_by(id_photo=int(photo_id)).delete()
-                video_ids = item.videos
-                if video_ids:
-                    video_ids = item.videos.split(',')
-                    for video_id in video_ids:
-                        video = videos.query.filter_by(
-                            id_video=int(video_id)).first()
-                        os.remove(video.path)
-                        videos.query.filter_by(id_video=int(video_id)).delete()
-
-                properties.query.filter_by(id_property=property_id).delete()
-
-            # delete user from database
-            users.query.filter_by(id_user=user_id).delete()
-            db.session.commit()
-            return jsonify({"rsp_msg": "User has been deleted"})
-        else:
-            # token not valid
-            return jsonify(409)
-    else:
-        # token was missing
-        return jsonify(409)
+    return jsonify({'rsp_msg': 'user has been setup'})
 
 
 @app.route("/edit_user", methods=['POST'])  # FINISHED
 def edit_user():
-    request_json = request.get_json()  # get json data
 
-    # grab access token
-    access_token = request_json.get('access_token')
-    # was access token passed?
-    if access_token:
-        # set json data into vars
-        user_id = request_json.get('user_id')
-        # is the token valid?
-        if is_token_valid(access_token, "access", user_id):
-            # query for user in db
-            user = users.query.filter_by(id_user=user_id).first()
-
-            # see which attributes were included in request and change if specified
-            if 'firstname' in request_json:
-                firstname = request_json.get('firstname').lower()
-                user.firstName = firstname
-            if 'lastname' in request_json:
-                lastname = request_json.get('lastname').lower()
-                user.lastName = lastname
-            if 'dob' in request_json:
-                dob = request_json.get('dob')
-                user.dob = dob
-            if 'email' in request_json:
-                email = request_json.get('email').lower()
-                # validate if email already exist
-                if users.query.filter_by(email=email).first():
-                    return jsonify(401)
-                user.email = email
-            if 'password' in request_json:
-                password = request_json.get('password')
-                user.password = generate_password_hash(password)
-
-            db.session.commit()
-
-            return jsonify({"rsp_msg": "User has been updated"})
-        else:
-            # token not valid
-            return jsonify(409)
-    else:
-        # token was missing
-        return jsonify(409)
-
-
-@app.route("/logout_user", methods=['POST'])  # FINISHED
-def logout_user():
-    request_json = request.get_json()  # get json data
-    user_id = request_json.get('user_id')
-
-    user = users.query.filter_by(id_user=user_id).first()  # get user object
-
-    token = generate_access_token(user)  # generate new tokens but don't return
-    ses_token = generate_session_token(user)
-
-    response = jsonify({'status': 'successful'})
-
-    response.set_cookie('session_token', None)
-
-    return response
-
-
-@app.route("/session_active", methods=['POST'])  # FINISHED
-def session_active():
-    # get session token from cookie
-    session_token = request.cookies.get('session_token')
-    # find if user has session token
-    if users.query.filter_by(session_token=session_token):
-        # query for user with session token
-        user = users.query.filter_by(session_token=session_token).first()
-        # is their token valid
-        if is_token_valid(session_token, 'session'):
-            # generate new access token
-            token = generate_access_token(user)
-            return jsonify({"user_id": user.id_user, "access_token": token})
-        else:
-            # session token is invalid
-            return jsonify(408)
-    else:
-        # no user with token was found
-        return jsonify(408)
-
-
-@app.route("/refresh_access_token", methods=['POST'])  # FINISHED
-def refresh_access_token():
-    request_json = request.get_json()  # get json data
-
-    # set json data into vars
-    user_id = request_json.get('user_id')
-    # get session token from cookie
-    session_token = request.cookies.get('session_token')
-
-    # query for user
+    user_id = request.form.get('user_id')
     user = users.query.filter_by(id_user=user_id).first()
-    # if session token belongs to user and is valid
-    if user.session_token == session_token and is_token_valid(user.session_token, 'session'):
-        # generate new access token
-        access_token = generate_access_token(user)
-        return jsonify({"access_token": access_token})
-    else:
-        # session token is invalid
-        return jsonify(408)
+
+    # see which attributes were included in request and change if specified
+    if request.form.get('firstname') or request.form.get('firstname') != '':
+        firstname = request.form.get('firstname').lower()
+        user.firstName = firstname
+    if request.form.get('lastname') or request.form.get('lastname') != '':
+        lastname = request.form.get('lastname').lower()
+        user.lastName = lastname
+    # if request.form.get('dob') or request.form.get('dob') != '':
+        #dob = request.form.get('dob')
+       # user.dob = dob
+    if request.form.get('street') or request.form.get('street') != '':
+        street = request.form.get('street')
+        user.street = street
+    if request.form.get('city') or request.form.get('city') != '':
+        city = request.form.get('city')
+        user.city = city
+    if request.form.get('state') or request.form.get('state') != '':
+        state = request.form.get('state')
+        user.state = state
+    if request.form.get('zipcode') or request.form.get('zipcode') != '':
+        zipcode = request.form.get('zipcode')
+        user.zipcode = zipcode
+    if request.form.get('email') or request.form.get('email') != '':
+        email = request.form.get('email').lower()
+        # validate if email already exist
+        if users.query.filter_by(email=email).first():
+            return jsonify(401)
+        user.email = email
+    if request.form.get('password') or request.form.get('password') != '':
+        password = request.form.get('password')
+        user.password = generate_password_hash(password)
+    if request.form.get('auth_user') or request.form.get('auth_user') != '':
+        auth_user = request.form.get('auth_user')
+        authorize_user(auth_user, user)
+
+    db.session.commit()
+
+    return jsonify({"rsp_msg": "User has been updated"})
 
 
-@app.route("/login_user", methods=['POST'])  # FINISHED
+@app.route("/login_user", methods=['POST'])
 def login_user():
-    request_json = request.get_json()  # get json data
 
     # set json data into vars
-    email = request_json.get('email').lower()
-    password = request_json.get('password')
+    email = request.form.get('email').lower()
+    password = request.form.get('password')
 
     # query for user
     user = users.query.filter_by(email=email).first()
@@ -423,26 +245,13 @@ def login_user():
     if user:
         # check pass entered vs hashed pass in the db
         if check_password_hash(user.password, password):
-            # generate access and session token
-            token = generate_access_token(user)
-            ses_token = generate_session_token(user)
-
             # create response object
-            response = jsonify(
-                {"user_id": user.id_user, "access_token": token})
-            # add cookie
-            response.set_cookie('session_token', ses_token, httponly=True)
-            # return the new user's id along with tokens
-            return response
-        else:
-            # password does not match
-            return jsonify(403)
-    else:
-        # email does not exist
-        return jsonify(402)
+            user_dict = user.as_dict()
+            del user_dict["password"]
+            return jsonify({"user": user_dict})
 
 
-@app.route("/get_user", methods=['POST'])
+@app.route("/get_user", methods=['GET'])
 def get_user():
     request_json = request.get_json()  # get json data
 
@@ -477,682 +286,160 @@ def get_user():
 
 
 @app.route("/authorize_user", methods=['POST'])
-def authorize_user():
-    request_json = request.get_json()  # get json data
+def authorize_user(auth_user_email, user):
 
-    # grab access token
-    access_token = request_json.get('access_token')
-    # was access token passed?
-    if access_token:
-        # set json data into vars
-        user_id = request_json.get('user_id')
-        # is the token valid?
-        if is_token_valid(access_token, "access", user_id):
-            # set json data into vars
-            email_of_authorized = request_json.get('email_of_authorized')
-            # query for user in db
-            user = users.query.filter_by(id_user=user_id).first()
-            # query for authorized user in db
-            authorized_user = users.query.filter_by(
-                email=email_of_authorized).first()
-            # if authorized email is your own
-            if email_of_authorized == user.email:
-                # cant authorize yourself
-                return jsonify(406)
-            # if authorized user exist
-            elif authorized_user:
-                if authorized_user.authorized_to:
-                    # if authorized user is already authorized
-                    if str(user.id_user) in authorized_user.authorized_to.split(','):
-                        # user already authorized
-                        return jsonify(405)
-                    else:
-                        # append user to authorized_to list
-                        authorized_user.authorized_to = authorized_user.authorized_to + \
-                            ',' + str(user.id_user)
-                else:
-                    # add user to authorized_to list
-                    authorized_user.authorized_to = str(user.id_user)
-
-                if user.authorized_to_me:
-                    if str(authorized_user.id_user) in user.authorized_to_me.split(','):
-                        # user already authorized
-                        return jsonify(405)
-                    else:
-                        # append user to authorized_to_me list
-                        user.authorized_to_me = user.authorized_to_me + \
-                            ',' + str(authorized_user.id_user)
-                else:
-                    # add user to authorized_to_me list
-                    user.authorized_to_me = str(authorized_user.id_user)
-
-                db.session.commit()
-                return jsonify({"rsp_msg": "User has been authorized"})
+    # query for authorized user in db
+    authorized_user = users.query.filter_by(email=auth_user_email).first()
+    # if authorized email is your own
+    if auth_user_email == user.email:
+        # cant authorize yourself
+        return jsonify(406)
+    # if authorized user exist
+    elif authorized_user:
+        if authorized_user.authorized_to:
+            # if authorized user is already authorized
+            if str(user.id_user) in authorized_user.authorized_to.split(','):
+                # user already authorized
+                return jsonify(405)
             else:
-                # user does not exist
-                return jsonify(402)
+                # append user to authorized_to list
+                authorized_user.authorized_to = authorized_user.authorized_to + \
+                    ',' + str(user.id_user)
         else:
-            # token not valid
-            return jsonify(409)
-    else:
-        # token was missing
-        return jsonify(409)
+            # add user to authorized_to list
+            authorized_user.authorized_to = str(user.id_user)
 
-
-@app.route("/deauthorize_user", methods=['POST'])
-def deauthorize_user():
-    request_json = request.get_json()  # get json data
-
-    # grab access token
-    access_token = request_json.get('access_token')
-    # was access token passed?
-    if access_token:
-        # set json data into vars
-        user_id = request_json.get('user_id')
-        # is the token valid?
-        if is_token_valid(access_token, "access", user_id):
-            # set json data into vars
-            email_of_authorized = request_json.get('email_of_authorized')
-
-            # query for user in db
-            user = users.query.filter_by(id_user=user_id).first()
-            # query for authorized user in db
-            authorized_user = users.query.filter_by(
-                email=email_of_authorized).first()
-            # if authorized user exist
-            if authorized_user:
-
-                authorized_to_list = authorized_user.authorized_to.split(',')
-                # is authorized user is already deauthorized
-                if not str(user.id_user) in authorized_to_list:
-                    # user does not exist
-                    return jsonify(402)
-                else:
-                    # remove user to authorized_to list
-                    authorized_to_list.remove(str(user.id_user))
-                    authorized_user.authorized_to = ','.join(
-                        authorized_to_list)
-                    db.session.commit()
-
-                authorized_to_me_list = user.authorized_to_me.split(',')
-                # is authorized user is already deauthorized
-                if not str(authorized_user.id_user) in authorized_to_me_list:
-                    # user does not exist
-                    return jsonify(402)
-                else:
-                    # remove user to authorized_to list
-                    authorized_to_me_list.remove(str(authorized_user.id_user))
-                    user.authorized_to_me = ','.join(authorized_to_me_list)
-                    db.session.commit()
-                    return jsonify({"rsp_msg": "User has been deauthorized"})
-            else:
-                # user does not exist
-                return jsonify(402)
-        else:
-            # token not valid
-            return jsonify(409)
-    else:
-        # token was missing
-        return jsonify(409)
-
-
-@app.route("/add_item", methods=['POST'])  # FINISHED
-def add_property():
-    # request_json = request.get_json()  # get json data
-    print(request.form)
-
-    # grab access token
-    access_token = request.form.get('access_token')
-    # was access token passed?
-    if access_token:
-        # set json data into vars
-        user_id = request.form.get('user_id')
-        # is the token valid?
-        if is_token_valid(access_token, "access", user_id):
-            # query for user in db
-            user = users.query.filter_by(id_user=user_id).first()
-
-            description = request.form.get('description')
-            estimate = request.form.get('estimate')
-            photoslist = request.files.getlist("photos")
-            videoslist = request.files.getlist("videos")
-
-            # enter property in db
-            item = items(description, estimate, None, None, user_id)
-
-            db.session.add(item)
-            db.session.commit()
-
-            # add property to user
-            if user.items:
-                user.items = user.items + \
-                    ',' + str(items.id_item)
-            else:
-                user.properties = str(items.id_item)
-
-            if photoslist or videoslist:
-                for file in photoslist:
-                    photo = photos(
-                        file.read(), items.id_item, file.filename)
-                    db.session.add(photo)
-                    db.session.commit()
-
-                    if items.photos:
-                        items.photos = items.photos + \
-                            ',' + str(photo.id_photo)
-                    else:
-                        items.photos = str(photo.id_photo)
-
-                    for file in videoslist:
-                        video = videos(
-                            file.read(), items.id_item, file.filename)
-                        db.session.add(video)
-                        db.session.commit()
-
-                        if items.videos:
-                            items.videos = items.videos + \
-                                ',' + str(video.id_video)
-                        else:
-                            items.videos = str(video.id_video)
-            else:
-                db.session.flush()
-                return jsonify({"rsp_msg": "failed to add item"})
-            db.session.commit()
-
-            # return redirect(url_for('add_media', access_token=access_token, user_id=user_id, upld_photos=photos, upld_videos=videos, property_id=property.id_property))
-            return jsonify({"rsp_msg": "item has been added"})
-        else:
-            # token not valid
-            return jsonify(409)
-    else:
-        # token was missing
-        return jsonify(419)
-
-
-@app.route("/get_items", methods=['POST'])  # FINISHED
-def get_properties():
-    request_json = request.get_json()  # get json data
-
-    # grab access token
-    access_token = request_json.get('access_token')
-    # was access token passed?
-    if access_token:
-        # set json data into vars
-        user_id = request_json.get('user_id')
-        # is the token valid?
-        if is_token_valid(access_token, "access", user_id):
-            # query for authorized user in db
-            user = users.query.filter_by(id_user=user_id).first()
-            # split string of property ids
-            if user.items:
-                item_list = user.items.split(',')
-                owned_items = []
-                if user.items:
-                    # append a list of properties as a dict
-                    for item_id in item_list:
-                        # query for property
-                        item = items.query.filter_by(
-                            id_property=int(item_id)).first()
-                    # add to list
-                    item_dict = item.as_dict()
-                    photo_ids = item_dict.get('photos')
-                    if photo_ids:
-                        photo_ids = photo_ids.split(',')
-                        photo_list = []
-                        for photo_id in photo_ids:
-                            photo = photos.query.filter_by(
-                                id_photo=int(photo_id)).first()
-                            photo_list.append(
-                                send_file(BytesIO(photo.data), attachment_filename=photo.filename, as_attachment=False))
-                        for photo in photo_list:
-                            return json.dumps(photo)
-                        item_dict['photos'] = photo_list
-
-                    video_ids = item_dict.get('videos')
-                    if video_ids:
-                        video_ids = video_ids.split(',')
-                        video_list = []
-                        for video_id in video_ids:
-                            video = videos.query.filter_by(
-                                id_video=int(video_id)).first()
-                            video_list.append(
-                                send_file(BytesIO(video.data), attachment_filename=video.filename, as_attachment=False))
-                        item_dict['videos'] = video_list
-
-                    owned_items.append(item_dict)
-
-                authorized_items = []
-                # if user is authorized to another user
-                if user.authorized_to:
-                    # split string of user ids that you're authorized to
-                    authorized_to = user.authorized_to.split(',')
-                    for auth_user_id in authorized_to:
-                        auth_user = users.query.filter_by(
-                            id_user=auth_user_id).first()
-                        item_list = auth_user.items.split(',')
-                        if item_list != None:
-                            # append list of properties as a dict
-                            for item_id in item_list:
-                                # query for property
-                                item = items.query.filter_by(
-                                    id_property=int(item_id)).first()
-                                # add to list
-                                item_dict = item.as_dict()
-                                photo_ids = item_dict.get('photos')
-                                if photo_ids:
-                                    photo_ids = photo_ids.split(',')
-                                    photo_list = []
-                                    for photo_id in photo_ids:
-                                        photo = photos.query.filter_by(
-                                            id_photo=int(photo_id)).first()
-                                        photo_list.append(
-                                            send_file(BytesIO(photo.data), attachment_filename=photo.filename, as_attachment=False))
-                                    item_dict['photos'] = photo_list
-
-                                video_ids = item_dict.get('videos')
-                                if video_ids:
-                                    video_ids = video_ids.split(',')
-                                    video_list = []
-                                    for video_id in video_ids:
-                                        video = videos.query.filter_by(
-                                            id_video=int(video_id)).first()
-                                        video_list.append(
-                                            send_file(BytesIO(video.data), attachment_filename=video.filename, as_attachment=False))
-                                    item_dict['videos'] = video_list
-                                authorized_items.append(item_dict)
-            else:
-                # no properties under user
-                return jsonify(411)
-        else:
-            # token not valid
-            return jsonify(409)
-    else:
-        # token was missing
-        return jsonify(409)
-
-
-@app.route("/delete_item", methods=['POST'])  # FINISHED
-def delete_property():
-    request_json = request.get_json()  # get json data
-
-    # grab access token
-    access_token = request_json.get('access_token')
-    # was access token passed?
-    if access_token:
-        # set json data into vars
-        user_id = request_json.get('user_id')
-        # is the token valid?
-        if is_token_valid(access_token, "access", user_id):
-            # set json data into vars
-            item_id = request_json.get('item_id')
-            # query for property in db
-            item = items.query.filter_by(
-                id_property=item_id).first()
-            # # if property exist
-            if item:
-                # query for user in db
-                user = users.query.filter_by(
-                    id_user=item.belongs_to).first()
-            # delete property
-                user_items_list = user.properties.split(',')
-                user_items_list.remove(str(item_id))
-                user.items = ','.join(user_items_list)
-                if user.items == '':
-                    user.item = None
-                    if(item.photos != None):
-                        photo_ids = item.photos.split(',')
-                        for photo_id in photo_ids:
-                            photo = photos.query.filter_by(
-                                id_photo=int(photo_id)).first()
-                            db.session.delete(photo)
-                    if(item.videos != None):
-                        video_ids = item.videos.split(',')
-                        for video_id in video_ids:
-                            video = videos.query.filter_by(
-                                id_video=int(video_id)).first()
-                            db.session.delete(video)
-                    db.session.delete(item)
-
-                db.session.commit()
-                return jsonify({"rsp_msg": "item has been deleted "})
-            else:
-                # property cant be found
-                return jsonify(407)
-        else:
-            # token not valid
-            return jsonify(409)
-    else:
-        # token was missing
-        return jsonify(419)
-
-
-@app.route("/edit_property", methods=['POST'])  # FINISHED
-def edit_property():
-    request_json = request.get_json()  # get json data
-
-    # grab access token
-    access_token = request_json.get('access_token')
-    # was access token passed?
-    if access_token:
-        # set json data into vars
-        user_id = request_json.get('user_id')
-        # is the token valid?
-        if is_token_valid(access_token, "access", user_id):
-            # set json data into vars
-            property_id = request_json.get('property_id')
-            # query for property in db
-            property = properties.query.filter_by(
-                id_property=int(property_id)).first()
-
-            # see which attributes were included in request and change if specified
-            if 'street' in request_json:
-                street = request_json.get('street')
-                property.street = street
-            if 'city' in request_json:
-                city = request_json.get('city')
-                property.city = city
-            if 'state' in request_json:
-                state = request_json.get('state')
-                property.state = state
-            if 'zipcode' in request_json:
-                zipcode = request_json.get('zipcode')
-                property.zipcode = zipcode
-            if 'description' in request_json:
-                description = request_json.get('description')
-                property.description = description
-            if 'estimate' in request_json:
-                estimate = request_json.get('estimate')
-                property.estimate = estimate
-
-            db.session.commit()
-
-            return jsonify({'rsp_mg': "property has been updated"})
-        else:
-            # token not valid
-            return jsonify(409)
-    else:
-        # token was missing
-        return jsonify(409)
-
-
-@app.route("/add_media", methods=['POST'])  # FINISHED
-def add_media(access_token, user_id, upld_photos, upld_videos, property):
-
-    if is_token_valid(access_token, "access", user_id):
-
-        # save file and update path
-        for file in upld_photos:
-            photo = photos(
-                file.read(), property.id_property, file.filename)
-            db.session.add(photo)
-
-            if property.photos:
-                property.photos = property.photos + \
-                    ',' + str(photo.id_photo)
-            else:
-                property.photos = str(photo.id_photo)
-
-        for file in upld_videos:
-            video = videos(
-                file.read(), property.id_property, file.filename)
-            db.session.add(video)
-
-            if property.videos:
-                property.videos = property.videos + \
-                    ',' + str(video.id_video)
-            else:
-                property.videos = str(video.id_video)
         db.session.commit()
+        return jsonify({"rsp_msg": "User has been authorized"})
     else:
-        # token not valid
-        return 409
+        # user does not exist
+        return jsonify(402)
 
 
-@app.route("/add_photo", methods=['POST'])  # FINISHED
-def add_photo():
-
-    # grab access token
-    access_token = request.form.get('access_token')
-    # if access token exist
-    if access_token:
-        # set form data into vars
-        user_id = request.form.get('user_id')
-        # if access token
-        if is_token_valid(access_token, "access", user_id):
-            # grab files uploaded
-            files = request.files.getlist("photos")
-
-            # set json data into vars
-            item_id = request.form.get('item_id')
-            # query for property in db
-            item = items.query.filter_by(
-                id_property=item_id).first()
-
-            # save file and update path
-            for file in files:
-
-                photo = photos(
-                    file.read(), item.id_item, file.filename)
-                db.session.add(photo)
-                db.session.commit()
-
-                if item.photos:
-                    item.photos = item.photos + \
-                        ',' + str(photo.id_photo)
-                else:
-                    item.photos = str(photo.id_photo)
-                db.session.commit()
-
-            return jsonify({"rsp_msg": "Image was uploaded"})
-        else:
-            # token not valid
-            return jsonify(409)
-    else:
-        return jsonify(409)
-
-
-@app.route("/add_video", methods=['POST'])  # FINISHED
-def add_video():
-
-    # grab access token
-    access_token = request.form.get('access_token')
-    # if access token exist
-    if access_token:
-        # set form data into vars
-        user_id = request.form.get('user_id')
-        # if access token
-        if is_token_valid(access_token, "access", user_id):
-            # grab files uploaded
-            files = request.files.getlist("videos")
-
-            # set json data into vars
-            item_id = request.form.get('item_id')
-            # query for property in db
-            item = items.query.filter_by(
-                id_property=item_id).first()
-
-            # save file and update path
-            for file in files:
-                video = videos(
-                    file.read(), item.id_item, file.filename)
-                db.session.add(video)
-                db.session.commit()
-
-                if item.videos:
-                    item.videos = item.photos + \
-                        ',' + str(video.id_video)
-                else:
-                    item.videos = str(item.id_video)
-                db.session.commit()
-
-            return jsonify({"rsp_msg": "Video was uploaded"})
-        else:
-            # token not valid
-            return jsonify(409)
-    else:
-        return jsonify(409)
-
-
-@app.route("/delete_photo", methods=['POST'])  # FINISHED
-def delete_photo():
-    request_json = request.get_json()  # get json data
-
-    # grab access token
-    access_token = request_json.get('access_token')
-    # was access token passed?
-    if access_token:
-        # set json data into vars
-        user_id = request_json.get('user_id')
-        # is the token valid?
-        if is_token_valid(access_token, "access", user_id):
-            # set json data into vars
-            photo_id = request_json.get('photo_id')
-            # query for photo in db
-            photo = photos.query.filter_by(id_photo=photo_id).first()
-            # if photo exist
-            if photo:
-                # query for propety in db
-                item = items.query.filter_by(
-                    id_item=photo.belongs_to).first()
-                # delete photo
-                property_photo_list = property.photos.split(',')
-                property_photo_list.remove(str(photo.id_photo))
-                print(property_photo_list)
-                print('testing')
-                property.photos = ','.join(property_photo_list)
-                os.remove(photo.path)
-                photos.query.filter_by(id_photo=photo_id).delete()
-                db.session.commit()
-                return jsonify({"rsp_msg": "Photo has been deleted"})
-            else:
-                # property cant be found
-                return jsonify(407)
-        else:
-            # token not valid
-            return jsonify(409)
-    else:
-        # token was missing
-        return jsonify(409)
-
-
-@app.route("/delete_video", methods=['POST'])  # FINISHED
-def delete_video():
-    request_json = request.get_json()  # get json data
-
-    # grab access token
-    access_token = request_json.get('access_token')
-    # was access token passed?
-    if access_token:
-        # set json data into vars
-        user_id = request_json.get('user_id')
-        # is the token valid?
-        if is_token_valid(access_token, "access", user_id):
-            # set json data into vars
-            video_id = request_json.get('video_id')
-            # query for video in db
-            video = videos.query.filter_by(id_video=video_id).first()
-            # if video exist
-            if video:
-                # query for propety in db
-                property = properties.query.filter_by(
-                    id_property=video.belongs_to).first()
-                # delete video
-                property_video_list = property.videos.split(',')
-                property_video_list.remove(str(video.id_video))
-                property.videos = ','.join(property_video_list)
-                os.remove(video.path)
-                videos.query.filter_by(id_video=video_id).delete()
-                db.session.commit()
-                return jsonify({"rsp_msg": "Video has been deleted"})
-            else:
-                # property cant be found
-                return jsonify(407)
-        else:
-            # token not valid
-            return jsonify(409)
-    else:
-        # token was missing
-        return jsonify(409)
-
-
-@app.route("/add_ticket", methods=['POST'])
-def add_ticket():
-    request_json = request.get_json()  # get json data
-
-    firstname = request_json.get('firstname')
-    lastname = request_json.get('lastname')
-    email = request_json.get('email')
-    number = request_json.get('number')
-    title = request_json.get('title')
-    message = request_json.get('message')
-
-    ticket = tickets(firstname, lastname, email, number, title, message)
-    db.session.add(ticket)
-    db.session.commit()
-
-    return jsonify({"rsp_msg": "Ticket was uploaded"})
-
-
-@app.route("/delete_ticket", methods=['POST'])
-def delete_ticket():
-    request_json = request.get_json()  # get json data
-
-    ticket_id = request_json.get('ticket_id')
-    ticket = tickets.query.filter_by(id_ticket=ticket_id)
-    if ticket:
-        tickets.query.filter_by(id_ticket=ticket_id).delete()
-        return jsonify({"rsp_msg": "Ticket was uploaded"})
-    else:
-        return jsonify(410)
-
-
-@app.route("/get_tickets", methods=['POST'])
-def get_tickets():
-    ticket_list = []
-    for ticket in tickets.query.all():
-        ticket_list.append(ticket.as_dict())
-    return jsonify(ticket_list)
-
-
-def generate_access_token(user):
-    token = secrets.token_hex(32)
-    token_expr = int((datetime.now() + timedelta(minutes=15)).timestamp())
-    user.access_token = token
-    user.access_token_expr = token_expr
-    db.session.commit()
-    return token
-
-
-def generate_session_token(user):
-    token = secrets.token_hex(32)
-    token_expr = int((datetime.now() + timedelta(days=2)).timestamp())
-    user.session_token = token
-    user.session_token_expr = token_expr
-    db.session.commit()
-    return token
-
-
-def is_token_valid(token, type, user_id=None):
+@app.route("/add_item", methods=['POST'])
+def add_item():
+    # set json data into vars
+    user_id = request.form.get('user_id')
     user = users.query.filter_by(id_user=user_id).first()
-    if type == "access":
-        if user and token == user.access_token:
-            token_expr = user.access_token_expr
-            if int((datetime.now()).timestamp()) > token_expr:
-                return False
-            else:
-                return True
-        else:
-            return False
-    elif type == "session":
-        user = users.query.filter_by(session_token=token).first()
-        if user and token == user.session_token:
-            token_expr = user.session_token_expr
-            if int((datetime.now()).timestamp()) > token_expr:
-                return False
-            else:
-                return True
-        else:
-            return False
+
+    # set json data into vars
+    name = request.form.get('name')
+    description = request.form.get('description')
+    estimate = request.form.get('estimate')
+    photos = request.files.getlist("photos")
+    videos = request.files.getlist("videos")
+
+    photo_array = []
+    for photo in photos:
+        my_string = str(base64.b64encode(photo.read()))[2:-1]
+        photo_array.append((my_string))
+
+    video_array = []
+    for video in videos:
+        my_string = str(base64.b64encode(video.read()))[2:-1]
+        video_array.append(str(my_string))
+
+    # enter property in db
+    item = items(name, description, estimate, str(photo_array)[
+                 2:-2].replace("'", ""), str(video_array)[2:-2].replace("'", ""), user.id_user)
+    db.session.add(item)
+    db.session.commit()
+
+    # add property to user
+    if user.items:
+        user.items = user.items + ',' + str(item.id_item)
+    else:
+        user.items = str(item.id_item)
+    db.session.commit()
+
+    return jsonify({"rsp_msg": "item has been added"})
+
+
+@app.route("/edit_item", methods=['POST'])
+def edit_item():
+
+    # set json data into vars
+    item_id = request.form.get('item_id')
+    item = items.query.filter_by(id_item=item_id).first()
+
+    if request.form.get('name'):
+        name = request.form.get('name')
+        item.name = name
+    if request.form.get('description'):
+        description = request.form.get('description')
+        item.description = description
+    if request.form.get('estimate'):
+        estimate = request.form.get('estimate')
+        item.estimate = estimate
+    if request.form.get('photos'):
+        photos = request.files.getlist("photos")
+        photo_array = []
+        for photo in photos:
+            my_string = base64.b64encode(photo)
+            photo_array.append(my_string)
+        item.photos = str(photo_array)[1:-1]
+    if request.form.get('videos'):
+        videos = request.files.getlist("videos")
+        video_array = []
+        for video in videos:
+            my_string = base64.b64encode(video)
+            video_array.append(my_string)
+        item.videos = str(video_array)[1:-1]
+
+    db.session.commit()
+
+    return jsonify({"rsp_msg": "item has been edited"})
+
+
+@app.route("/delete_item", methods=['POST'])
+def delete_item():
+
+    user_id = int(request.form.get('user_id'))
+    user = users.query.filter_by(id_user=user_id).first()
+    item_id = int(request.form.get('item_id'))
+    print(item_id, user_id)
+    items.query.filter_by(id_item=item_id).delete()
+    item_ids = user.items.split(',')
+    print(item_ids)
+    if str(item_id) in item_ids:
+        print(item_id)
+        item_ids.remove(str(item_id))
+    user.items = ','.join(item_ids)
+
+    db.session.commit()
+
+    return jsonify({"rsp_msg": "item has been deleted"})
+
+
+@app.route("/get_items", methods=['POST'])
+def get_items():
+    user_id = request.form.get('user_id')
+    user = users.query.filter_by(id_user=user_id).first()
+    item_ids = user.items.split(',')
+    items_list = []
+    for item_id in item_ids:
+        item = items.query.filter_by(id_item=int(item_id)).first()
+        items_list.append(item.as_dict())
+
+    return jsonify({"items": items_list})
+
+
+@app.route("/get_items_download", methods=['POST'])
+def get_items_downloads():
+    user_id = request.form.get('user_id')
+    user = users.query.filter_by(id_user=user_id).first()
+    item_ids = user.items.split(',')
+    items_list = []
+    for item_id in item_ids:
+        item = items.query.filter_by(id_item=int(item_id)).first()
+        item_dict = item.as_dict()
+        del item_dict['photos']
+        del item_dict['videos']
+        del item_dict['belongs_to']
+        del item_dict['id_item']
+        items_list.append(item_dict)
+
+    return jsonify(pprint.pformat(items_list)[2:-2])
 
 
 if __name__ == '__main__':

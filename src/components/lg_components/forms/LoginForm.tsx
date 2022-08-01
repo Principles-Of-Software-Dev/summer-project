@@ -18,9 +18,6 @@ const LoginForm = ({ handleClickLogin, login }) => {
 	const navigate = useNavigate() ;
 
 	
-	useEffect(() => { 
-		
-	})
 
 	const handleNavigate = (page:string, check:boolean) => {
 
@@ -29,6 +26,15 @@ const LoginForm = ({ handleClickLogin, login }) => {
 		}
 	}
     
+	const handleLogin = (e) => {
+		e.preventDefault() ;
+		const formData = new FormData() ;
+		formData.append('email', email) ;
+		formData.append('password', password) ;
+		
+		userLogin(formData) ;
+		
+	}
 
 	const handleValidLogin = () => {
            
@@ -66,12 +72,12 @@ const LoginForm = ({ handleClickLogin, login }) => {
                     
 							{/* Email field */}
 							<div className='row-span-2 my-4 flex items-center justify-center'>
-								< EmailField size={25} required={true} setEmail={setEmail} handleValid={setValidEmail} />
+								< EmailField size={25} required={true} setEmail={setEmail} handleValid={setValidEmail} text={"Email"} />
 							</div>
 
 							{/* Password field */}
 							<div className='row-span-2 flex items-center justify-center'>
-								< PasswordField size={25} required={true} setPassword={setPassword} handleValid={setValidPassword}/>
+								< PasswordField size={25} required={true} setPassword={setPassword} handleValid={setValidPassword} text={"Password"} />
 							</div>
 
 							{/* "Submit" and "Cancel Button" */}
@@ -84,10 +90,7 @@ const LoginForm = ({ handleClickLogin, login }) => {
 									textColor='text-c-white'
 									hoverColor='hover:bg-sky-500'
 									disable={handleValidLogin()}
-									onClick={(e) => {
-										e.preventDefault() ;
-										userLogin(email, password)
-									}}
+									onClick={handleLogin}
 								/>
 								< Button
 									height="h-xsmall-button"

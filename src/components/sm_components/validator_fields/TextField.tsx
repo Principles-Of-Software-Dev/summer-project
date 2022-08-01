@@ -9,11 +9,9 @@ const TextField = ({ text_length, setText, handleValid, type, largeArea, require
 	const [textErr, setTextErr] = useState(false) ;
 	const rows = 4 ;
 	const cols = (text_length / 4) ;
-	let initial = null ;
 
 	if (rest != null) {
 		handleValid(true) ;
-		initial = rest.storedVal ;
 	}
 
 	const handleTextChange = (e) => {
@@ -32,52 +30,24 @@ const TextField = ({ text_length, setText, handleValid, type, largeArea, require
 					rest.storedVal = text ;
 				}
 				handleValid(false) ;
-				if (initial != null) {
-					if (initial !== e.target.value) {
-						rest.changed(true) ;
-					} else {
-						rest.changed(false) ;
-					}
-				}
 				return true ;
 			}
 			else {
 				if (textErr) { setTextErr(false) }
 				setText(text) ;
 				handleValid(true) ;
-				if (initial != null) {
-					if (initial !== e.target.value) {
-						rest.changed(true) ;
-					} else {
-						rest.changed(false) ;
-					}
-				}
 				return false ;
 			}
 		} else { 
 			if (textErr) { setTextErr(false) }
 			setText(text) ;
 			handleValid(true) ;
-			if (initial != null) {
-				if (initial !== e.target.value) {
-					rest.changed(true) ;
-				} else {
-					rest.changed(false) ;
-				}
-			}
 			return false ;
 		}
 	}
 
 	const handleSetErrMsg = (e) => {
 		setTextErr(handleTextChange(e)) ;
-		if (initial != null) {
-			if (initial !== e.target.value) {
-				rest.changed(true) ;
-			} else {
-				rest.changed(false) ;
-			}
-		}
 	}
 
 	return (
@@ -86,24 +56,26 @@ const TextField = ({ text_length, setText, handleValid, type, largeArea, require
 			<label className='row-span-3 mb-2 flex items-center justify-start'>
 				{ type } * :
 			</label>
-			<div className='rows-span-3 mb-2 flex items-center justify-start mx-2'>
+			<div className='rows-span-3 mb-2 flex items-center justify-center mx-2'>
 				{largeArea ?
 					<textarea
 						rows={rows}
 						cols={cols}
 						onChange={handleTextChange}
 						onBlur={handleSetErrMsg}
-						className="w-full h-full"
-						defaultValue={rest.storedVal != null ? rest.storedVal : null}
+						placeholder={!required ? 'Optional': 'Required'}
+						className="w-full h-full px-2 rounded-md"
+						defaultValue={rest.storedVal !== (null||undefined) ? rest.storedVal : null}
 					/> : 
 					< input
 						type="text"
 						onChange={handleTextChange}
 						onBlur={handleSetErrMsg}
-						required
+						required={required}
 						size={text_length}
-						className='w-full'
-						defaultValue={rest.storedVal != null ? rest.storedVal : null}
+						placeholder={!required ? 'Optional': 'Required'}
+						className='w-full px-2 rounded-md'
+						defaultValue={rest.storedVal !== ( null||undefined ) ? rest.storedVal : null}
 					/>}
 			</div>
 

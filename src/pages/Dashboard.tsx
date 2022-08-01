@@ -3,7 +3,7 @@ import TopBar from '../components/lg_components/TopBar' ;
 import LogoutConfirmation from '../components/lg_components/LogoutConfirmation' ;
 import PopoutMenu from '../components/lg_components/PopoutMenu' ;
 import FakeSiteBanner from '../components/lg_components/FakeSiteBanner' ;
-import PropertiesControl from '../components/lg_components/PropertiesControl' ;
+import ItemsControl from '../components/lg_components/ItemsControl' ;
 import { useUser } from '../global/authorization/UserContext' ;
 import { useNavigate } from 'react-router-dom' ;
 import Button from '../components/sm_components/Button' ;
@@ -11,7 +11,7 @@ import Button from '../components/sm_components/Button' ;
 const Dashboard = () => {
 
 	let userId ;
-	const { user, deleteProperty } = useUser() ;
+	const { user, deleteItem } = useUser() ;
 	
 	useEffect(() => { 
 		userId = user.id ;
@@ -23,13 +23,13 @@ const Dashboard = () => {
 
 	const handleDisplayLogout = () => setDisplayLogout(!displayLogout) ; 
 	
-	const handleAddProperty = () => {
+	const handleAddItem = () => {
 		let options =  {
 			'operation': 'Add',
-			'property': null
+			'item': null
 		}
 
-		navigate('edit-property', { state: { options } })
+		navigate('edit-item', { state: { options } })
 	}
 
   
@@ -47,20 +47,20 @@ const Dashboard = () => {
 						<Button
 							height="h-xsmall-button"
 							color='bg-zinc-400'
-							buttonText='Add Property'
+							buttonText='Add Item'
 							textColor='text-c-white'
 							hoverColor='hover:bg-zinc-500'
 							disable={false}
-							onClick={handleAddProperty}
+							onClick={handleAddItem}
 						/>
 					</div>
-					<PopoutMenu handleDisplayLogout={handleDisplayLogout} userId={userId} handleAddProperty={handleAddProperty} />
+					<PopoutMenu handleDisplayLogout={handleDisplayLogout} userId={userId} handleAddItem={handleAddItem} />
 				
 				</div>
 				
 			</TopBar>
 			<div className='my-12'>
-				<PropertiesControl handleAddProperty={handleAddProperty} />
+				<ItemsControl handleAddItem={handleAddItem} />
 			</div>
 
 
