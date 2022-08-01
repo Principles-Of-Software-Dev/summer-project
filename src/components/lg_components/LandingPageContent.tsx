@@ -45,7 +45,7 @@ const LandingPageContent = () => {
 				<a href="#about" >About</a>
 				<a href="#news">News</a>
 				<a href="#skills">Info</a>
-				<a href="#properties">Property</a>
+				<a href="#items">Items</a>
 				<a href="#review">Reviews</a>
 				<a href="#contact">Contact</a>
 				
@@ -57,11 +57,12 @@ const LandingPageContent = () => {
 				<div className="max-w-full">
 					<div className="row align-items-center justify-content-center text-center">
 						<div className="col-lg-10 align-self-end">
-							<p className="text-uppercase text-white font-weight-bold text-xl heading">Gilderise Enterprises and Properties</p>
+							<p className="text-uppercase text-white font-weight-bold text-xl heading">Gilderise Communities and Retirement Organization</p>
 							<hr className="divider dark my-4" />
 						</div>
 						<div className="col-lg-8 align-self-baseline">
-							<p className="text-uppercase text-white font-weight-bold heading ">A Property Management Company</p>
+							<p className="text-uppercase text-white font-weight-bold heading ">A Retirement
+Community</p>
 
 							<div className="imgcontainer"><img className="w-full md:px-10 px-4" alt="Entrance" src={require("../../assets/EntrancePhoto.jpg")} /></div>
 
@@ -74,13 +75,19 @@ const LandingPageContent = () => {
 				<div className="w-full p-4">
 					<div className="row justify-content-center">
 						<div className="col-lg-8 text-center">
-							<p className="text-white mt-0 text-lg heading">FACING PROPERTY MANAGEMENT TROUBLES?</p>
+							<p className="text-white mt-0 text-lg heading">Need help organizing your household items?</p>
 							{/* <!--<p> We are here to help!</p>--> */}
 							<hr className="divider dark my-4" />
 							
 							<img alt="GEBalance" src={require("../../assets/BrandImage.jpg")} className="w-full md:px-10"/>
 							
-							<p className="pcontrol text-white">Gilderise Enterprises has been helping retirement communities manage their property needs for over fifteen years. We provide a full-scale property management service to any homeowner associations and condominium boards. We are contantly working to maximize property values and create ideal lifestyles that residents can enjoy. We provide incomparable levels of service and expertise! Our main focus is on building long-lasting relationships with HOAs and boards of directors who share our vision and commitment to a better lifestyle for all.</p>
+							<p className="pcontrol text-white">Gilderise Communities have been helping
+retirement communities manage their household items and many other needs for over fifteen
+years. We provide a full-scale organizational service to all of our residents at Gilderise
+Communites. We are contantly working to maximize the funcaionality of our website so that it is
+simple and ready for you to use. We provide incomparable levels of service and expertise! Our
+main focus is on building long-lasting relationships with our residents and we share our vision
+and commitment to a better lifestyle for all.</p>
 						</div>
 					</div>
 				</div>
@@ -95,13 +102,22 @@ const LandingPageContent = () => {
 							
 							<div className="text-black-50 mb-4" />
 							<p className='text-lg heading'>Planning to expand into North East Texas!</p>
-							<p className="pcontrol">Gilderise Enterprise has been growing throughout Florida and Georgia. We currently manage over 60,000 units across over 80 communities, including prestigious locations such as Delray River Reserve, Naples Creek Estates, Village Path of Concord, and Garland Reserve. In Central Georgia, we now have a prominent presence and we’re happy to be expanding throughout the North East Texas and St. Colombus area, as we continue to grow our services and our family continues to grow.</p>
+							<p className="pcontrol">Gilderise Communities has been growing throughout
+Florida and Georgia. We currently manage household items over 60,000 residents nationwide,
+including locations such as Delray River Communities, Naples Creek Retirement, Village Path of
+Concord, and Garland Retirement. In Central Georgia, we now have a prominent presence and
+we’re happy to be expanding throughout North East Texas and St. Colombus area, as we
+continue to grow our services and our family here at Gilderise Communities continues to
+grow.</p>
 							<p className='text-lg heading'>Maintenance, Repairs & Renovations  </p>
 							<p className="pcontrol">Due to our long-lasting relationships with contractors, we can contact our maintenance team quickly & repair your property below quicker and at a lower price than normal contractors. 
 This means less money out of your pockets AND more return on your investment.  </p>
 							
-							<p className="text-lg heading">Property Marketing and Remodling</p>
-							<p className="pcontrol"> We have implemented many proven marketing strategies that can be specifically tailored to your property. which will nclude listing your property on over 200 of the top real estate websites. We then track the performance of our marketing plan, which allows us to quickly make adjustmentsto make marketing your property more effective.Our property managers have the potential of arranging necessary renovations before listing it on the market. This can be as small as repainting the walls, or as important as changing the partitions inside the house. Our team will first assess your property’s value, and then come to you with a list of suggestions fitted to your every need. </p>
+							<p className="text-lg heading">Our Care Type Options</p>
+							<p className="pcontrol"> We also provide any care you might need here at Gilderise
+Communities whether that is Memory Care, Assisted living, Skilled Nursing, or Independent
+living. We are here for you and to help in any way that we see fit. Please don't hesitate to
+contact us at any time. We respond to any communication within the hour 24 hours a day! </p>
 						</div>
 					</div>
 				</div>
@@ -110,7 +126,7 @@ This means less money out of your pockets AND more return on your investment.  <
 			{/* <!-- Services--> */}
 			<section className="page-section" id="skills">
 				<div className="max-w-full">
-					<p className="textcenter mt-0 text-lg heading">An Enterprise You Can Trust</p>
+					<p className="textcenter mt-0 text-lg heading">A Community You Can Trust</p>
 					<hr className="divider my-4" />
 					<div className="skillsutility">
 							
@@ -163,9 +179,9 @@ This means less money out of your pockets AND more return on your investment.  <
 
 
 
-			<section className="page-section bg-six" id="properties">
+			<section className="page-section bg-six" id="items">
 				<div className="max-w-full">
-					<p className="text-center mt-0 text-lg">PROPERTIES</p>
+					<p className="text-center mt-0 text-lg">ITEMS</p>
 					<hr className="divider my-4" />
 					<div className="skillsutility">
 
