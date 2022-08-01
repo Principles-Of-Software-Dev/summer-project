@@ -149,7 +149,7 @@ export const UserProvider = ({ children }) => {
 
 		const login = () => {
 			const xhr = new XMLHttpRequest() ;
-			xhr.open('POST', '/login_user', true)
+			xhr.open('POST', '/login_user', false)
 			xhr.send(formData) ;
 			console.log(xhr.response)
 			// // send request
