@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom' ;
 import { useUser } from '../../global/authorization/UserContext' ;
 import UserLinks from '../sm_components/UserLinks' ;
 
-const ItemsControl = ({ handleAddItem }) => {
+const ItemsControl = ({ handleAddItem,handleDeleteItem }) => {
 	const { items, getItems } = useUser() ;
 	const navigate = useNavigate() ;
 	
@@ -45,7 +45,7 @@ const ItemsControl = ({ handleAddItem }) => {
 
 		<div className='w-full mb-2'>
 			{displayItem != null &&
-				<DisplayItem item={displayItem} displayItem={setDisplayItem} editItem={handleDisplayItemForm} />
+				<DisplayItem item={displayItem} displayItem={setDisplayItem} editItem={handleDisplayItemForm} deleteItem={handleDeleteItem} />
 			}{items !== { 'authorized_items': undefined, 'owned_items': undefined } &&
 				<div> 
 					{items.owned_items !== undefined && 

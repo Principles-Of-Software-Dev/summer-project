@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react' ;
 import Button from '../sm_components/Button' ;
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/outline' ;
 
-const DisplayItem = ({ item, displayItem, editItem }) => {
+const DisplayItem = ({ item, displayItem, editItem, deleteItem }) => {
 
 	const [currIndex, setCurrIndex] = useState(0) ;
   
@@ -67,6 +67,15 @@ const DisplayItem = ({ item, displayItem, editItem }) => {
 										hoverColor='hover:bg-sky-500'
 										disable={false}
 										onClick={() => editItem(item , "Edit")}
+									/>
+									<Button
+										height="h-xsmall-button"
+										color='bg-sky-400'
+										buttonText='Edit Item'
+										textColor='text-c-white'
+										hoverColor='hover:bg-sky-500'
+										disable={false}
+										onClick={() => deleteItem(item.item_id)}
 									/>
 									<Button
 										height="h-xsmall-button"

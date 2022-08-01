@@ -3,18 +3,17 @@ import TopBar from '../components/lg_components/TopBar' ;
 import LogoutConfirmation from '../components/lg_components/LogoutConfirmation' ;
 import PopoutMenu from '../components/lg_components/PopoutMenu' ;
 import FakeSiteBanner from '../components/lg_components/FakeSiteBanner' ;
-import ItemsControl from '../components/lg_components/ItemsControl' ;
+import ItemsControl from '../components/lg_components/ItemsControl';
 import { useUser } from '../global/authorization/UserContext' ;
 import { useNavigate } from 'react-router-dom' ;
 import Button from '../components/sm_components/Button' ;
 
 const Dashboard = () => {
 
-	let userId ;
 	const { user, deleteItem } = useUser() ;
-	
+	let userId = user.id;
 	useEffect(() => { 
-		userId = user.id ;
+		
 		
 	}, [])
 	const navigate = useNavigate() ;
@@ -30,6 +29,15 @@ const Dashboard = () => {
 		}
 
 		navigate('edit-item', { state: { options } })
+	}
+
+	const handleDeleteItem = (item_id) => {
+		const formData = new FormData();
+
+		formData.append('item_id', item_id)
+		formData.append('user_id', userId)
+
+		deleteItem(formData);
 	}
 
   
@@ -60,7 +68,7 @@ const Dashboard = () => {
 				
 			</TopBar>
 			<div className='my-12'>
-				<ItemsControl handleAddItem={handleAddItem} />
+				<ItemsControl handleAddItem={handleAddItem} handleDeleteItem={ handleDeleteItem} />
 			</div>
 
 
