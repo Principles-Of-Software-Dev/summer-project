@@ -58,7 +58,7 @@ export const UserProvider = ({ children }) => {
 			const xhr = new XMLHttpRequest() ;
 			// send request and and wait unitl we get a response
 			xhr.open('POST', '/setup_account', false)
-			xhr.send(formData);
+			xhr.send(formData) ;
 			
 			// convert response to object format
 			let data = JSON.parse(xhr.response)
@@ -122,7 +122,7 @@ export const UserProvider = ({ children }) => {
 			const xhr = new XMLHttpRequest() ;
 			// send request and and wait unitl we get a response
 			xhr.open('POST', '/edit_user', false)
-			xhr.send(formData);
+			xhr.send(formData) ;
 			
 			// convert response to object format
 			let data = JSON.parse(xhr.response)
