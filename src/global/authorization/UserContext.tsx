@@ -147,38 +147,42 @@ export const UserProvider = ({ children }) => {
 			body: formData
 		}
 
-		const login = async () => {
-			// send request
-			await fetch("/login_user", requestOptions).then(
-				// after successful call to api, convert response to JSON
-				response => {
-					response.json().then(
-						// get returned information
-						data => { 
-							// do stuff with returned information
-							if (data.user !== null || undefined) {
-								// store user id
-								setUser({
-									authenticated: true,
-									id: data.user.user_id
-								})
-								// navigate to dash or first-time account edit
-								if (data.setup_complete === 'false') {
-									let options = 'Setup' ;
-									navigate('/account-preferences' , { state: { options } })
-								} else {
-									navigate('/dashboard')
-								}
-							} else {
-								// warn user of general failure
-								window.alert('Something went wrong; please try again') ;
-							}
-						}
-					)
-				}
-			).catch(e => {
-				console.log(e)
-			})
+		const login = () => {
+			const xhr = new XMLHttpRequest() ;
+			xhr.open('POST', '/login_user', false)
+			xhr.send(formData) ;
+			console.log(xhr.response())
+			// // send request
+			// await fetch("/login_user", requestOptions).then(
+			// 	// after successful call to api, convert response to JSON
+			// 	response => {
+			// 		response.json().then(
+			// 			// get returned information
+			// 			data => { 
+			// 				// do stuff with returned information
+			// 				if (data.user !== null || undefined) {
+			// 					// store user id
+			// 					setUser({
+			// 						authenticated: true,
+			// 						id: data.user.user_id
+			// 					})
+			// 					// navigate to dash or first-time account edit
+			// 					if (data.setup_complete === 'false') {
+			// 						let options = 'Setup' ;
+			// 						navigate('/account-preferences' , { state: { options } })
+			// 					} else {
+			// 						navigate('/dashboard')
+			// 					}
+			// 				} else {
+			// 					// warn user of general failure
+			// 					window.alert('Something went wrong; please try again') ;
+			// 				}
+			// 			}
+			// 		)
+			// 	}
+			// ).catch(e => {
+			// 	console.log(e)
+			// })
 		}
 
 		// run api call
