@@ -13,6 +13,8 @@ export const UserProvider = ({ children }) => {
 		'owned_items': undefined
 	})
 
+	const [userInfo, setUserInfo] = useState(null) ;
+
 	const navigate = useNavigate() ;
 	const [user, setUser] = useState<User>({
 	})
@@ -39,7 +41,7 @@ export const UserProvider = ({ children }) => {
 
 	const setupAccount = (formData: FormData) => {
 
-		// get userInfo 
+		// get userid 
 		setRefreshUser(true) ;
 		
 		// set request options
@@ -107,6 +109,8 @@ export const UserProvider = ({ children }) => {
 							if (data.rsp_msg === 'User has been updated') {
 								// alert user account update was successful.
 								window.alert('Update Successful') ;
+								navigate('/dashboard')
+								
 							} else if (data === 401) { 
 								// email already exits in db
 								window.alert("Email already exists on file. Please enter another email.")
@@ -159,7 +163,7 @@ export const UserProvider = ({ children }) => {
 									id: data.user.user_id
 								})
 								// navigate to dash or first-time account edit
-								if (data.placeholder === 'placeholder') {
+								if (data.setup_complete === 'false') {
 									let options = 'Setup' ;
 									navigate('/account-preferences' , { state: { options } })
 								} else {
@@ -210,7 +214,7 @@ export const UserProvider = ({ children }) => {
 							// do stuff with returned information
 							if (data.user !== null || undefined) {
 								// return user data
-								return data.user
+								setUserInfo( data.user)
 							} else {
 								// warn user of general failure
 								window.alert('Something went wrong; please try again') ;
@@ -225,7 +229,7 @@ export const UserProvider = ({ children }) => {
 
 		// return async function
 		setRefreshUser(false) ;
-		return gUser() ;
+		gUser() ;
 	}
 
 
@@ -382,7 +386,7 @@ export const UserProvider = ({ children }) => {
 							// do stuff with returned information
 							if (data.items !== null||undefined) {
 								// return list of items
-								return data.items
+								setItems(data.items)
 							} else {
 								// warn user of general failure
 								window.alert('Something went wrong; please try again') ;
@@ -397,7 +401,7 @@ export const UserProvider = ({ children }) => {
 
 		// return async fucntion 
 		setRefreshUser(false) ;
-		return gItems() ;
+		gItems() ;
 	}
 
 	const downloadItems = () => {
@@ -448,7 +452,7 @@ export const UserProvider = ({ children }) => {
 
 	return (
 		<UserContext.Provider value={{
-			user, items, setupAccount, editUser, userLogin, getUser,
+			user, userInfo, items, setupAccount, editUser, userLogin, getUser,
 			addItem, editItem, deleteItem, getItems, downloadItems
 			
 		}}>
