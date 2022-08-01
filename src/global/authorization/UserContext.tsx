@@ -44,38 +44,58 @@ export const UserProvider = ({ children }) => {
 		// get userid 
 		setRefreshUser(true) ;
 		
-		// set request options
-		let requestOptions = {
-			method: "POST",
-			headers: {
-				"Content-Type": "multipart/form-data"
-			},
-			body: formData
-		}
+		// // set request options
+		// let requestOptions = {
+		// 	method: "POST",
+		// 	headers: {
+		// 		"Content-Type": "multipart/form-data"
+		// 	},
+		// 	body: formData
+		// }
 
-		const register = async () => {
-			// send request
-			await fetch("/setup_account", requestOptions).then(
-				// after successful call to api, convert response to JSON
-				response => {
-					response.json().then(
-						// get returned information
-						data => { 
-							// do stuff with returned information
-							if (data.rsp_msg === 'user has been setup') {
-								// alert user to check email.
-								window.alert('Please check your email for login information') ;
-							} else {
-								// warn user registration failed
-								window.alert('Something went wrong; please try again') ;
-							}
-						}
-					)
-				}
-			).catch(e => {
-				// general catch all
-				console.log(e)
-			})
+		const register = () => {
+
+			const xhr = new XMLHttpRequest() ;
+			// send request and and wait unitl we get a response
+			xhr.open('POST', '/setup_account', false)
+			xhr.send(formData);
+			
+			// convert response to object format
+			let data = JSON.parse(xhr.response)
+
+			// do stuff with response
+			if (data.rsp_msg === 'user has been setup') {
+				// alert user to check email.
+				window.alert('Please check your email for login information') ;
+			} else {
+				// warn user registration failed
+				window.alert('Something went wrong; please try again') ;
+			}
+
+			
+			// does not work when reading form data in flask. see above
+			// // send request
+			// await fetch("/setup_account", requestOptions).then(
+			// 	// after successful call to api, convert response to JSON
+			// 	response => {
+			// 		response.json().then(
+			// 			// get returned information
+			// 			data => { 
+			// 				// do stuff with returned information
+			// 				if (data.rsp_msg === 'user has been setup') {
+			// 					// alert user to check email.
+			// 					window.alert('Please check your email for login information') ;
+			// 				} else {
+			// 					// warn user registration failed
+			// 					window.alert('Something went wrong; please try again') ;
+			// 				}
+			// 			}
+			// 		)
+			// 	}
+			// ).catch(e => {
+			// 	// general catch all
+			// 	console.log(e)
+			// })
 		}
 
 		// run api call
@@ -88,43 +108,67 @@ export const UserProvider = ({ children }) => {
 		// get userInfo 
 		setRefreshUser(true) ;
 		
-		// set request options
-		let requestOptions = {
-			method: "POST",
-			headers: {
-				"Content-Type": "multipart/form-data"
-			},
-			body: formData
-		}
+		// // set request options
+		// let requestOptions = {
+		// 	method: "POST",
+		// 	headers: {
+		// 		"Content-Type": "multipart/form-data"
+		// 	},
+		// 	body: formData
+		// }
 	
-		const eUser = async () => {
-			// send request
-			await fetch("/edit_user", requestOptions).then(
-				// after successful call to api, convert response to JSON
-				response => {
-					response.json().then(
-						// get returned information
-						data => { 
-							// do stuff with returned information
-							if (data.rsp_msg === 'User has been updated') {
-								// alert user account update was successful.
-								window.alert('Update Successful') ;
-								navigate('/dashboard')
+		const eUser = () => {
+
+			const xhr = new XMLHttpRequest() ;
+			// send request and and wait unitl we get a response
+			xhr.open('POST', '/edit_user', false)
+			xhr.send(formData);
+			
+			// convert response to object format
+			let data = JSON.parse(xhr.response)
+
+			// do stuff with response
+			if (data.rsp_msg === 'User has been updated') {
+				// alert user account update was successful.
+				window.alert('Update Successful') ;
+				navigate('/dashboard')
+				
+			} else if (data === 401) { 
+				// email already exits in db
+				window.alert("Email already exists on file. Please enter another email.")
+					
+			} else {
+				// warn user of general failure
+				window.alert('Something went wrong; please try again') ;
+			}
+
+			// // send request
+			// await fetch("/edit_user", requestOptions).then(
+			// 	// after successful call to api, convert response to JSON
+			// 	response => {
+			// 		response.json().then(
+			// 			// get returned information
+			// 			data => { 
+			// 				// do stuff with returned information
+			// 				if (data.rsp_msg === 'User has been updated') {
+			// 					// alert user account update was successful.
+			// 					window.alert('Update Successful') ;
+			// 					navigate('/dashboard')
 								
-							} else if (data === 401) { 
-								// email already exits in db
-								window.alert("Email already exists on file. Please enter another email.")
+			// 				} else if (data === 401) { 
+			// 					// email already exits in db
+			// 					window.alert("Email already exists on file. Please enter another email.")
 									
-							} else {
-								// warn user of general failure
-								window.alert('Something went wrong; please try again') ;
-							}
-						}
-					)
-				}
-			).catch(e => {
-				console.log(e)
-			})
+			// 				} else {
+			// 					// warn user of general failure
+			// 					window.alert('Something went wrong; please try again') ;
+			// 				}
+			// 			}
+			// 		)
+			// 	}
+			// ).catch(e => {
+			// 	console.log(e)
+			// })
 		}
 	
 		// run api call
@@ -139,24 +183,41 @@ export const UserProvider = ({ children }) => {
 		setRefreshUser(true) ;
 		
 		// set request options
-		let requestOptions = {
-			method: "POST",
-			headers: {
-				"Content-Type": "multipart/form-data"
-			},
-			body: formData
-		}
+		// let requestOptions = {
+		// 	method: "POST",
+		// 	headers: {
+		// 		"Content-Type": "multipart/form-data"
+		// 	},
+		// 	body: formData
+		// }
 
 		const login = () => {
+
 			const xhr = new XMLHttpRequest() ;
 			// send request and and wait unitl we get a response
 			xhr.open('POST', '/login_user', false)
 			xhr.send(formData) ;
 			let data = JSON.parse(xhr.response)
 
-			console.log("running")
-			console.log(data)
-			console.log(data.rsp_msg)
+			if (data.user !== null || undefined) {
+				// store user id
+				setUser({
+					authenticated: true,
+					id: data.user.user_id
+				})
+				// navigate to dash or first-time account edit
+				if (data.user.setup_complete === 'false') {
+					let options = 'Setup' ;
+					navigate('/account-preferences' , { state: { options } })
+				} else {
+					navigate('/dashboard')
+				}
+			} else {
+				// warn user of general failure
+				window.alert('Something went wrong; please try again') ;
+			}
+
+
 			// // send request
 			// await fetch("/login_user", requestOptions).then(
 			// 	// after successful call to api, convert response to JSON
@@ -204,36 +265,52 @@ export const UserProvider = ({ children }) => {
 		formData.append('user_id', user.id!.toString()) ;
 		
 		// set request options
-		let requestOptions = {
-			method: "POST",
-			headers: {
-				"Content-Type": "multipart/form-data"
-			},
-			body: formData
-		}
+		// let requestOptions = {
+		// 	method: "POST",
+		// 	headers: {
+		// 		"Content-Type": "multipart/form-data"
+		// 	},
+		// 	body: formData
+		// }
 
-		const gUser= async () => {
-			// send request
-			await fetch("/get_user", requestOptions).then(
-				// after successful call to api, convert response to JSON
-				response => {
-					response.json().then(
-						// get returned information
-						data => { 
-							// do stuff with returned information
-							if (data.user !== null || undefined) {
-								// return user data
-								setUserInfo( data.user)
-							} else {
-								// warn user of general failure
-								window.alert('Something went wrong; please try again') ;
-							}
-						}
-					)
-				}
-			).catch(e => {
-				console.log(e)
-			})
+		const gUser = () => {
+
+			const xhr = new XMLHttpRequest() ;
+			// send request and and wait unitl we get a response
+			xhr.open('POST', '/get_user', false)
+			xhr.send(formData) ;
+			let data = JSON.parse(xhr.response)
+
+			// do stuff with returned information
+			if (data.user !== null || undefined) {
+				// return user data
+				setUserInfo(data.user)
+			} else {
+				// warn user of general failure
+				window.alert('Something went wrong; please try again') ;
+			}
+
+			// // send request
+			// await fetch("/get_user", requestOptions).then(
+			// 	// after successful call to api, convert response to JSON
+			// 	response => {
+			// 		response.json().then(
+			// 			// get returned information
+			// 			data => { 
+			// 				// do stuff with returned information
+			// 				if (data.user !== null || undefined) {
+			// 					// return user data
+			// 					setUserInfo( data.user)
+			// 				} else {
+			// 					// warn user of general failure
+			// 					window.alert('Something went wrong; please try again') ;
+			// 				}
+			// 			}
+			// 		)
+			// 	}
+			// ).catch(e => {
+			// 	console.log(e)
+			// })
 		}
 
 		// return async function
@@ -247,36 +324,52 @@ export const UserProvider = ({ children }) => {
 		setRefreshUser(true) ;
 		
 		// set request options
-		let requestOptions = {
-			method: "POST",
-			headers: {
-				"Content-Type": "multipart/form-data"
-			},
-			body: formData
-		}
+		// let requestOptions = {
+		// 	method: "POST",
+		// 	headers: {
+		// 		"Content-Type": "multipart/form-data"
+		// 	},
+		// 	body: formData
+		// }
 
-		const aItem= async () => {
-			// send request
-			await fetch("/add_item", requestOptions).then(
-				// after successful call to api, convert response to JSON
-				response => {
-					response.json().then(
-						// get returned information
-						data => { 
-							// do stuff with returned information
-							if (data.rsp_msg === 'item has been added') {
-								// navigate back to dashboard
-								navigate('/dashboard')
-							} else {
-								// warn user of general failure
-								window.alert('Something went wrong; please try again') ;
-							}
-						}
-					)
-				}
-			).catch(e => {
-				console.log(e)
-			})
+		const aItem = () => {
+			
+			const xhr = new XMLHttpRequest() ;
+			// send request and and wait unitl we get a response
+			xhr.open('POST', '/add_item', false)
+			xhr.send(formData) ;
+			let data = JSON.parse(xhr.response)
+
+			// do stuff with returned information
+			if (data.rsp_msg === 'item has been added') {
+				// navigate back to dashboard
+				navigate('/dashboard')
+			} else {
+				// warn user of general failure
+				window.alert('Something went wrong; please try again') ;
+			}
+
+			// // send request
+			// await fetch("/add_item", requestOptions).then(
+			// 	// after successful call to api, convert response to JSON
+			// 	response => {
+			// 		response.json().then(
+			// 			// get returned information
+			// 			data => { 
+			// 				// do stuff with returned information
+			// 				if (data.rsp_msg === 'item has been added') {
+			// 					// navigate back to dashboard
+			// 					navigate('/dashboard')
+			// 				} else {
+			// 					// warn user of general failure
+			// 					window.alert('Something went wrong; please try again') ;
+			// 				}
+			// 			}
+			// 		)
+			// 	}
+			// ).catch(e => {
+			// 	console.log(e)
+			// })
 		}
 
 		// call api 
@@ -289,36 +382,52 @@ export const UserProvider = ({ children }) => {
 		setRefreshUser(true) ;
 		
 		// set request options
-		let requestOptions = {
-			method: "POST",
-			headers: {
-				"Content-Type": "multipart/form-data"
-			},
-			body: formData
-		}
+		// let requestOptions = {
+		// 	method: "POST",
+		// 	headers: {
+		// 		"Content-Type": "multipart/form-data"
+		// 	},
+		// 	body: formData
+		// }
 
-		const eItem= async () => {
-			// send request
-			await fetch("/edit_item", requestOptions).then(
-				// after successful call to api, convert response to JSON
-				response => {
-					response.json().then(
-						// get returned information
-						data => { 
-							// do stuff with returned information
-							if (data.rsp_msg === 'item has been edited') {
-								// navigate back to dashboard
-								navigate('/dashboard')
-							} else {
-								// warn user of general failure
-								window.alert('Something went wrong; please try again') ;
-							}
-						}
-					)
-				}
-			).catch(e => {
-				console.log(e)
-			})
+		const eItem = () => {
+			
+			const xhr = new XMLHttpRequest() ;
+			// send request and and wait unitl we get a response
+			xhr.open('POST', '/edit_item', false)
+			xhr.send(formData) ;
+			let data = JSON.parse(xhr.response)
+
+			// do stuff with returned information
+			if (data.rsp_msg === 'item has been edited') {
+				// navigate back to dashboard
+				navigate('/dashboard')
+			} else {
+				// warn user of general failure
+				window.alert('Something went wrong; please try again') ;
+			}
+
+			// // send request
+			// await fetch("/edit_item", requestOptions).then(
+			// 	// after successful call to api, convert response to JSON
+			// 	response => {
+			// 		response.json().then(
+			// 			// get returned information
+			// 			data => { 
+			// 				// do stuff with returned information
+			// 				if (data.rsp_msg === 'item has been edited') {
+			// 					// navigate back to dashboard
+			// 					navigate('/dashboard')
+			// 				} else {
+			// 					// warn user of general failure
+			// 					window.alert('Something went wrong; please try again') ;
+			// 				}
+			// 			}
+			// 		)
+			// 	}
+			// ).catch(e => {
+			// 	console.log(e)
+			// })
 		}
 
 		// call api 
@@ -331,36 +440,52 @@ export const UserProvider = ({ children }) => {
 		setRefreshUser(true) ;
 		
 		// set request options
-		let requestOptions = {
-			method: "POST",
-			headers: {
-				"Content-Type": "multipart/form-data"
-			},
-			body: formData
-		}
+		// let requestOptions = {
+		// 	method: "POST",
+		// 	headers: {
+		// 		"Content-Type": "multipart/form-data"
+		// 	},
+		// 	body: formData
+		// }
 
-		const dItem= async () => {
-			// send request
-			await fetch("/delete_item", requestOptions).then(
-				// after successful call to api, convert response to JSON
-				response => {
-					response.json().then(
-						// get returned information
-						data => { 
-							// do stuff with returned information
-							if (data.rsp_msg === 'item has been deleted') {
-								// navigate back to dashboard
-								navigate('/dashboard')
-							} else {
-								// warn user of general failure
-								window.alert('Something went wrong; please try again') ;
-							}
-						}
-					)
-				}
-			).catch(e => {
-				console.log(e)
-			})
+		const dItem = async () => {
+
+			const xhr = new XMLHttpRequest() ;
+			// send request and and wait unitl we get a response
+			xhr.open('POST', '/delete_item', false)
+			xhr.send(formData) ;
+			let data = JSON.parse(xhr.response)
+
+			// do stuff with returned information
+			if (data.rsp_msg === 'item has been deleted') {
+				// navigate back to dashboard
+				navigate('/dashboard')
+			} else {
+				// warn user of general failure
+				window.alert('Something went wrong; please try again') ;
+			}
+			
+			// // send request
+			// await fetch("/delete_item", requestOptions).then(
+			// 	// after successful call to api, convert response to JSON
+			// 	response => {
+			// 		response.json().then(
+			// 			// get returned information
+			// 			data => { 
+			// 				// do stuff with returned information
+			// 				if (data.rsp_msg === 'item has been deleted') {
+			// 					// navigate back to dashboard
+			// 					navigate('/dashboard')
+			// 				} else {
+			// 					// warn user of general failure
+			// 					window.alert('Something went wrong; please try again') ;
+			// 				}
+			// 			}
+			// 		)
+			// 	}
+			// ).catch(e => {
+			// 	console.log(e)
+			// })
 		}
 
 		// call api 
@@ -376,36 +501,52 @@ export const UserProvider = ({ children }) => {
 		formData.append('user_id', user.id!.toString()) ;
 		
 		// set request options
-		let requestOptions = {
-			method: "POST",
-			headers: {
-				"Content-Type": "multipart/form-data"
-			},
-			body: formData
-		}
+		// let requestOptions = {
+		// 	method: "POST",
+		// 	headers: {
+		// 		"Content-Type": "multipart/form-data"
+		// 	},
+		// 	body: formData
+		// }
 
-		const gItems= async () => {
-			// send request
-			await fetch("/get_items", requestOptions).then(
-				// after successful call to api, convert response to JSON
-				response => {
-					response.json().then(
-						// get returned information
-						data => { 
-							// do stuff with returned information
-							if (data.items !== null||undefined) {
-								// return list of items
-								setItems(data.items)
-							} else {
-								// warn user of general failure
-								window.alert('Something went wrong; please try again') ;
-							}
-						}
-					)
-				}
-			).catch(e => {
-				console.log(e)
-			})
+		const gItems = () => {
+			const xhr = new XMLHttpRequest() ;
+			// send request and and wait unitl we get a response
+			xhr.open('POST', '/get_items', false)
+			xhr.send(formData) ;
+			let data = JSON.parse(xhr.response)
+
+			// do stuff with returned information
+			if (data.items !== null||undefined) {
+				// return list of items
+				setItems(data.items)
+			} else {
+				// warn user of general failure
+				window.alert('Something went wrong; please try again') ;
+			}
+
+
+			// // send request
+			// await fetch("/get_items", requestOptions).then(
+			// 	// after successful call to api, convert response to JSON
+			// 	response => {
+			// 		response.json().then(
+			// 			// get returned information
+			// 			data => { 
+			// 				// do stuff with returned information
+			// 				if (data.items !== null||undefined) {
+			// 					// return list of items
+			// 					setItems(data.items)
+			// 				} else {
+			// 					// warn user of general failure
+			// 					window.alert('Something went wrong; please try again') ;
+			// 				}
+			// 			}
+			// 		)
+			// 	}
+			// ).catch(e => {
+			// 	console.log(e)
+			// })
 		}
 
 		// return async fucntion 
@@ -420,37 +561,53 @@ export const UserProvider = ({ children }) => {
 		const formData = new FormData() ;
 		formData.append('user_id', user.id!.toString()) ;
 		
-		// set request options
-		let requestOptions = {
-			method: "POST",
-			headers: {
-				"Content-Type": "multipart/form-data"
-			},
-			body: formData
-		}
+		// // set request options
+		// let requestOptions = {
+		// 	method: "POST",
+		// 	headers: {
+		// 		"Content-Type": "multipart/form-data"
+		// 	},
+		// 	body: formData
+		// }
 
-		const gItems= async () => {
-			// send request
-			await fetch("/get_items_download", requestOptions).then(
-				// after successful call to api, convert response to JSON
-				response => {
-					response.json().then(
-						// get returned information
-						data => { 
-							// do stuff with returned information
-							if (data.items !== null||undefined) {
-								// return list of items
-								return data.items
-							} else {
-								// warn user of general failure
-								window.alert('Something went wrong; please try again') ;
-							}
-						}
-					)
-				}
-			).catch(e => {
-				console.log(e)
-			})
+		const gItems = () => {
+
+			const xhr = new XMLHttpRequest() ;
+			// send request and and wait unitl we get a response
+			xhr.open('POST', '/get_items', false)
+			xhr.send(formData) ;
+			let data = JSON.parse(xhr.response)
+
+			// do stuff with returned information
+			if (data.items !== null||undefined) {
+				// return list of items
+				return data.items
+			} else {
+				// warn user of general failure
+				window.alert('Something went wrong; please try again') ;
+			}
+
+			// // send request
+			// await fetch("/get_items_download", requestOptions).then(
+			// 	// after successful call to api, convert response to JSON
+			// 	response => {
+			// 		response.json().then(
+			// 			// get returned information
+			// 			data => { 
+			// 				// do stuff with returned information
+			// 				if (data.items !== null||undefined) {
+			// 					// return list of items
+			// 					return data.items
+			// 				} else {
+			// 					// warn user of general failure
+			// 					window.alert('Something went wrong; please try again') ;
+			// 				}
+			// 			}
+			// 		)
+			// 	}
+			// ).catch(e => {
+			// 	console.log(e)
+			// })
 		}
 
 		// return async fucntion 
