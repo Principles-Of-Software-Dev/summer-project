@@ -287,6 +287,7 @@ def login_user():
             response.set_cookie(
                 'session_token', user.session_token, httponly=True)
             return response
+    return jsonify({'rsp_msg': 'No user found'})
 
 
 @app.route("/get_user", methods=['GET'])
