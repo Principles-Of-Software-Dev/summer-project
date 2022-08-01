@@ -15,9 +15,6 @@ export const UserProvider = ({ children }) => {
 
 	const navigate = useNavigate() ;
 	const [user, setUser] = useState<User>({
-		authenticated: true,
-		id: -100,
-		
 	})
 	const [refreshUser, setRefreshUser] = useState(false) ;
 
