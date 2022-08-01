@@ -156,7 +156,7 @@ export const UserProvider = ({ children }) => {
 
 			console.log("running")
 			console.log(data)
-			console.log(data.rsp_mg)
+			console.log(data.rsp_msg)
 			// // send request
 			// await fetch("/login_user", requestOptions).then(
 			// 	// after successful call to api, convert response to JSON
