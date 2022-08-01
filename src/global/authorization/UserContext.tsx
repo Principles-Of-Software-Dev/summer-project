@@ -152,7 +152,7 @@ export const UserProvider = ({ children }) => {
 			// send request and and wait unitl we get a response
 			xhr.open('POST', '/login_user', false)
 			xhr.send(formData) ;
-			xhr.response.json().then(
+			JSON.parse(xhr.response).then(
 				data => {
 					console.log("running")
 					console.log(data.rsp_mg)
