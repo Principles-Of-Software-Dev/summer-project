@@ -120,27 +120,27 @@ const MobileMenu = () => {
 				</div>
                     
 				{menu &&
-                    <div className='absolute top-[4.5rem] left-0 w-dropdown-menu-mobile bg-zinc-200 '>
+                    <div className='absolute top-[4.5rem] left-0 w-dropdown-menu-mobile bg-sky-200 '>
 
                     	{/* Display "Login" and "Register" buttons or forms */}
                     	{(!login && !register) &&
                             <div className='h-dropdown-menu-login flex items-center justify-center '>
                             	<Button
                             		height="h-small-button"
-                            		color='bg-zinc-400'
+                            		color='bg-sky-400'
                             		buttonText='Login'
                             		textColor='text-c-white'
-                            		hoverColor='hover:bg-zinc-500'
+                            		hoverColor='hover:bg-sky-500'
                             		disable={false}
                             		onClick={handleClickLogin}
                             	/>
 
                             	<Button
                             		height="h-small-button"
-                            		color='bg-zinc-400'
+                            		color='bg-sky-400'
                             		buttonText='Register'
                             		textColor='text-c-white'
-                            		hoverColor='hover:bg-zinc-500'
+                            		hoverColor='hover:bg-sky-500'
                             		disable={false}
                             		onClick={handleClickRegister}
                             	/>
@@ -165,30 +165,30 @@ const MobileMenu = () => {
                             		<div className='row-span-1 flex items-center justify-center mb-2 mx-2'>
                             			< Button 
                             				height="h-xsmall-button"
-                            				color='bg-zinc-400'
+                            				color='bg-sky-400'
                             				buttonText='Submit'
                             				textColor='text-c-white'
-                            				hoverColor='hover:bg-zinc-500'
+                            				hoverColor='hover:bg-sky-500'
                             				disable={handleValidLogin()}
                             				onClick={handleLogin}
                             			/>
 
                             			< Button
                             				height="h-xsmall-button"
-                            				color='bg-zinc-400'
+                            				color='bg-sky-400'
                             				buttonText='Cancel'
                             				textColor='text-c-white'
-                            				hoverColor='hover:bg-zinc-500'
+                            				hoverColor='hover:bg-sky-500'
                             				disable={false}
                             				onClick={handleClickLogin}
                             			/>
                                             
                             			<Button
                             				height="h-xsmall-button"
-                            				color='bg-zinc-400'
+                            				color='bg-sky-400'
                             				buttonText='Forgot Password'
                             				textColor='text-c-white'
-                            				hoverColor='hover:bg-zinc-500'
+                            				hoverColor='hover:bg-sky-500'
                             				disable={false}
                             				onClick = {() => handleNavigate("/support" , login)}
                             			/>  
@@ -199,7 +199,7 @@ const MobileMenu = () => {
                     	}
 
                     	{(!login && register) &&
-							<div className='min-h-dropdown-menu-login max-h-dropdown-menu-mobile-register h-auto '>
+							<div className='max-h-dropdown-menu-mobile-register h-auto '>
 								<div className='grid grid-rows-6'>
                             	{/* Email field */}
                             	<div className='row-span-1 my-2 flex items-center justify-center'>
@@ -225,10 +225,10 @@ const MobileMenu = () => {
                             	<div className='row-span-1 flex items-center justify-between mb-2 mx-2'>
                             		< Button 
                             			height="h-xsmall-button"
-                            			color='bg-zinc-400'
+                            			color='bg-sky-400'
                             			buttonText='Submit'
                             			textColor='text-c-white'
-                            			hoverColor='hover:bg-zinc-500'
+                            			hoverColor='hover:bg-sky-500'
                             			disable={handleValidRegistration()}
                             			// set later
 											onClick={handleSetupAccount}
@@ -236,10 +236,10 @@ const MobileMenu = () => {
 
                             		< Button
                             			height="h-xsmall-button"
-                            			color='bg-zinc-400'
+                            			color='bg-sky-400'
                             			buttonText='Cancel'
                             			textColor='text-c-white'
-                            			hoverColor='hover:bg-zinc-500'
+                            			hoverColor='hover:bg-sky-500'
                             			disable={false}
                             			onClick={handleClickRegister}
                             		/>

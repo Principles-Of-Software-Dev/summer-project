@@ -31,7 +31,7 @@ const Item = ({ item, displayItem, displayItemForm }) => {
 										<div className='w-full h-full'>
 											<ChevronLeftIcon className='h-xsmall-logo absolute top-[50%] left-2 cursor-pointer select-none' onClick={prevPic} />
 											<ChevronRightIcon className='h-xsmall-logo absolute top-[50%] right-2 cursor-pointer select-none' onClick={nextPic} />
-											<div className='absolute w-auto p-1 z-1 bg-zinc-300 border rounded-md top-3 md:top-4 left-3 md:left-4'>
+											<div className='absolute w-auto p-1 z-1 bg-sky-300 border rounded-md top-3 md:top-4 left-3 md:left-4'>
 												<p className='text-sm tracking-wide '> ${ item.estimate }</p>
 											</div>
 											<img src={img} alt={"Beautiful Item"} className='w-full h-full p-2' />
@@ -59,10 +59,10 @@ const Item = ({ item, displayItem, displayItemForm }) => {
 								<div className='flex items-center justify-end row-span-1 my-1'>
 									<Button
 										height="h-small-button"
-										color='bg-zinc-400'
+										color='bg-sky-400'
 										buttonText='View Item'
 										textColor='text-c-white'
-										hoverColor='hover:bg-zinc-500'
+										hoverColor='hover:bg-sky-500'
 										disable={false}
 										onClick={() => displayItem( item )}
 									/>
@@ -70,10 +70,10 @@ const Item = ({ item, displayItem, displayItemForm }) => {
 								<div className='flex items-center justify-end row-span-1 my-1'>
 									<Button
 										height="h-small-button"
-										color='bg-zinc-400'
+										color='bg-sky-400'
 										buttonText='Edit Item'
 										textColor='text-c-white'
-										hoverColor='hover:bg-zinc-500'
+										hoverColor='hover:bg-sky-500'
 										disable={false}
 										onClick={() => displayItemForm( item, "Edit" )}
 									/>

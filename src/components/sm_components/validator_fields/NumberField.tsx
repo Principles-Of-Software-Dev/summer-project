@@ -29,7 +29,7 @@ const NumberField = ({ min_number_length,max_number_length, setNumb, handleValid
 				if (rest.storedVal != null) {
 					rest.storedVal = number ;
 				}
-				handleValid(false);
+				handleValid(false) ;
 				setNumb(number.toString())
 				return true ;
 			}

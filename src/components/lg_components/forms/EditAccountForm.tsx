@@ -17,7 +17,7 @@ const EditAccountForm = ({ option, userInfo }) => {
 
 	const required = option === 'Setup' ? true : false ;      
 
-	const navigate = useNavigate();
+	const navigate = useNavigate() ;
 	
     
 	// Login Info, Personal Info
@@ -40,7 +40,7 @@ const EditAccountForm = ({ option, userInfo }) => {
 	const [validState, setValidState] = useState(state !== '' ? true : false) ;
 	const [city, setCity] = useState(userInfo.city !== (null||undefined) ? 
 		userInfo.city: '')
-	const [validCity, setValidCity] = useState(city !== '' ? true : false);
+	const [validCity, setValidCity] = useState(city !== '' ? true : false) ;
 	const [zipcode, setZipCode] = useState(userInfo.zipcode !== (null||undefined) ? 
 		userInfo.zipcode: '')
 	const [validZipcode, setValidZipcode] = useState(zipcode !== '' ? true : false) ;
@@ -153,28 +153,28 @@ const EditAccountForm = ({ option, userInfo }) => {
 				console.log("Valid State " + validState)
 				console.log("Valid Manager Email " +validManagerEmail)
 
-					console.log(password !== '' && validPassword)
+				console.log(password !== '' && validPassword)
 					
-					console.log("Current email: " + loginEmail + "\tInitial: " + initialParams.loginEmail)
-					console.log((loginEmail != initialParams.loginEmail))
+				console.log("Current email: " + loginEmail + "\tInitial: " + initialParams.loginEmail)
+				console.log((loginEmail != initialParams.loginEmail))
 
-					console.log("Current first name: " + firstname + "\tInitial: " + initialParams.firstname)
-					console.log(firstname != initialParams.firstname)
+				console.log("Current first name: " + firstname + "\tInitial: " + initialParams.firstname)
+				console.log(firstname != initialParams.firstname)
 
-					console.log("Current lastname: " + lastname + "\tInitial: " + initialParams.lastname)
-					console.log(lastname != initialParams.lastname)
+				console.log("Current lastname: " + lastname + "\tInitial: " + initialParams.lastname)
+				console.log(lastname != initialParams.lastname)
 
-					console.log("Current street: " + street + "\tInitial: " + initialParams.street)
-					console.log(street != initialParams.street)
+				console.log("Current street: " + street + "\tInitial: " + initialParams.street)
+				console.log(street != initialParams.street)
 
-					console.log("Current city: " + city + "\tInitial: " + initialParams.city)
-					console.log(city != initialParams.city )
+				console.log("Current city: " + city + "\tInitial: " + initialParams.city)
+				console.log(city != initialParams.city )
 
-					console.log("Current zipcode: " + zipcode + "\tInitial: " + initialParams.zipcode)
-					console.log(zipcode != initialParams.zipcode)
+				console.log("Current zipcode: " + zipcode + "\tInitial: " + initialParams.zipcode)
+				console.log(zipcode != initialParams.zipcode)
 
-					console.log("Current state: " + state + "\tInitial: " + initialParams.state)
-					console.log(state != initialParams.state)
+				console.log("Current state: " + state + "\tInitial: " + initialParams.state)
+				console.log(state != initialParams.state)
 
 				console.log("Running 10")
 				return true ;
@@ -225,7 +225,7 @@ const EditAccountForm = ({ option, userInfo }) => {
 
 	return (
 		<div className="h-full flex items-center justify-center ">
-			<div className="min-h-main h-auto md:w-half w-most min-w-[20rem] bg-zinc-200 border border-solid rounded-lg">
+			<div className="min-h-main h-auto md:w-half w-most min-w-[20rem] bg-sky-200 border border-solid rounded-lg">
 
 				<div className=' p-3 max-h-full max-w-full'>
 					<div className="h-auto p-3 max-h-full " >
@@ -293,19 +293,19 @@ const EditAccountForm = ({ option, userInfo }) => {
 							<div className='w-full flex items-center justify-end my-1'>
 								<Button
                             		height="h-small-button"
-                            		color='bg-zinc-400'
+                            		color='bg-sky-400'
                             		buttonText='Submit'
                             		textColor='text-c-white'
-                            		hoverColor='hover:bg-zinc-500'
+                            		hoverColor='hover:bg-sky-500'
                             		disable={handleValidSubmit()}
                             		onClick={handleSubmit}
                             	/>
 								<Button
 									height="h-small-button"
-									color='bg-zinc-400'
+									color='bg-sky-400'
 									buttonText='Cancel'
 									textColor='text-c-white'
-									hoverColor='hover:bg-zinc-500'
+									hoverColor='hover:bg-sky-500'
 									disable={false}
 									onClick={() => {
 										if (option === 'Setup') {

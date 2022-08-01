@@ -105,10 +105,10 @@ const SupportForm = () => {
 					/>
 					<Button
 						height="h-xsmall-button"
-						color='bg-zinc-400'
+						color='bg-sky-400'
 						buttonText='Cancel'
 						textColor='text-c-white'
-						hoverColor='hover:bg-zinc-500'
+						hoverColor='hover:bg-sky-500'
 						disable={false}
 						// set later
 						onClick={() => navigate(-1)}
