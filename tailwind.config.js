@@ -87,7 +87,7 @@ module.exports = {
         'dropdown-menu': '30%',
         'dropdown-menu-mobile': '100vw',
         'popout-menu': '20vw',
-        'popout-menu-mobile': '50vw',
+        'popout-menu-mobile': '30vw',
         'tenth': '10%',
         'fifth': '20%',
         'quarter': '25%',

@@ -24,7 +24,7 @@ export const UserProvider = ({ children }) => {
 		let stored = sessionStorage.getItem('GilderiseUser') ;
 		setUser(stored == null ?
 			{
-				authenticated: true,
+				authenticated: false,
 				id: -100,
 			} :
 			JSON.parse(stored)

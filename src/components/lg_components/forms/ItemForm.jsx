@@ -127,7 +127,7 @@ const ItemForm = ({ options }) => {
 
 	return (
 		<div className="h-[35rem] w-full flex items-center justify-center ">
-			<div className="h-main w-half min-w-[20rem] bg-zinc-200">
+			<div className="h-main w-half min-w-[20rem] bg-sky-200">
 
 				<form id={'itemForm'} name={'itemForm'} className=' p-3 max-h-full max-w-full'>
 					<div className="max-w-full p-3 max-h-full" >
@@ -221,19 +221,19 @@ const ItemForm = ({ options }) => {
 								<div className='w-full flex items-center justify-end my-1'>
 									<Button
                             		height="h-small-button"
-                            		color='bg-zinc-400'
+                            		color='bg-sky-400'
                             		buttonText='Submit'
                             		textColor='text-c-white'
-                            		hoverColor='hover:bg-zinc-500'
+                            		hoverColor='hover:bg-sky-500'
                             		disable={disableSubmit}
                             		onClick={handleSubmit}
                             	/>
 									<Button
                             		height="h-small-button"
-                            		color='bg-zinc-400'
+                            		color='bg-sky-400'
                             		buttonText='Cancel'
                             		textColor='text-c-white'
-                            		hoverColor='hover:bg-zinc-500'
+                            		hoverColor='hover:bg-sky-500'
                             		disable={false}
                             		onClick={() => navigate(-1)}
                             	/>
