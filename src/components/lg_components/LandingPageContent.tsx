@@ -61,7 +61,7 @@ const LandingPageContent = () => {
 							<hr className="divider dark my-4" />
 						</div>
 						<div className="col-lg-8 align-self-baseline">
-							<p className="text-uppercase text-white font-weight-bold heading ">A Property Management Company</p>
+							<p className="text-uppercase text-white font-weight-bold heading ">An Assets Management Company</p>
 
 							<div className="imgcontainer"><img className="w-full md:px-10 px-4" alt="Entrance" src={require("../../assets/EntrancePhoto.jpg")} /></div>
 
@@ -74,13 +74,13 @@ const LandingPageContent = () => {
 				<div className="w-full p-4">
 					<div className="row justify-content-center">
 						<div className="col-lg-8 text-center">
-							<p className="text-white mt-0 text-lg heading">FACING PROPERTY MANAGEMENT TROUBLES?</p>
+							<p className="text-white mt-0 text-lg heading">FACING INVENTORY MANAGEMENT TROUBLES?</p>
 							{/* <!--<p> We are here to help!</p>--> */}
 							<hr className="divider dark my-4" />
 							
 							<img alt="GEBalance" src={require("../../assets/BrandImage.jpg")} className="w-full md:px-10"/>
 							
-							<p className="pcontrol text-white">Gilderise Enterprises has been helping retirement communities manage their property needs for over fifteen years. We provide a full-scale property management service to any homeowner associations and condominium boards. We are contantly working to maximize property values and create ideal lifestyles that residents can enjoy. We provide incomparable levels of service and expertise! Our main focus is on building long-lasting relationships with HOAs and boards of directors who share our vision and commitment to a better lifestyle for all.</p>
+							<p className="pcontrol text-white">Gilderise Enterprises has been helping the retired with their assets for over fifteen years. We provide a full-scale inventory management service for West Boca Make-Believe Retirement Community. We are constantly working to swiftly deal with all incoming and outgoing inventory data to help create an ideal lifestyles that residents can enjoy. We provide incomparable levels of service and expertise! Our main focus is on building long-lasting relationship with the community so we can assist the needs of everybody.</p>
 						</div>
 					</div>
 				</div>
@@ -147,7 +147,7 @@ This means less money out of your pockets AND more return on your investment.  <
 									<th>Employees</th>
 								</tr>
 								<tr>
-									<td>Over 15</td>
+									<td>ONE! (You are our Focus.)</td>
 									<td>Over 2000 Now</td>
 								</tr>
 								<tr>
@@ -165,7 +165,7 @@ This means less money out of your pockets AND more return on your investment.  <
 
 			<section className="page-section bg-six" id="properties">
 				<div className="max-w-full">
-					<p className="text-center mt-0 text-lg">PROPERTIES</p>
+					<p className="text-center mt-0 text-lg">INVENTORY</p>
 					<hr className="divider my-4" />
 					<div className="skillsutility">
 
