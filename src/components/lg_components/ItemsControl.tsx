@@ -41,7 +41,6 @@ const ItemsControl = ({ handleAddItem }) => {
 
 	}
 
-	console.log(items)
 	return (
 
 		<div className='w-full mb-2'>

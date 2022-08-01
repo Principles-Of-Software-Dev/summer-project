@@ -9,7 +9,8 @@ const NumberField = ({ min_number_length,max_number_length, setNumb, handleValid
 	const [numbErr, setNumbErr] = useState(false) ;
 	let initial = null ;
 
-	if (rest != null) {
+	if (rest !== (null || undefined) && rest.storedVal !== (null || undefined) && rest.storedVal !== '') {
+		console.log("Running when Im not supposed to")
 		handleValid(true) ;
 	}
 
@@ -23,12 +24,13 @@ const NumberField = ({ min_number_length,max_number_length, setNumb, handleValid
 		// If text isn't as long as expected, return error.
 		// Leave room for error in math.
 		if (required || (number !=='')) {
-			if (number.length < (min_number_length) || number.length > (max_number_length * 3)) {
+			if (number.length < (min_number_length) || number.length > (max_number_length)) {
 
 				if (rest.storedVal != null) {
 					rest.storedVal = number ;
 				}
-				handleValid(false) ;
+				handleValid(false);
+				setNumb(number.toString())
 				return true ;
 			}
 			else {
@@ -39,7 +41,7 @@ const NumberField = ({ min_number_length,max_number_length, setNumb, handleValid
 			}
 		} else { 
 			if (numbErr) { setNumbErr(false) }
-			setNumb(number) ;
+			setNumb(number.toString()) ;
 			handleValid(true) ;
 			return false ;
 		}

@@ -6,10 +6,10 @@ const LogoutConfirmation = ({ setDisplay }) => {
 	const { userLogout } = useUser() ;
 	return (
 		<div>
-			<div className='absolute top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] h-quarter w-auto border bg-zinc-300 border-solid border-black drop-shadow-md'>
-				<div className='w-full h-full flex items-center justify-center p-6'>
-					<p> Logout?</p>
-					<div className='flex items-center justify-evenly'>
+			<div className='absolute  top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] h-auto w-auto border bg-zinc-300 rounded-lg border-solid border-black drop-shadow-md'>
+				<div className='w-full h-full grid grid-row-2 p-6'>
+					<p className='flex items-center justify-center w-full my-2'> Logout?</p>
+					<div className='flex items-center justify-evenly my-2'>
 						<Button
 							height="h-xsmall-button"
 							color='bg-zinc-400'

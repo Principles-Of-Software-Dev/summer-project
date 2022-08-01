@@ -68,7 +68,7 @@ const LoginForm = ({ handleClickLogin, login }) => {
 					</div> :
                         
 					// display menu
-						<div className=' absolute right-0 top-[4.5rem] min-h-dropdown-menu-login h-auto w-dropdown-menu min-w-[25rem] bg-sky-200 bg-opacity-95 grid grid-rows-5'>
+						<div className=' absolute right-0 top-[4.5rem] min-h-dropdown-menu-login h-auto w-dropdown-menu min-w-[25rem] bg-sky-200 bg-opacity-95 grid grid-rows-5 rounded-3xl rounded-r-none'>
                     
 							{/* Email field */}
 							<div className='row-span-2 my-4 flex items-center justify-center'>

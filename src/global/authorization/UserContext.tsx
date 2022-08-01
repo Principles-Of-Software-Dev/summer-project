@@ -15,6 +15,9 @@ export const UserProvider = ({ children }) => {
 
 	const navigate = useNavigate() ;
 	const [user, setUser] = useState<User>({
+		authenticated: true,
+		id: -100,
+		
 	})
 	const [refreshUser, setRefreshUser] = useState(false) ;
 
@@ -448,7 +451,7 @@ export const UserProvider = ({ children }) => {
 
 	return (
 		<UserContext.Provider value={{
-			setupAccount, editUser, userLogin, getUser,
+			user, items, setupAccount, editUser, userLogin, getUser,
 			addItem, editItem, deleteItem, getItems, downloadItems
 			
 		}}>

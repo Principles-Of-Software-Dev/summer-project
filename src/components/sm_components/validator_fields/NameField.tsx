@@ -7,7 +7,7 @@ const NameField = ({ size, required, setName, handleValid, type, ...rest }) => {
 	//  const [name, setName] = useState('');
 	const [nameErr, setNameErr] = useState(false) ;
 
-	if (rest != null) {
+	if (rest !== (null || undefined) && rest.storedVal !== (null || undefined) && rest.storedVal !== '') {
 		handleValid(true) ;
 	}
 

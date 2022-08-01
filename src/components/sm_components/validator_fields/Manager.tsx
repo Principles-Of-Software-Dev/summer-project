@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Manager = ({ handleValid, option }) => {
+const Manager = ({ setDisplay, option }) => {
     
 	const handleManager = (e) => {
-		handleValid(e.target.checked) ;
+		setDisplay(e.target.checked) ;
 	}
 
 	return (

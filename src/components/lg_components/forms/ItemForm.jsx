@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react" ;
+import React, { useRef, useState } from "react" ;
 import { useNavigate } from "react-router-dom" ;
 import { useUser } from "../../../global/authorization/UserContext" ;
 import Button from "../../sm_components/Button" ;
@@ -134,7 +134,7 @@ const ItemForm = ({ options }) => {
 						{/* Estimate */}
 						<div className='w-full flex items-center justify-start my-2 '>
 							<div className="grid grid-rows-3">
-								<label htmlFor="estimation" className="row-span-1" > Home Worth</label>
+								<label htmlFor="estimation" className="row-span-1" > How much is your item worth?</label>
 								<div className="relative">
 									<div className="absolute left-0 top-1"> $</div>
 									<input
@@ -159,7 +159,7 @@ const ItemForm = ({ options }) => {
 							{/* Description */}
 							<div className='w-full flex items-center justify-start my-1 col-span-2 row-span-1'>
 								<div className="grid grid-rows-3 w-full">
-									<label htmlFor="description" className="row-span-1" > Description</label>
+									<label htmlFor="description" className="row-span-1" > Brief description of the item</label>
 									<textarea
 										id="description"
 										name="description"

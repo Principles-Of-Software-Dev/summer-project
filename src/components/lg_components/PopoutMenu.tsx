@@ -44,7 +44,7 @@ const PopoutMenu = ({ handleDisplayLogout, userId, handleAddItem }) => {
 			<UserCircleIcon className='h-xsmall-logo md:h-small-logo w-small-logo mx-6 cursor-pointer' onClick={handleDisplayMenu} />
           
 			{displayPopoutMenu && 
-              <div className=' fixed z-[-4] top-[4.25rem] right-0 min-h-popout-menu h-auto md:min-w-popout-menu min-w-popout-menu-mobile mid:max-w-third max-w-half w-auto bg-zinc-200' > 
+              <div className=' fixed z-[-4] top-[4.25rem] right-0 min-h-popout-menu h-auto md:min-w-popout-menu min-w-popout-menu-mobile mid:max-w-third max-w-half w-auto bg-zinc-200 rounded-3xl rounded-r-none' > 
               	<div className='grid grid-rows-5 grid-cols-1 p-6 h-full max-w-full'> 
               	{/* Logout Button */}
               	<div className='w-full h-full flex items-center justify-end row-span-1 my-2'>

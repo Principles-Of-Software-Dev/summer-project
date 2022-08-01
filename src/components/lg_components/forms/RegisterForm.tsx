@@ -71,7 +71,7 @@ const RegisterForm = ({ handleClickRegister, register }) => {
 					</div> :
                     
 					// display menu
-						<div className=' absolute right-0 top-[4.5rem] min-h-[5rem]  h-auto w-dropdown-menu min-w-[25rem] bg-sky-200 bg-opacity-95'>
+						<div className=' absolute right-0 top-[4.5rem] min-h-[5rem]  h-auto w-dropdown-menu min-w-[25rem] bg-sky-200 bg-opacity-95 rounded-3xl rounded-r-none '>
 							<div className='grid grid-rows-5 min-h-[5rem] max-h-dropdown-menu-mobile-register h-auto p-3'>
 								{/* Email field */}
 								<div className='row-span-1 my-4 flex items-center justify-center'>

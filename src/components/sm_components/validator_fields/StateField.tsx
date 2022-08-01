@@ -6,8 +6,13 @@ const StateField = ({ handleValid, setState, required , ...rest }) => {
 	
 	const handleStateSelect = (e) => {
 		e.preventDefault()
-		console.log(e.target.value) ;
-		setState(e.target.value)
+		let select = e.target.value;
+		setState(select)
+		if (select != "") {
+			handleValid(true);
+		} else {
+			handleValid(false)
+		}
 	}
     
 	return (

@@ -10,8 +10,8 @@ const AccountPreferences = () => {
 
 	const location = useLocation() ;
 	const option = location.state.options
-	const { getUserInfo } = useUser() ;
-	let userInfo = getUserInfo() ;
+	const { getUser } = useUser() ;
+	let userInfo = getUser() ;
 
 	userInfo = {
 		'firstname': 'mark',

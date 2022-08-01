@@ -7,7 +7,7 @@ const EmailField = ({ size, required, setEmail, handleValid, text, ...rest }) =>
 	// const [email, setEmail] = useState('');
 	const [emailErr, setEmailErr] = useState(false) ;
 
-	if (rest  != null) {
+	if (rest !== (null || undefined) && rest.storedVal !== (null || undefined) ) {
 		handleValid(true) ;
 	}
 

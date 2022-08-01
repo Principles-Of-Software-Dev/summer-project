@@ -6,11 +6,9 @@ const PhoneField = ({ size, setPhone, handleValid, required, ...rest }) => {
 	// * copy the line below to parent component and pass "phone and setPhone" as parameters
 	// const [phone, setPhone] = useState('');
 	const [phoneErr, setPhoneErr] = useState(false) ;
-	let initial = null ;
 
-	if (rest != null) {
+	if (rest !== (null || undefined) && rest.storedVal !== (null || undefined) && rest.storedVal !== '') {
 		handleValid(true) ;
-		initial = rest.storedVal ;
 	}
 
 	const handlePhoneChange = (e) => {
@@ -31,25 +29,11 @@ const PhoneField = ({ size, setPhone, handleValid, required, ...rest }) => {
 				if (phoneErr) { setPhoneErr(false) }
 				setPhone(phone) ;
 				handleValid(true) ;
-				if (initial != null) {
-					if (initial !== e.target.value) {
-						rest.changed(true) ;
-					} else {
-						rest.changed(false) ;
-					}
-				}
 				return false ;
 			}
 			else {
 				setPhoneErr(true) ;
 				handleValid(false) ;
-				if (initial != null) {
-					if (initial !== e.target.value) {
-						rest.changed(true) ;
-					} else {
-						rest.changed(false) ;
-					}
-				}
 				return true ;
 			}
 		} else {
@@ -57,13 +41,6 @@ const PhoneField = ({ size, setPhone, handleValid, required, ...rest }) => {
 			setPhone(phone) ;
 			setPhoneErr(false) ;
 			handleValid(true) ;
-			if (initial != null) {
-				if (initial !== e.target.value) {
-					rest.changed(true) ;
-				} else {
-					rest.changed(false) ;
-				}
-			}
 			return false ;
 		}
 	}

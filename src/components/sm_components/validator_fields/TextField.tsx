@@ -10,7 +10,7 @@ const TextField = ({ text_length, setText, handleValid, type, largeArea, require
 	const rows = 4 ;
 	const cols = (text_length / 4) ;
 
-	if (rest != null) {
+	if (rest !== (null || undefined) && rest.storedVal !== (null || undefined) && rest.storedVal !== '') {
 		handleValid(true) ;
 	}
 
