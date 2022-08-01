@@ -3,7 +3,7 @@ import TopBar from '../components/lg_components/TopBar' ;
 import LogoutConfirmation from '../components/lg_components/LogoutConfirmation' ;
 import PopoutMenu from '../components/lg_components/PopoutMenu' ;
 import FakeSiteBanner from '../components/lg_components/FakeSiteBanner' ;
-import ItemsControl from '../components/lg_components/ItemsControl';
+import ItemsControl from '../components/lg_components/ItemsControl' ;
 import { useUser } from '../global/authorization/UserContext' ;
 import { useNavigate } from 'react-router-dom' ;
 import Button from '../components/sm_components/Button' ;
@@ -11,7 +11,7 @@ import Button from '../components/sm_components/Button' ;
 const Dashboard = () => {
 
 	const { user, deleteItem } = useUser() ;
-	let userId = user.id;
+	let userId = user.id ;
 	useEffect(() => { 
 		
 		
@@ -32,12 +32,12 @@ const Dashboard = () => {
 	}
 
 	const handleDeleteItem = (item_id) => {
-		const formData = new FormData();
+		const formData = new FormData() ;
 
 		formData.append('item_id', item_id)
 		formData.append('user_id', userId)
 
-		deleteItem(formData);
+		deleteItem(formData) ;
 	}
 
   

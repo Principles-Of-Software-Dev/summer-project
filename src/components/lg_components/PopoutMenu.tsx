@@ -3,9 +3,12 @@ import { useNavigate } from 'react-router-dom' ;
 import Button from '../sm_components/Button' ;
 import { UserCircleIcon } from '@heroicons/react/outline' ;
 import UserLinks from '../sm_components/UserLinks' ;
+import { useUser } from '../../global/authorization/UserContext' ;
+
 
 
 const PopoutMenu = ({ handleDisplayLogout, userId, handleAddItem }) => {
+	const { downloadItems } = useUser() ;
     
 	const navigate = useNavigate() ;
 	const [displayPopoutMenu, setDisplayPopoutMenu] = useState(false) ; 
@@ -25,16 +28,20 @@ const PopoutMenu = ({ handleDisplayLogout, userId, handleAddItem }) => {
 		navigate('/support') ;
 	}
 
-	const downloadItems = () => {
+	const downloadAllItems = async () => {
 
-		
-		const file = new Blob(["hello world"], {
-		  type: "text/plain"
-		}) ;
-		// element.href = URL.createObjectURL(file);
-		// element.download = "myFile.txt";
-		// document.body.appendChild(element);
-		// element.click();
+		await downloadItems().then(
+			data => {
+				const element = document.createElement("a") ;
+				const file = new Blob(data, {
+					type: "text/plain"
+				}) ;
+				element.href = URL.createObjectURL(file) ;
+				element.download = "myFile.txt" ;
+				document.body.appendChild(element) ;
+				element.click() ;
+			}
+		)
 	}
 
 
@@ -65,7 +72,7 @@ const PopoutMenu = ({ handleDisplayLogout, userId, handleAddItem }) => {
               			<UserLinks text={"Contact Us"} handleClick={handleContactUs} />
               		</div>
               		<div className='flex items-center justify-end row-span-1 my-2'>
-              			<UserLinks text={"Download All Items"} handleClick={true} />
+              			<UserLinks text={"Download All Items"} handleClick={downloadAllItems} />
               		</div>
 						
               		<div className='md:hidden flex items-center justify-end row-span-1 my-2'>

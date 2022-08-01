@@ -42,6 +42,10 @@ class users(db.Model):
     email = db.Column(db.Text, unique=True)
     password = db.Column(db.Text)
     manager = db.Column(db.Text)
+    setup_complete = db.Column(db.Text)
+    session_token = db.Column(db.Text)
+    session_token_expr = db.Column(db.Text)
+    password = db.Column(db.Text)
     authorized_to = db.Column(db.Text)
     items = db.Column(db.Text)
 
@@ -56,6 +60,7 @@ class users(db.Model):
         self.email = email
         self.password = password
         self.manager = manager
+        self.setup_complete = 'false'
 
     def as_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
@@ -162,7 +167,7 @@ def hello():
     return jsonify({'string': 'Hello World'})
 
 
-@app.route("/setup_account", methods=['POST'])
+@app.route("/setup_account", methods=['POST'])  # tested locally
 def setup_account():
 
     # set json data into vars
@@ -170,7 +175,6 @@ def setup_account():
     lastname = request.form.get('lastname').lower()
     email = request.form.get('email').lower()
     manager = request.form.get('manager').lower()
-    print(manager)
 
     # validate if email already exist
     if users.query.filter_by(email=email).first():
@@ -180,7 +184,7 @@ def setup_account():
     password = secrets.token_hex(5)
 
     # add user to database
-    user = users(firstname, lastname, None, None, None, None, None,
+    user = users(firstname, lastname, None, None, None, None,
                  email, generate_password_hash(password), manager)
     db.session.add(user)
     db.session.commit()
@@ -200,11 +204,21 @@ def setup_account():
     return jsonify({'rsp_msg': 'user has been setup'})
 
 
-@app.route("/edit_user", methods=['POST'])  # FINISHED
+@app.route("/edit_user", methods=['POST'])  # tested locally
 def edit_user():
 
-    user_id = request.form.get('user_id')
-    user = users.query.filter_by(id_user=user_id).first()
+    # grab access token
+    session_token = request.cookies.get('session_token')
+    # was access token passed?
+    if session_token:
+        # set json data into vars
+        user_id = request.form.get('user_id')
+        user = users.query.filter_by(id_user=user_id).first()
+        # is the token valid?
+        if not is_token_valid(session_token, user_id):
+            return jsonify(409)
+    else:
+        return jsonify(409)
 
     # see which attributes were included in request and change if specified
     if request.form.get('firstname') or request.form.get('firstname') != '':
@@ -241,12 +255,15 @@ def edit_user():
         auth_user = request.form.get('auth_user')
         authorize_user(auth_user, user)
 
+    if user.setup_complete == 'false':
+        user.setup_complete = 'true'
+
     db.session.commit()
 
     return jsonify({"rsp_msg": "User has been updated"})
 
 
-@app.route("/login_user", methods=['POST'])
+@app.route("/login_user", methods=['POST'])  # tested locally
 def login_user():
 
     # set json data into vars
@@ -259,48 +276,65 @@ def login_user():
     if user:
         # check pass entered vs hashed pass in the db
         if check_password_hash(user.password, password):
+
+            generate_session_token(user)
             # create response object
             user_dict = user.as_dict()
-            del user_dict["password"]
-            return jsonify({"user": user_dict})
+            del user_dict['session_token']
+            del user_dict['session_token_expr']
+            del user_dict['password']
+            response = jsonify({"user": user_dict})
+            response.set_cookie(
+                'session_token', user.session_token, httponly=True)
+            return response
 
 
 @app.route("/get_user", methods=['GET'])
 def get_user():
-    request_json = request.get_json()  # get json data
 
     # grab access token
-    access_token = request_json.get('access_token')
+    session_token = request.cookies.get('session_token')
     # was access token passed?
-    if access_token:
+    if session_token:
         # set json data into vars
-        user_id = request_json.get('user_id')
+        user_id = request.form.get('user_id')
+        user = users.query.filter_by(id_user=user_id).first()
         # is the token valid?
-        if is_token_valid(access_token, "access", user_id):
-            # query for user in db
-            user = users.query.filter_by(id_user=user_id).first()
-            if user:
-                user_as_dict = user.as_dict()
-                del user_as_dict['session_token']
-                del user_as_dict['session_token_expr']
-                del user_as_dict['access_token']
-                del user_as_dict['access_token_expr']
-                del user_as_dict['password']
-                return jsonify({"user": user_as_dict})
-            else:
-                # user does not exist
-                return jsonify(402)
-
-        else:
-            # token not valid
+        if not is_token_valid(session_token, user_id):
             return jsonify(409)
     else:
-        # token was missing
         return jsonify(409)
 
+    user_id = request.form.get('user_id')
+    user = users.query.filter_by(id_user=user_id).first()
+    if user:
+        user_as_dict = user.as_dict()
+        del user_as_dict['session_token']
+        del user_as_dict['session_token_expr']
+        del user_as_dict['access_token']
+        del user_as_dict['access_token_expr']
+        del user_as_dict['password']
+        return jsonify({"user": user_as_dict})
+    else:
+        # user does not exist
+        return jsonify(402)
 
-@app.route("/authorize_user", methods=['POST'])
+
+@app.route("/authorize_user", methods=['POST'])  # tested locally
 def authorize_user(auth_user_email, user):
+
+    # grab access token
+    session_token = request.cookies.get('session_token')
+    # was access token passed?
+    if session_token:
+        # set json data into vars
+        user_id = request.form.get('user_id')
+        user = users.query.filter_by(id_user=user_id).first()
+        # is the token valid?
+        if not is_token_valid(session_token, user_id):
+            return jsonify(409)
+    else:
+        return jsonify(409)
 
     # query for authorized user in db
     authorized_user = users.query.filter_by(email=auth_user_email).first()
@@ -330,8 +364,22 @@ def authorize_user(auth_user_email, user):
         return jsonify(402)
 
 
-@app.route("/add_item", methods=['POST'])
+@app.route("/add_item", methods=['POST'])  # tested locally
 def add_item():
+
+    # grab access token
+    session_token = request.cookies.get('session_token')
+    # was access token passed?
+    if session_token:
+        # set json data into vars
+        user_id = request.form.get('user_id')
+        user = users.query.filter_by(id_user=user_id).first()
+        # is the token valid?
+        if not is_token_valid(session_token, user_id):
+            return jsonify(409)
+    else:
+        return jsonify(409)
+
     # set json data into vars
     user_id = request.form.get('user_id')
     user = users.query.filter_by(id_user=user_id).first()
@@ -372,49 +420,78 @@ def add_item():
 @app.route("/edit_item", methods=['POST'])
 def edit_item():
 
+    # grab access token
+    session_token = request.cookies.get('session_token')
+    # was access token passed?
+    if session_token:
+        # set json data into vars
+        user_id = request.form.get('user_id')
+        user = users.query.filter_by(id_user=user_id).first()
+        # is the token valid?
+        if not is_token_valid(session_token, user_id):
+            return jsonify(409)
+    else:
+        return jsonify(409)
+
     # set json data into vars
     item_id = request.form.get('item_id')
     item = items.query.filter_by(id_item=item_id).first()
 
-    if request.form.get('name'):
+    if request.form.get('name') or request.form.get('name') != '':
         name = request.form.get('name')
         item.name = name
-    if request.form.get('description'):
+    if request.form.get('description') or request.form.get('description') != '':
         description = request.form.get('description')
         item.description = description
-    if request.form.get('estimate'):
+    if request.form.get('estimate') or request.form.get('estimate') != '':
         estimate = request.form.get('estimate')
         item.estimate = estimate
-    if request.form.get('photos'):
+    if request.files.getlist("photos"):
         photos = request.files.getlist("photos")
         photo_array = []
         for photo in photos:
-            my_string = base64.b64encode(photo)
+            my_string = str(base64.b64encode(photo.read()))[
+                2:-1].replace("'", "")
             photo_array.append(my_string)
-        item.photos = str(photo_array)[1:-1]
+            print(my_string)
+        item.photos = item.photos + ', ' + \
+            str(photo_array)[2:-1].replace("'", "")
     if request.form.get('videos'):
+        print('this triggered')
         videos = request.files.getlist("videos")
+        print(videos)
         video_array = []
         for video in videos:
-            my_string = base64.b64encode(video)
+            my_string = str(base64.b64encode(photo.read()))[2:-1]
             video_array.append(my_string)
-        item.videos = str(video_array)[1:-1]
+        item.videos = item.videos + ', ' + str(video_array)
 
     db.session.commit()
 
     return jsonify({"rsp_msg": "item has been edited"})
 
 
-@app.route("/delete_item", methods=['POST'])
+@app.route("/delete_item", methods=['POST'])  # tested locally
 def delete_item():
+
+    # grab access token
+    session_token = request.cookies.get('session_token')
+    # was access token passed?
+    if session_token:
+        # set json data into vars
+        user_id = request.form.get('user_id')
+        user = users.query.filter_by(id_user=user_id).first()
+        # is the token valid?
+        if not is_token_valid(session_token, user_id):
+            return jsonify(409)
+    else:
+        return jsonify(409)
 
     user_id = int(request.form.get('user_id'))
     user = users.query.filter_by(id_user=user_id).first()
     item_id = int(request.form.get('item_id'))
-    print(item_id, user_id)
     items.query.filter_by(id_item=item_id).delete()
     item_ids = user.items.split(',')
-    print(item_ids)
     if str(item_id) in item_ids:
         print(item_id)
         item_ids.remove(str(item_id))
@@ -427,6 +504,20 @@ def delete_item():
 
 @app.route("/get_items", methods=['POST'])
 def get_items():
+
+    # grab access token
+    session_token = request.cookies.get('session_token')
+    # was access token passed?
+    if session_token:
+        # set json data into vars
+        user_id = request.form.get('user_id')
+        user = users.query.filter_by(id_user=user_id).first()
+        # is the token valid?
+        if not is_token_valid(session_token, user_id):
+            return jsonify(409)
+    else:
+        return jsonify(409)
+
     user_id = request.form.get('user_id')
     user = users.query.filter_by(id_user=user_id).first()
     item_ids = user.items.split(',')
@@ -440,6 +531,20 @@ def get_items():
 
 @app.route("/get_items_download", methods=['POST'])
 def get_items_downloads():
+
+    # grab access token
+    session_token = request.cookies.get('session_token')
+    # was access token passed?
+    if session_token:
+        # set json data into vars
+        user_id = request.form.get('user_id')
+        user = users.query.filter_by(id_user=user_id).first()
+        # is the token valid?
+        if not is_token_valid(session_token, user_id):
+            return jsonify(409)
+    else:
+        return jsonify(409)
+
     user_id = request.form.get('user_id')
     user = users.query.filter_by(id_user=user_id).first()
     item_ids = user.items.split(',')
@@ -454,6 +559,27 @@ def get_items_downloads():
         items_list.append(item_dict)
 
     return jsonify(pprint.pformat(items_list)[2:-2])
+
+
+def generate_session_token(user):
+    token = secrets.token_hex(32)
+    token_expr = int((datetime.now() + timedelta(days=2)).timestamp())
+    user.session_token = token
+    user.session_token_expr = token_expr
+    db.session.commit()
+    return token
+
+
+def is_token_valid(token, user_id=None):
+    user = users.query.filter_by(id_user=user_id).first()
+    if user and token == user.session_token:
+        token_expr = user.session_token_expr
+        if int((datetime.now()).timestamp()) > int(token_expr):
+            return False
+        else:
+            return True
+    else:
+        return False
 
 
 if __name__ == '__main__':

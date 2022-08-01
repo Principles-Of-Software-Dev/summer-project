@@ -1,4 +1,4 @@
-import React, { } from 'react' ;
+import React, { useEffect } from 'react' ;
 import { useUser } from '../global/authorization/UserContext' ;
 import { useLocation } from 'react-router-dom' ;
 import FakeSiteBanner from '../components/lg_components/FakeSiteBanner' ;
@@ -10,14 +10,12 @@ const AccountPreferences = () => {
 
 	const location = useLocation() ;
 	const option = location.state.options
-	const { getUser } = useUser() ;
-	let userInfo = getUser() ;
+	const { getUser, userInfo } = useUser() ;
 
-	userInfo = {
-		'firstname': 'mark',
-		'lastname': 'Weener',
-		'email': 'markweener@gmail.com'
-	}
+
+	useEffect(() => { 
+		getUser() ;
+	})
 	
     
 	return (

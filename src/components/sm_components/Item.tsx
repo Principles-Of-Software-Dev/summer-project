@@ -32,9 +32,9 @@ const Item = ({ item, displayItem, displayItemForm }) => {
 											<ChevronLeftIcon className='h-xsmall-logo absolute top-[50%] left-2 cursor-pointer select-none' onClick={prevPic} />
 											<ChevronRightIcon className='h-xsmall-logo absolute top-[50%] right-2 cursor-pointer select-none' onClick={nextPic} />
 											<div className='absolute w-auto p-1 z-1 bg-sky-300 border rounded-md top-3 md:top-4 left-3 md:left-4'>
-												<p className='text-sm tracking-wide '> ${ item.estimate }</p>
+												<p className='text-sm tracking-wide '> { item.estimate }</p>
 											</div>
-											<img src={img} alt={"Beautiful Item"} className='w-full h-full p-2' />
+											<img src={`data:image/png;base64,${img}`} alt={"item.description"} className='w-full h-full p-2' />
 										</div>
 									</div>
 								)}
@@ -49,13 +49,8 @@ const Item = ({ item, displayItem, displayItemForm }) => {
 							{ item.description}
 						</div>
 
-						<div className='row-span-1 mt-2 grid grid-cols-2'>
-
-							<div className='flex items-center justify-start col-span-1'>
-								{ item.city}, {item.state }
-							</div>
-
-							<div className=' col-span-1 grid grid-rows-2 pt-3'>
+						<div className='row-span-1 mt-2 flex items-center justify-end w-full'>
+							<div className='grid grid-rows-2 pt-3'>
 								<div className='flex items-center justify-end row-span-1 my-1'>
 									<Button
 										height="h-small-button"

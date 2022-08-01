@@ -1,5 +1,5 @@
 import React from 'react' ;
-import { BrowserRouter, Routes, Route } from 'react-router-dom' ;
+import { HashRouter, Routes, Route } from 'react-router-dom' ;
 import LandingPage from '../pages/LandingPage' ;
 import MissingPage from '../pages/MissingPage' ;
 import SupportPage from '../pages/SupportPage' ;
@@ -13,7 +13,7 @@ import ModifyAddItem from '../pages/ModifyAddItem.jsx' ;
 const WebsiteRoutes = () => {
   
 	return (
-		<BrowserRouter>
+		<HashRouter>
 			<UserProvider>
 				<Routes>
 					{/* Public Routes */}
@@ -34,7 +34,7 @@ const WebsiteRoutes = () => {
 					<Route path="*" element={<MissingPage />} />
 				</Routes>
 			</UserProvider>
-		</BrowserRouter>
+		</HashRouter>
 	)
 }
 

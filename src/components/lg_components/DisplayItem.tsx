@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react' ;
+import React, { useState } from 'react' ;
 import Button from '../sm_components/Button' ;
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/outline' ;
 
@@ -36,7 +36,7 @@ const DisplayItem = ({ item, displayItem, editItem, deleteItem }) => {
 												<div className='absolute w-auto p-1 z-1 bg-sky-300 border rounded-md top-3 md:top-4 left-3 md:left-4'>
 													<p className='text-sm tracking-wide '> ${ item.estimate }</p>
 												</div>
-												<img src={img} alt={"Beautiful Item"} className='w-full h-full p-2' />
+												<img src={`data:image/png;base64,${img}`} alt={"item.description"} className='w-full h-full p-2' />
 											</div>
 										</div>
 									)}
@@ -51,13 +51,7 @@ const DisplayItem = ({ item, displayItem, editItem, deleteItem }) => {
 								{ item.description}
 							</div>
 
-							<div className='row-span-1 mt-2 grid grid-cols-2'>
-
-								<div className='flex items-center justify-start col-span-1'>
-									{item.street}
-									{item.city}, {item.state}
-								</div>
-
+							<div className='row-span-1 mt-2 flex item-center justify-end'>
 								<div className='flex items-center justify-end row-span-1 col-span-2 mx-4 my-2'>
 									<Button
 										height="h-xsmall-button"
