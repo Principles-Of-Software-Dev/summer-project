@@ -152,12 +152,10 @@ export const UserProvider = ({ children }) => {
 			// send request and and wait unitl we get a response
 			xhr.open('POST', '/login_user', false)
 			xhr.send(formData) ;
-			JSON.parse(xhr.response).then(
-				data => {
-					console.log("running")
-					console.log(data.rsp_mg)
-				}
-			)
+			let data = JSON.parse(xhr.response)
+			
+			console.log("running")
+			console.log(data.rsp_mg)
 			// // send request
 			// await fetch("/login_user", requestOptions).then(
 			// 	// after successful call to api, convert response to JSON
