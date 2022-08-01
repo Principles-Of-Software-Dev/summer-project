@@ -45,7 +45,7 @@ const LandingPageContent = () => {
 				<a href="#about" >About</a>
 				<a href="#news">News</a>
 				<a href="#skills">Info</a>
-				<a href="#properties">Property</a>
+				<a href="#item">Items</a>
 				<a href="#review">Reviews</a>
 				<a href="#contact">Contact</a>
 				
@@ -57,11 +57,11 @@ const LandingPageContent = () => {
 				<div className="max-w-full">
 					<div className="row align-items-center justify-content-center text-center">
 						<div className="col-lg-10 align-self-end">
-							<p className="text-uppercase text-white font-weight-bold text-xl heading">Gilderise Enterprises and Properties</p>
+							<p className="text-uppercase text-white font-weight-bold text-xl heading">Gilderise Communities</p>
 							<hr className="divider dark my-4" />
 						</div>
 						<div className="col-lg-8 align-self-baseline">
-							<p className="text-uppercase text-white font-weight-bold heading ">A Property Management Company</p>
+							<p className="text-uppercase text-white font-weight-bold heading ">Asset Management for West Boca Make-Believe Community</p>
 
 							<div className="imgcontainer"><img className="w-full md:px-10 px-4" alt="Entrance" src={require("../../assets/EntrancePhoto.jpg")} /></div>
 
@@ -74,13 +74,19 @@ const LandingPageContent = () => {
 				<div className="w-full p-4">
 					<div className="row justify-content-center">
 						<div className="col-lg-8 text-center">
-							<p className="text-white mt-0 text-lg heading">FACING PROPERTY MANAGEMENT TROUBLES?</p>
+							<p className="text-white mt-0 text-lg heading">FACING INVENTORY MANAGEMENT TROUBLES?</p>
 							{/* <!--<p> We are here to help!</p>--> */}
 							<hr className="divider dark my-4" />
 							
 							<img alt="GEBalance" src={require("../../assets/BrandImage.jpg")} className="w-full md:px-10"/>
 							
-							<p className="pcontrol text-white">Gilderise Enterprises has been helping retirement communities manage their property needs for over fifteen years. We provide a full-scale property management service to any homeowner associations and condominium boards. We are contantly working to maximize property values and create ideal lifestyles that residents can enjoy. We provide incomparable levels of service and expertise! Our main focus is on building long-lasting relationships with HOAs and boards of directors who share our vision and commitment to a better lifestyle for all.</p>
+							<p className="pcontrol text-white">Gilderise Communities have been helping
+retirement communities manage their household items and many other needs for over fifteen
+years. We provide a full-scale organizational service to all of our residents at Gilderise
+Communites. We are contantly working to maximize the funcaionality of our website so that it is
+simple and ready for you to use. We provide incomparable levels of service and expertise! Our
+main focus is on building long-lasting relationships with our residents and we share our vision
+and commitment to a better lifestyle for all.</p>
 						</div>
 					</div>
 				</div>
@@ -94,14 +100,17 @@ const LandingPageContent = () => {
 							<hr className="divider light my-4" />
 							
 							<div className="text-black-50 mb-4" />
-							<p className='text-lg heading'>Planning to expand into North East Texas!</p>
-							<p className="pcontrol">Gilderise Enterprise has been growing throughout Florida and Georgia. We currently manage over 60,000 units across over 80 communities, including prestigious locations such as Delray River Reserve, Naples Creek Estates, Village Path of Concord, and Garland Reserve. In Central Georgia, we now have a prominent presence and we’re happy to be expanding throughout the North East Texas and St. Colombus area, as we continue to grow our services and our family continues to grow.</p>
+							<p className='text-lg heading'>Our focus is you!</p>
+							<p className="pcontrol">Gilderise Enterprise takes a different approach to the way we help with asset management. Our focus is quality. Managing tangile assets through us is simple, easy to underestand and reliable. If you are every having any difficulties it is as simple as contacting out support page and our staff will contact you promptly with a solution. We treat the residents of West Boca Make-Believe Retirement Community. We hope you will see us as family too. Register now and join the our family!</p>
 							<p className='text-lg heading'>Maintenance, Repairs & Renovations  </p>
 							<p className="pcontrol">Due to our long-lasting relationships with contractors, we can contact our maintenance team quickly & repair your property below quicker and at a lower price than normal contractors. 
 This means less money out of your pockets AND more return on your investment.  </p>
 							
-							<p className="text-lg heading">Property Marketing and Remodling</p>
-							<p className="pcontrol"> We have implemented many proven marketing strategies that can be specifically tailored to your property. which will nclude listing your property on over 200 of the top real estate websites. We then track the performance of our marketing plan, which allows us to quickly make adjustmentsto make marketing your property more effective.Our property managers have the potential of arranging necessary renovations before listing it on the market. This can be as small as repainting the walls, or as important as changing the partitions inside the house. Our team will first assess your property’s value, and then come to you with a list of suggestions fitted to your every need. </p>
+							<p className="text-lg heading">Care Type Services</p>
+							<p className="pcontrol"> We also provide any care you might need here at Gilderise
+Communities whether that is Memory Care, Assisted living, Skilled Nursing, or Independent
+living. We are here for you and to help in any way that we see fit. Please don't hesitate to
+contact us at any time. We respond to any communication within the hour 24 hours a day! </p>
 						</div>
 					</div>
 				</div>
@@ -110,29 +119,29 @@ This means less money out of your pockets AND more return on your investment.  <
 			{/* <!-- Services--> */}
 			<section className="page-section" id="skills">
 				<div className="max-w-full">
-					<p className="textcenter mt-0 text-lg heading">An Enterprise You Can Trust</p>
+					<p className="textcenter mt-0 text-lg heading">A Community You Can Trust</p>
 					<hr className="divider my-4" />
 					<div className="skillsutility">
 							
 						<table className='min-w-full'>
 							<tbody>
 								<tr >
-									<th>Properties</th>
+									<th>Why Register</th>
 									<th>Locations</th>
 									<th>Communities</th>
 								</tr>
 								<tr>
-									<td>1,000 Houses</td>
+									<td>Easy To Use User Interface</td>
 									<td>Florida</td>
 									<td>West Boca MB Retirement Community</td>
 								</tr>
 								<tr>
-									<td>1,500 Condos</td>
+									<td>Responsive Customer Support</td>
 									<td>Georgia</td>
 									<td>Unity Springs Retirement Community</td>
 								</tr>
 								<tr>
-									<td>1270 Apartments</td>
+									<td>Free For Residents Of Our Communities</td>
 									<td>North Carolina</td>
 									<td>Sun City Peachtree Retirement Community</td>
 								</tr>
@@ -152,7 +161,7 @@ This means less money out of your pockets AND more return on your investment.  <
 								</tr>
 								<tr>
 									<td>Expanding Elsewhere</td>
-									<td>Always On Standby</td>
+									<td>Ready To Help You At All Hours!</td>
 								</tr>
 							</tbody>
 						</table>
@@ -165,7 +174,7 @@ This means less money out of your pockets AND more return on your investment.  <
 
 			<section className="page-section bg-six" id="properties">
 				<div className="max-w-full">
-					<p className="text-center mt-0 text-lg">PROPERTIES</p>
+					<p className="text-center mt-0 text-lg">INVENTORY</p>
 					<hr className="divider my-4" />
 					<div className="skillsutility">
 
