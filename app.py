@@ -167,7 +167,7 @@ def hello():
     return jsonify({'string': 'Hello World'})
 
 
-@app.route("/setup_account", methods=['POST'])  # tested locally
+@app.route("/setup_account*", methods=['POST'])  # tested locally
 def setup_account():
 
     # set json data into vars
