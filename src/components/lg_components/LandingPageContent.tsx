@@ -80,7 +80,7 @@ const LandingPageContent = () => {
 							
 							<img alt="GEBalance" src={require("../../assets/BrandImage.jpg")} className="w-full md:px-10"/>
 							
-							<p className="pcontrol text-white">>Gilderise Communities have been helping
+							<p className="pcontrol text-white">Gilderise Communities have been helping
 retirement communities manage their household items and many other needs for over fifteen
 years. We provide a full-scale organizational service to all of our residents at Gilderise
 Communites. We are contantly working to maximize the funcaionality of our website so that it is
