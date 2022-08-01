@@ -55,7 +55,7 @@ const RegisterForm = ({ handleClickRegister, register }) => {
 			<Button
 				height="h-small-button"
 				color='bg-sky-400'
-				buttonText='Search for Account'
+				buttonText='Sign Up'
 				textColor='text-c-white'
 				hoverColor='hover:bg-sky-500'
 				disable={false}
