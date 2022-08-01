@@ -148,6 +148,20 @@ class tickets(db.Model):
 db.create_all()
 
 
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def index(path):
+    if path != "" and os.path.exists(app.static_folder + '/' + path):
+        return send_from_directory(app.static_folder, path)
+    else:
+        return send_from_directory(app.static_folder, 'index.html')
+
+
+@app.route("/hello")
+def hello():
+    return jsonify({'string': 'Hello World'})
+
+
 @app.route("/setup_account", methods=['POST'])
 def setup_account():
 
