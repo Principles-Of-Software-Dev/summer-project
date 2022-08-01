@@ -153,8 +153,9 @@ export const UserProvider = ({ children }) => {
 			xhr.open('POST', '/login_user', false)
 			xhr.send(formData) ;
 			let data = JSON.parse(xhr.response)
-			
+
 			console.log("running")
+			console.log(data)
 			console.log(data.rsp_mg)
 			// // send request
 			// await fetch("/login_user", requestOptions).then(
