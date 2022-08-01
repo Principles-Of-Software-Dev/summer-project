@@ -3,8 +3,7 @@ import { useUser } from '../../../global/authorization/UserContext' ;
 import Button from '../../sm_components/Button' ;
 import EmailField from '../../sm_components/validator_fields/EmailField' ;
 import NameField from '../../sm_components/validator_fields/NameField' ;
-import PasswordField from '../../sm_components/validator_fields/PasswordField' ;
-import AgeCheck from '../../sm_components/validator_fields/AgeCheck' ;
+import AccountType from '../../sm_components/validator_fields/AccountType' ;
 
 
 const RegisterForm = ({ handleClickRegister, register }) => {
@@ -15,24 +14,37 @@ const RegisterForm = ({ handleClickRegister, register }) => {
 	const [firstName, setFirstName] = useState('') ;
 	const [lastName, setLastName] = useState('') ;
 	const [validName, setValidName] = useState(false) ;
-	const [password, setPassword] = useState('') ;
-	const [validPassword, setValidPassword] = useState(false) ;
-	const [validAgeCheck, setValidAgeCheck] = useState(false) ;
+	const [accountType, setAccountType] = useState('')
 	
 
-	const { userRegistration } = useUser() ;
+	const { setupAccount } = useUser() ;
     
 
 	const handleValidRegistration = () => {
         
-		if (validEmail && validName && validPassword && validAgeCheck) {
+		if (validEmail && validName && accountType !== '') {
 			return false ;
 		}
 		else {
 			return true ;
 		}
 		
+	}
 
+	const handleChangeAccountType = (str:string) => {
+		setAccountType(str)
+	}
+
+	const handleSetupAccount = (e) => {
+		e.preventDefault() ;
+		const formData = new FormData() ;
+
+		formData.append('email', email) ;
+		formData.append('firstname', firstName) ;
+		formData.append('lastname', lastName) ;
+		formData.append('manager', accountType) ;
+		
+		setupAccount(formData) ;
 	}
         
 
@@ -42,15 +54,15 @@ const RegisterForm = ({ handleClickRegister, register }) => {
 			{/* Start actual code. */}
 			<Button
 				height="h-small-button"
-				color='bg-zinc-400'
-				buttonText='Register'
+				color='bg-sky-400'
+				buttonText='Sign Up'
 				textColor='text-c-white'
-				hoverColor='hover:bg-zinc-500'
+				hoverColor='hover:bg-sky-500'
 				disable={false}
 				onClick={handleClickRegister}
 			/>
 
-			{/* dropdown login menu */}
+			{/* dropdown search menu */}
 			<form >
 				{
 					!register ? <div className='hidden'>
@@ -59,11 +71,11 @@ const RegisterForm = ({ handleClickRegister, register }) => {
 					</div> :
                     
 					// display menu
-						<div className=' absolute right-0 top-[4.5rem] min-h-dropdown-menu-register max-h-dropdown-menu-mobile-register h-auto w-dropdown-menu min-w-[25rem] bg-zinc-100'>
-							<div className='grid grid-rows-6 min-h-dropdown-menu-register max-h-dropdown-menu-mobile-register p-3'>
+						<div className=' absolute right-0 top-[4.5rem] min-h-[5rem]  h-auto w-dropdown-menu min-w-[25rem] bg-sky-200 bg-opacity-95 rounded-3xl rounded-r-none '>
+							<div className='grid grid-rows-5 min-h-[5rem] max-h-dropdown-menu-mobile-register h-auto p-3'>
 								{/* Email field */}
 								<div className='row-span-1 my-4 flex items-center justify-center'>
-									< EmailField size={25} required={true} setEmail={setEmail} handleValid={setValidEmail} />
+									< EmailField size={25} required={true} setEmail={setEmail} handleValid={setValidEmail} text={"Enter your email"} />
 								</div>
 
 								{/* Name field */}
@@ -74,36 +86,31 @@ const RegisterForm = ({ handleClickRegister, register }) => {
 									< NameField size={25} required={true} setName={setLastName} handleValid={setValidName } type={"Last"}/>
 								</div>
 
-								{/* Password field */}
-								<div className='row-span-1 flex items-center justify-center'>
-									< PasswordField size={25} required={true} setPassword={setPassword} handleValid={setValidPassword} />
-								</div>
-                          
-								{/* Age Check*/}
-								<div className='row-span-1 flex items-center justify-center w-full'>
-									<AgeCheck handleValid={setValidAgeCheck} />
-								</div>
+								{/* Account Type field */}
+                            	<div className='row-span-1 my-2 flex items-center justify-center'>
+									< AccountType setType={handleChangeAccountType} />
+                            	</div>
 
 								{/* "Submit" and "Cancel Button" */}
                             
 								<div className='row-span-1 flex items-center justify-between mb-2 mx-2'>
 									< Button 
 										height="h-small-button"
-										color='bg-zinc-400'
+										color='bg-sky-400'
 										buttonText='Submit'
 										textColor='text-c-white'
-										hoverColor='hover:bg-zinc-500'
+										hoverColor='hover:bg-sky-500'
 										disable={handleValidRegistration()}
 										// set later
-										onClick={userRegistration}
+										onClick={handleSetupAccount}
 									/>
 
 									< Button
 										height="h-small-button"
-										color='bg-zinc-400'
+										color='bg-sky-400'
 										buttonText='Cancel'
 										textColor='text-c-white'
-										hoverColor='hover:bg-zinc-500'
+										hoverColor='hover:bg-sky-500'
 										disable={false}
 										onClick={handleClickRegister}
 									/>

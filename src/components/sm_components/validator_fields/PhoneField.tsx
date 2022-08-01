@@ -1,11 +1,15 @@
 import React, { useState } from 'react' ;
 
 
-const PhoneField = ({ size, phone, setPhone, handleValid, required }) => {
+const PhoneField = ({ size, setPhone, handleValid, required, ...rest }) => {
 
 	// * copy the line below to parent component and pass "phone and setPhone" as parameters
 	// const [phone, setPhone] = useState('');
 	const [phoneErr, setPhoneErr] = useState(false) ;
+
+	if (rest !== (null || undefined) && rest.storedVal !== (null || undefined) && rest.storedVal !== '') {
+		handleValid(true) ;
+	}
 
 	const handlePhoneChange = (e) => {
 
@@ -22,24 +26,32 @@ const PhoneField = ({ size, phone, setPhone, handleValid, required }) => {
 		if (required || phone !== '') {
 			// If format is valid, set phone; else, return error.
 			if (regex.test(phone)) {
-				setPhoneErr(false) ;
+				if (phoneErr) { setPhoneErr(false) }
 				setPhone(phone) ;
 				handleValid(true) ;
+				return false ;
 			}
 			else {
 				setPhoneErr(true) ;
 				handleValid(false) ;
+				return true ;
 			}
 		} else {
+			if (phoneErr) { setPhoneErr(false) }
 			setPhone(phone) ;
 			setPhoneErr(false) ;
 			handleValid(true) ;
+			return false ;
 		}
+	}
+
+	const handleSetErrMsg = (e) => {
+		setPhoneErr(handlePhoneChange(e)) ;
 	}
 
 	return (
 	// Start actual code.
-		<span className='grid grid-rows-7 mx-6'>
+		<span className='grid grid-rows-7 mx-6 max-h-full'>
 			<label className='row-span-3 mb-2 flex items-center justify-start'>
        Phone Number :
 			</label>
@@ -47,7 +59,10 @@ const PhoneField = ({ size, phone, setPhone, handleValid, required }) => {
 				<input
 					type="tel"
 					onChange={handlePhoneChange}
-					size={size}
+					onBlur={handleSetErrMsg}
+					placeholder={!required ? 'Optional': 'Required'}
+					defaultValue={rest.storedVal != null ? rest.storedVal : null}
+					className='px-2 rounded-md w-most'
 				/>
 			</div>
 

@@ -11,7 +11,7 @@ const FakeSiteBanner = () => {
 
 				{/* Link to Github repo. Stays at bottom of screen. */}
 				<a href="https://github.com/Principles-Of-Software-Dev/summer-project/tree/master" >
-					<section className='h-10 w-full bg-zinc-200 hover:bg-zinc-300 flex items-center justify-center fixed bottom-0 group'>
+					<section className='h-10 w-full bg-zinc-200 hover:bg-sky-300 flex items-center justify-center fixed bottom-0 group'>
 						<p className='flex items-center text-xs tracking-widest'>
                   Click Here to Check our Repo Out!
 						</p>

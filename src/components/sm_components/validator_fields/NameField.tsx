@@ -1,11 +1,16 @@
 import React, { useState } from 'react'
 
 
-const NameField = ({ size, required, setName, handleValid, type }) => {
+const NameField = ({ size, required, setName, handleValid, type, ...rest }) => {
 
 	// * copy the line below to parent component and pass "name and setName" as parameters
 	//  const [name, setName] = useState('');
 	const [nameErr, setNameErr] = useState(false) ;
+
+	if (rest !== (null || undefined) && rest.storedVal !== (null || undefined) && rest.storedVal !== '') {
+		handleValid(true) ;
+	}
+
     
 	const handleNameChange = (e) => {
       
@@ -19,34 +24,45 @@ const NameField = ({ size, required, setName, handleValid, type }) => {
 		// If field is filled, set name; else, return error.
 		if (required || name !== '') {
 			if (name === '') {
-				setNameErr(true) ;
 				handleValid(false) ;
+				return true ;
 			}
 			else {
-				setNameErr(false) ;
 				setName(name) ;
 				handleValid(true) ;
+				if (nameErr) { setNameErr(false) }
+				return false ;
 			}
 		} else {
-			setNameErr(false) ;
 			setName(name) ;
 			handleValid(true) ;
+			if (nameErr) { setNameErr(false) }
+			return false ;
 		}
+	}
+
+	const handleSetErrMsg = (e) => {
+
+		setNameErr(handleNameChange(e)) ;
+		
 	}
 
 	return (
 
 	// Start actual code.
-		<span className='grid grid-rows-7 mx-6'>
+		<span className='grid grid-rows-7 mx-6 max-h-full w-full'>
 			<label className='row-span-3 mb-2 flex items-center justify-start'>
 				{type} Name * :
 			</label>
-			<div className='rows-span-3 mb-2 flex items-center justify-start mx-2'>
+			<div className='rows-span-3 mb-2 flex items-center justify-center mx-2'>
 				<input
 					type="name"
 					onChange={handleNameChange}
-					required
-					size={size}
+					onBlur={handleSetErrMsg}
+					required={required}
+					placeholder={!required ? 'Optional': 'Required'}
+					className="px-2 rounded-md w-most"
+					defaultValue={ rest.storedVal != null ? rest.storedVal : null}
 				/>
 			</div>
 

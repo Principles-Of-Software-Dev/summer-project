@@ -4,9 +4,9 @@ import Button from '../sm_components/Button' ;
 import EmailField from '../sm_components/validator_fields/EmailField' ;
 import NameField from '../sm_components/validator_fields/NameField' ;
 import PasswordField from '../sm_components/validator_fields/PasswordField' ;
-import AgeCheck from '../sm_components/validator_fields/AgeCheck' ;
 import { useNavigate } from 'react-router-dom' ;
 import { useUser } from '../../global/authorization/UserContext' ;
+import AccountType from '../sm_components/validator_fields/AccountType' ;
 
 
 // @TODO cleanup and restructure code. Create components for long sections.
@@ -25,12 +25,36 @@ const MobileMenu = () => {
 	const [regFirstName, setRegFirstName] = useState('') ;
 	const [regLastName, setRegLastName] = useState('') ;
 	const [validRegName, setValidRegName] = useState(false) ;
-	const [regPassword, setRegPassword] = useState('') ;
-	const [validRegPassword, setValidRegPassword] = useState(false) ;
-	const [validAgeCheck, setValidAgeCheck] = useState(false) ;
-
-	const { userLogin, userRegistration } = useUser() ;
+	const { userLogin, setupAccount } = useUser() ;
 	const navigate = useNavigate() ;
+	const [accountType, setAccountType] = useState<string>('') ;
+
+	const handleChangeAccountType = (str:string) => {
+		setAccountType(str)
+	}
+
+	const handleLogin = (e) => {
+		e.preventDefault() ;
+		const formData = new FormData() ;
+		formData.append('email', loginEmail) ;
+		formData.append('password', loginPassword) ;
+		
+		userLogin(formData) ;
+		
+	}
+	
+
+	const handleSetupAccount = (e) => {
+		e.preventDefault() ;
+		const formData = new FormData() ;
+
+		formData.append('email', regEmail) ;
+		formData.append('firstname', regFirstName) ;
+		formData.append('lastname', regLastName) ;
+		formData.append('manager', accountType) ;
+		
+		setupAccount(formData)
+	}
 
 	const handleNavigate = (page:string, check:boolean) => {
 
@@ -51,7 +75,7 @@ const MobileMenu = () => {
 	const handleValidRegistration = () => {
 		// Require phone to be valid if added.
 		
-		if (validRegEmail && validRegName && validRegPassword && validAgeCheck) {
+		if (validRegEmail && validRegName && accountType !== '') {
 			return false ;
 		}
 		else {
@@ -96,27 +120,27 @@ const MobileMenu = () => {
 				</div>
                     
 				{menu &&
-                    <div className='absolute top-[4.5rem] left-0 w-dropdown-menu-mobile bg-zinc-200 '>
+                    <div className='absolute top-[4.5rem] left-0 w-dropdown-menu-mobile bg-sky-200 '>
 
                     	{/* Display "Login" and "Register" buttons or forms */}
                     	{(!login && !register) &&
                             <div className='h-dropdown-menu-login flex items-center justify-center '>
                             	<Button
                             		height="h-small-button"
-                            		color='bg-zinc-400'
+                            		color='bg-sky-400'
                             		buttonText='Login'
                             		textColor='text-c-white'
-                            		hoverColor='hover:bg-zinc-500'
+                            		hoverColor='hover:bg-sky-500'
                             		disable={false}
                             		onClick={handleClickLogin}
                             	/>
 
                             	<Button
                             		height="h-small-button"
-                            		color='bg-zinc-400'
+                            		color='bg-sky-400'
                             		buttonText='Register'
                             		textColor='text-c-white'
-                            		hoverColor='hover:bg-zinc-500'
+                            		hoverColor='hover:bg-sky-500'
                             		disable={false}
                             		onClick={handleClickRegister}
                             	/>
@@ -129,42 +153,42 @@ const MobileMenu = () => {
                             	<div className="grid grid-rows-5">
                             		{/* Email field */}
                             		<div className='row-span-2 my-4 flex items-center justify-center'>
-                            			< EmailField size={15} required={true} setEmail={setLoginEmail } handleValid={setValidLoginEmail} />
+                            			< EmailField size={15} required={true} setEmail={setLoginEmail } handleValid={setValidLoginEmail} text={'Email'} />
                             		</div>
 
                             		{/* Password field */}
                             		<div className='row-span-2 flex items-center justify-center'>
-                            			< PasswordField size={15} required={true} setPassword={setLoginPassword} handleValid={setValidLoginPassword} />
+                            			< PasswordField size={15} required={true} setPassword={setLoginPassword} handleValid={setValidLoginPassword} text={"Password"} />
                             		</div>
 
                             		{/* "Submit" and "Cancel Button" */} 
                             		<div className='row-span-1 flex items-center justify-center mb-2 mx-2'>
                             			< Button 
                             				height="h-xsmall-button"
-                            				color='bg-zinc-400'
+                            				color='bg-sky-400'
                             				buttonText='Submit'
                             				textColor='text-c-white'
-                            				hoverColor='hover:bg-zinc-500'
+                            				hoverColor='hover:bg-sky-500'
                             				disable={handleValidLogin()}
-                            				onClick={userLogin}
+                            				onClick={handleLogin}
                             			/>
 
                             			< Button
                             				height="h-xsmall-button"
-                            				color='bg-zinc-400'
+                            				color='bg-sky-400'
                             				buttonText='Cancel'
                             				textColor='text-c-white'
-                            				hoverColor='hover:bg-zinc-500'
+                            				hoverColor='hover:bg-sky-500'
                             				disable={false}
                             				onClick={handleClickLogin}
                             			/>
                                             
                             			<Button
                             				height="h-xsmall-button"
-                            				color='bg-zinc-400'
+                            				color='bg-sky-400'
                             				buttonText='Forgot Password'
                             				textColor='text-c-white'
-                            				hoverColor='hover:bg-zinc-500'
+                            				hoverColor='hover:bg-sky-500'
                             				disable={false}
                             				onClick = {() => handleNavigate("/support" , login)}
                             			/>  
@@ -175,11 +199,11 @@ const MobileMenu = () => {
                     	}
 
                     	{(!login && register) &&
-							<div className='min-h-dropdown-menu-login max-h-dropdown-menu-mobile-register h-auto '>
+							<div className='max-h-dropdown-menu-mobile-register h-auto '>
 								<div className='grid grid-rows-6'>
                             	{/* Email field */}
                             	<div className='row-span-1 my-2 flex items-center justify-center'>
-                            		< EmailField size={15} required={true} setEmail={setRegEmail} handleValid={setValidRegEmail} />
+										< EmailField size={15} required={true} setEmail={setRegEmail} handleValid={setValidRegEmail} text={"Enter your email"} />
                             	</div>
 
                             	{/* Name field */}
@@ -190,36 +214,32 @@ const MobileMenu = () => {
 									<div className='row-span-1 my-2 flex items-center justify-center'>
 										< NameField size={15} required={true} setName={setRegLastName} handleValid={setValidRegName} type={"Last"} />
 									</div>
+									
+									{/* Account Type field */}
+                            	<div className='row-span-1 my-2 flex items-center justify-center'>
+										< AccountType setType={handleChangeAccountType} />
+                            	</div>
 
-                            	{/* Password field */}
-                            	<div className='row-span-1 my-2 flex items-center justify-center'>
-                            		< PasswordField size={15} required={true} setPassword={ setRegPassword} handleValid={setValidRegPassword}/>
-                            	</div>
-                                    
-                            	{/* Age Check */}
-                            	<div className='row-span-1 my-2 flex items-center justify-center'>
-										<AgeCheck handleValid={setValidAgeCheck} />
-                            	</div>
 
                             	{/* "Submit" and "Cancel Button" */} 
                             	<div className='row-span-1 flex items-center justify-between mb-2 mx-2'>
                             		< Button 
                             			height="h-xsmall-button"
-                            			color='bg-zinc-400'
+                            			color='bg-sky-400'
                             			buttonText='Submit'
                             			textColor='text-c-white'
-                            			hoverColor='hover:bg-zinc-500'
+                            			hoverColor='hover:bg-sky-500'
                             			disable={handleValidRegistration()}
                             			// set later
-                            			onClick={ userRegistration }
+											onClick={handleSetupAccount}
                             		/>
 
                             		< Button
                             			height="h-xsmall-button"
-                            			color='bg-zinc-400'
+                            			color='bg-sky-400'
                             			buttonText='Cancel'
                             			textColor='text-c-white'
-                            			hoverColor='hover:bg-zinc-500'
+                            			hoverColor='hover:bg-sky-500'
                             			disable={false}
                             			onClick={handleClickRegister}
                             		/>

@@ -5,7 +5,7 @@ import { UserCircleIcon } from '@heroicons/react/outline' ;
 import UserLinks from '../sm_components/UserLinks' ;
 
 
-const PopoutMenu = ({ handleDisplayLogout, userId }) => {
+const PopoutMenu = ({ handleDisplayLogout, userId, handleAddItem }) => {
     
 	const navigate = useNavigate() ;
 	const [displayPopoutMenu, setDisplayPopoutMenu] = useState(false) ; 
@@ -16,11 +16,25 @@ const PopoutMenu = ({ handleDisplayLogout, userId }) => {
 	}
 	
 	const handleAccountPreferences = () => {
-		navigate('/account-preferences') ;
+
+		let options = 'Edit'
+		navigate('/account-preferences', { state: { options } })
 	}
 	
 	const handleContactUs = () => {
 		navigate('/support') ;
+	}
+
+	const downloadItems = () => {
+
+		
+		const file = new Blob(["hello world"], {
+		  type: "text/plain"
+		}) ;
+		// element.href = URL.createObjectURL(file);
+		// element.download = "myFile.txt";
+		// document.body.appendChild(element);
+		// element.click();
 	}
 
 
@@ -30,16 +44,16 @@ const PopoutMenu = ({ handleDisplayLogout, userId }) => {
 			<UserCircleIcon className='h-xsmall-logo md:h-small-logo w-small-logo mx-6 cursor-pointer' onClick={handleDisplayMenu} />
           
 			{displayPopoutMenu && 
-              <div className=' fixed z-[-4] top-[4.25rem] right-0 min-h-popout-menu h-auto md:min-w-popout-menu min-w-popout-menu-mobile mid:max-w-third max-w-half w-auto bg-zinc-200' > 
-              	<div className='grid grid-rows-4 grid-cols-1 p-6 h-full max-w-full'> 
+              <div className=' fixed z-[-4] top-[4.25rem] right-0 min-h-popout-menu h-auto md:min-w-popout-menu min-w-popout-menu-mobile mid:max-w-third max-w-half w-auto bg-sky-200 rounded-3xl rounded-r-none' > 
+              	<div className='grid grid-rows-5 grid-cols-1 p-6 h-full max-w-full'> 
               	{/* Logout Button */}
               	<div className='w-full h-full flex items-center justify-end row-span-1 my-2'>
               		< Button
               		height="h-small-button"
-              		color='bg-zinc-400'
+              		color='bg-sky-400'
               		buttonText='Logout'
               		textColor='text-c-white'
-              		hoverColor='hover:bg-zinc-500'
+              		hoverColor='hover:bg-sky-500'
               		disable={false}
               		onClick={handleDisplayLogout}
               		/>
@@ -51,7 +65,19 @@ const PopoutMenu = ({ handleDisplayLogout, userId }) => {
               			<UserLinks text={"Contact Us"} handleClick={handleContactUs} />
               		</div>
               		<div className='flex items-center justify-end row-span-1 my-2'>
-              			<UserLinks text={"Download All Properties"} handleClick={true} />
+              			<UserLinks text={"Download All Items"} handleClick={true} />
+              		</div>
+						
+              		<div className='md:hidden flex items-center justify-end row-span-1 my-2'>
+              			<Button
+              				height="h-xsmall-button"
+              				color='bg-sky-400'
+              				buttonText='Add Item'
+              				textColor='text-c-white'
+              				hoverColor='hover:bg-sky-500'
+              				disable={false}
+              				onClick={handleAddItem}
+              			/>
               		</div>
               	</div>
 					

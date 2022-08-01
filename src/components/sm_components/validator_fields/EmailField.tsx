@@ -1,11 +1,16 @@
 import React, { useState } from 'react'
 
 
-const EmailField = ({ size, required, setEmail, handleValid }) => {
+const EmailField = ({ size, required, setEmail, handleValid, text, ...rest }) => {
 
 	// * copy the line below to parent component and pass "email and setEmail as parameters"
 	// const [email, setEmail] = useState('');
 	const [emailErr, setEmailErr] = useState(false) ;
+
+	if (rest !== (null || undefined) && rest.storedVal !== (null || undefined) ) {
+		handleValid(true) ;
+	}
+
     
 	const handleEmailChange = (e) => {
     
@@ -21,42 +26,51 @@ const EmailField = ({ size, required, setEmail, handleValid }) => {
 		// If format is valid, set email; else, return error.
 		if (required || email !== '') {
 			if (regex.test(email)) {
-				setEmailErr(false) ;
 				setEmail(email) ;
 				handleValid(true) ;
+				if (emailErr) { setEmailErr(false) }
+				return false ;
 			}
 			else {
-				setEmailErr(true) ;
 				handleValid(false) ;
+				return true ;
 			}
 		} else {
-			setEmailErr(false) ;
 			setEmail(email) ;
+			if (emailErr) { setEmailErr(false) }
 			handleValid(true) ;
+			return false ;
 		}
     
+	}
+
+	const handleSetErrMsg = (e) => {
+		setEmailErr(handleEmailChange(e)) ;
 	}
 
 	return (
 
 	// Start actual code.
-		<span className='grid grid-rows-7 mx-6'>
+		<span className='grid grid-rows-7 mx-6 max-h-full w-full '>
 			<label className='row-span-3 mb-2 flex items-center justify-start'>
-        Email* :
+				{text} {required && '*'} :
 			</label>
-			<div className='rows-span-3 mb-2 flex items-center justify-start mx-2'>
+			<div className='rows-span-3 mb-2 flex items-center justify-center mx-2 max-w-full' >
 				<input
 					type="email"
 					onChange={handleEmailChange}
-					required
-					size={size}
+					onBlur={handleSetErrMsg}
+					required={required}
+					placeholder={!required ? 'Optional': 'Required'}
+					className="px-2 rounded-md w-most"
+					defaultValue={ rest.storedVal != null ? rest.storedVal : null}
 				/>
 			</div>
 
 			{/* If email not valid format, display error.  */}
 			{emailErr &&
           <div className='flex items-end justify-center mx-3 text-red-500 text-sm p-4'>
-            Invalid email!
+            Email is not in the correct format!
           </div>  
 			}
       

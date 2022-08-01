@@ -18,12 +18,8 @@ export type ButtonProps = {
   onClick;
 }
  
-export type PropertyType = {
-  propertyId: number,
-  street: string,
-  city: string,
-  state: string,
-  zipcode: number,
+export type ItemType = {
+  itemId: number,
   description: string,
   estimate: number,
   photos: any,
