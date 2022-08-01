@@ -95,7 +95,7 @@ const LandingPageContent = () => {
 							
 							<div className="text-black-50 mb-4" />
 							<p className='text-lg heading'>Our focus is you!</p>
-							<p className="pcontrol">Gilderise Enterprise takes a different approach to the way we help with asset management. Our focus is quality. Managing tangile assets through us is simple, easy to underestand and reliable. If you are every having any difficulties it is as simple as contacting out support page and our staff will contact you promptly with a solution. We treat the residents of West Boca Make-Believe Retirement Community. We hope you will see us as family too. Regist now and join the our family!</p>
+							<p className="pcontrol">Gilderise Enterprise takes a different approach to the way we help with asset management. Our focus is quality. Managing tangile assets through us is simple, easy to underestand and reliable. If you are every having any difficulties it is as simple as contacting out support page and our staff will contact you promptly with a solution. We treat the residents of West Boca Make-Believe Retirement Community. We hope you will see us as family too. Register now and join the our family!</p>
 							<p className='text-lg heading'>Maintenance, Repairs & Renovations  </p>
 							<p className="pcontrol">Due to our long-lasting relationships with contractors, we can contact our maintenance team quickly & repair your property below quicker and at a lower price than normal contractors. 
 This means less money out of your pockets AND more return on your investment.  </p>
@@ -132,7 +132,7 @@ This means less money out of your pockets AND more return on your investment.  <
 									<td>Unity Springs Retirement Community</td>
 								</tr>
 								<tr>
-									<td>Free For Residents Of West Boca!</td>
+									<td>Free For Residents Of Our Communities</td>
 									<td>North Carolina</td>
 									<td>Sun City Peachtree Retirement Community</td>
 								</tr>
@@ -147,11 +147,11 @@ This means less money out of your pockets AND more return on your investment.  <
 									<th>Employees</th>
 								</tr>
 								<tr>
-									<td>Only West Boca MB Retirement Community</td>
-									<td>Over 115 Ready To Help</td>
+									<td>Over 15</td>
+									<td>Over 2000 Now</td>
 								</tr>
 								<tr>
-									<td>You Are Our Total And Complete Focus!!</td>
+									<td>Expanding Elsewhere</td>
 									<td>Ready To Help You At All Hours!</td>
 								</tr>
 							</tbody>
