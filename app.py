@@ -324,8 +324,6 @@ def get_user():
         user_as_dict = user.as_dict()
         del user_as_dict['session_token']
         del user_as_dict['session_token_expr']
-        del user_as_dict['access_token']
-        del user_as_dict['access_token_expr']
         del user_as_dict['password']
         return jsonify({"user": user_as_dict})
     else:

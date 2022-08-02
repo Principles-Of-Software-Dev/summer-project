@@ -47,12 +47,24 @@ const ItemForm = ({ options }) => {
 			console.log('ran') ;
 			return false ;
 		} else if (!required && (
-			estimation.current.value !== initalVals.estimation
-			|| description.current.value !== initalVals.description
-			|| name.current.value !== initalVals.name
-			|| photos.current.value !== ("")
-			|| videos.current.value !== ("")
+			estimation.current.value != initalVals.estimation
+			|| description.current.value != initalVals.description
+			|| name.current.value != initalVals.name
+			|| photos.current.value != ("")
+			|| videos.current.value != ("")
 		)) {
+			console.log('Required ' + required) ;
+			console.log('Estimate Current Val ' + estimation.current.value)
+			console.log('Description Current Val ' + description.current.value)
+			console.log('Name Current Val ' + name.current.value)
+			console.log('Photos Current Val ' + photos.current.value)
+			console.log('Videos Current Val ' + videos.current.value)
+			console.log('Estimate valid ' + estimation.current.value != initalVals.estimation)
+			console.log('Description valid ' + description.current.value != initalVals.description)
+			console.log('Name valid ' + description.current.value != initalVals.description)
+			console.log('Photos valid ' + photos.current.value != (""))
+			console.log('Videos valid ' + videos.current.value != (""))
+
 			return false ;
 		}
 		return true ;
@@ -91,9 +103,9 @@ const ItemForm = ({ options }) => {
 		// edit item
 		else {
 			let params = {
-				'description': '',
-				'estimation': 0,
-				'name': '',
+				'description': description.current.value,
+				'estimation': estimation.current.value,
+				'name': name.current.value,
 			}
 
 			if (estimation.current.value !== initalVals.estimation) {
@@ -124,7 +136,7 @@ const ItemForm = ({ options }) => {
 			formData.append('estimate', params.estimation)
 			formData.append('name', params.name)
 
-			formData.append('item_id', options.item.itemId) ;
+			formData.append('item_id', options.item.item_Id) ;
 			formData.append('user_id', user.id)
 			// console.log("ItemID: " + options.item.itemId + "\nStreet" + params.street + "\nCity: " + params.city + "\nState : " + params.state + "\nZip: " + params.zip+ "\nDescription: "+ params.description+ "\nEstimation: "+ params.estimation+ "\nForm Data Photos: " +formData.getAll("photos")+ "\nForm Data Videos: " +formData.getAll("videos"))
 			editItem(formData)
@@ -133,123 +145,124 @@ const ItemForm = ({ options }) => {
 	}
 
 	return (
-		<div className="h-auto w-full flex items-center justify-center ">
-			<div className="h-main w-half min-w-[20rem] bg-sky-200 rounded-3xl">
+		<div className="flex items-center justify-center">
+			<div className="h-auto w-full flex items-center justify-center">
+				<div className="h-main w-half min-w-[20rem] bg-sky-200 rounded-3xl">
 
-				<form id={'itemForm'} name={'itemForm'} className=' p-3 max-h-full max-w-full'>
-					<div className="max-w-full p-3 max-h-full" >
+					<form id={'itemForm'} name={'itemForm'} className=' p-3 max-h-full max-w-full'>
+						<div className="max-w-full p-3 max-h-full" >
 
-						<div className='w-full flex items-center justify-start my-2 '>
+							<div className='w-full flex items-center justify-start my-2 '>
 								
-							<div className="grid grid-rows-3 w-full">
-								<label htmlFor="name" className="row-span-1" > Name of the item</label>
-								<textarea
-									id="name"
-									name="name"
-									className="w-full rounded-md px-4 row-span-2 col-span-2"
-									required={required}
-									minLength={5}
-									maxLength={15}
-									onChange={valChanged}
-									ref={name}
-									defaultValue={ options.item != null? options.item.name : null}
-								/>
-							</div>
-						</div>
-						
-						{/* Estimate */}
-						<div className='w-full flex items-center justify-start my-2 '>
-							<div className="grid grid-rows-3 w-full">
-								<label htmlFor="estimation" className="row-span-1" > How much is your item worth?</label>
-								<div className="relative">
-									<div className="absolute left-0 top-1"> $</div>
-									<input
-										type='number'
-										id="estimation"
-										name="estimation"
-										className="md:w-[20rem] w-main rounded-md h-8 px-4 row-span-2"
-										placeholder="Enter in an estimate of your home's worth"
-										required={required}
-										maxLength={15}
-										minLength={4}
-										onChange={valChanged}
-										ref={estimation}
-										defaultValue={ options.item != null? options.item.estimate : null}
-									/>
-								</div>
-							</div>
-						</div>
-
-
-
-						<div className="grid grid-cols-2 grid-rows-3" >
-
-							{/* Description */}
-							<div className='w-full flex items-center justify-start my-1 col-span-2 row-span-1'>
 								<div className="grid grid-rows-3 w-full">
-									<label htmlFor="description" className="row-span-1" > Brief description of the item</label>
+									<label htmlFor="name" className="row-span-1" > Name of the item</label>
 									<textarea
-										id="description"
-										name="description"
+										id="name"
+										name="name"
 										className="w-full rounded-md px-4 row-span-2 col-span-2"
 										required={required}
-										cols={22}
-										rows={3}
-										minLength={10}
-										maxLength={65}
+										minLength={5}
+										maxLength={15}
 										onChange={valChanged}
-										ref={description}
-										defaultValue={ options.item != null? options.item.description : null}
+										ref={name}
+										defaultValue={ options.item != null? options.item.name : null}
 									/>
 								</div>
 							</div>
-
-							{/* Photos */}
-							<div className="col-span-2">
-								<div className='w-full flex items-center justify-start my-1'>
-									<div className="grid grid-rows-3 w-full">
-										<label htmlFor="photos" className="row-span-1" > Upload Photos</label>
+						
+							{/* Estimate */}
+							<div className='w-full flex items-center justify-start my-2 '>
+								<div className="grid grid-rows-3 w-full">
+									<label htmlFor="estimation" className="row-span-1" > How much is your item worth?</label>
+									<div className="relative">
+										<div className="absolute left-0 top-1"> $</div>
 										<input
-											type='file'
-											id="photos"
+											type='number'
+											id="estimation"
+											name="estimation"
+											className="md:w-[20rem] w-main rounded-md h-8 px-4 row-span-2"
+											placeholder="Enter in an estimate of your home's worth"
 											required={required}
-											name="photos"
-											className="w-full rounded-md h-8 px-4 row-span-2 col-span-2"
-											ref={photos}
+											maxLength={15}
+											minLength={4}
 											onChange={valChanged}
-											multiple
-											accept="/image.*"
+											ref={estimation}
+											defaultValue={ options.item != null? options.item.estimate : null}
 										/>
 									</div>
 								</div>
-						
 							</div>
 
-							{/* Videos */}
-							<div className="col-span-2">
-								<div className='w-full flex items-center justify-start my-1'>
+
+
+							<div className="grid grid-cols-2 grid-rows-3" >
+
+								{/* Description */}
+								<div className='w-full flex items-center justify-start my-1 col-span-2 row-span-1'>
 									<div className="grid grid-rows-3 w-full">
-										<label htmlFor="videos" className="row-span-1" > Upload Videos</label>
-										<input
-											type='file'
-											id="videos"
+										<label htmlFor="description" className="row-span-1" > Brief description of the item</label>
+										<textarea
+											id="description"
+											name="description"
+											className="w-full rounded-md px-4 row-span-2 col-span-2"
 											required={required}
-											name="videos"
-											className="w-full rounded-md h-8 px-4 row-span-2 col-span-2"
-											ref={videos}
+											cols={22}
+											rows={3}
+											minLength={10}
+											maxLength={65}
 											onChange={valChanged}
-											multiple
-											accept="/video.*"
+											ref={description}
+											defaultValue={ options.item != null? options.item.description : null}
 										/>
 									</div>
 								</div>
+
+								{/* Photos */}
+								<div className="col-span-2">
+									<div className='w-full flex items-center justify-start my-1'>
+										<div className="grid grid-rows-3 w-full">
+											<label htmlFor="photos" className="row-span-1" > Upload Photos</label>
+											<input
+												type='file'
+												id="photos"
+												required={required}
+												name="photos"
+												className="w-full rounded-md h-8 px-4 row-span-2 col-span-2"
+												ref={photos}
+												onChange={valChanged}
+												multiple
+												accept="/image.*"
+											/>
+										</div>
+									</div>
 						
-							</div>
+								</div>
+
+								{/* Videos */}
+								<div className="col-span-2">
+									<div className='w-full flex items-center justify-start my-1'>
+										<div className="grid grid-rows-3 w-full">
+											<label htmlFor="videos" className="row-span-1" > Upload Videos</label>
+											<input
+												type='file'
+												id="videos"
+												required={required}
+												name="videos"
+												className="w-full rounded-md h-8 px-4 row-span-2 col-span-2"
+												ref={videos}
+												onChange={valChanged}
+												multiple
+												accept="/video.*"
+											/>
+										</div>
+									</div>
+						
+								</div>
 							
-							{/* Cancel and Submit Buttons */}
-							<div className="col-span-2">
-								<div className='w-full flex items-center justify-end my-1'>
-									<Button
+								{/* Cancel and Submit Buttons */}
+								<div className="col-span-2">
+									<div className='w-full flex items-center justify-end my-1'>
+										<Button
                             		height="h-small-button"
                             		color='bg-sky-400'
                             		buttonText='Submit'
@@ -258,7 +271,7 @@ const ItemForm = ({ options }) => {
                             		disable={disableSubmit}
                             		onClick={handleSubmit}
                             	/>
-									<Button
+										<Button
                             		height="h-small-button"
                             		color='bg-sky-400'
                             		buttonText='Cancel'
@@ -267,16 +280,17 @@ const ItemForm = ({ options }) => {
                             		disable={false}
                             		onClick={() => navigate(-1)}
                             	/>
-								</div>
+									</div>
 						
+								</div>
 							</div>
 						</div>
-					</div>
 
-				</form>
+					</form>
+
+				</div>
 
 			</div>
-
 		</div>
 	)
 }
