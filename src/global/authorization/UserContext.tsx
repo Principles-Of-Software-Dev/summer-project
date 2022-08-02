@@ -265,7 +265,10 @@ export const UserProvider = ({ children }) => {
 		setRefreshUser(true) ;
 
 		const formData = new FormData() ;
-		formData.append('user_id', user.id!.toString()) ;
+		while (user.id == null) {
+			console.log(test)
+		}
+		formData.append('user_id', user.id.toString()) ;
 		
 		// set request options
 		// let requestOptions = {

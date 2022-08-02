@@ -11,12 +11,6 @@ const AccountPreferences = () => {
 	const location = useLocation() ;
 	const option = location.state.options.operation
 	const userInfo = location.state.options.userInfo
-	const { getUser } = useUser() ;
-
-
-	useEffect(() => { 
-		getUser() ;
-	})
 	
     
 	return (
