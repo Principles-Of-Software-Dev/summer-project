@@ -293,7 +293,7 @@ def login_user():
         return jsonify(402)
 
 
-@app.route("/get_user", methods=['GET'])
+@app.route("/get_user", methods=['POST'])
 def get_user():
 
     # grab access token
