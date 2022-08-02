@@ -6,12 +6,12 @@ import { useUser } from '../../global/authorization/UserContext' ;
 import UserLinks from '../sm_components/UserLinks' ;
 
 const ItemsControl = ({ handleAddItem,handleDeleteItem }) => {
-	const { items, getItems } = useUser() ;
+	const { items } = useUser() ;
 	const navigate = useNavigate() ;
 	console.log(items)
-	console.log((items !== { 'authorized_items': undefined, 'owned_items': undefined } && items != (undefined || null)))
+	console.log((items !== { 'owned_items': undefined , 'authorized_items': undefined } && items != (undefined || null)))
 
-	console.log(items !== { 'authorized_items': undefined, 'owned_items': undefined })
+	console.log(items !== {  'owned_items': undefined, 'authorized_items': undefined })
 	console.log( items != (undefined || null))
 
 	const [displayItem, setDisplayItem] = useState(null) ;
@@ -48,7 +48,7 @@ const ItemsControl = ({ handleAddItem,handleDeleteItem }) => {
 			{displayItem != null &&
 				<DisplayItem item={displayItem} displayItem={setDisplayItem} editItem={handleDisplayItemForm} deleteItem={handleDeleteItem} />
 			}
-			{(items !== { 'authorized_items': undefined, 'owned_items': undefined } && items != (undefined || null)) ?
+			{(items !== { 'owned_items': undefined,'authorized_items': undefined } && items != (undefined || null)) ?
 				<div> 
 					{items.owned_items !== undefined && 
 					<div>

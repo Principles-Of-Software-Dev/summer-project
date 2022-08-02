@@ -8,10 +8,13 @@ import Dashboard from "../../pages/Dashboard" ;
 export const UserContext = createContext<any>(null) ;
 
 export const UserProvider = ({ children }) => {
-	const [items, setItems] = useState<{'authorized_items': []| undefined,
-	'owned_items': []| undefined}>({
-		'authorized_items': undefined,
-		'owned_items': undefined
+	const [items, setItems] = useState<{
+		'owned_items': [] | undefined,
+		'authorized_items': [] | undefined	
+	}>({
+		'owned_items': undefined,
+		'authorized_items': undefined
+		
 	})
 
 	const [userInfo, setUserInfo] = useState(null) ;

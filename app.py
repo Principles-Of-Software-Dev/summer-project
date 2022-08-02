@@ -351,14 +351,8 @@ def authorize_user(auth_user_email, user):
     # if authorized user exist
     elif authorized_user:
         if authorized_user.authorized_to:
-            # if authorized user is already authorized
-            if str(user.id_user) in authorized_user.authorized_to.split(','):
-                # user already authorized
-                return jsonify(405)
-            else:
-                # append user to authorized_to list
-                authorized_user.authorized_to = authorized_user.authorized_to + \
-                    ',' + str(user.id_user)
+            # user is already authorized to another account
+            return jsonify(411)
         else:
             # add user to authorized_to list
             authorized_user.authorized_to = str(user.id_user)
@@ -537,12 +531,20 @@ def get_items():
     user_id = request.form.get('user_id')
     user = users.query.filter_by(id_user=user_id).first()
     item_ids = user.items.split(',')
-    items_list = []
+    owned_list = []
     for item_id in item_ids:
         item = items.query.filter_by(id_item=int(item_id)).first()
-        items_list.append(item.as_dict())
+        owned_list.append(item.as_dict())
 
-    return jsonify({"items": items_list})
+    if user.manager == 'true':
+        authorized_list = []
+        user_id = int(user.authorized_to)
+        user = users.query.filter_by(id_user=user_id).first()
+        for item_id in item_ids:
+            item = items.query.filter_by(id_item=int(item_id)).first()
+            authorized_list.append(item.as_dict())
+
+    return jsonify({"owned_items": owned_list, 'authorized_items': authorized_list})
 
 
 @app.route("/get_items_download", methods=['POST'])
