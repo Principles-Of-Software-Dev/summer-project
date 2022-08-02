@@ -36,6 +36,7 @@ export const UserProvider = ({ children }) => {
 	// Store user data on local memory on every update of user or user.authenticated.
 
 	useEffect(() => {
+		console.log('Items on use Effect' + items)
 		navigate('/dashboard')
 	}, [items])
 	useEffect(() => {
