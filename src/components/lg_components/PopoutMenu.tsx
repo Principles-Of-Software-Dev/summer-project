@@ -7,7 +7,7 @@ import { useUser } from '../../global/authorization/UserContext' ;
 
 
 
-const PopoutMenu = ({ handleDisplayLogout, userId, handleAddItem }) => {
+const PopoutMenu = ({ handleDisplayLogout, handleAddItem }) => {
 	const { downloadItems, user } = useUser() ;
     
 	const navigate = useNavigate() ;

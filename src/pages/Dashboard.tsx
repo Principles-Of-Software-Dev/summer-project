@@ -62,7 +62,7 @@ const Dashboard = () => {
 							onClick={handleAddItem}
 						/>
 					</div>
-					<PopoutMenu handleDisplayLogout={handleDisplayLogout} userId={userId} handleAddItem={handleAddItem} />
+					<PopoutMenu handleDisplayLogout={handleDisplayLogout} handleAddItem={handleAddItem} />
 				
 				</div>
 				
