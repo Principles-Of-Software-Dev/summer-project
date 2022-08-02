@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.f563a3b5.css",
-    "main.js": "/static/js/main.19741eea.js",
+    "main.js": "/static/js/main.ab44449b.js",
     "static/media/GEContact.png": "/static/media/GEContact.9fd42c0bf7a9b90053ac.png",
     "static/media/Slide2.jpg": "/static/media/Slide2.afe8e1cbfe3a8e79db84.jpg",
     "static/media/BGO.jpg": "/static/media/BGO.3ee460a9e94aa26355f9.jpg",
@@ -22,10 +22,10 @@
     "static/media/Review8.jpg": "/static/media/Review8.0df7464066f8fd9d43f4.jpg",
     "index.html": "/index.html",
     "main.f563a3b5.css.map": "/static/css/main.f563a3b5.css.map",
-    "main.19741eea.js.map": "/static/js/main.19741eea.js.map"
+    "main.ab44449b.js.map": "/static/js/main.ab44449b.js.map"
   },
   "entrypoints": [
     "static/css/main.f563a3b5.css",
-    "static/js/main.19741eea.js"
+    "static/js/main.ab44449b.js"
   ]
 }
