@@ -9,7 +9,7 @@ const ItemsControl = ({ handleAddItem,handleDeleteItem }) => {
 	const { items, getItems } = useUser() ;
 	const navigate = useNavigate() ;
 	
-	console.log(items)
+	console.log((items !== { 'authorized_items': undefined, 'owned_items': undefined } && items != (undefined || null)))
 
 	const [displayItem, setDisplayItem] = useState(null) ;
 	
