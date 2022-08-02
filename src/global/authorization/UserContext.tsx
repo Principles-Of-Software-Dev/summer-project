@@ -35,7 +35,9 @@ export const UserProvider = ({ children }) => {
 	}, [])
 	// Store user data on local memory on every update of user or user.authenticated.
 
-
+	useEffect(() => {
+		navigate('/dashboard')
+	}, [items])
 	useEffect(() => {
 		sessionStorage.setItem('GilderiseUser', JSON.stringify(user)) ;
 
@@ -132,7 +134,6 @@ export const UserProvider = ({ children }) => {
 				window.alert('Update Successful') ;
 				getItems(temp_id) ;
 				setUserInfo(data.user)
-				navigate('/dashboard')
 				
 			} else if (data === 401) { 
 				// email already exits in db
@@ -218,7 +219,6 @@ export const UserProvider = ({ children }) => {
 					
 					getItems(temp_id) ;
 					
-					navigate('/dashboard')
 				}
 			} else {
 				// warn user of general failure
@@ -381,7 +381,6 @@ export const UserProvider = ({ children }) => {
 			if (data.rsp_msg === 'item has been added') {
 				// navigate back to dashboard
 				getItems(temp_id) ;
-				navigate('/dashboard')
 			} else {
 				// warn user of general failure
 				window.alert('Something went wrong; please try again') ;
@@ -439,7 +438,6 @@ export const UserProvider = ({ children }) => {
 			if (data.rsp_msg === 'item has been edited') {
 				// navigate back to dashboard
 				getItems(temp_id) ;
-				navigate('/dashboard')
 			} else {
 				// warn user of general failure
 				window.alert('Something went wrong; please try again') ;
@@ -496,7 +494,6 @@ export const UserProvider = ({ children }) => {
 			if (data.rsp_msg === 'item has been deleted') {
 				// navigate back to dashboard
 				getItems(temp_id) ;
-				navigate('/dashboard')
 			} else {
 				// warn user of general failure
 				window.alert('Something went wrong; please try again') ;
@@ -560,9 +557,6 @@ export const UserProvider = ({ children }) => {
 					'authorized_items': data.items.authorized_items
 				})
 
-				for (let i = 0 ; i < 60 ; i++){
-					// wait
-				}
 			} else {
 				// warn user of general failure
 				window.alert('Something went wrong; please try again') ;
