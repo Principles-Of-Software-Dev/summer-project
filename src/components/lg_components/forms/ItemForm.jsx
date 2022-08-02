@@ -138,7 +138,7 @@ const ItemForm = ({ options }) => {
 			formData.append('estimate', params.estimation)
 			formData.append('name', params.name)
 
-			formData.append('item_id', options.item.item_Id) ;
+			formData.append('item_id', options.item.id_item) ;
 			formData.append('user_id', user.id)
 			// console.log("ItemID: " + options.item.itemId + "\nStreet" + params.street + "\nCity: " + params.city + "\nState : " + params.state + "\nZip: " + params.zip+ "\nDescription: "+ params.description+ "\nEstimation: "+ params.estimation+ "\nForm Data Photos: " +formData.getAll("photos")+ "\nForm Data Videos: " +formData.getAll("videos"))
 			editItem(formData)
@@ -147,7 +147,7 @@ const ItemForm = ({ options }) => {
 	}
 
 	return (
-		<div className="flex items-center justify-center">
+		<div className="flex items-center justify-center my-6">
 			<div className="h-auto w-full flex items-center justify-center">
 				<div className="h-main w-half min-w-[20rem] bg-sky-200 rounded-3xl">
 

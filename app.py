@@ -583,7 +583,7 @@ def get_items_downloads():
     user = users.query.filter_by(id_user=user_id).first()
     item_ids = user.items.split(',')
     items_list = []
-    with open('list_of_items.txt', 'wb') as file:
+    with open('list_of_items.txt', 'w') as file:
         for item_id in item_ids:
             item = items.query.filter_by(id_item=int(item_id)).first()
             item_dict = item.as_dict()
@@ -592,9 +592,9 @@ def get_items_downloads():
             del item_dict['belongs_to']
             del item_dict['id_item']
             line = str(item_dict)[2:-2] + '\n'
-            file.write(line.encode())
+            file.write(line)
 
-        return send_file(file, download_name='list_of_items.txt', as_attachment=True)
+        return send_file('list_of_items.txt', download_name='list_of_items.txt', as_attachment=True)
     return jsonify(42)
 
 
