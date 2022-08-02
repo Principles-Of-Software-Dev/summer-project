@@ -410,8 +410,8 @@ def add_item():
 
     photo_array = []
     for photo in photos:
-        my_string = str(base64.b64encode(video.read()))[2:-1]
-        video_array.append(str(my_string))
+        my_string = str(base64.b64encode(photo.read()))[2:-1]
+        photo_array.append(str(my_string))
 
         return jsonify({'test': my_string})
         photo_array.append((my_string))
