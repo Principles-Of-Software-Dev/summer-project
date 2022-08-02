@@ -530,19 +530,22 @@ def get_items():
 
     user_id = request.form.get('user_id')
     user = users.query.filter_by(id_user=user_id).first()
-    item_ids = user.items.split(',')
     owned_list = []
-    for item_id in item_ids:
-        item = items.query.filter_by(id_item=int(item_id)).first()
-        owned_list.append(item.as_dict())
-
-    if user.manager == 'true':
-        authorized_list = []
-        user_id = int(user.authorized_to)
-        user = users.query.filter_by(id_user=user_id).first()
+    if user.items:
+        item_ids = user.items.split(',')
         for item_id in item_ids:
             item = items.query.filter_by(id_item=int(item_id)).first()
-            authorized_list.append(item.as_dict())
+            owned_list.append(item.as_dict())
+
+    authorized_list = []
+    if user.manager == 'true':
+        user_id = int(user.authorized_to)
+        user = users.query.filter_by(id_user=user_id).first()
+        if user.items:
+            item_ids = user.items.split(',')
+            for item_id in item_ids:
+                item = items.query.filter_by(id_item=int(item_id)).first()
+                authorized_list.append(item.as_dict())
 
     return jsonify({"owned_items": owned_list, 'authorized_items': authorized_list})
 
