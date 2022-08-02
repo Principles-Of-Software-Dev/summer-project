@@ -265,7 +265,8 @@ export const UserProvider = ({ children }) => {
 		setRefreshUser(true) ;
 
 		const formData = new FormData() ;
-		while (user.id == null) {
+		
+		while (user.id === (null|| undefined)) {
 			console.log(test)
 		}
 		formData.append('user_id', user.id.toString()) ;
