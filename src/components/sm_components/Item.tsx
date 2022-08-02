@@ -4,6 +4,7 @@ import Button from './Button' ;
 
 const Item = ({ item, displayItem, displayItemForm }) => {
     
+	console.log(item)
 	const [currIndex, setCurrIndex] = useState(0) ;
 	const maxLength = item.photos.length ;
 
