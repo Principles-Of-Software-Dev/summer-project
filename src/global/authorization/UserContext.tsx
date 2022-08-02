@@ -38,7 +38,7 @@ export const UserProvider = ({ children }) => {
 	useEffect(() => {
 		console.log('Items on use Effect' + items.owned_items + items.authorized_items)
 		navigate('/dashboard')
-	}, [items])
+	}, [items.authorized_items, items.owned_items])
 	useEffect(() => {
 		sessionStorage.setItem('GilderiseUser', JSON.stringify(user)) ;
 
