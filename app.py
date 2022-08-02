@@ -169,7 +169,6 @@ def hello():
 
 @app.route("/setup_account", methods=['POST'])  # tested locally
 def setup_account():
-
     # set json data into vars
     firstname = request.form.get('firstname').lower()
     lastname = request.form.get('lastname').lower()
@@ -182,6 +181,7 @@ def setup_account():
         return jsonify(401)
 
     password = secrets.token_hex(5)
+    password = password + 'C!'
 
     # add user to database
     user = users(firstname, lastname, None, None, None, None,
@@ -287,7 +287,6 @@ def login_user():
             response.set_cookie(
                 'session_token', user.session_token, httponly=True)
             return response
-    return jsonify({'rsp_msg': 'No user found'})
 
 
 @app.route("/get_user", methods=['GET'])
