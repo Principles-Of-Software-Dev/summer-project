@@ -339,6 +339,43 @@ export const UserProvider = ({ children }) => {
 		gUser() ;
 	}
 
+	const userLogout = () => {
+
+
+		// Remove user info.
+		setRefreshUser(true) ;
+		
+		let params = {
+			'user_id': user.id,
+		}
+
+		const requestOptions = {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify(params)
+		}
+
+		const logout = async () => {
+			await fetch("/logout_user", requestOptions).then(response => {
+				response.json().then(data => {
+					if (data !== false) {
+						setUser({
+							'authenticated': false,
+							'id': undefined
+						})
+						
+					}
+				})
+			}).catch(e => {
+				console.log(e)
+			})
+		}
+
+		logout() ;
+		setRefreshUser(false) ;
+	} ;
 
 	const addItem = (formData: FormData) => {
 		// get userInfo 
@@ -656,12 +693,14 @@ export const UserProvider = ({ children }) => {
 		setRefreshUser(false) ;
 		return gItems() ;
 	}
+
+
 	
 
 	return (
 		<UserContext.Provider value={{
 			user, userInfo, items, setupAccount, editUser, userLogin, getUser,
-			addItem, editItem, deleteItem, getItems, downloadItems
+			userLogout, addItem, editItem, deleteItem, getItems, downloadItems
 			
 		}}>
 			{children}
