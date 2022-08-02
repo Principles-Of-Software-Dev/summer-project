@@ -37,10 +37,6 @@ export const UserProvider = ({ children }) => {
 	// Store user data on local memory on every update of user or user.authenticated.
 
 	useEffect(() => {
-		console.log('Items on use Effect' + items.owned_items + items.authorized_items)
-		navigate('/dashboard')
-	}, [items.authorized_items, items.owned_items])
-	useEffect(() => {
 		sessionStorage.setItem('GilderiseUser', JSON.stringify(user)) ;
 
 	}, [user, user.authenticated]) ;
@@ -560,6 +556,7 @@ export const UserProvider = ({ children }) => {
 						'authorized_items': data.authorized_items
 					})
 				}) 
+				navigate('/dashboard')
 
 			} else {
 				// warn user of general failure
