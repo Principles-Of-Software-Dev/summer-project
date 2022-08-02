@@ -551,13 +551,13 @@ export const UserProvider = ({ children }) => {
 			let data = JSON.parse(xhr.response)
 
 			// do stuff with returned information
-			if (data.items !== null||undefined) {
+			if (data != null||undefined) {
 				// return list of items
 				console.log(data)
 				flushSync(() => {
 					setItems({
-						'owned_items': data.items.owned_items,
-						'authorized_items': data.items.authorized_items
+						'owned_items': data.owned_items,
+						'authorized_items': data.authorized_items
 					})
 				}) 
 
