@@ -154,7 +154,7 @@ const ItemForm = ({ options }) => {
 									defaultValue={ options.item != null? options.item.name : null}
 								/>
 							</div>
-							<div className="grid grid-rows-3">
+							<div className="grid grid-rows-3 w-full">
 								<label htmlFor="estimation" className="row-span-1" > How much is your item worth?</label>
 								<div className="relative">
 									<div className="absolute left-0 top-1"> $</div>
