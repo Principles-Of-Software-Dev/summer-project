@@ -217,7 +217,6 @@ const ItemForm = ({ options }) => {
 											className="w-full rounded-md h-8 px-4 row-span-2 col-span-2"
 											ref={photos}
 											onChange={valChanged}
-											multiple
 										/>
 									</div>
 								</div>
@@ -237,7 +236,6 @@ const ItemForm = ({ options }) => {
 											className="w-full rounded-md h-8 px-4 row-span-2 col-span-2"
 											ref={videos}
 											onChange={valChanged}
-											multiple
 										/>
 									</div>
 								</div>
