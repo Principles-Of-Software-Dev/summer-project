@@ -44,7 +44,7 @@ const ItemForm = ({ options }) => {
 			&& photos.current.value !== ("")
 			&& videos.current.value !== ("")
 			&& description.current.value !== (""))) {
-			console.log('ran') ;
+			console.log(document.forms["itemForm"]["photos"].files[0])
 			return false ;
 		} else if (!required && (
 			estimation.current.value !== initalVals.estimation
@@ -53,6 +53,7 @@ const ItemForm = ({ options }) => {
 			|| photos.current.value !== ("")
 			|| videos.current.value !== ("")
 		)) {
+			console.log(document.forms["itemForm"]["photos"].files[0])
 			return false ;
 		}
 		return true ;
@@ -69,14 +70,12 @@ const ItemForm = ({ options }) => {
 			if (photos.current.value !== ("" || null || undefined) || videos.current.value !== ("" || null || undefined)) {
 
 				if (photos.current.value !== ("" || null || undefined)) {
-					for (let i = 0 ; i < document.forms["itemForm"]["photos"].files.length ; i++) {
-						formData.append('photos', document.forms["itemForm"]["photos"].files[i]) ;
-					}
+
+					formData.append('photos', document.forms["itemForm"]["photos"].files[0]) ;
 				}
 				if (videos.current.value !== ("" || null || undefined)) {
-					for (let i = 0 ; i < document.forms["itemForm"]["videos"].files.length ; i++) {
-						formData.append('videos', document.forms["itemForm"]["videos"].files[i]) ;
-					}
+
+					formData.append('videos', document.forms["itemForm"]["videos"].files[0]) ;
 				}
 			}
 
@@ -109,15 +108,12 @@ const ItemForm = ({ options }) => {
 
 			if (photos.current.value !== ("" || null || undefined) || videos.current.value !== ("" || null || undefined)) {
 
+				
 				if (photos.current.value !== ("" || null || undefined)) {
-					for (let i = 0 ; i < document.forms["itemForm"]["photos"].files.length ; i++) {
-						formData.append('photos', document.forms["itemForm"]["photos"].files[i]) ;
-					}
+					formData.append('photos', document.forms["itemForm"]["photos"].files[0]) ;
 				}
 				if (videos.current.value !== ("" || null || undefined)) {
-					for (let i = 0 ; i < document.forms["itemForm"]["videos"].files.length ; i++) {
-						formData.append('videos', document.forms["itemForm"]["videos"].files[i]) ;
-					}
+					formData.append('videos', document.forms["itemForm"]["videos"].files[0]) ;
 				}
 			} 
 			formData.append('description', params.description)
@@ -236,6 +232,7 @@ const ItemForm = ({ options }) => {
 											className="w-full rounded-md h-8 px-4 row-span-2 col-span-2"
 											ref={videos}
 											onChange={valChanged}
+											accept={'image/*'}
 										/>
 									</div>
 								</div>
