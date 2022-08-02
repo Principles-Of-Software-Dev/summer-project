@@ -213,6 +213,14 @@ export const UserProvider = ({ children }) => {
 					} 
 					navigate('/account-preferences' , { state: { options } })
 				} else {
+					
+					getItems() ;
+					while (items === {
+						'authorized_items': undefined,
+						'owned_items': undefined
+					}) {
+						// wait
+					}
 					navigate('/dashboard')
 				}
 			} else {
@@ -267,7 +275,6 @@ export const UserProvider = ({ children }) => {
 		const formData = new FormData() ;
 		
 		while (user.id === (null|| undefined)) {
-			console.log(test)
 		}
 		formData.append('user_id', user.id.toString()) ;
 		
