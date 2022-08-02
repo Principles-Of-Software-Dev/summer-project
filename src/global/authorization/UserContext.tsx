@@ -207,10 +207,6 @@ export const UserProvider = ({ children }) => {
 					authenticated: true,
 					id: data.user.id_user
 				})
-
-				while (user.id == (undefined || null)) {
-					// wait
-				}
 				// navigate to dash or first-time account edit
 				if (data.user.setup_complete === 'false') {
 					let options = {
