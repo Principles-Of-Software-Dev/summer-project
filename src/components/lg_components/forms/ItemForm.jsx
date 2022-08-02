@@ -138,6 +138,25 @@ const ItemForm = ({ options }) => {
 
 				<form id={'itemForm'} name={'itemForm'} className=' p-3 max-h-full max-w-full'>
 					<div className="max-w-full p-3 max-h-full" >
+
+						<div className='w-full flex items-center justify-start my-2 '>
+								
+							<div className="grid grid-rows-3 w-full">
+								<label htmlFor="name" className="row-span-1" > Name of the item</label>
+								<textarea
+									id="name"
+									name="name"
+									className="w-full rounded-md px-4 row-span-2 col-span-2"
+									required={required}
+									minLength={5}
+									maxLength={15}
+									onChange={valChanged}
+									ref={name}
+									defaultValue={ options.item != null? options.item.name : null}
+								/>
+							</div>
+						</div>
+						
 						{/* Estimate */}
 						<div className='w-full flex items-center justify-start my-2 '>
 							<div className="grid grid-rows-3 w-full">
@@ -161,27 +180,6 @@ const ItemForm = ({ options }) => {
 							</div>
 						</div>
 
-					
-						
-
-
-						<div className='w-full flex items-center justify-start my-2 '>
-								
-							<div className="grid grid-rows-3 w-full">
-								<label htmlFor="name" className="row-span-1" > Name of the item</label>
-								<textarea
-									id="name"
-									name="name"
-									className="w-full rounded-md px-4 row-span-2 col-span-2"
-									required={required}
-									minLength={5}
-									maxLength={15}
-									onChange={valChanged}
-									ref={name}
-									defaultValue={ options.item != null? options.item.name : null}
-								/>
-							</div>
-						</div>
 
 
 						<div className="grid grid-cols-2 grid-rows-3" >
