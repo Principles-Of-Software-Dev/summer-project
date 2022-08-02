@@ -32,27 +32,27 @@ const EditAccountForm = ({ option, userInfo }) => {
 	}
     
 	// Login Info, Personal Info
-	const [loginEmail, setLoginEmail] = useState(userInfo.email == (null || undefined || '') ?  '' : userInfo.email) ;
+	const [loginEmail, setLoginEmail] = useState(userInfo.email?  userInfo.email : '') ;
 	const [validLoginEmail, setValidLoginEmail] = useState(loginEmail == '' ? false : true) ;
 	const [password, setPassword] = useState('') ;
 	const [validPassword, setValidPassword] = useState(false) ;
-	const [firstname, setFirstname] = useState(userInfo.firstname != (null || undefined || '') ? 
+	const [firstname, setFirstname] = useState(userInfo.firstname? 
 		userInfo.firstname: '') ;
-	const [lastname, setLastname] = useState(userInfo.lastname != (null || undefined || '') ? 
+	const [lastname, setLastname] = useState(userInfo.lastname? 
 		userInfo.lastname: '') ;
 	const [validName, setValidName] = useState(lastname && firstname == '' ? false : true) ;
 
 	// Address Info
-	const [street, setStreet] = useState(userInfo.street != (null || undefined || '') ?
+	const [street, setStreet] = useState(userInfo.street?
 		userInfo.street: '')
 	const [validStreet, setValidStreet] = useState(street == '' ? false : true) ;
-	const [state, setState] = useState(userInfo.state != (null || undefined || '') ?
+	const [state, setState] = useState(userInfo.state?
 		userInfo.state: '')
 	const [validState, setValidState] = useState(state == '' ? false : true) ;
-	const [city, setCity] = useState(userInfo.city != (null || undefined || '') ?
+	const [city, setCity] = useState(userInfo.city?
 		userInfo.city: '')
 	const [validCity, setValidCity] = useState(city == '' ? false : true) ;
-	const [zipcode, setZipCode] = useState(userInfo.zipcode != (null || undefined || '') ?
+	const [zipcode, setZipCode] = useState(userInfo.zipcode?
 		userInfo.zipcode : '')
 	const [validZipcode, setValidZipcode] = useState(zipcode == '' ? false : true) ;
 
