@@ -48,25 +48,25 @@ const ItemsControl = ({ handleAddItem,handleDeleteItem }) => {
 			{displayItem != null &&
 				<DisplayItem item={displayItem} displayItem={setDisplayItem} editItem={handleDisplayItemForm} deleteItem={handleDeleteItem} />
 			}
-			{(items !== { 'owned_items': [],'authorized_items': [] } && items != (undefined || null)) ?
+			{((items.authorized_items[0] == (undefined||null) || items.owned_items[0] != (undefined||null)) && items != (undefined || null)) ?
 				<div> 
-					{items.owned_items !== undefined && 
+					{(items.owned_items[0] != undefined||null) && 
 					<div>
 						<div className='my-3'> Your Owned Items </div>
-						<ItemsList items={items !== undefined||null ? items.owned_items : null} displayItem={handleViewItem} displayItemForm={handleDisplayItemForm} />
+						<ItemsList items={items.owned_items} displayItem={handleViewItem} displayItemForm={handleDisplayItemForm} />
 					</div>
 					}
 
-					{items.authorized_items !== undefined && 
+					{(items.authorized_items[0] != undefined||null) && 
 							<div>
 								<div className='my-3'> Your Authorized Items </div>
-								<ItemsList items={items !== undefined||null ? items.owned_items : null} displayItem={handleViewItem} displayItemForm={handleDisplayItemForm} />
+								<ItemsList items={items.owned_items} displayItem={handleViewItem} displayItemForm={handleDisplayItemForm} />
 							</div>
 					}
 				</div> : 
 				<div className='hidden'></div>
 			}
-			{((items == (undefined||null)) || (items.authorized_items == [] && items.owned_items == [])) &&
+			{((items == (undefined || null)) || (items.authorized_items[0] == (undefined||null) && items.owned_items[0] == (undefined||null))) &&
 				<div className='w-full h-screen flex items-center justify-center'>
 
 					<UserLinks text={"You have no items. Click here to add one!"} handleClick={handleAddItem} />
