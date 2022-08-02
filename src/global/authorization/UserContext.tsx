@@ -19,20 +19,17 @@ export const UserProvider = ({ children }) => {
 	const navigate = useNavigate() ;
 	const [user, setUser] = useState<User>({
 	})
-	const [refreshUser, setRefreshUser] = useState(false) ;
 
+	let stored = sessionStorage.getItem('GilderiseUser') ;
+	setUser(stored == null ?
+		{
+			authenticated: false,
+			id: -100,
+		} :
+		JSON.parse(stored)
+	) ;
 	// Store user data on local memory on every update of user or user.authenticated.
 
-	useEffect(() => {
-		let stored = sessionStorage.getItem('GilderiseUser') ;
-		setUser(stored == null ?
-			{
-				authenticated: false,
-				id: -100,
-			} :
-			JSON.parse(stored)
-		) ;
-	}, [refreshUser]) ;
 
 	useEffect(() => {
 		sessionStorage.setItem('GilderiseUser', JSON.stringify(user)) ;
@@ -42,8 +39,6 @@ export const UserProvider = ({ children }) => {
 
 	const setupAccount = (formData: FormData) => {
 
-		// get userid 
-		setRefreshUser(true) ;
 		
 		// // set request options
 		// let requestOptions = {
@@ -100,14 +95,11 @@ export const UserProvider = ({ children }) => {
 		}
 
 		// run api call
-		setRefreshUser(false) ;
 		register() ;
 
 	}
 
 	const editUser = (formData: FormData) => {
-		// get userInfo 
-		setRefreshUser(true) ;
 		
 		// // set request options
 		// let requestOptions = {
@@ -174,7 +166,6 @@ export const UserProvider = ({ children }) => {
 		}
 	
 		// run api call
-		setRefreshUser(false) ;
 		eUser() ;
 	
 		
@@ -182,7 +173,6 @@ export const UserProvider = ({ children }) => {
 
 	const userLogin = (formData:FormData) => {
 		// get userInfo 
-		setRefreshUser(true) ;
 		
 		// set request options
 		// let requestOptions = {
@@ -260,14 +250,12 @@ export const UserProvider = ({ children }) => {
 		}
 
 		// run api call
-		setRefreshUser(false) ;
 		login() ;
 		
 	} ;
 
 	const getUser = () => {
 		// get userInfo 
-		setRefreshUser(true) ;
 
 		const formData = new FormData() ;
 		
@@ -323,15 +311,10 @@ export const UserProvider = ({ children }) => {
 		}
 
 		// return async function
-		setRefreshUser(false) ;
 		gUser() ;
 	}
 
 	const userLogout = () => {
-
-
-		// Remove user info.
-		setRefreshUser(true) ;
 		
 		let params = {
 			'user_id': user.id,
@@ -362,12 +345,10 @@ export const UserProvider = ({ children }) => {
 		}
 
 		logout() ;
-		setRefreshUser(false) ;
 	} ;
 
 	const addItem = (formData: FormData) => {
 		// get userInfo 
-		setRefreshUser(true) ;
 		
 		// set request options
 		// let requestOptions = {
@@ -420,13 +401,11 @@ export const UserProvider = ({ children }) => {
 		}
 
 		// call api 
-		setRefreshUser(false) ;
 		aItem() ;
 	}
 
 	const editItem = (formData: FormData) => {
-		// get userInfo 
-		setRefreshUser(true) ;
+
 		
 		// set request options
 		// let requestOptions = {
@@ -479,13 +458,10 @@ export const UserProvider = ({ children }) => {
 		}
 
 		// call api 
-		setRefreshUser(false) ;
 		eItem() ;
 	}
 
 	const deleteItem = (formData: FormData) => {
-		// get userInfo 
-		setRefreshUser(true) ;
 		
 		// set request options
 		// let requestOptions = {
@@ -496,7 +472,7 @@ export const UserProvider = ({ children }) => {
 		// 	body: formData
 		// }
 
-		const dItem = async () => {
+		const dItem = () => {
 
 			const xhr = new XMLHttpRequest() ;
 			// send request and and wait unitl we get a response
@@ -538,13 +514,11 @@ export const UserProvider = ({ children }) => {
 		}
 
 		// call api 
-		setRefreshUser(false) ;
 		dItem() ;
 	}
 	
 	const getItems = () => {
 		// get userInfo 
-		setRefreshUser(true) ;
 
 		const formData = new FormData() ;
 		formData.append('user_id', user.id!.toString()) ;
@@ -599,13 +573,11 @@ export const UserProvider = ({ children }) => {
 		}
 
 		// return async fucntion 
-		setRefreshUser(false) ;
 		gItems() ;
 	}
 
 	const downloadItems = () => {
-		// get userInfo 
-		setRefreshUser(true) ;
+
 
 		const formData = new FormData() ;
 		formData.append('user_id', user.id!.toString()) ;
@@ -659,8 +631,7 @@ export const UserProvider = ({ children }) => {
 			// })
 		}
 
-		// return async fucntion 
-		setRefreshUser(false) ;
+
 		return gItems() ;
 	}
 
