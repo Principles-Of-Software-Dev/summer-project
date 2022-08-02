@@ -160,7 +160,7 @@ const EditAccountForm = ({ option, userInfo }) => {
 		formData.append('city', city) ;
 		formData.append('zipcode', zipcode) ;
 		formData.append('state', state) ;
-		formData.append('user_id', user.id)
+		formData.append('user_id', userInfo.id_user)
 
 		editUser(formData)
 
