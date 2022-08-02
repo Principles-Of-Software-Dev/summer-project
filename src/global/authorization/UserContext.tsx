@@ -271,9 +271,7 @@ export const UserProvider = ({ children }) => {
 
 		const formData = new FormData() ;
 		
-		while (user.id === (null|| undefined)) {
-		}
-		formData.append('user_id', user.id.toString()) ;
+		formData.append('user_id', user.id!.toString()) ;
 		
 		// set request options
 		// let requestOptions = {
