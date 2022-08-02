@@ -132,12 +132,6 @@ export const UserProvider = ({ children }) => {
 				// alert user account update was successful.
 				window.alert('Update Successful') ;
 				getItems() ;
-				while (items === {
-					'authorized_items': undefined,
-					'owned_items': undefined
-				}) {
-					// wait
-				}
 				navigate('/dashboard')
 				
 			} else if (data === 401) { 
@@ -222,12 +216,7 @@ export const UserProvider = ({ children }) => {
 				} else {
 					
 					getItems() ;
-					while (items === {
-						'authorized_items': undefined,
-						'owned_items': undefined
-					}) {
-						// wait
-					}
+					
 					navigate('/dashboard')
 				}
 			} else {
@@ -402,12 +391,6 @@ export const UserProvider = ({ children }) => {
 			if (data.rsp_msg === 'item has been added') {
 				// navigate back to dashboard
 				getItems() ;
-				while (items === {
-					'authorized_items': undefined,
-					'owned_items': undefined
-				}) {
-					// wait
-				}
 				navigate('/dashboard')
 			} else {
 				// warn user of general failure
@@ -467,12 +450,6 @@ export const UserProvider = ({ children }) => {
 			if (data.rsp_msg === 'item has been edited') {
 				// navigate back to dashboard
 				getItems() ;
-				while (items === {
-					'authorized_items': undefined,
-					'owned_items': undefined
-				}) {
-					// wait
-				}
 				navigate('/dashboard')
 			} else {
 				// warn user of general failure
@@ -532,12 +509,6 @@ export const UserProvider = ({ children }) => {
 			if (data.rsp_msg === 'item has been deleted') {
 				// navigate back to dashboard
 				getItems() ;
-				while (items === {
-					'authorized_items': undefined,
-					'owned_items': undefined
-				}) {
-					// wait
-				}
 				navigate('/dashboard')
 			} else {
 				// warn user of general failure
