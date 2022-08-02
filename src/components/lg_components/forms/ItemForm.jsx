@@ -9,6 +9,7 @@ const ItemForm = ({ options }) => {
 	const { user, editItem, addItem } = useUser() ;
 	const estimation = useRef() ;
 	const description = useRef() ;
+	const name = useRef()
 	const photos = useRef() ;
 	const videos = useRef() ;
 
@@ -21,10 +22,12 @@ const ItemForm = ({ options }) => {
 	let initalVals = options.item == null ? {
 		'description': null,
 		'estimation': null,
+		'name': null,
 		'photos': null,
 		'videos': null,
 
 	} : {
+		'name': options.item.name,
 		'description': options.item.description,
 		'estimation': options.item.estimate,
 	}
@@ -37,6 +40,7 @@ const ItemForm = ({ options }) => {
 	const handleValidSubmit = () => {
 		if (required && (
 			estimation.current.value !== ("")
+			&& name.current.value !== ("")
 			&& photos.current.value !== ("")
 			&& videos.current.value !== ("")
 			&& description.current.value !== (""))) {
@@ -45,6 +49,7 @@ const ItemForm = ({ options }) => {
 		} else if (!required && (
 			estimation.current.value !== initalVals.estimation
 			|| description.current.value !== initalVals.description
+			|| name.current.value !== initalVals.name
 			|| photos.current.value !== ("")
 			|| videos.current.value !== ("")
 		)) {
@@ -73,12 +78,12 @@ const ItemForm = ({ options }) => {
 						formData.append('videos', document.forms["itemForm"]["videos"].files[i]) ;
 					}
 				}
-				formData.append('description', description.current.value)
-				formData.append('estimate', estimation.current.value)
-				formData.append('user_id', user.id)
-			} else {
-				formData = null ;
 			}
+
+			formData.append('name', name.current.value)
+			formData.append('description', description.current.value)
+			formData.append('estimate', estimation.current.value)
+			formData.append('user_id', user.id)
 
 			addItem(formData) ;
 			
@@ -88,6 +93,7 @@ const ItemForm = ({ options }) => {
 			let params = {
 				'description': '',
 				'estimation': 0,
+				'name': '',
 			}
 
 			if (estimation.current.value !== initalVals.estimation) {
@@ -95,6 +101,9 @@ const ItemForm = ({ options }) => {
 			}
 			if (description.current.value !== initalVals.description) {
 				params.description = description.current.value ;
+			}
+			if (name.current.value !== initalVals.name) {
+				params.name = name.current.value ;
 			}
 
 
@@ -110,14 +119,13 @@ const ItemForm = ({ options }) => {
 						formData.append('videos', document.forms["itemForm"]["videos"].files[i]) ;
 					}
 				}
+			} 
+			formData.append('description', params.description)
+			formData.append('estimate', params.estimation)
+			formData.append('name', params.name)
 
-				formData.append('description', params.description)
-				formData.append('estimate', params.estimation)
-
-				formData.append('item_id', options.item.itemId) ;
-			} else { 
-				formData = null ;
-			}
+			formData.append('item_id', options.item.itemId) ;
+			formData.append('user_id', user.id)
 			// console.log("ItemID: " + options.item.itemId + "\nStreet" + params.street + "\nCity: " + params.city + "\nState : " + params.state + "\nZip: " + params.zip+ "\nDescription: "+ params.description+ "\nEstimation: "+ params.estimation+ "\nForm Data Photos: " +formData.getAll("photos")+ "\nForm Data Videos: " +formData.getAll("videos"))
 			editItem(formData)
 		}
@@ -125,13 +133,27 @@ const ItemForm = ({ options }) => {
 	}
 
 	return (
-		<div className="h-[35rem] w-full flex items-center justify-center ">
-			<div className="h-main w-half min-w-[20rem] bg-sky-200">
+		<div className="h-auto w-full flex items-center justify-center ">
+			<div className="h-main w-half min-w-[20rem] bg-sky-200 rounded-3xl">
 
 				<form id={'itemForm'} name={'itemForm'} className=' p-3 max-h-full max-w-full'>
 					<div className="max-w-full p-3 max-h-full" >
 						{/* Estimate */}
 						<div className='w-full flex items-center justify-start my-2 '>
+							<div className="grid grid-rows-3 w-full">
+								<label htmlFor="name" className="row-span-1" > Name of the item</label>
+								<textarea
+									id="name"
+									name="name"
+									className="w-full rounded-md px-4 row-span-2 col-span-2"
+									required={required}
+									minLength={5}
+									maxLength={15}
+									onChange={valChanged}
+									ref={name}
+									defaultValue={ options.item != null? options.item.name : null}
+								/>
+							</div>
 							<div className="grid grid-rows-3">
 								<label htmlFor="estimation" className="row-span-1" > How much is your item worth?</label>
 								<div className="relative">
