@@ -11,9 +11,10 @@ const Item = ({ item, displayItem, displayItemForm }) => {
 	let i = 0 ;
 	Object.keys(item.photos).map(key => {
 		keys[key] = i
+		i++ ;
 	})
 
-	console.log(keys)
+	// console.log(keys)
 
 	const [currIndex, setCurrIndex] = useState(0) ;
 	const maxLength = item.photos.length ;
