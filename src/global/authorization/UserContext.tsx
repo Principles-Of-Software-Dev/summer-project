@@ -131,6 +131,7 @@ export const UserProvider = ({ children }) => {
 				// alert user account update was successful.
 				window.alert('Update Successful') ;
 				getItems(temp_id) ;
+				setUserInfo(data.user)
 				navigate('/dashboard')
 				
 			} else if (data === 401) { 

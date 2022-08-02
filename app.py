@@ -262,7 +262,12 @@ def edit_user():
 
     db.session.commit()
 
-    return jsonify({"rsp_msg": "User has been updated"})
+    user_dict = user.as_dict()
+    del user_dict['session_token']
+    del user_dict['session_token_expr']
+    del user_dict['password']
+
+    return jsonify({"rsp_msg": "User has been updated", "user": user_dict})
 
 
 @app.route("/login_user", methods=['POST'])  # tested locally
