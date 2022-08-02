@@ -411,7 +411,7 @@ def add_item():
     for photo in photos:
         user.photos = photo.read()
 
-        return send_file(BytesIO(user.photo), 'test.png', as_attachment=False)
+        return send_file(BytesIO(user.photos), 'test.png', as_attachment=False)
         photo_array.append((my_string))
 
     video_array = []
