@@ -8,7 +8,10 @@ import UserLinks from '../sm_components/UserLinks' ;
 const ItemsControl = ({ handleAddItem,handleDeleteItem }) => {
 	const { items } = useUser() ;
 	const navigate = useNavigate() ;
-	console.log(items)
+	useEffect(() => { 
+		console.log('Items on page load: ' + items)
+	})
+	console.log('Items used: ' + items)
 	console.log((items !== { 'owned_items': undefined , 'authorized_items': undefined } && items != (undefined || null)))
 
 	console.log( items !== {  'owned_items': undefined, 'authorized_items': undefined })
