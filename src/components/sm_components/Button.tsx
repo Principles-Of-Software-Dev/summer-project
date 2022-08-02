@@ -27,6 +27,7 @@ function Button({ height, color, buttonText, textColor, hoverColor, disable, onC
 	return (
 		<button className={classStr}
 			onClick={onClick}>
+			disable={disable}
 
 			{/* Start actual code  */}
 			{buttonText}   
