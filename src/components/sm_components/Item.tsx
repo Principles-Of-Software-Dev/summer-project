@@ -34,8 +34,8 @@ const Item = ({ item, displayItem, displayItemForm }) => {
 											<ChevronRightIcon className='h-xsmall-logo absolute top-[50%] right-2 cursor-pointer select-none' onClick={nextPic} />
 											<div className='absolute w-auto p-1 z-1 bg-sky-300 border rounded-md top-3 md:top-4 left-3 md:left-4'>
 												<p className='text-sm tracking-wide '> ${ item.estimate }</p>
-											</div>
-											<img src={`data:image/png;base64,${img}`} alt={"item.description"} className='w-full h-main p-2' />
+											</div >
+											<img src={`data:image/png;base64,${img}`} alt={"item.description"} className='w-full h-main p-6' />
 										</div>
 									</div>
 								)}

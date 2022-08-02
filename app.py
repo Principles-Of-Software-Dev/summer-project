@@ -594,7 +594,7 @@ def get_items_downloads():
             line = str(item_dict)[2:-2] + '\n'
             file.write(line)
 
-        return send_file('list_of_items.txt', download_name='list_of_items.txt', as_attachment=True)
+        return send_file('list_of_items.txt', attachment_name='list_of_items.txt', as_attachment=True)
     return jsonify(42)
 
 
