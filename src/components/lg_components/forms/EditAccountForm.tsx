@@ -11,13 +11,16 @@ import { useUser } from '../../../global/authorization/UserContext' ;
 import StateField from '../../sm_components/validator_fields/StateField' ;
 
 
+
 const EditAccountForm = ({ option, userInfo }) => {
     
-	const { userLogout, user } = useUser() ;
+	const { userLogout, user, editUser } = useUser() ;
 
 	const required = option === 'Setup' ? true : false ;      
 
 	const navigate = useNavigate() ;
+	
+	console.log(userInfo) ;
 	
     
 	// Login Info, Personal Info
@@ -69,19 +72,17 @@ const EditAccountForm = ({ option, userInfo }) => {
 				if (addManager) {
 					if (addManager) {
 						if (validManagerEmail) {
-							console.log("Running 1")
+
 							return false ;
 						} else {
-							console.log("Running 2")
+
 							return true ;
 						}
 					}
 				} else {
-					console.log("Running 3")
 					return false ;
 				}
 			} else {
-				console.log("Running 4")
 				return true ;
 			} 
 		} else
@@ -95,88 +96,22 @@ const EditAccountForm = ({ option, userInfo }) => {
                     street != initialParams.street || city != initialParams.city || zipcode != initialParams.zipcode ||
                     state != initialParams.state 
 				) {
-					console.log("Valid Manager Email " +validManagerEmail)
-					console.log("Current pass: " + password)
-					console.log(password !== '' && validPassword)
-					
-					console.log("Current email: " + loginEmail + "\tInitial: " + initialParams.loginEmail)
-					console.log((loginEmail != initialParams.loginEmail))
-
-					console.log("Current first name: " + firstname + "\tInitial: " + initialParams.firstname)
-					console.log(firstname != initialParams.firstname)
-
-					console.log("Current lastname: " + lastname + "\tInitial: " + initialParams.lastname)
-					console.log(lastname != initialParams.lastname)
-
-					console.log("Current street: " + street + "\tInitial: " + initialParams.street)
-					console.log(street != initialParams.street)
-
-					console.log("Current city: " + city + "\tInitial: " + initialParams.city)
-					console.log(city != initialParams.city )
-
-					console.log("Current zipcode: " + zipcode + "\tInitial: " + initialParams.zipcode)
-					console.log(zipcode != initialParams.zipcode)
-
-					console.log("Current state: " + state + "\tInitial: " + initialParams.state)
-					console.log(state != initialParams.state)
 
 					if (addManager) {
 						if (addManager) {
 							if (validManagerEmail) {
-								console.log("Running 5")
-								console.log("Valid Manager Email " +validManagerEmail)
 								return false ;
 							} else {
-								console.log("Valid Manager Email " +validManagerEmail)
-								console.log("Running 6")
 								return true ;
 							}
 						}
 					} else {
-						console.log("Running 7")
 						return false ;
 					}
-
-					console.log("Running 8")
 					return false
 				}
-				console.log("Running 9")
 				return true ;
 			} else {
-				console.log("Current pass: " + password)
-
-				console.log("Valid Login Email " + validLoginEmail)
-				console.log("Valid name " + validName)
-				console.log("Valid Street " + validStreet)
-				console.log("Valid City " + validCity)
-				console.log("Valid Zip " + validZipcode)
-				console.log("Valid State " + validState)
-				console.log("Valid Manager Email " +validManagerEmail)
-
-				console.log(password !== '' && validPassword)
-					
-				console.log("Current email: " + loginEmail + "\tInitial: " + initialParams.loginEmail)
-				console.log((loginEmail != initialParams.loginEmail))
-
-				console.log("Current first name: " + firstname + "\tInitial: " + initialParams.firstname)
-				console.log(firstname != initialParams.firstname)
-
-				console.log("Current lastname: " + lastname + "\tInitial: " + initialParams.lastname)
-				console.log(lastname != initialParams.lastname)
-
-				console.log("Current street: " + street + "\tInitial: " + initialParams.street)
-				console.log(street != initialParams.street)
-
-				console.log("Current city: " + city + "\tInitial: " + initialParams.city)
-				console.log(city != initialParams.city )
-
-				console.log("Current zipcode: " + zipcode + "\tInitial: " + initialParams.zipcode)
-				console.log(zipcode != initialParams.zipcode)
-
-				console.log("Current state: " + state + "\tInitial: " + initialParams.state)
-				console.log(state != initialParams.state)
-
-				console.log("Running 10")
 				return true ;
 			}
 		}
@@ -219,7 +154,7 @@ const EditAccountForm = ({ option, userInfo }) => {
 		formData.append('state', state) ;
 		formData.append('user_id', user.id)
 
-		
+		editUser(formData)
 
 	}
 
