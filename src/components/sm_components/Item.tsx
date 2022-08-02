@@ -17,7 +17,7 @@ const Item = ({ item, displayItem, displayItemForm }) => {
 	console.log(item.photos)
 
 	return (
-		<div className='md:max-w-[30vw] w-full max-h-full p-4 flex items-center justify-center'>
+		<div className='md:max-w-[30vw] w-full max-h-full my-8 flex items-center justify-center'>
 			<div className='h-full w-full p-6 border border-solid rounded-md grid grid-row-2 '>
 				{/* Image */}
 				<div className='row-span-1 '>
@@ -33,9 +33,9 @@ const Item = ({ item, displayItem, displayItemForm }) => {
 											<ChevronLeftIcon className='h-xsmall-logo absolute top-[50%] left-2 cursor-pointer select-none' onClick={prevPic} />
 											<ChevronRightIcon className='h-xsmall-logo absolute top-[50%] right-2 cursor-pointer select-none' onClick={nextPic} />
 											<div className='absolute w-auto p-1 z-1 bg-sky-300 border rounded-md top-3 md:top-4 left-3 md:left-4'>
-												<p className='text-sm tracking-wide '> { item.estimate }</p>
+												<p className='text-sm tracking-wide '> ${ item.estimate }</p>
 											</div>
-											<img src={`data:image/png;base64,${img}`} alt={"item.description"} className='w-full h-full p-2' />
+											<img src={`data:image/png;base64,${img}`} alt={"item.description"} className='w-full h-main p-2' />
 										</div>
 									</div>
 								)}

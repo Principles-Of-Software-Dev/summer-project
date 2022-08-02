@@ -6,6 +6,8 @@ import Button from "../../sm_components/Button" ;
 
 const ItemForm = ({ options }) => {
 
+	console.log(options)
+
 	const { user, editItem, addItem } = useUser() ;
 	const estimation = useRef() ;
 	const description = useRef() ;

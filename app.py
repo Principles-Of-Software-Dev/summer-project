@@ -583,16 +583,19 @@ def get_items_downloads():
     user = users.query.filter_by(id_user=user_id).first()
     item_ids = user.items.split(',')
     items_list = []
-    for item_id in item_ids:
-        item = items.query.filter_by(id_item=int(item_id)).first()
-        item_dict = item.as_dict()
-        del item_dict['photos']
-        del item_dict['videos']
-        del item_dict['belongs_to']
-        del item_dict['id_item']
-        items_list.append(item_dict)
+    with open('list_of_items.txt', 'wb') as file:
+        for item_id in item_ids:
+            item = items.query.filter_by(id_item=int(item_id)).first()
+            item_dict = item.as_dict()
+            del item_dict['photos']
+            del item_dict['videos']
+            del item_dict['belongs_to']
+            del item_dict['id_item']
+            line = str(item_dict)[2:-2] + '\n'
+            file.write(line.encode())
 
-    return jsonify(pprint.pformat(items_list)[2:-2])
+        return send_file(file, download_name='list_of_items.txt', as_attachment=True)
+    return jsonify(42)
 
 
 def generate_session_token(user):

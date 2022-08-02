@@ -612,16 +612,6 @@ export const UserProvider = ({ children }) => {
 			// send request and and wait unitl we get a response
 			xhr.open('POST', '/get_items_download', false)
 			xhr.send(formData) ;
-			let data = JSON.parse(xhr.response)
-
-			// do stuff with returned information
-			if (data.items !== null||undefined) {
-				// return list of items
-				return data.items
-			} else {
-				// warn user of general failure
-				window.alert('Something went wrong; please try again') ;
-			}
 
 			// // send request
 			// await fetch("/get_items_download", requestOptions).then(
