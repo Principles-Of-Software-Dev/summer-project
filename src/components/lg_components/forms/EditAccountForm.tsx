@@ -14,7 +14,7 @@ import StateField from '../../sm_components/validator_fields/StateField' ;
 
 const EditAccountForm = ({ option, userInfo }) => {
     
-	const { userLogout, user, editUser } = useUser() ;
+	const { userLogout, editUser } = useUser() ;
 
 	const required = option === 'Setup' ? true : false ;      
 
