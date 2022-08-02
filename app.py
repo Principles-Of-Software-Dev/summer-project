@@ -287,6 +287,10 @@ def login_user():
             response.set_cookie(
                 'session_token', user.session_token, httponly=True)
             return response
+        else:
+            return jsonify(403)
+    else:
+        return jsonify(402)
 
 
 @app.route("/get_user", methods=['GET'])
@@ -362,6 +366,16 @@ def authorize_user(auth_user_email, user):
     else:
         # user does not exist
         return jsonify(402)
+
+
+@app.route("/logout_user", methods=['POST'])  # tested locally
+def logout_user():
+    session_token = request.cookies.get('session_token')
+    user = users.query.filter_by(session_token=session_token).first()
+    user.session_token = None
+    response = jsonify({"rsp_msg": "you have been logged out"})
+    response.set_cookie('session_token', '', httponly=True)
+    return response
 
 
 @app.route("/add_item", methods=['POST'])  # tested locally
