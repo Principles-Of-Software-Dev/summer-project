@@ -139,7 +139,7 @@ const ItemForm = ({ options }) => {
 				<form id={'itemForm'} name={'itemForm'} className=' p-3 max-h-full max-w-full'>
 					<div className="max-w-full p-3 max-h-full" >
 						{/* Estimate */}
-						<div className='w-full flex items-center justify-start my-2 '>
+						<div className='w-full flex justify-start my-2 '>
 							<div className="grid grid-rows-3 w-full">
 								<label htmlFor="name" className="row-span-1" > Name of the item</label>
 								<textarea
