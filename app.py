@@ -5,12 +5,13 @@ import uuid
 from pprint import pprint
 from os.path import dirname, abspath, exists
 from datetime import datetime, timedelta
-from flask import Flask, request, jsonify, redirect, url_for, send_from_directory
+from flask import Flask, request, jsonify, redirect, url_for, send_from_directory, send_file
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from sqlalchemy import ForeignKey
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
+from io import BytesIO
 import smtplib
 import base64
 from flask_cors import CORS, cross_origin
@@ -77,7 +78,7 @@ class items(db.Model):
     name = db.Column(db.Text)
     description = db.Column(db.Text)
     estimate = db.Column(db.Integer)
-    photos = db.Column(db.Text)
+    photos = db.Column(db.LargeBinary)
     videos = db.Column(db.Text)
     belongs_to = db.Column(db.Integer, db.ForeignKey(
         'users.id_user'), nullable=False)
@@ -408,9 +409,9 @@ def add_item():
 
     photo_array = []
     for photo in photos:
-        my_string = str(base64.b64encode(photo.read()))
+        user.photos = photos.read()
 
-        return jsonify({'decoded data': base64.b64decode(my_string)})
+        return send_file(BytesIO(user.photo), 'test.png', as_attachment=False)
         photo_array.append((my_string))
 
     video_array = []
