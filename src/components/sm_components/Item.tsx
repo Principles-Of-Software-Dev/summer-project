@@ -13,6 +13,8 @@ const Item = ({ item, displayItem, displayItemForm }) => {
 		keys[key] = i
 	})
 
+	console.log(keys)
+
 	const [currIndex, setCurrIndex] = useState(0) ;
 	const maxLength = item.photos.length ;
 
