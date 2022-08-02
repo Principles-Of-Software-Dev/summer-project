@@ -546,7 +546,6 @@ export const UserProvider = ({ children }) => {
 			if (data.items !== null||undefined) {
 				// return list of items
 				setItems(data.items)
-				return true ;
 			} else {
 				// warn user of general failure
 				window.alert('Something went wrong; please try again') ;
@@ -577,10 +576,7 @@ export const UserProvider = ({ children }) => {
 		}
 
 		// return async fucntion 
-		let success = gItems() ;
-		while (!success) {
-			// wait
-		}
+		gItems() ;
 	}
 
 	const downloadItems = () => {
