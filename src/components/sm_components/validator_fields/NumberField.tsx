@@ -10,6 +10,7 @@ const NumberField = ({ min_number_length,max_number_length, setNumb, handleValid
 	let initial = null ;
 
 	if (rest !== (null || undefined) && rest.storedVal !== (null || undefined) && rest.storedVal !== '') {
+		console.log(rest.storedVal)
 		console.log("Running when Im not supposed to")
 		handleValid(true) ;
 	}

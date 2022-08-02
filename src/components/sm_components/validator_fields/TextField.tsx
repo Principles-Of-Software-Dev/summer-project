@@ -11,6 +11,7 @@ const TextField = ({ text_length, setText, handleValid, type, largeArea, require
 	const cols = (text_length / 4) ;
 
 	if (rest !== (null || undefined) && rest.storedVal !== (null || undefined) && rest.storedVal !== '') {
+		console.log(rest.storedVal)
 		handleValid(true) ;
 	}
 
