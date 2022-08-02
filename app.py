@@ -8,7 +8,6 @@ from datetime import datetime, timedelta
 from flask import Flask, request, jsonify, redirect, url_for, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from prettyprinter import PrettyPrinter
 from sqlalchemy import ForeignKey
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
@@ -575,8 +574,7 @@ def get_items_downloads():
         del item_dict['id_item']
         items_list.append(item_dict)
 
-    pprinter = PrettyPrinter()
-    return jsonify(pprinter.pformat(items_list)[2:-2])
+    return jsonify(pprint.pformat(items_list)[2:-2])
 
 
 def generate_session_token(user):

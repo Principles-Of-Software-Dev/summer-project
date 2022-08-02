@@ -10,7 +10,6 @@ Jinja2==3.1.2
 Mako==1.2.1
 MarkupSafe==2.1.1
 psycopg2==2.9.3
-prettyprinter==0.18.0
 python-dotenv==0.20.0
 six==1.16.0
 SQLAlchemy==1.4.39
