@@ -7,7 +7,7 @@ const PhoneField = ({ size, setPhone, handleValid, required, ...rest }) => {
 	// const [phone, setPhone] = useState('');
 	const [phoneErr, setPhoneErr] = useState(false) ;
 
-	if (rest !== (null || undefined) && rest.storedVal !== (null || undefined) && rest.storedVal !== '') {
+	if (rest != (null || undefined) && rest.storedVal != (null || undefined) && rest.storedVal != '') {
 		handleValid(true) ;
 	}
 

@@ -32,43 +32,45 @@ const EditAccountForm = ({ option, userInfo }) => {
 	}
     
 	// Login Info, Personal Info
-	const [loginEmail, setLoginEmail] = useState(userInfo.email !== (null || undefined || '') ? userInfo.email : '') ;
-	const [validLoginEmail, setValidLoginEmail] = useState(loginEmail !== '' ? true : false) ;
+	const [loginEmail, setLoginEmail] = useState(userInfo.email != (null || undefined || '') ? userInfo.email : '') ;
+	const [validLoginEmail, setValidLoginEmail] = useState(loginEmail != '' ? true : false) ;
 	const [password, setPassword] = useState('') ;
 	const [validPassword, setValidPassword] = useState(false) ;
-	const [firstname, setFirstname] = useState(userInfo.firstname !== (null || undefined || '') ? 
+	const [firstname, setFirstname] = useState(userInfo.firstname != (null || undefined || '') ? 
 		userInfo.firstname: '') ;
-	const [lastname, setLastname] = useState(userInfo.lastname !== (null || undefined || '') ? 
+	const [lastname, setLastname] = useState(userInfo.lastname != (null || undefined || '') ? 
 		userInfo.lastname: '') ;
-	const [validName, setValidName] = useState(lastname && firstname !== '' ? true : false) ;
+	const [validName, setValidName] = useState(lastname && firstname != '' ? true : false) ;
 
 	// Address Info
-	const [street, setStreet] = useState(userInfo.street !== (null || undefined || '') ?
+	const [street, setStreet] = useState(userInfo.street != (null || undefined || '') ?
 		userInfo.street: '')
-	const [validStreet, setValidStreet] = useState(street !== '' ? true : false) ;
-	const [state, setState] = useState(userInfo.state !== (null || undefined || '') ?
+	const [validStreet, setValidStreet] = useState(street != '' ? true : false) ;
+	const [state, setState] = useState(userInfo.state != (null || undefined || '') ?
 		userInfo.state: '')
-	const [validState, setValidState] = useState(state !== '' ? true : false) ;
-	const [city, setCity] = useState(userInfo.city !== (null || undefined || '') ?
+	const [validState, setValidState] = useState(state != '' ? true : false) ;
+	const [city, setCity] = useState(userInfo.city != (null || undefined || '') ?
 		userInfo.city: '')
-	const [validCity, setValidCity] = useState(city !== '' ? true : false) ;
-	const [zipcode, setZipCode] = useState(userInfo.zipcode !== (null || undefined || '') ?
-		userInfo.zipcode: '')
-	const [validZipcode, setValidZipcode] = useState(zipcode !== '' ? true : false) ;
+	const [validCity, setValidCity] = useState(city != '' ? true : false) ;
+	const [zipcode, setZipCode] = useState(userInfo.zipcode != (null || undefined || '') ?
+		userInfo.zipcode : '')
+	const [validZipcode, setValidZipcode] = useState(zipcode != '' ? true : false) ;
 
+	console.log("Zip Code" + zipcode)
+	console.log("Valid Zip " + validZipcode)
 	// Manager Stuff
 	const [addManager, setAddManager] = useState(false) ;
 	const [managerEmail, setManagerEmail] = useState('') ;
 	const [validManagerEmail, setValidManagerEmail] = useState(false) ;
 	
 	const initialParams = {
-		'loginEmail': userInfo.email !== (null || undefined || '') ? userInfo.email: '',
-		'firstname': userInfo.firstname !== (null || undefined || '') ? userInfo.firstname: '',
-		'lastname': userInfo.lastname !== (null || undefined || '') ? userInfo.lastname: '',
-		'street': userInfo.street !== (null || undefined || '') ? userInfo.street: '',
-		'city': userInfo.city !== (null || undefined || '') ?userInfo.city: '',
-		'state': userInfo.state !== (null || undefined || '') ? userInfo.state: '',
-		'zipcode': userInfo.zipcode !== (null || undefined || '') ? userInfo.zipcode: '',
+		'loginEmail': userInfo.email != (null || undefined || '') ? userInfo.email: '',
+		'firstname': userInfo.firstname != (null || undefined || '') ? userInfo.firstname: '',
+		'lastname': userInfo.lastname != (null || undefined || '') ? userInfo.lastname: '',
+		'street': userInfo.street != (null || undefined || '') ? userInfo.street: '',
+		'city': userInfo.city != (null || undefined || '') ?userInfo.city: '',
+		'state': userInfo.state != (null || undefined || '') ? userInfo.state: '',
+		'zipcode': userInfo.zipcode != (null || undefined || '') ? userInfo.zipcode: '',
 	}
 
 	const handleValidSubmit = () => {
@@ -99,7 +101,7 @@ const EditAccountForm = ({ option, userInfo }) => {
                 && validStreet && validCity && validZipcode
                 && validState 
 			) {
-				if ((password !== '' && validPassword) || loginEmail != initialParams.loginEmail
+				if ((password != '' && validPassword) || loginEmail != initialParams.loginEmail
                     || firstname != initialParams.firstname || lastname != initialParams.lastname || 
                     street != initialParams.street || city != initialParams.city || zipcode != initialParams.zipcode ||
                     state != initialParams.state 
