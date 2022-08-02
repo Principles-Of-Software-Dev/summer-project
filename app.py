@@ -245,7 +245,7 @@ def edit_user():
     if request.form.get('email') or request.form.get('email') != '':
         email = request.form.get('email').lower()
         # validate if email already exist
-        if users.query.filter_by(email=email).first() and user.email != users.query.filter_by(email=email).first():
+        if users.query.filter_by(email=email).first() and email != users.query.filter_by(email=email).first():
             return jsonify(401)
         user.email = email
     if request.form.get('password') or request.form.get('password') != '':

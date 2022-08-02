@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react' ;
-import { useUser } from '../global/authorization/UserContext' ;
 import { useLocation } from 'react-router-dom' ;
 import FakeSiteBanner from '../components/lg_components/FakeSiteBanner' ;
 import TopBar from '../components/lg_components/TopBar' ;
