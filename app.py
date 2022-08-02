@@ -17,7 +17,7 @@ app = Flask(__name__, static_folder='build', static_url_path='')
 CORS(app)
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + \
 #    os.path.join(basedir, 'data.sqlite')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://vfwbaceqefftaz:96107fa43f627451ef8ac58073128f60b3692d8384b7a8b6a18e73fc513bd198@ec2-54-225-234-165.compute-1.amazonaws.com:5432/dd4c0b07virbu0'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://ufvdvgvrzngpsz:e21056348a54b572fd3dbeb9802efe5b2369aef46ef0da12458feebbb1d301e2@ec2-44-193-178-122.compute-1.amazonaws.com:5432/dfalasl9mvq1co'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 upload_dir = os.path.join(dirname(dirname(abspath(__file__))), 'assets')
 app.config['UPLOAD_FOLDER'] = upload_dir
@@ -49,9 +49,9 @@ class users(db.Model):
     authorized_to = db.Column(db.Text)
     items = db.Column(db.Text)
 
-    def __init__(self, firstname, lastName, street, city, state, zipcode, email, password, manager):
+    def __init__(self, firstname, lastname, street, city, state, zipcode, email, password, manager):
         self.firstname = firstname
-        self.lastName = lastName
+        self.lastname = lastname
        # self.dob = dob
         self.street = street
         self.city = city
@@ -226,7 +226,7 @@ def edit_user():
         user.firstname = firstname
     if request.form.get('lastname') or request.form.get('lastname') != '':
         lastname = request.form.get('lastname').lower()
-        user.lastName = lastname
+        user.lastname = lastname
     # if request.form.get('dob') or request.form.get('dob') != '':
         #dob = request.form.get('dob')
        # user.dob = dob
