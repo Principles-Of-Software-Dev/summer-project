@@ -17,7 +17,7 @@ const Item = ({ item, displayItem, displayItemForm }) => {
 	console.log(item.photos)
 
 	return (
-		<div className='md:max-w-[30vw] w-full max-h-full my-8 flex items-center justify-center'>
+		<div className='md:max-w-[30vw] w-full max-h-full m-12 flex items-center justify-center'>
 			<div className='h-full w-full p-6 border border-solid rounded-md grid grid-row-2 '>
 				{/* Image */}
 				<div className='row-span-1 '>
@@ -44,7 +44,7 @@ const Item = ({ item, displayItem, displayItemForm }) => {
 					})}
 				</div> 
 				{/* Everything Else */}
-				<div className='myt-2 py-2 grid'>
+				<div className='mt-2 py-2 grid'>
 					<div className='row-span-1'>
 						<div className='w-full flex items-center justify-center overflow-scroll'>
 							{ item.description}
