@@ -115,7 +115,6 @@ const ItemForm = ({ options }) => {
 				formData.append('estimate', params.estimation)
 
 				formData.append('item_id', options.item.itemId) ;
-				formData.append('user_id', user.id)
 			} else { 
 				formData = null ;
 			}

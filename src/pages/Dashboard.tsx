@@ -20,7 +20,7 @@ const Dashboard = () => {
 
 	const [displayLogout, setDisplayLogout] = useState(false) ;
 
-	const handleDisplayLogout = () => setDisplayLogout(!displayLogout) ; 
+	const handleDisplayLogout = () => { setDisplayLogout(!displayLogout) } ; 
 	
 	const handleAddItem = () => {
 		let options =  {
