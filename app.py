@@ -17,7 +17,7 @@ app = Flask(__name__, static_folder='build', static_url_path='')
 CORS(app)
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + \
 #    os.path.join(basedir, 'data.sqlite')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://xyjjclbtrstkos:9a3ac34a9b6868d5722e27d84f00074dcf3ba7464dfd78f6d735c67af8ba38b1@ec2-44-206-197-71.compute-1.amazonaws.com:5432/d9hg8scoriqe2'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://vfwbaceqefftaz:96107fa43f627451ef8ac58073128f60b3692d8384b7a8b6a18e73fc513bd198@ec2-54-225-234-165.compute-1.amazonaws.com:5432/dd4c0b07virbu0'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 upload_dir = os.path.join(dirname(dirname(abspath(__file__))), 'assets')
 app.config['UPLOAD_FOLDER'] = upload_dir
