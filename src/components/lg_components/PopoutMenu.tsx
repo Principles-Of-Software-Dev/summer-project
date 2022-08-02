@@ -8,7 +8,7 @@ import { useUser } from '../../global/authorization/UserContext' ;
 
 
 const PopoutMenu = ({ handleDisplayLogout, userId, handleAddItem }) => {
-	const { downloadItems } = useUser() ;
+	const { downloadItems, user } = useUser() ;
     
 	const navigate = useNavigate() ;
 	const [displayPopoutMenu, setDisplayPopoutMenu] = useState(false) ; 
@@ -20,7 +20,20 @@ const PopoutMenu = ({ handleDisplayLogout, userId, handleAddItem }) => {
 	
 	const handleAccountPreferences = () => {
 
-		let options = 'Edit'
+		const formData = new FormData() ;
+		formData.append('user_id', user.id)
+
+		const xhr = new XMLHttpRequest() ;
+		xhr.open("POST", "/get_user", false) ;
+		xhr.send(formData) ;
+
+		let data = JSON.parse(xhr.response)
+
+		let options = {
+			'operation': 'Edit',
+			'userInfo': data.user
+		} 
+		
 		navigate('/account-preferences', { state: { options } })
 	}
 	

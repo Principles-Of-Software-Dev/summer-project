@@ -9,8 +9,9 @@ import EditAccountForm from '../components/lg_components/forms/EditAccountForm' 
 const AccountPreferences = () => {
 
 	const location = useLocation() ;
-	const option = location.state.options
-	const { getUser, userInfo } = useUser() ;
+	const option = location.state.options.operation
+	const userInfo = location.state.options.userInfo
+	const { getUser } = useUser() ;
 
 
 	useEffect(() => { 

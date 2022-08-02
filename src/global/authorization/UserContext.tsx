@@ -207,7 +207,10 @@ export const UserProvider = ({ children }) => {
 				})
 				// navigate to dash or first-time account edit
 				if (data.user.setup_complete === 'false') {
-					let options = 'Setup' ;
+					let options = {
+						'operation': 'Setup',
+						'userInfo': data.user
+					} 
 					navigate('/account-preferences' , { state: { options } })
 				} else {
 					navigate('/dashboard')
