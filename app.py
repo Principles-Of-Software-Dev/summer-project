@@ -372,7 +372,7 @@ def authorize_user(auth_user_email, user):
 def logout_user():
     session_token = request.cookies.get('session_token')
     user = users.query.filter_by(session_token=session_token).first()
-    user.session_token = None
+    user.session_token = ''
     response = jsonify({"rsp_msg": "you have been logged out"})
     response.set_cookie('session_token', '', httponly=True)
     return response
