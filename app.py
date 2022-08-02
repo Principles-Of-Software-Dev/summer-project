@@ -79,7 +79,7 @@ class items(db.Model):
     name = db.Column(db.Text)
     description = db.Column(db.Text)
     estimate = db.Column(db.Integer)
-    photos = db.Column(db.LargeBinary)
+    photos = db.Column(db.Text)
     videos = db.Column(db.Text)
     belongs_to = db.Column(db.Integer, db.ForeignKey(
         'users.id_user'), nullable=False)
