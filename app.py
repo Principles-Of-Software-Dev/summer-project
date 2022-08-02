@@ -409,9 +409,9 @@ def add_item():
 
     photo_array = []
     for photo in photos:
-        user.photos = photos.read()
+        user.photos = photo.read()
 
-        return jsonify({'file': send_file(BytesIO(user.photo), 'test.png', as_attachment=False)})
+        return send_file(BytesIO(user.photos), "filename.png", as_attachment=False)
         photo_array.append((my_string))
 
     video_array = []
