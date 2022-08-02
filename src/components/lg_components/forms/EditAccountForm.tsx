@@ -65,13 +65,13 @@ const EditAccountForm = ({ option, userInfo }) => {
 	const [validManagerEmail, setValidManagerEmail] = useState(false) ;
 	
 	const initialParams = {
-		'loginEmail': userInfo.email != (null || undefined || '') ? userInfo.email: '',
-		'firstname': userInfo.firstname != (null || undefined || '') ? userInfo.firstname: '',
-		'lastname': userInfo.lastname != (null || undefined || '') ? userInfo.lastname: '',
-		'street': userInfo.street != (null || undefined || '') ? userInfo.street: '',
-		'city': userInfo.city != (null || undefined || '') ?userInfo.city: '',
-		'state': userInfo.state != (null || undefined || '') ? userInfo.state: '',
-		'zipcode': userInfo.zipcode != (null || undefined || '') ? userInfo.zipcode: '',
+		'loginEmail': userInfo.email  ? userInfo.email: '',
+		'firstname': userInfo.firstname ? userInfo.firstname: '',
+		'lastname': userInfo.lastname ? userInfo.lastname: '',
+		'street': userInfo.street ? userInfo.street: '',
+		'city': userInfo.city ?userInfo.city: '',
+		'state': userInfo.state? userInfo.state: '',
+		'zipcode': userInfo.zipcode? userInfo.zipcode: '',
 	}
 
 	const handleValidSubmit = () => {
@@ -131,25 +131,25 @@ const EditAccountForm = ({ option, userInfo }) => {
     
 	const handleSubmit = (e) => {
 
-		if (loginEmail === initialParams.loginEmail) {
+		if (loginEmail == initialParams.loginEmail) {
 			setLoginEmail('')
 		}
-		if (firstname === initialParams.firstname) {
+		if (firstname == initialParams.firstname) {
 			setFirstname('')
 		}
-		if (lastname === initialParams.lastname) {
+		if (lastname == initialParams.lastname) {
 			setLastname('')
 		}
-		if (street === initialParams.street ) {
+		if (street == initialParams.street ) {
 			setStreet('')
 		}
-		if (city === initialParams.city) {
+		if (city == initialParams.city) {
 			setCity('')
 		}
-		if (zipcode === initialParams.zipcode) {
+		if (zipcode == initialParams.zipcode) {
 			setZipCode('')
 		}	
-		if (state === initialParams.state) {
+		if (state == initialParams.state) {
 			setState('')
 		}
 		e.preventDefault()
