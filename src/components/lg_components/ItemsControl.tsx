@@ -13,6 +13,8 @@ const ItemsControl = ({ handleAddItem,handleDeleteItem }) => {
 
 	const [displayItem, setDisplayItem] = useState(null) ;
 	
+	console.log(items === undefined||null)
+	
 	console.log((items !== { 'authorized_items': undefined, 'owned_items': undefined } || items !== (undefined || null)))
 	
 
@@ -47,7 +49,7 @@ const ItemsControl = ({ handleAddItem,handleDeleteItem }) => {
 			{displayItem != null &&
 				<DisplayItem item={displayItem} displayItem={setDisplayItem} editItem={handleDisplayItemForm} deleteItem={handleDeleteItem} />
 			}
-			{(items !== { 'authorized_items': undefined, 'owned_items': undefined } || items !== (undefined || null)) ?
+			{(items !== { 'authorized_items': undefined, 'owned_items': undefined } && items !== (undefined || null)) ?
 				<div> 
 					{items.owned_items !== undefined && 
 					<div>
