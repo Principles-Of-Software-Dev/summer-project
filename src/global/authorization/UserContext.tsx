@@ -122,12 +122,13 @@ export const UserProvider = ({ children }) => {
 			
 			// convert response to object format
 			let data = JSON.parse(xhr.response)
+			let temp_id = formData.get('user_id') ;
 
 			// do stuff with response
 			if (data.rsp_msg === 'User has been updated') {
 				// alert user account update was successful.
 				window.alert('Update Successful') ;
-				getItems() ;
+				getItems(temp_id) ;
 				navigate('/dashboard')
 				
 			} else if (data === 401) { 
@@ -200,10 +201,8 @@ export const UserProvider = ({ children }) => {
 					authenticated: true,
 					id: data.user.id_user
 				})
-
-				for (let i = 0 ; i < 31 ; i++){
-					
-				}
+				let temp_id = data.user.id_user
+				
 
 				// navigate to dash or first-time account edit
 				if (data.user.setup_complete === 'false') {
@@ -214,7 +213,7 @@ export const UserProvider = ({ children }) => {
 					navigate('/account-preferences' , { state: { options } })
 				} else {
 					
-					getItems() ;
+					getItems(temp_id) ;
 					
 					navigate('/dashboard')
 				}
@@ -262,12 +261,12 @@ export const UserProvider = ({ children }) => {
 		
 	} ;
 
-	const getUser = () => {
+	const getUser = (id) => {
 		// get userInfo 
 
 		const formData = new FormData() ;
 		
-		formData.append('user_id', user.id!.toString()) ;
+		formData.append('user_id', id.toString()) ;
 		
 		// set request options
 		// let requestOptions = {
@@ -374,11 +373,11 @@ export const UserProvider = ({ children }) => {
 			xhr.open('POST', '/add_item', false)
 			xhr.send(formData) ;
 			let data = JSON.parse(xhr.response)
-
+			let temp_id = formData.get('user_id') ;
 			// do stuff with returned information
 			if (data.rsp_msg === 'item has been added') {
 				// navigate back to dashboard
-				getItems() ;
+				getItems(temp_id) ;
 				navigate('/dashboard')
 			} else {
 				// warn user of general failure
@@ -431,11 +430,12 @@ export const UserProvider = ({ children }) => {
 			xhr.open('POST', '/edit_item', false)
 			xhr.send(formData) ;
 			let data = JSON.parse(xhr.response)
+			let temp_id = formData.get('user_id') ;
 
 			// do stuff with returned information
 			if (data.rsp_msg === 'item has been edited') {
 				// navigate back to dashboard
-				getItems() ;
+				getItems(temp_id) ;
 				navigate('/dashboard')
 			} else {
 				// warn user of general failure
@@ -487,11 +487,12 @@ export const UserProvider = ({ children }) => {
 			xhr.open('POST', '/delete_item', false)
 			xhr.send(formData) ;
 			let data = JSON.parse(xhr.response)
+			let temp_id = formData.get('user_id') ;
 
 			// do stuff with returned information
 			if (data.rsp_msg === 'item has been deleted') {
 				// navigate back to dashboard
-				getItems() ;
+				getItems(temp_id) ;
 				navigate('/dashboard')
 			} else {
 				// warn user of general failure
@@ -525,11 +526,11 @@ export const UserProvider = ({ children }) => {
 		dItem() ;
 	}
 	
-	const getItems = () => {
+	const getItems = (id) => {
 		// get userInfo 
 
 		const formData = new FormData() ;
-		formData.append('user_id', user.id!.toString()) ;
+		formData.append('user_id', id.toString()) ;
 		
 		// set request options
 		// let requestOptions = {
@@ -603,7 +604,7 @@ export const UserProvider = ({ children }) => {
 
 			const xhr = new XMLHttpRequest() ;
 			// send request and and wait unitl we get a response
-			xhr.open('POST', '/get_items', false)
+			xhr.open('POST', '/get_items_download', false)
 			xhr.send(formData) ;
 			let data = JSON.parse(xhr.response)
 
