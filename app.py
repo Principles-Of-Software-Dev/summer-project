@@ -1,3 +1,4 @@
+import json
 import secrets
 import pprint
 import os
@@ -409,9 +410,10 @@ def add_item():
 
     photo_array = []
     for photo in photos:
-        user.photos = photo.read()
+        my_string = str(base64.b64encode(video.read()))[2:-1]
+        video_array.append(str(my_string))
 
-        return jsonify({'file': send_file(BytesIO(user.photos), 'test.png', as_attachment=False)})
+        return jsonify({'test': my_string})
         photo_array.append((my_string))
 
     video_array = []
