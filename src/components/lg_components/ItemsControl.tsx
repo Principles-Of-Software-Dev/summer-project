@@ -67,7 +67,7 @@ const ItemsControl = ({ handleAddItem,handleDeleteItem }) => {
 				</div> : 
 				<div className='hidden'></div>
 			}
-			{((items !== (undefined||null)) || (items.authorized_items === undefined && items.owned_items === undefined)) &&
+			{((items === (undefined||null)) || (items.authorized_items === undefined && items.owned_items === undefined)) &&
 				<div className='w-full h-screen flex items-center justify-center'>
 
 					<UserLinks text={"You have no items. Click here to add one!"} handleClick={handleAddItem} />
