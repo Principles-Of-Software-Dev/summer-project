@@ -22,6 +22,14 @@ const EditAccountForm = ({ option, userInfo }) => {
 	
 	console.log(userInfo) ;
 	
+	const handleCancel = (e) => {
+		e.preventDefault()
+		if (option === 'Setup') {
+			userLogout()
+		} else {
+			navigate(-1)
+		}
+	}
     
 	// Login Info, Personal Info
 	const [loginEmail, setLoginEmail] = useState(userInfo.email !== (null||undefined) ? userInfo.email : '') ;
@@ -242,13 +250,7 @@ const EditAccountForm = ({ option, userInfo }) => {
 									textColor='text-c-white'
 									hoverColor='hover:bg-sky-500'
 									disable={false}
-									onClick={() => {
-										if (option === 'Setup') {
-											userLogout()
-										} else {
-											navigate(-1)
-										}
-									}}
+									onClick={handleCancel}
                             	/>
 							</div>
 						

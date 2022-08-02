@@ -10,6 +10,7 @@ const AccountPreferences = () => {
 
 	const location = useLocation() ;
 	const option = location.state.options.operation
+	console.log(option)
 	const userInfo = location.state.options.userInfo
 	
     
