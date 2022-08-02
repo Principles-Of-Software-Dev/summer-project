@@ -32,31 +32,32 @@ const EditAccountForm = ({ option, userInfo }) => {
 	}
     
 	// Login Info, Personal Info
-	const [loginEmail, setLoginEmail] = useState(userInfo.email != (null || undefined || '') ? userInfo.email : '') ;
-	const [validLoginEmail, setValidLoginEmail] = useState(loginEmail != '' ? true : false) ;
+	const [loginEmail, setLoginEmail] = useState(userInfo.email == (null || undefined || '') ?  '' : userInfo.email) ;
+	const [validLoginEmail, setValidLoginEmail] = useState(loginEmail == '' ? false : true) ;
 	const [password, setPassword] = useState('') ;
 	const [validPassword, setValidPassword] = useState(false) ;
 	const [firstname, setFirstname] = useState(userInfo.firstname != (null || undefined || '') ? 
 		userInfo.firstname: '') ;
 	const [lastname, setLastname] = useState(userInfo.lastname != (null || undefined || '') ? 
 		userInfo.lastname: '') ;
-	const [validName, setValidName] = useState(lastname && firstname != '' ? true : false) ;
+	const [validName, setValidName] = useState(lastname && firstname == '' ? false : true) ;
 
 	// Address Info
 	const [street, setStreet] = useState(userInfo.street != (null || undefined || '') ?
 		userInfo.street: '')
-	const [validStreet, setValidStreet] = useState(street != '' ? true : false) ;
+	const [validStreet, setValidStreet] = useState(street == '' ? false : true) ;
 	const [state, setState] = useState(userInfo.state != (null || undefined || '') ?
 		userInfo.state: '')
-	const [validState, setValidState] = useState(state != '' ? true : false) ;
+	const [validState, setValidState] = useState(state == '' ? false : true) ;
 	const [city, setCity] = useState(userInfo.city != (null || undefined || '') ?
 		userInfo.city: '')
-	const [validCity, setValidCity] = useState(city != '' ? true : false) ;
+	const [validCity, setValidCity] = useState(city == '' ? false : true) ;
 	const [zipcode, setZipCode] = useState(userInfo.zipcode != (null || undefined || '') ?
 		userInfo.zipcode : '')
-	const [validZipcode, setValidZipcode] = useState(zipcode != '' ? true : false) ;
+	const [validZipcode, setValidZipcode] = useState(zipcode == '' ? false : true) ;
 
-	console.log("Zip Code" + zipcode)
+	console.log(userInfo.zipcode)
+	console.log("Zip Code " + zipcode)
 	console.log("Valid Zip " + validZipcode)
 	// Manager Stuff
 	const [addManager, setAddManager] = useState(false) ;
