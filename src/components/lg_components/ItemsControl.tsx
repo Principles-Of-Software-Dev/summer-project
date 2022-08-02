@@ -46,7 +46,7 @@ const ItemsControl = ({ handleAddItem,handleDeleteItem }) => {
 		<div className='w-full mb-2'>
 			{displayItem != null &&
 				<DisplayItem item={displayItem} displayItem={setDisplayItem} editItem={handleDisplayItemForm} deleteItem={handleDeleteItem} />
-			}{(items !== { 'authorized_items': undefined, 'owned_items': undefined } || items !== (undefined||null)) &&
+			}{(items !== { 'authorized_items': undefined, 'owned_items': undefined } || items !== (undefined||null)) ?
 				<div> 
 					{items.owned_items !== undefined && 
 					<div>
@@ -61,9 +61,10 @@ const ItemsControl = ({ handleAddItem,handleDeleteItem }) => {
 								<ItemsList items={items !== undefined||null ? items.owned_items : null} displayItem={handleViewItem} displayItemForm={handleDisplayItemForm} />
 							</div>
 					}
-				</div>
+				</div> : 
+				<div className='hidden'></div>
 			}
-			{((items.authorized_items === undefined && items.owned_items === undefined) || items !== (undefined||null)) &&
+			{((items !== (undefined||null)) || (items.authorized_items === undefined && items.owned_items === undefined)) &&
 				<div className='w-full h-screen flex items-center justify-center'>
 
 					<UserLinks text={"You have no items. Click here to add one!"} handleClick={handleAddItem} />
