@@ -32,8 +32,8 @@ Migrate(app, db)
 class users(db.Model):
 
     id_user = db.Column(db.Integer, primary_key=True)
-    firstName = db.Column(db.Text, nullable=False)
-    lastName = db.Column(db.Text, nullable=False)
+    firstname = db.Column(db.Text, nullable=False)
+    lastname = db.Column(db.Text, nullable=False)
     #dob = db.Column(db.Text)
     street = db.Column(db.Text)
     city = db.Column(db.Text)
@@ -49,8 +49,8 @@ class users(db.Model):
     authorized_to = db.Column(db.Text)
     items = db.Column(db.Text)
 
-    def __init__(self, firstName, lastName, street, city, state, zipcode, email, password, manager):
-        self.firstName = firstName
+    def __init__(self, firstname, lastName, street, city, state, zipcode, email, password, manager):
+        self.firstname = firstname
         self.lastName = lastName
        # self.dob = dob
         self.street = street
@@ -223,7 +223,7 @@ def edit_user():
     # see which attributes were included in request and change if specified
     if request.form.get('firstname') or request.form.get('firstname') != '':
         firstname = request.form.get('firstname').lower()
-        user.firstName = firstname
+        user.firstname = firstname
     if request.form.get('lastname') or request.form.get('lastname') != '':
         lastname = request.form.get('lastname').lower()
         user.lastName = lastname
