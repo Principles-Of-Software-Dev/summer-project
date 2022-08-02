@@ -553,10 +553,15 @@ export const UserProvider = ({ children }) => {
 			// do stuff with returned information
 			if (data.items !== null||undefined) {
 				// return list of items
+				console.log(data)
 				setItems({
 					'owned_items': data.items.owned_items,
 					'authorized_items': data.items.authorized_items
 				})
+
+				for (let i = 0 ; i < 60 ; i++){
+					// wait
+				}
 			} else {
 				// warn user of general failure
 				window.alert('Something went wrong; please try again') ;
