@@ -205,7 +205,7 @@ export const UserProvider = ({ children }) => {
 				// store user id
 				setUser({
 					authenticated: true,
-					id: data.user.user_id
+					id: data.user.id_user
 				})
 				// navigate to dash or first-time account edit
 				if (data.user.setup_complete === 'false') {
