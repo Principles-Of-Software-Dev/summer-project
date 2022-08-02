@@ -13,10 +13,6 @@ const ItemsControl = ({ handleAddItem,handleDeleteItem }) => {
 
 	const [displayItem, setDisplayItem] = useState(null) ;
 	
-	console.log(items != (undefined||null))
-	
-	console.log((items !== { 'authorized_items': undefined, 'owned_items': undefined } || items !== (undefined || null)))
-	
 
 	useEffect(() => {
 		if (displayItem != null) {
@@ -49,7 +45,7 @@ const ItemsControl = ({ handleAddItem,handleDeleteItem }) => {
 			{displayItem != null &&
 				<DisplayItem item={displayItem} displayItem={setDisplayItem} editItem={handleDisplayItemForm} deleteItem={handleDeleteItem} />
 			}
-			{(items !== { 'authorized_items': undefined, 'owned_items': undefined } && items !== (undefined || null)) ?
+			{(items !== { 'authorized_items': undefined, 'owned_items': undefined } && items != (undefined || null)) ?
 				<div> 
 					{items.owned_items !== undefined && 
 					<div>
@@ -67,7 +63,7 @@ const ItemsControl = ({ handleAddItem,handleDeleteItem }) => {
 				</div> : 
 				<div className='hidden'></div>
 			}
-			{((items === (undefined||null)) || (items.authorized_items === undefined && items.owned_items === undefined)) &&
+			{((items == (undefined||null)) || (items.authorized_items == undefined && items.owned_items == undefined)) &&
 				<div className='w-full h-screen flex items-center justify-center'>
 
 					<UserLinks text={"You have no items. Click here to add one!"} handleClick={handleAddItem} />
