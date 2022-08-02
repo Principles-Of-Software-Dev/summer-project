@@ -11,8 +11,8 @@ export const UserProvider = ({ children }) => {
 		'owned_items': [] | undefined,
 		'authorized_items': [] | undefined	
 	}>({
-		'owned_items': undefined,
-		'authorized_items': undefined
+		'owned_items': [],
+		'authorized_items': []
 		
 	})
 
@@ -553,7 +553,10 @@ export const UserProvider = ({ children }) => {
 			// do stuff with returned information
 			if (data.items !== null||undefined) {
 				// return list of items
-				setItems(data.items)
+				setItems({
+					'owned_items': data.items.owned_items,
+					'authorized_items': data.items.authorized_items
+				})
 			} else {
 				// warn user of general failure
 				window.alert('Something went wrong; please try again') ;
