@@ -9,9 +9,9 @@ const ItemsControl = ({ handleAddItem,handleDeleteItem }) => {
 	const { items } = useUser() ;
 	const navigate = useNavigate() ;
 	useEffect(() => { 
-		console.log('Items on page load: ' + items)
+		console.log('Items on page load: ' + items.owned_items + items.authorized_items)
 	})
-	console.log('Items used: ' + items)
+	console.log('Items used: ' + items.owned_items + items.authorized_items)
 	console.log((items !== { 'owned_items': undefined , 'authorized_items': undefined } && items != (undefined || null)))
 
 	console.log( items !== {  'owned_items': undefined, 'authorized_items': undefined })
