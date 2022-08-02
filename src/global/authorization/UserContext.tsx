@@ -20,14 +20,17 @@ export const UserProvider = ({ children }) => {
 	const [user, setUser] = useState<User>({
 	})
 
-	let stored = sessionStorage.getItem('GilderiseUser') ;
-	setUser(stored == null ?
-		{
-			authenticated: false,
-			id: -100,
-		} :
-		JSON.parse(stored)
-	) ;
+	useEffect(() => {
+		let stored = sessionStorage.getItem('GilderiseUser') ;
+		setUser(stored == null ?
+			{
+				authenticated: false,
+				id: -100,
+			} :
+			JSON.parse(stored)
+		) ;
+
+	}, [])
 	// Store user data on local memory on every update of user or user.authenticated.
 
 
@@ -631,7 +634,7 @@ export const UserProvider = ({ children }) => {
 			// })
 		}
 
-
+		// return async fucntion 
 		return gItems() ;
 	}
 
