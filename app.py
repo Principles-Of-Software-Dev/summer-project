@@ -413,7 +413,6 @@ def add_item():
         my_string = str(base64.b64encode(photo.read()))[2:-1]
         photo_array.append(str(my_string))
 
-        return jsonify({'test': my_string})
         photo_array.append((my_string))
 
     video_array = []
@@ -545,7 +544,10 @@ def get_items():
         item_ids = user.items.split(',')
         for item_id in item_ids:
             item = items.query.filter_by(id_item=int(item_id)).first()
-            owned_list.append(item.as_dict())
+            tmp = item.as_dict()
+            tmp['photos'] = tmp['photos'].split(',')
+            tmp['videos'] = tmp['videos'].split(',')
+            owned_list.append(tmp)
 
     authorized_list = []
     if user.manager == 'true':
@@ -555,7 +557,10 @@ def get_items():
             item_ids = user.items.split(',')
             for item_id in item_ids:
                 item = items.query.filter_by(id_item=int(item_id)).first()
-                authorized_list.append(item.as_dict())
+                tmp = item.as_dict()
+                tmp['photos'] = tmp['photos'].split(',')
+                tmp['videos'] = tmp['videos'].split(',')
+                authorized_list.append(tmp)
 
     return jsonify({"owned_items": owned_list, 'authorized_items': authorized_list})
 
