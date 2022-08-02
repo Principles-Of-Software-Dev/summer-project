@@ -11,6 +11,9 @@ const ItemsControl = ({ handleAddItem,handleDeleteItem }) => {
 	
 	console.log((items !== { 'authorized_items': undefined, 'owned_items': undefined } && items != (undefined || null)))
 
+	console.log(items !== { 'authorized_items': undefined, 'owned_items': undefined })
+	console.log( items != (undefined || null))
+
 	const [displayItem, setDisplayItem] = useState(null) ;
 	
 
