@@ -1,6 +1,7 @@
 import { createContext, useState, useContext, useEffect } from "react" ;
 import { User } from "../TypeDefs" ;
 import { useNavigate } from "react-router-dom" ;
+import { flushSync } from "react-dom" ;
 
 
 
@@ -553,10 +554,12 @@ export const UserProvider = ({ children }) => {
 			if (data.items !== null||undefined) {
 				// return list of items
 				console.log(data)
-				setItems({
-					'owned_items': data.items.owned_items,
-					'authorized_items': data.items.authorized_items
-				})
+				flushSync(() => {
+					setItems({
+						'owned_items': data.items.owned_items,
+						'authorized_items': data.items.authorized_items
+					})
+				}) 
 
 			} else {
 				// warn user of general failure
