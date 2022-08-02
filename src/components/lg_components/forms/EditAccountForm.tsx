@@ -73,7 +73,7 @@ const EditAccountForm = ({ option, userInfo }) => {
 
 	const handleValidSubmit = () => {
 
-		if (option === 'Setup'){
+		if (required){
 			if (validLoginEmail && validName
                 && validPassword && validStreet && validCity && validZipcode && validState
 			) {
