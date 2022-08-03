@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.1a0354a7.css",
-    "main.js": "/static/js/main.6f3c1800.js",
+    "main.css": "/static/css/main.57154e9c.css",
+    "main.js": "/static/js/main.a3ad8f7b.js",
     "static/media/GEContact.png": "/static/media/GEContact.9fd42c0bf7a9b90053ac.png",
     "static/media/Slide2.jpg": "/static/media/Slide2.afe8e1cbfe3a8e79db84.jpg",
     "static/media/BGO.jpg": "/static/media/BGO.3ee460a9e94aa26355f9.jpg",
@@ -21,11 +21,11 @@
     "static/media/Review2.jpg": "/static/media/Review2.c9e852e5535963929af8.jpg",
     "static/media/Review8.jpg": "/static/media/Review8.0df7464066f8fd9d43f4.jpg",
     "index.html": "/index.html",
-    "main.1a0354a7.css.map": "/static/css/main.1a0354a7.css.map",
-    "main.6f3c1800.js.map": "/static/js/main.6f3c1800.js.map"
+    "main.57154e9c.css.map": "/static/css/main.57154e9c.css.map",
+    "main.a3ad8f7b.js.map": "/static/js/main.a3ad8f7b.js.map"
   },
   "entrypoints": [
-    "static/css/main.1a0354a7.css",
-    "static/js/main.6f3c1800.js"
+    "static/css/main.57154e9c.css",
+    "static/js/main.a3ad8f7b.js"
   ]
 }
