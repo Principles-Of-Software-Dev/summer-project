@@ -8,12 +8,13 @@ import { useUser } from '../global/authorization/UserContext' ;
 import { useNavigate } from 'react-router-dom' ;
 import Button from '../components/sm_components/Button' ;
 
+
 const Dashboard = () => {
 
-	const { user, deleteItem } = useUser() ;
+	const { user, deleteItem, getItems } = useUser() ;
 	let userId = user.id ;
 	useEffect(() => { 
-		
+		getItems() ;
 		
 	}, [])
 	const navigate = useNavigate() ;
