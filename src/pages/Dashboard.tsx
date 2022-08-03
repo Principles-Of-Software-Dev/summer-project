@@ -14,7 +14,7 @@ const Dashboard = () => {
 	const { user, deleteItem, getItems } = useUser() ;
 	let userId = user.id ;
 	useEffect(() => { 
-		getItems() ;
+		getItems(userId) ;
 		
 	}, [])
 	const navigate = useNavigate() ;
