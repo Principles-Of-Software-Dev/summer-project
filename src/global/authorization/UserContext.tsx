@@ -33,7 +33,7 @@ export const UserProvider = ({ children }) => {
 			JSON.parse(stored)
 		) ;
 
-	}, [])
+	}, [user])
 	// Store user data on local memory on every update of user or user.authenticated.
 	useEffect(() => { 
 		console.log("Running 1")
