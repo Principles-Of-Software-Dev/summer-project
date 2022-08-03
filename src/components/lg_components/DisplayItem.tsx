@@ -69,7 +69,7 @@ const DisplayItem = ({ item, displayItem, editItem, deleteItem }) => {
 										textColor='text-c-white'
 										hoverColor='hover:bg-sky-500'
 										disable={false}
-										onClick={() => deleteItem(item.item_id)}
+										onClick={() => deleteItem(item.id_item)}
 									/>
 									<Button
 										height="h-xsmall-button"
