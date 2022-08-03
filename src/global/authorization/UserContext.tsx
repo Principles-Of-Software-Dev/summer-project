@@ -25,15 +25,18 @@ export const UserProvider = ({ children }) => {
 
 	useEffect(() => {
 		let stored = sessionStorage.getItem('GilderiseUser') ;
-		setUser(stored == null ?
-			{
-				authenticated: false,
-				id: -100,
-			} :
-			JSON.parse(stored)
-		) ;
-
-	}, [user])
+		flushSync(() => { 
+			setUser(stored == null ?
+				{
+					authenticated: false,
+					id: -100,
+				} :
+				JSON.parse(stored)
+			) ;
+	
+		})
+		
+	}, [])
 	// Store user data on local memory on every update of user or user.authenticated.
 	useEffect(() => { 
 		console.log("Running 1")
@@ -41,7 +44,7 @@ export const UserProvider = ({ children }) => {
 			console.log("Running 2")
 			getUser(user.id) ;
 		}
-	}, [])
+	}, [user])
 	useEffect(() => {
 		sessionStorage.setItem('GilderiseUser', JSON.stringify(user)) ;
 	}, [user, user.authenticated]) ;
