@@ -1,12 +1,14 @@
 import React, { useState } from 'react' ;
 import Button from '../sm_components/Button' ;
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/outline' ;
+import ItemsControl from './ItemsControl' ;
 
 const DisplayItem = ({ item, displayItem, editItem, deleteItem }) => {
 
 	const [currIndex, setCurrIndex] = useState(0) ;
   
-	let maxLength = item.photos.length
+	const media_list = [item.photos + item.videos ]
+	let maxLength = item.photos.length + item.videos.length
 
 	const prevPic = () => {
 		setCurrIndex(currIndex === 0 ? (maxLength - 1) : (currIndex - 1)) ;
@@ -17,12 +19,12 @@ const DisplayItem = ({ item, displayItem, editItem, deleteItem }) => {
   
     
 	return (
-		<div className='w-screen h-[50vh] flex items-center justify-center '>
+		<div className='w-screen h-auto flex items-center justify-center '>
 			<div className='absolute z-20 bg-sky-200 w-main h-[60vh]'>
 				<div className='h-full w-full p-6 border border-solid rounded-md grid grid-row-2 '>
 					{/* Image */}
 					<div className='row-span-1'>
-						{item.photos.map((img, index) => {
+						{ media_list.map((media, index) => {
 							return (
 								<div
 									className={index === currIndex ? 'opacity-80 scale-110 ease-linear duration-100' : 'opacity-0'}
@@ -36,7 +38,10 @@ const DisplayItem = ({ item, displayItem, editItem, deleteItem }) => {
 												<div className='absolute w-auto p-1 z-1 bg-sky-300 border rounded-md top-3 md:top-4 left-3 md:left-4'>
 													<p className='text-sm tracking-wide '> ${ item.estimate }</p>
 												</div>
-												<img src={`data:image/png;base64,${img}`} alt={"item.description"} className='w-full h-full p-2' />
+												{ index < 3 ?
+													<img src={`data:image/png;base64,${media}`} alt={"item.description"} className='w-full h-full p-2' /> :
+													<video src={`data:video/mp4;base64,${media}`} className='w-full h-full p-2'  />
+												}
 											</div>
 										</div>
 									)}
