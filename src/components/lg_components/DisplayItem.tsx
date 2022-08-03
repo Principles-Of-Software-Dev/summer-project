@@ -18,7 +18,7 @@ const DisplayItem = ({ item, displayItem, editItem, deleteItem }) => {
     
 	return (
 		<div className='w-screen h-auto flex items-center justify-center '>
-			<div className='absolute z-20 bg-sky-200 w-main h-[60vh]'>
+			<div className='absolute z-20 bg-sky-200 w-main h-most'>
 				<div className='h-full w-full p-6 border border-solid rounded-md grid grid-row-2 '>
 					{/* Image */}
 					<div className='row-span-1'>
