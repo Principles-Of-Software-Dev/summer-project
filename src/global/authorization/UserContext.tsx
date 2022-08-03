@@ -1,4 +1,4 @@
-import { createContext, useState, useContext, useEffect, useInsertionEffect } from "react" ;
+import { createContext, useState, useContext, useEffect } from "react" ;
 import { User } from "../TypeDefs" ;
 import { useNavigate } from "react-router-dom" ;
 import { flushSync } from "react-dom" ;
@@ -40,6 +40,7 @@ export const UserProvider = ({ children }) => {
 	// Store user data on local memory on every update of user or user.authenticated.
 	useEffect(() => { 
 	}, [user])
+
 	useEffect(() => {
 		sessionStorage.setItem('GilderiseUser', JSON.stringify(user)) ;
 	}, [user, user.authenticated]) ;
