@@ -38,7 +38,9 @@ export const UserProvider = ({ children }) => {
 
 	useEffect(() => {
 		sessionStorage.setItem('GilderiseUser', JSON.stringify(user)) ;
-
+		if (user.authenticated) {
+			getUser(user.id) ;
+		}
 	}, [user, user.authenticated]) ;
 	
 
