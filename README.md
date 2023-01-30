@@ -26,4 +26,5 @@ The end goal is a website that emulates a property management system where users
 8. More TBD
 ----------------------------
 
-__UPDATE: Website was created and configured on Heroku's free hosting service(no longer available). All backend functionality will not work as currently configured. Frontend functionality should be unchanged but may not behave as intended.__
+__UPDATE: Website was created and configured on Heroku's free hosting service(no longer available). All backend functionality will not work as currently configured.__ 
+** Frontend functionality should be unchanged but may not behave as intended.
