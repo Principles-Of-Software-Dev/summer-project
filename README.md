@@ -1,15 +1,3 @@
-# Table of Contents
-
-1. [Overview](#overview)
-2. [Getting Started](#getting-started)
-3. [Basic Commands](#basic-commands)
-    1. [Creating A New Branch](#creating-a-new-branchhttpswwwatlassiancomgittutorialsusing-branchesgit-checkout)
-    2. [Saving and Uploading Your Changes](#saving-and-uploading-your-changes)
-    3. [Merging Branches](#merging-brancheshttpswwwatlassiancomgittutorialsusing-branchesgit-merge)
-    4. [Merging Your Work into Master Branch](#merging-your-work-into-master-branch)
-
-
-
 ## Overview
 
 This project is being developed by a small team of 6 students for class related to the Principles of Software Development.
